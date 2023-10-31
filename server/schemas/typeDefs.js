@@ -4,11 +4,11 @@ const typeDefs = `
     username: String
     followers: [User]
     following: [User]
-    blurbs: [Blurbs]!
-    profile: Profile!
+    blurbs: [Blurbs]
+    profile: Profile
   }
   
-    type Profile {
+  type Profile {
     _id: ID
     fullName: String
     email: String
@@ -16,8 +16,8 @@ const typeDefs = `
     profilePic: String
     bio: String
     location: String
-}
-
+  }
+  
   type Blurbs {
     _id: ID
     blurbText: String
@@ -25,29 +25,31 @@ const typeDefs = `
     createdAt: String
     comments: [Comment]!
   }
-
+  
   type Comment {
     _id: ID
     commentText: String
     commentAuthor: String
     createdAt: String
   }
-
+  
   type Auth {
     token: ID!
     user: User
   }
-
+  
+  
   type Query {
     users: [User]
     user(username: String!): User
-    blurbs(username: String): [Blurb]
-    blurb(blurbID: ID!): Blurb
+    blurbs(username: String): [Blurbs]
+    blurb(blurbID: ID!): Blurbs
     me: User
   }
-
-}
-`;
+  
+  `;
+  
+  
 
 // type Mutation {
 //     login(email: String!, password: String!): Auth
