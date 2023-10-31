@@ -23,7 +23,8 @@ const typeDefs = `
     blurbText: String
     blurbAuthor: String
     createdAt: String
-    comments: [Comment]!
+    comments: [Comment]
+    likes: Int
   }
   
   type Comment {
@@ -31,6 +32,8 @@ const typeDefs = `
     commentText: String
     commentAuthor: String
     createdAt: String
+    likes: Int
+    updatedAt: String
   }
   
   type Auth {
@@ -43,27 +46,39 @@ const typeDefs = `
     users: [User]
     user(username: String!): User
     blurbs: [Blurbs]
+    blurbs(username: String): [Blurbs]
     me: User
   }
-  
-  `;
-  
-  
 
-// type Mutation {
-//     login(email: String!, password: String!): Auth
-//     logout()
-//   addUser(username: String!, email: String!, password: String!): Auth
-//   followUser()
-//   unfollowUser()
-//   editUser()
-//   // editProfile() ?
-//   deleteUser()
-//   addLike(blurbText: String!, )
-//   removeLike()
+  type Mutation {
+      login(email: String!, password: String!): Auth
+      
+      
+    }
+    `;
+    
+    module.exports = typeDefs;
+    
+    
+    // type Mutation {
+      
+      // addUser(username: String!, profile:{fullname: String!, email: String!, password: String!} ): Auth
+      // Logout????
+
+
+
+
+      //   followUser()
+      //   unfollowUser()
+      //   editUser()
+      //   editProfile() 
+      //   deleteUser()
+      //   addLike(blurbText: String! )
+      //   removeLike()
 //   addBlurb(blurbText: String!): Blurb
 //   editBlurb()
 //   removeBlurb()
 //   addComment(blurbID: ID!, commentText: String!): Blurb
 //   removeComment()
-module.exports = typeDefs;
+
+// }
