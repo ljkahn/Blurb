@@ -14,12 +14,25 @@ class AuthService {
     return false;
   }
 
+
   getToken() {
     return localStorage.getItem('id_token');
   }
 
   login(idToken) {
     localStorage.setItem('id_token', idToken);
-    //should lead to landing page 
+    //should lead to landing page but not using window.relocation
+  }
+
+  loggedIn() {
+    const token = this.getToken();
+    return token ? true : false;
+  }
+
+  logout() {
+    localStorage.removeItem('id_token');
+    //should take them back to the landing page where they can sign in / create account upon login. 
   }
 }
+
+export default new AuthService();
