@@ -7,19 +7,19 @@ const resolvers = {
             return User.find();
         },
 
-        users: async (parent, {profileId}) => {
+        users: async (parent, {userId}) => {
             return User.findOne({_id: profileId}).populate('blurbs');
         },
 
-        me: async (parent, args, context) => {
-            if(context.user) {
-                return User.findOne({_id: context.user._id})
-            }
-            throw AuthenticationError;
-        }
+        // me: async (parent, args, context) => {
+        //     if(context.user) {
+        //         return User.findOne({_id: context.user._id})
+        //     }
+        //     throw AuthenticationError;
+        // }
     }
 }
 
 
 
-module.exports = resolvers
+module.exports = resolvers;
