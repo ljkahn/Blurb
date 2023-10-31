@@ -4,10 +4,149 @@
     "profile": {
       "fullName": "John Harvard",
       "email": "fartmonitor@gmail.com",
-      "password": "[...Cheeks69]",
-      "bio": "saidhfoaisdghoas",
-      "location": "Denver"
+      "password": "LaughingC4$$",
+      "bio": "Master of dad jokes",
+      "location": "Punderfulville"
+    }
+  },
+  {
+    "username": "Bubbles123",
+    "profile": {
+      "fullName": "Alice Johnson",
+      "email": "bubbles123@gmail.com",
+      "password": "BubbleT1$$",
+      "bio": "Bubbling with enthusiasm!",
+      "location": "Giggle City"
+    }
+  },
+  {
+    "username": "SunnyDays",
+    "profile": {
+      "fullName": "Ella Smith",
+      "email": "sunnydays@gmail.com",
+      "password": "Sunnys1$$",
+      "bio": "Sunbathing in style",
+      "location": "Smileville"
+    }
+  },
+  {
+    "username": "CoolCat22",
+    "profile": {
+      "fullName": "Michael Brown",
+      "email": "coolcat22@gmail.com",
+      "password": "CoolCatR1$$",
+      "bio": "Chillin' like a feline",
+      "location": "CatNapCity"
+    }
+  },
+  {
+    "username": "GuitarHero",
+    "profile": {
+      "fullName": "Sarah Taylor",
+      "email": "guitarhero@gmail.com",
+      "password": "StrummingL1$$",
+      "bio": "Rockin' and rollin'",
+      "location": "Punstock"
+    }
+  },
+  {
+    "username": "PandaLover",
+    "profile": {
+      "fullName": "David Lee",
+      "email": "pandalover@gmail.com",
+      "password": "PandaHugs4$$",
+      "bio": "Pawsitively crazy about pandas",
+      "location": "BambooFalls"
+    }
+  },
+  {
+    "username": "StarGazer",
+    "profile": {
+      "fullName": "Emily White",
+      "email": "stargazer@gmail.com",
+      "password": "StarryN8$$",
+      "bio": "Counting UFOs too!",
+      "location": "CosmicHumorTown"
+    }
+  },
+  {
+    "username": "CoffeeAddict",
+    "profile": {
+      "fullName": "Daniel Johnson",
+      "email": "coffeeaddict@gmail.com",
+      "password": "JavaJokes1$$",
+      "bio": "Mug life enthusiast",
+      "location": "BeanBrewville"
+    }
+  },
+  {
+    "username": "Bookworm",
+    "profile": {
+      "fullName": "Olivia Davis",
+      "email": "bookworm@gmail.com",
+      "password": "ChapterC2$$",
+      "bio": "Getting lost in books, and can't find the way out",
+      "location": "NovelLand"
+    }
+  },
+  {
+    "username": "AdventureSeeker",
+    "profile": {
+      "fullName": "William Smith",
+      "email": "adventureseeker@gmail.com",
+      "password": "SeekingL3$$",
+      "bio": "Adventures with a side of humor",
+      "location": "WanderlustVille"
+    }
+  },
+  {
+    "username": "NatureLover",
+    "profile": {
+      "fullName": "Sophia Lee",
+      "email": "naturelover@gmail.com",
+      "password": "LoverOfL4$$",
+      "bio": "Tree-hugger and pun-lover",
+      "location": "WildLaughWoods"
+    }
+  },
+  {
+    "username": "TechGeek",
+    "profile": {
+      "fullName": "James Johnson",
+      "email": "techgeek@gmail.com",
+      "password": "GeekyGag5$$",
+      "bio": "Debugging bugs and jokes",
+      "location": "Techtopia"
+    }
+  },
+  {
+    "username": "FitnessFreak",
+    "profile": {
+      "fullName": "Mia Anderson",
+      "email": "fitnessfreak@gmail.com",
+      "password": "FreakyFi6$$",
+      "bio": "Lifting weights and spirits",
+      "location": "GymTropolis"
+    }
+  },
+  {
+    "username": "ArtEnthusiast",
+    "profile": {
+      "fullName": "Ethan Wilson",
+      "email": "artenthusiast@gmail.com",
+      "password": "Artistic7$$",
+      "bio": "Strokes of humor and art",
+      "location": "ArtisticAvenue"
+    }
+  },
+  {
+    "username": "MusicLover",
+    "profile": {
+      "fullName": "Ava Martinez",
+      "email": "musiclover@gmail.com",
+      "password": "LovingM8$$",
+      "bio": "Dancing to the beats of laughter",
+      "location": "HarmonyVille"
     }
   }
-  
 ]
