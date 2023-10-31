@@ -2,7 +2,7 @@
   {
     "likes": 10,
     "blurbText": "This is a sample blurb.",
-    "blurbAuthor": "616f90d5ef815b12e48b1b05",
+    "blurbAuthor": "Cheeks70",
     "photo": "photo_url_1",
     "createdAt": "10/31/2023",
     "updatedAt": null,
@@ -10,14 +10,14 @@
       {
         "likes": 2,
         "commentText": "This is a sample comment.",
-        "commentAuthor": "616f90d5ef815b12e48b1b07",
+        "commentAuthor": "Cheeks72",
         "createdAt": "10/31/2023",
         "updatedAt": null
       },
       {
         "likes": 3,
         "commentText": "Another sample comment.",
-        "commentAuthor": "616f90d5ef815b12e48b1b08",
+        "commentAuthor": "Cheeks71",
         "createdAt": "10/31/2023",
         "updatedAt": null
       }
@@ -26,7 +26,7 @@
   {
     "likes": 15,
     "blurbText": "This is another sample blurb.",
-    "blurbAuthor": "616f90d5ef815b12e48b1b09",
+    "blurbAuthor": "Cheeks73",
     "photo": "photo_url_2",
     "createdAt": "10/31/2023",
     "updatedAt": null,

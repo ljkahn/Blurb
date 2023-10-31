@@ -11,12 +11,13 @@ const commentSchema = new Schema({
   },
   commentText: {
     type: String,
-    required: true, 
+    required: true,
+    minlength: 1,
+    maxlength: 255,
   },
   commentAuthor: {
-    type: Schema.Types.ObjectId,
-    ref: 'User',
-    require: true,
+    type: String,
+    required: true,
   },
   createdAt: {
     type: Date,
@@ -36,11 +37,12 @@ const blurbSchema = new Schema({
   },
   blurbText: {
     type: String,
-    required: true, 
+    required: true,
+    minlength: 1,
+    maxlength: 255,
   },
   blurbAuthor: {
-    type: Schema.Types.ObjectId,
-    ref: 'User',
+    type: String,
     required: true,
   },
   photo: {
@@ -54,7 +56,7 @@ const blurbSchema = new Schema({
   updatedAt: {
     type: Date,
   },
-  comments: commentSchema,
+  comments: [commentSchema],
 });
 
 const Blurbs = model("Blurbs", blurbSchema);
