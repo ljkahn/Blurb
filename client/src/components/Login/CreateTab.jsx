@@ -1,4 +1,5 @@
 import React from 'react'
+import Photo from "../Profile/ProfilePhoto";
 
 function Create() {
   return (
