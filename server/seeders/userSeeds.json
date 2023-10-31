@@ -1,11 +1,13 @@
 [
   {
-    "username": "Brian Kernighan"
-
-  },
-  {
-    "username": "Max Kanat-Alexander"
-
+    "username": "Cheeks69",
+    "profile": {
+      "fullName": "John Harvard",
+      "email": "fartmonitor@gmail.com",
+      "password": "[...Cheeks69]",
+      "bio": "saidhfoaisdghoas",
+      "location": "Denver"
+    }
   }
   
 ]

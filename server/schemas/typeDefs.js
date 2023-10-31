@@ -5,7 +5,7 @@ const typeDefs = `
     followers: [User]
     following: [User]
     blurbs: [Blurbs]
-    profile: Profile
+    profile: Profile!
   }
   
   type Profile {
