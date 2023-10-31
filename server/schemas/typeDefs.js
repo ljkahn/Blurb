@@ -46,7 +46,6 @@ const typeDefs = `
     me: User
   }
 
-}
 `;
 
 // type Mutation {
