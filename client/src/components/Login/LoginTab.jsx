@@ -1,6 +1,6 @@
 import React from 'react'
 
-function Login() {
+function LoginTab() {
   return (
     <div>
       <h2>Login</h2>
@@ -19,4 +19,4 @@ function Login() {
   )
 }
 
-export default Login
+export default LoginTab
