@@ -36,6 +36,7 @@ const resolvers = {
     },
 
 
+
     login: async (parent, { email, password }) => {
       const user = await User.findOne({ email });
 
@@ -91,6 +92,50 @@ const resolvers = {
     },
 
 
+        // Set up mutation so a logged in user can only remove their profile and no one else's
+    removeUser: async (parent, args, context) => {
+
+      if (context.user) {
+        return User.findOneAndDelete({ _id: context.user._id });
+      }
+      throw AuthenticationError;
+    },
+
+        removeBlurb: async (parent, { blurbId }, context) => {
+      if (context.user) {
+        const blurb = await Blurb.findOneAndDelete({
+          _id: blurbId,
+          blurbAuthor: context.user.username,
+        });
+
+        await User.findOneAndUpdate(
+          { _id: context.user._id },
+          { $pull: { blurbs: blurb._id } }
+        );
+
+        return blurb;
+      }
+      throw AuthenticationError;
+    },
+
+    removeComment: async (parent, { blurbId, commentId }, context) => {
+      if (context.user) {
+        return Blurb.findOneAndUpdate(
+          { _id: blurbId },
+          {
+            $pull: {
+              comments: {
+                _id: commentId,
+                commentAuthor: context.user.username,
+              },
+            },
+          },
+          { new: true }
+        );
+      }
+      throw AuthenticationError;
+    },
+
 }
 
 
@@ -109,9 +154,9 @@ const resolvers = {
 //   removeLike()
 //   addBlurb(blurbText: String!): Blurb x
 //   editBlurb()
-//   removeBlurb()
-//   addComment(blurbID: ID!, commentText: String!): Blurb
-//   removeComment()
+//   removeBlurb() x
+//   addComment(blurbID: ID!, commentText: String!): Blurb x
+//   removeComment() x
 
 }
 module.exports = resolvers;
