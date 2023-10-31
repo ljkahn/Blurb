@@ -60,12 +60,6 @@ const userSchema = new Schema({
       ref: "Blurbs",
     },
   ],
-  comments: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "Comments",
-    },
-  ],
   profile: profileSchema,
 });
 

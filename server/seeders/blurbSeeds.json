@@ -1,0 +1,35 @@
+[
+  {
+    "likes": 10,
+    "blurbText": "This is a sample blurb.",
+    "blurbAuthor": "Cheeks70",
+    "photo": "photo_url_1",
+    "createdAt": "10/31/2023",
+    "updatedAt": null,
+    "comments": [
+      {
+        "likes": 2,
+        "commentText": "This is a sample comment.",
+        "commentAuthor": "Cheeks72",
+        "createdAt": "10/31/2023",
+        "updatedAt": null
+      },
+      {
+        "likes": 3,
+        "commentText": "Another sample comment.",
+        "commentAuthor": "Cheeks71",
+        "createdAt": "10/31/2023",
+        "updatedAt": null
+      }
+    ]
+  },
+  {
+    "likes": 15,
+    "blurbText": "This is another sample blurb.",
+    "blurbAuthor": "Cheeks73",
+    "photo": "photo_url_2",
+    "createdAt": "10/31/2023",
+    "updatedAt": null,
+    "comments": []
+  }
+]

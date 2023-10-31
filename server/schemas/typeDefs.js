@@ -45,6 +45,7 @@ const typeDefs = `
   type Query {
     users: [User]
     user(username: String!): User
+    blurbs: [Blurbs]
     blurbs(username: String): [Blurbs]
     me: User
   }
