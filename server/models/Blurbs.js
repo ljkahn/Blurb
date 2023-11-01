@@ -1,7 +1,5 @@
 const { Schema, model } = require("mongoose");
-
-const date = new Date ();
-const formattedDate = date.toLocaleDateString('en-US');
+const dateFormat = require("../utils/dateFormat");
 
 const commentSchema = new Schema({
   likes: {
@@ -21,8 +19,8 @@ const commentSchema = new Schema({
   },
   createdAt: {
     type: Date,
-    default: formattedDate,
-    required: true,
+    default: Date.now,
+    get: (timestamp) => dateFormat(timestamp)
   },
   updatedAt: {
     type: Date,
@@ -50,8 +48,8 @@ const blurbSchema = new Schema({
   },
   createdAt: {
     type: Date,
-    default: formattedDate,
-    required: true,
+    default: Date.now,
+    get: (timestamp) => dateFormat(timestamp)
   },
   updatedAt: {
     type: Date,

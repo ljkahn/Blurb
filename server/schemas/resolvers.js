@@ -41,7 +41,6 @@ const resolvers = {
                 throw new Error('Failed to add user');
                 }
         },
-        addBlurb: async (parent, { blurbAuthor, blurbText })
     }
 }
 
