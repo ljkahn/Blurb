@@ -3,6 +3,8 @@ import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
 import TextField from "@mui/material/TextField";
 import Photo from "../Profile/ProfilePhoto";
+import Test from "../Test.jsx"
+
 
 function Create() {
   // State to control the visibility of the modal
@@ -47,6 +49,7 @@ function Create() {
 
       {/* Modal for Photo Import */}
       <Modal
+        id="photoModel"
         open={isModalOpen}
         onClose={closeModal}
         aria-labelledby="photo-import-modal"
@@ -54,7 +57,7 @@ function Create() {
       >
         <div className="modal-content">
           <h2 id="photo-import-modal">Photo Import</h2>
-          <Photo />
+          <Test />
         </div>
       </Modal>
     </div>
