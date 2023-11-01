@@ -77,7 +77,7 @@ const resolvers = {
         return blurb;
       }
       throw AuthenticationError;
-      ('You need to be logged in!');
+      ('You need to be logged in to create a blurb!');
     },
 
      addComment: async (parent, { blurbId, commentText }, context) => {
@@ -96,6 +96,7 @@ const resolvers = {
         );
       }
       throw AuthenticationError;
+      ('You need to be logged in to comment!')
     },
 
     
@@ -121,7 +122,7 @@ const resolvers = {
           { $pull: { blurbs: blurb._id } }
         );
 
-        return blurb;
+        return ('Blurb successfully deleted!');
       }
       throw AuthenticationError;
     },
@@ -140,11 +141,12 @@ const resolvers = {
           },
           { new: true }
         );
+        return ('Comment successfully deleted!')
       }
       throw AuthenticationError;
     },
 
-         addLike: async (parent, { blurbId }, context) => {
+      addLike: async (parent, { blurbId }, context) => {
       if (!context.user) {
           throw new Error('you must be logged in to like a blurb')
     }
@@ -174,8 +176,27 @@ if(!updatedBlurb) {
   throw new Error('Blurb not found!')
 }
 return updatedBlurb;
-}
+},
 
+
+ editBlurb: async (parent, { blurbId, newContent }, context) => {
+      // Verify the user's authentication token (You should implement your authentication logic here)
+      if (!context.user) {
+        throw new Error('You must be logged in to edit a blurb.');
+      }
+
+      // // Assuming you have a function in your context to edit a blurb
+      // const { editBlurb } = context;
+      const newContent = await Blurb.findByIdAndUpdate (
+        blurbId,
+        {blurbText},
+        {new: true}
+      )
+      // Call the editBlurb function from your context, passing the blurbId and newContent
+      const updatedBlurb = await editBlurb(blurbId, newContent);
+
+      return updatedBlurb;
+    },
 
 // type Mutation {
 //     login(email: String!, password: String!): Auth x
@@ -189,10 +210,11 @@ return updatedBlurb;
 //   addLike(blurbText: String!, ) x
 //   removeLike() x
 //   addBlurb(blurbText: String!): Blurb x
-//   editBlurb() 
+//   editBlurb() x
 //   removeBlurb() x
 //   addComment(blurbID: ID!, commentText: String!): Blurb x
 //   removeComment() x
 
+  }
 }
 module.exports = resolvers;
