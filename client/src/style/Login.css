@@ -1,0 +1,16 @@
+#login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  height: 100vh;
+  justify-content: center;
+}
+
+
+
+#logBack {
+  background-color: rgb(228, 228, 228);
+  padding: 1rem;
+  border-radius: 20px;
+}

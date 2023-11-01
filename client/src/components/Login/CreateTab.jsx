@@ -36,10 +36,15 @@ function Create() {
       <div>
         <TextField id="standard-basic" label="Username" variant="standard" />
       </div>
-      <Button variant="contained" disableElevation onClick={openModal}>
+      <Button
+        style={{ margin: "1rem" }}
+        variant="contained"
+        disableElevation
+        onClick={openModal}
+      >
         Create Account
       </Button>
-      
+
       {/* Modal for Photo Import */}
       <Modal
         open={isModalOpen}
@@ -57,4 +62,3 @@ function Create() {
 }
 
 export default Create;
-
