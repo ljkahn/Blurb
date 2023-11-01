@@ -1,0 +1,18 @@
+#navContain {
+  box-shadow: 0px -1px 1px black;
+  width: 100%;
+  height: 60px;
+  position: fixed;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+#addBlurb {
+  height: 60px;
+  width: 60px;
+  border-radius: 60px;
+  margin-bottom: 60px;
+  background-color: #edfb60;
+}
