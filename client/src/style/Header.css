@@ -2,7 +2,7 @@
   display: flex;
   justify-content: center;
   padding-top: 0.5rem;
-  box-shadow: 3px 0px 2px black;
+  box-shadow: 0px 1px 1px black;
 }
 
 #button {
@@ -54,7 +54,7 @@
 }
 
 #searchIcon:hover {
-  transform: scale(1.05); /* Slightly increase the size */
+  /* Slightly increase the size */
   border: 1px solid gray;
   /* background: radial-gradient(
     circle,
@@ -67,6 +67,7 @@
 #searchIcon:active {
   transform: none;
   box-shadow: none;
+  transform: scale(0.9);
   /* background: rgb(141, 126, 255);
   background: radial-gradient(
     circle,
