@@ -1,5 +1,5 @@
 const { User , Blurb } = require('../models')
-// const { signToken, AuthenticationError } = require('../utils/auth');
+const { signToken, AuthenticationError } = require('../utils/auth');
 
 const resolvers = {
     Query: {
@@ -29,11 +29,18 @@ const resolvers = {
 
 
     Mutation: {
-    addUser: async (parent, { username, email, password }) => {
-      const user = await User.create({ username, email, password });
-      const token = signToken(user);
-      return { token, user };
-    },
+        addUser: async (parent, { username, profile }) => {
+            console.log('Attempting to add user');
+            try {
+                const user = await User.create({ username, profile });
+                console.log('User created:', user);
+                const token = signToken(user);
+                return { token, user };
+                } catch (error) {
+                console.log('Error creating user:', error);
+                throw new Error('Failed to add user');
+                }
+            },
 
 
 
@@ -137,9 +144,37 @@ const resolvers = {
       throw AuthenticationError;
     },
 
+         addLike: async (parent, { blurbId }, context) => {
+      if (!context.user) {
+          throw new Error('you must be logged in to like a blurb')
+    }
+
+    const updatedBlurb = await Blurb.findByIdAndUpdate(
+      blurbId,
+      {$inc: {likes: 1}},
+      {new: true}
+    )
+if(!updatedBlurb) {
+  throw new Error('Blurb not found!')
 }
+return updatedBlurb;
+},
 
+  removeLike: async (parent, { blurbId }, context) => {
+    // if (!context.user) {
+    //     throw new Error('you must be logged in to like a blurb')
+    // }
 
+    const updatedBlurb = await Blurb.findByIdAndUpdate(
+      blurbId,
+      {$inc: {likes: -1}},
+      {new: true}
+    )
+if(!updatedBlurb) {
+  throw new Error('Blurb not found!')
+}
+return updatedBlurb;
+}
 
 
 // type Mutation {
@@ -151,10 +186,10 @@ const resolvers = {
 //   editUser()
 //   // editProfile() ?
 //   deleteUser() x
-//   addLike(blurbText: String!, )
-//   removeLike()
+//   addLike(blurbText: String!, ) x
+//   removeLike() x
 //   addBlurb(blurbText: String!): Blurb x
-//   editBlurb()
+//   editBlurb() 
 //   removeBlurb() x
 //   addComment(blurbID: ID!, commentText: String!): Blurb x
 //   removeComment() x
