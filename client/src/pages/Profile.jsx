@@ -4,7 +4,9 @@ import Photo from "../components/Profile/ProfilePhoto.jsx";
 import Edit from "../components/Profile/Edit.jsx";
 import Button from "@mui/material/Button";
 import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
 import '../style/Profile.css';
+import '../index.css';
 
 
 function Profile() {
@@ -15,15 +17,17 @@ function Profile() {
 
   //Use query to display blubrs attatched to one user
   return (
-    <div id='profile'>
-      <Container>
+    <div >
+      <Container id='profile'>
       <Photo/>
       <h1>Lillian Edwards</h1>
       <h2>lillianedwards</h2>
-      <Button><a class="waves-effect  btn">103 Followers</a></Button>
-      <Button><a class="waves-effect  btn">95 Followers</a></Button>
-      <Button><a class="waves-effect  btn">{Edit}</a></Button>
-      <h3>USER BLURBS - component?</h3>
+      <Grid>
+      <Button  style={{background: "EDFB60"}} variant="contained">103 Followers</Button>
+      <Button variant="contained">95 Following</Button>
+      </Grid>
+      <Button variant="contained">Edit Profile </Button>
+      <h3>USER BLURBS - component all the way down</h3>
       <Nav/>
       </Container>
      

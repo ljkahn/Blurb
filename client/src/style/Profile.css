@@ -1,8 +1,16 @@
 
 #profile {
-  background-color: rgb(228, 228, 228);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   padding: 1rem;
   border-radius: 20px;
 
+}
 
+.followBtn {
+  border: 1px solid var(--pureBlack);
+  background-color: var(--neon);
+  border-radius: 10px;
+  padding: 1rem;
 }
