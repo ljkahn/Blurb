@@ -1,7 +1,7 @@
 [
   {
     "likes": 10,
-    "blurbText": "This is a sample blurb.",
+    "blurbText": "Spread em!",
     "blurbAuthor": "Cheeks70",
     "photo": "photo_url_1",
     "createdAt": "10/31/2023",
@@ -9,14 +9,14 @@
     "comments": [
       {
         "likes": 2,
-        "commentText": "This is a sample comment.",
+        "commentText": "Grow up.",
         "commentAuthor": "Bubbles123",
         "createdAt": "10/31/2023",
         "updatedAt": null
       },
       {
         "likes": 3,
-        "commentText": "Another sample comment.",
+        "commentText": "What are you even talking about?",
         "commentAuthor": "SunnyDays",
         "createdAt": "10/31/2023",
         "updatedAt": null
@@ -24,10 +24,10 @@
     ]
   },
   {
-    "likes": 15,
-    "blurbText": "This is another sample blurb.",
+    "likes": 0,
+    "blurbText": "I'm pretty cool.",
     "blurbAuthor": "CoolCat22",
-    "photo": "photo_url_2",
+    "photo": "",
     "createdAt": "10/31/2023",
     "updatedAt": null,
     "comments": []
@@ -36,7 +36,7 @@
     "likes": 20,
     "blurbText": "Enjoying the music vibes!",
     "blurbAuthor": "MusicLover",
-    "photo": "photo_url_3",
+    "photo": "",
     "createdAt": "10/31/2023",
     "updatedAt": null,
     "comments": [
@@ -67,7 +67,7 @@
     "likes": 25,
     "blurbText": "Artistic creations are the best!",
     "blurbAuthor": "ArtEnthusiast",
-    "photo": "photo_url_4",
+    "photo": "",
     "createdAt": "10/31/2023",
     "updatedAt": null,
     "comments": [
@@ -98,7 +98,7 @@
     "likes": 30,
     "blurbText": "Tech jokes and coding fun!",
     "blurbAuthor": "TechGeek",
-    "photo": "photo_url_5",
+    "photo": "",
     "createdAt": "10/31/2023",
     "updatedAt": null,
     "comments": [
@@ -129,7 +129,7 @@
     "likes": 35,
     "blurbText": "Fitness journey continues!",
     "blurbAuthor": "FitnessFreak",
-    "photo": "photo_url_6",
+    "photo": "photo_url_2",
     "createdAt": "10/31/2023",
     "updatedAt": null,
     "comments": [
@@ -160,7 +160,7 @@
     "likes": 40,
     "blurbText": "Nature's beauty is breathtaking!",
     "blurbAuthor": "NatureLover",
-    "photo": "photo_url_7",
+    "photo": "photo_url_3",
     "createdAt": "10/31/2023",
     "updatedAt": null,
     "comments": [
@@ -191,7 +191,7 @@
     "likes": 45,
     "blurbText": "Adventures await!",
     "blurbAuthor": "AdventureSeeker",
-    "photo": "photo_url_8",
+    "photo": "",
     "createdAt": "10/31/2023",
     "updatedAt": null,
     "comments": [
