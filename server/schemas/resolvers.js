@@ -1,4 +1,4 @@
-const { User } = require('../models')
+const { User, Blurbs } = require('../models')
 // const { signToken, AuthenticationError } = require('../utils/auth');
 
 const resolvers = {
@@ -9,6 +9,14 @@ const resolvers = {
 
         user: async (parent, {userId}) => {
             return User.findOne({_id: userId});
+        },
+
+        blurbs: async () => {
+            return Blurbs.find();
+        },
+
+        userBlurbs: async (parent, {username}) => {
+            return Blurbs.find({blurbAuthor: username});
         },
 
         // me: async (parent, args, context) => {

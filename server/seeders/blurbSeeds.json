@@ -1,0 +1,214 @@
+[
+  {
+    "likes": 10,
+    "blurbText": "This is a sample blurb.",
+    "blurbAuthor": "Cheeks70",
+    "photo": "photo_url_1",
+    "createdAt": "10/31/2023",
+    "updatedAt": null,
+    "comments": [
+      {
+        "likes": 2,
+        "commentText": "This is a sample comment.",
+        "commentAuthor": "Bubbles123",
+        "createdAt": "10/31/2023",
+        "updatedAt": null
+      },
+      {
+        "likes": 3,
+        "commentText": "Another sample comment.",
+        "commentAuthor": "SunnyDays",
+        "createdAt": "10/31/2023",
+        "updatedAt": null
+      }
+    ]
+  },
+  {
+    "likes": 15,
+    "blurbText": "This is another sample blurb.",
+    "blurbAuthor": "CoolCat22",
+    "photo": "photo_url_2",
+    "createdAt": "10/31/2023",
+    "updatedAt": null,
+    "comments": []
+  },
+  {
+    "likes": 20,
+    "blurbText": "Enjoying the music vibes!",
+    "blurbAuthor": "MusicLover",
+    "photo": "photo_url_3",
+    "createdAt": "10/31/2023",
+    "updatedAt": null,
+    "comments": [
+      {
+        "likes": 2,
+        "commentText": "Great taste in music!",
+        "commentAuthor": "MelodyMaster",
+        "createdAt": "10/31/2023",
+        "updatedAt": null
+      },
+      {
+        "likes": 3,
+        "commentText": "I love that song too!",
+        "commentAuthor": "LyricLover",
+        "createdAt": "10/31/2023",
+        "updatedAt": null
+      },
+      {
+        "likes": 1,
+        "commentText": "Rock on, MusicLover!",
+        "commentAuthor": "RockStar123",
+        "createdAt": "10/31/2023",
+        "updatedAt": null
+      }
+    ]
+  },
+  {
+    "likes": 25,
+    "blurbText": "Artistic creations are the best!",
+    "blurbAuthor": "ArtEnthusiast",
+    "photo": "photo_url_4",
+    "createdAt": "10/31/2023",
+    "updatedAt": null,
+    "comments": [
+      {
+        "likes": 2,
+        "commentText": "I admire your artistic talent!",
+        "commentAuthor": "ArtLover45",
+        "createdAt": "10/31/2023",
+        "updatedAt": null
+      },
+      {
+        "likes": 1,
+        "commentText": "Beautiful artwork!",
+        "commentAuthor": "ColorPalette",
+        "createdAt": "10/31/2023",
+        "updatedAt": null
+      },
+      {
+        "likes": 3,
+        "commentText": "ArtEnthusiast, you inspire me!",
+        "commentAuthor": "CreativeMind",
+        "createdAt": "10/31/2023",
+        "updatedAt": null
+      }
+    ]
+  },
+  {
+    "likes": 30,
+    "blurbText": "Tech jokes and coding fun!",
+    "blurbAuthor": "TechGeek",
+    "photo": "photo_url_5",
+    "createdAt": "10/31/2023",
+    "updatedAt": null,
+    "comments": [
+      {
+        "likes": 2,
+        "commentText": "TechGeek, you always have the best jokes!",
+        "commentAuthor": "CodeNinja",
+        "createdAt": "10/31/2023",
+        "updatedAt": null
+      },
+      {
+        "likes": 3,
+        "commentText": "I can relate to those debugging struggles!",
+        "commentAuthor": "DebugMaster",
+        "createdAt": "10/31/2023",
+        "updatedAt": null
+      },
+      {
+        "likes": 1,
+        "commentText": "Keep coding and cracking jokes, TechGeek!",
+        "commentAuthor": "CodeComedian",
+        "createdAt": "10/31/2023",
+        "updatedAt": null
+      }
+    ]
+  },
+  {
+    "likes": 35,
+    "blurbText": "Fitness journey continues!",
+    "blurbAuthor": "FitnessFreak",
+    "photo": "photo_url_6",
+    "createdAt": "10/31/2023",
+    "updatedAt": null,
+    "comments": [
+      {
+        "likes": 2,
+        "commentText": "You're an inspiration to all of us!",
+        "commentAuthor": "HealthyLife",
+        "createdAt": "10/31/2023",
+        "updatedAt": null
+      },
+      {
+        "likes": 1,
+        "commentText": "Keep pushing those limits!",
+        "commentAuthor": "FitFanatic",
+        "createdAt": "10/31/2023",
+        "updatedAt": null
+      },
+      {
+        "likes": 3,
+        "commentText": "FitnessFreak, you're on fire!",
+        "commentAuthor": "SweatSquad",
+        "createdAt": "10/31/2023",
+        "updatedAt": null
+      }
+    ]
+  },
+  {
+    "likes": 40,
+    "blurbText": "Nature's beauty is breathtaking!",
+    "blurbAuthor": "NatureLover",
+    "photo": "photo_url_7",
+    "createdAt": "10/31/2023",
+    "updatedAt": null,
+    "comments": [
+      {
+        "likes": 2,
+        "commentText": "Nature has its way of calming the soul.",
+        "commentAuthor": "OutdoorExplorer",
+        "createdAt": "10/31/2023",
+        "updatedAt": null
+      },
+      {
+        "likes": 3,
+        "commentText": "I wish I could be there right now!",
+        "commentAuthor": "WildAdventures",
+        "createdAt": "10/31/2023",
+        "updatedAt": null
+      },
+      {
+        "likes": 1,
+        "commentText": "NatureLover, your photos are stunning!",
+        "commentAuthor": "GreenThumb",
+        "createdAt": "10/31/2023",
+        "updatedAt": null
+      }
+    ]
+  },
+  {
+    "likes": 45,
+    "blurbText": "Adventures await!",
+    "blurbAuthor": "AdventureSeeker",
+    "photo": "photo_url_8",
+    "createdAt": "10/31/2023",
+    "updatedAt": null,
+    "comments": [
+      {
+        "likes": 2,
+        "commentText": "Where's your next destination?",
+        "commentAuthor": "WanderlustSoul",
+        "createdAt": "10/31/2023",
+        "updatedAt": null
+      },
+      {
+        "likes": 1,
+        "commentText": "AdventureSeeker, you're living the dream!",
+        "commentAuthor": "TravelBug",
+        "createdAt": "10/31/2023",
+        "updatedAt": null
+      }
+    ]
+  }
+]
