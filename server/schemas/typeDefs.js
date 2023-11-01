@@ -1,4 +1,4 @@
-const typeDefs = `
+const typeDefs = ` 
     type User {
       _id: ID!
       username: String
@@ -49,8 +49,8 @@ const typeDefs = `
     }
     
     type Auth {
-      token: String!
-      user: User!
+      token: ID!
+      user: User
     }
     
     type Query {
@@ -69,7 +69,7 @@ const typeDefs = `
       deleteUser(username: String!): String
       addLike(blurbID: ID!): Blurbs
       removeLike(blurbID: ID!): Blurbs
-      addBlurb(blurbText: String!): Blurbs
+      addBlurb(blurbText: String!, blurbAuthor: String!): Blurbs
       editBlurb(blurbID: ID!, blurbText: String): Blurbs
       removeBlurb(blurbID: ID!): String
       addComment(blurbID: ID!, commentText: String!): Comment
