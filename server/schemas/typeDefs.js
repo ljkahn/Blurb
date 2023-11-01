@@ -41,40 +41,38 @@ const typeDefs = `
     user: User
   }
   
-  
   type Query {
     users: [User]
     user(username: String!): User
-    userBlurbs(username: String): [Blurbs]
+    userBlurbs(username: String!): [Blurbs]
     blurbs: [Blurbs]
     me: User
   }
 
-  
   type Mutation {
     login(email: String!, password: String!): Auth
+    addUser(username: String!, profile: AddUserProfileInput): Auth
   }
-  
-  `;
-  
-  module.exports = typeDefs;
-  
-    
-    // type Mutation {
-      
-      // addUser(username: String!, profile:{fullname: String!, email: String!, password: String!} ): Auth
-      // Logout????
 
+  input AddUserProfileInput {
+    fullName: String!
+    email: String!
+    password: String!
+  }
+`;
 
+module.exports = typeDefs;
 
+// type Mutation {
+// Logout????
 
-      //   followUser()
-      //   unfollowUser()
-      //   editUser()
-      //   editProfile() 
-      //   deleteUser()
-      //   addLike(blurbText: String! )
-      //   removeLike()
+//   followUser()
+//   unfollowUser()
+//   editUser()
+//   editProfile()
+//   deleteUser()
+//   addLike(blurbText: String! )
+//   removeLike()
 //   addBlurb(blurbText: String!): Blurb
 //   editBlurb()
 //   removeBlurb()
