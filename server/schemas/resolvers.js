@@ -1,5 +1,5 @@
 const { User, Blurbs } = require('../models')
-// const { signToken, AuthenticationError } = require('../utils/auth');
+const { signToken, AuthenticationError } = require('../utils/auth');
 
 const resolvers = {
     Query: {
@@ -32,15 +32,17 @@ const resolvers = {
             try {
                 const user = await User.create({ username, profile });
                 console.log('User created:', user);
+                
                 const token = signToken(user);
                 return { token, user };
                 } catch (error) {
                 console.log('Error creating user:', error);
+
                 throw new Error('Failed to add user');
                 }
-            },
+        },
+        addBlurb: async (parent, { blurbAuthor, blurbText })
     }
-    
 }
 
 
