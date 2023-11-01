@@ -91,9 +91,10 @@ const resolvers = {
       throw AuthenticationError;
     },
 
+    
 
         // Set up mutation so a logged in user can only remove their profile and no one else's
-    removeUser: async (parent, args, context) => {
+    deleteUser: async (parent, args, context) => {
 
       if (context.user) {
         return User.findOneAndDelete({ _id: context.user._id });
@@ -149,7 +150,7 @@ const resolvers = {
 //   unfollowUser()
 //   editUser()
 //   // editProfile() ?
-//   deleteUser()
+//   deleteUser() x
 //   addLike(blurbText: String!, )
 //   removeLike()
 //   addBlurb(blurbText: String!): Blurb x
