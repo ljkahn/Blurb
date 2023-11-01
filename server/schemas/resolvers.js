@@ -159,9 +159,9 @@ const resolvers = {
     },
 
     removeLike: async (parent, { blurbId }, context) => {
-      if (!context.user) {
-          throw new Error('you must be logged in to like a blurb')
-      }
+      // if (!context.user) {
+      //     throw new Error('you must be logged in to like a blurb')
+      // }
 
       const updatedBlurb = await Blurbs.findByIdAndUpdate(
         blurbId,
