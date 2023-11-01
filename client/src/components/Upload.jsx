@@ -18,7 +18,7 @@ export default function CloudinaryUploadWidget() {
     widgetRef.current = cloudinaryRef.current.createUploadWidget(
       {
         cloudName: "dmnfg3ids",
-        uploadPreset: "npdxlyrt",
+        uploadPreset: "n5yblmgl",
       },
       function (error, result) {
         if (error) throw error;
