@@ -15,15 +15,16 @@ db.once('open', async () => {
     await User.create(userSeeds);
 
     for (let i = 0; i < blurbSeeds.length; i++) {
-      const { _id, blurbAuthor } = await Blurbs.create(blurbSeeds[i]);
-      const user = await User.findOneAndUpdate(
-        { username: blurbAuthor },
-        {
-          $addToSet: {
-            blurbs: _id,
-          },
-        }
-      );
+      const currentAuthor = await User.findOne(blurbSeeds[i].blurbAuthor)
+      const newBlurb = await Blurbs.create(blurbSeeds[i]);
+      // const user = await User.findOneAndUpdate(
+      //   { username: blurbAuthor },
+      //   {
+      //     $addToSet: {
+      //       blurbs: _id,
+      //     },
+      //   }
+      // );
     }
 
     console.log('all done!');
