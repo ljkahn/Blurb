@@ -9,7 +9,6 @@ const resolvers = {
       return User.find();
     },
 
-    //get one user by id
     user: async (parent, { userId }) => {
       return User.findOne({ _id: userId });
     },
@@ -196,3 +195,4 @@ const resolvers = {
   },
 };
 module.exports = resolvers;
+console.log("cheeks");
