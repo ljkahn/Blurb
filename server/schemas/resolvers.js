@@ -1,4 +1,5 @@
 const { User, Blurbs } = require("../models");
+const { where } = require("../models/User");
 const { signToken, AuthenticationError } = require("../utils/auth");
 
 const resolvers = {
@@ -40,25 +41,32 @@ const resolvers = {
         throw new Error("Failed to add user");
       }
     },
+    // ✅
 
     login: async (parent, { email, password }) => {
-      console.log("login");
-      const user = await User.findOne({ email });
-      console.log(user);
+      // Query the User model to find a user with the provided email within the profile subdocument
+      const user = await User.findOne({ "profile.email": email });
+
+      // If no user is found with the provided email, throw an AuthenticationError
       if (!user) {
-        throw AuthenticationError;
+        throw new AuthenticationError("Invalid email or password");
       }
 
-      const correctPw = await user.isCorrectPassword(password);
+      // Use the isCorrectPassword method within the profile subdocument to compare the provided password with the stored hashed password
+      const correctPw = await user.profile.isCorrectPassword(password);
 
+      // If the password is incorrect, throw an AuthenticationError
       if (!correctPw) {
-        throw AuthenticationError;
+        throw new AuthenticationError("Invalid email or password");
       }
 
+      // Generate a token for the authenticated user
       const token = signToken(user);
 
+      // Return the generated token and the user object
       return { token, user };
     },
+    // ✅
 
     addBlurb: async (parent, { blurbText }, context) => {
       if (context.user) {
@@ -181,16 +189,17 @@ const resolvers = {
       if (!context.user) {
         throw new Error("You must be logged in to edit a blurb.");
       }
+
       // Assuming you have a function in your context to edit a blurb
       const updatedBlurb = await Blurbs.findByIdAndUpdate(
         blurbId,
         { blurbText: newContent },
         { new: true }
       );
+
       return updatedBlurb;
     },
 
   },
 };
 module.exports = resolvers;
-console.log("cheeks");

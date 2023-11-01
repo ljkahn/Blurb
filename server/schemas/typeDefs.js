@@ -12,6 +12,7 @@ const typeDefs = `
       _id: ID!
       fullName: String
       email: String
+      password: String
       profilePic: String
       bio: String
       location: String
@@ -38,6 +39,7 @@ const typeDefs = `
     input ProfileInput {
       fullName: String!
       email: String!
+      password: String!
       profilePic: String
       bio: String
       location: String
