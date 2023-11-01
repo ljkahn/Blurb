@@ -4,6 +4,7 @@ import Photo from "../components/Profile/ProfilePhoto.jsx";
 import Edit from "../components/Profile/Edit.jsx";
 import Button from "@mui/material/Button";
 import Container from '@mui/material/Container';
+import '../style/Profile.css';
 
 
 function Profile() {
@@ -14,7 +15,7 @@ function Profile() {
 
   //Use query to display blubrs attatched to one user
   return (
-    <div>
+    <div id='profile'>
       <Container>
       <Photo/>
       <h1>Lillian Edwards</h1>

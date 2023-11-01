@@ -45,20 +45,20 @@ const typeDefs = `
   type Query {
     users: [User]
     user(username: String!): User
+    userBlurbs(username: String): [Blurbs]
     blurbs: [Blurbs]
-    blurbs(username: String): [Blurbs]
     me: User
   }
 
+  
   type Mutation {
-      login(email: String!, password: String!): Auth
-      
-      
-    }
-    `;
-    
-    module.exports = typeDefs;
-    
+    login(email: String!, password: String!): Auth
+  }
+  
+  `;
+  
+  module.exports = typeDefs;
+  
     
     // type Mutation {
       
