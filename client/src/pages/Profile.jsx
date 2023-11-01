@@ -7,6 +7,18 @@ import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import '../style/Profile.css';
 import '../index.css';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+// const theme = createTheme({
+//   palette: {
+//     primary: {
+//       main: '#BEBFC5',
+//     },
+//     secondary: {
+//       main: '#EDFB60',
+//     } 
+//   },
+// });
 
 
 function Profile() {
@@ -16,14 +28,20 @@ function Profile() {
   //2. what user name to pop up 
 
   //Use query to display blubrs attatched to one user
+  const neon = '#EDFB60';
+  const buttonStyle = {
+    backgroundColor: neon,
+    color: '#212121'
+  }
   return (
     <div >
+      
       <Container id='profile'>
       <Photo/>
       <h1>Lillian Edwards</h1>
       <h2>lillianedwards</h2>
-      <Grid>
-      <Button  style={{background: "EDFB60"}} variant="contained">103 Followers</Button>
+      <Grid container spacing={2}>
+      <Button style={buttonStyle} variant="contained">103 Followers</Button>
       <Button variant="contained">95 Following</Button>
       </Grid>
       <Button variant="contained">Edit Profile </Button>
@@ -31,7 +49,7 @@ function Profile() {
       <Nav/>
       </Container>
      
-
+      
     </div>
   )
 }

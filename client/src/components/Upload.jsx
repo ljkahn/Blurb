@@ -10,7 +10,7 @@ export default function CloudinaryUploadWidget() {
   const widgetRef = useRef();
   const cld = new Cloudinary({
     cloud: {
-      cloudName: "mnfg3ids",
+      cloudName: "dmnfg3ids",
     },
   });
   useEffect(() => {
@@ -38,7 +38,7 @@ export default function CloudinaryUploadWidget() {
     <AdvancedImage
     style={{ maxWidth: "100%" }}
     cldImg={myImage}
-    // plugins={[responsive(), placeholder()]}
+    plugins={[responsive(), placeholder()]}
     />
   )}
   </>

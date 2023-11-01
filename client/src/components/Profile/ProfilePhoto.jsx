@@ -7,3 +7,6 @@ function ProfilePhoto() {
 }
 
 export default ProfilePhoto
+
+//const static key = public key from cloudinary 
+//test component to see if image comes up 
