@@ -1,44 +1,54 @@
 const typeDefs = `
   type User {
-    _id: ID
+    _id: ID!
     username: String
     followers: [User]
     following: [User]
     blurbs: [Blurbs]
     profile: Profile!
   }
-  
+
   type Profile {
-    _id: ID
+    _id: ID!
     fullName: String
     email: String
-    password: String
     profilePic: String
     bio: String
     location: String
   }
   
   type Blurbs {
-    _id: ID
+    _id: ID!
     blurbText: String
-    blurbAuthor: String
+    blurbAuthor: User
     createdAt: String
     comments: [Comment]
     likes: Int
   }
   
   type Comment {
-    _id: ID
+    _id: ID!
     commentText: String
-    commentAuthor: String
+    commentAuthor: User
     createdAt: String
     likes: Int
     updatedAt: String
   }
+
+  input ProfileInput {
+    fullName: String!
+    email: String!
+    password: String!
+  }
   
+  input UserInput {
+    username: String!
+    profile: ProfileInput!
+  }
+
   type Auth {
-    token: ID!
-    user: User
+    token: String!
+    user: User!
   }
   
   
@@ -53,16 +63,17 @@ const typeDefs = `
   
   type Mutation {
     login(email: String!, password: String!): Auth
+        
+    addUser(
+      username: String!
+      profile: ProfileInput! 
+      ): Auth!
   }
-  
   `;
   
   module.exports = typeDefs;
   
     
-    // type Mutation {
-      
-      // addUser(username: String!, profile:{fullname: String!, email: String!, password: String!} ): Auth
       // Logout????
 
 

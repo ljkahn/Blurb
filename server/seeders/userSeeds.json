@@ -2,9 +2,10 @@
   {
     "username": "Cheeks70",
     "profile": {
-      "fullName": "John Harvard",
+      "fullName": "Jonah Harvard",
       "email": "fartmonitor@gmail.com",
       "password": "LaughingC4$$",
+      "profilePic": "../client/src/public/assets/cheecks70.avif",
       "bio": "Master of dad jokes",
       "location": "Punderfulville"
     }
@@ -15,6 +16,7 @@
       "fullName": "Alice Johnson",
       "email": "bubbles123@gmail.com",
       "password": "BubbleT1$$",
+      "profilePic": "../client/src/public/assets/bubbles123.avif",
       "bio": "Bubbling with enthusiasm!",
       "location": "Giggle City"
     }
@@ -25,6 +27,7 @@
       "fullName": "Ella Smith",
       "email": "sunnydays@gmail.com",
       "password": "Sunnys1$$",
+      "profilePic": "../client/src/public/assets/sunnydays.avif",
       "bio": "Sunbathing in style",
       "location": "Smileville"
     }
@@ -35,6 +38,7 @@
       "fullName": "Michael Brown",
       "email": "coolcat22@gmail.com",
       "password": "CoolCatR1$$",
+      "profilePic": "../client/src/public/assets/coolcat22.avif",
       "bio": "Chillin' like a feline",
       "location": "CatNapCity"
     }
@@ -45,6 +49,7 @@
       "fullName": "Sarah Taylor",
       "email": "guitarhero@gmail.com",
       "password": "StrummingL1$$",
+      "profilePic": "../client/src/public/assets/guitarhero.avif",
       "bio": "Rockin' and rollin'",
       "location": "Punstock"
     }
@@ -55,6 +60,7 @@
       "fullName": "David Lee",
       "email": "pandalover@gmail.com",
       "password": "PandaHugs4$$",
+      "profilePic": "../client/src/public/assets/pandalover.avif",
       "bio": "Pawsitively crazy about pandas",
       "location": "BambooFalls"
     }
@@ -65,6 +71,7 @@
       "fullName": "Emily White",
       "email": "stargazer@gmail.com",
       "password": "StarryN8$$",
+      "profilePic": "../client/src/public/assets/stargazer.avif",
       "bio": "Counting UFOs too!",
       "location": "CosmicHumorTown"
     }
@@ -75,6 +82,7 @@
       "fullName": "Daniel Johnson",
       "email": "coffeeaddict@gmail.com",
       "password": "JavaJokes1$$",
+      "profilePic": "../client/src/public/assets/coffeeaddict.avif",
       "bio": "Mug life enthusiast",
       "location": "BeanBrewville"
     }
@@ -85,6 +93,7 @@
       "fullName": "Olivia Davis",
       "email": "bookworm@gmail.com",
       "password": "ChapterC2$$",
+      "profilePic": "../client/src/public/assets/bookworm.avif",
       "bio": "Getting lost in books, and can't find the way out",
       "location": "NovelLand"
     }
@@ -95,6 +104,7 @@
       "fullName": "William Smith",
       "email": "adventureseeker@gmail.com",
       "password": "SeekingL3$$",
+      "profilePic": "../client/src/public/assets/adventureseeker.avif",
       "bio": "Adventures with a side of humor",
       "location": "WanderlustVille"
     }
@@ -105,6 +115,7 @@
       "fullName": "Sophia Lee",
       "email": "naturelover@gmail.com",
       "password": "LoverOfL4$$",
+      "profilePic": "../client/src/public/assets/naturelover.avif",
       "bio": "Tree-hugger and pun-lover",
       "location": "WildLaughWoods"
     }
@@ -115,6 +126,7 @@
       "fullName": "James Johnson",
       "email": "techgeek@gmail.com",
       "password": "GeekyGag5$$",
+      "profilePic": "../client/src/public/assets/techgeek.avif",
       "bio": "Debugging bugs and jokes",
       "location": "Techtopia"
     }
@@ -125,6 +137,7 @@
       "fullName": "Mia Anderson",
       "email": "fitnessfreak@gmail.com",
       "password": "FreakyFi6$$",
+      "profilePic": "../client/src/public/assets/fitnessfreak.avif",
       "bio": "Lifting weights and spirits",
       "location": "GymTropolis"
     }
@@ -135,6 +148,7 @@
       "fullName": "Ethan Wilson",
       "email": "artenthusiast@gmail.com",
       "password": "Artistic7$$",
+      "profilePic": "../client/src/public/assets/artenthusiast.avif",
       "bio": "Strokes of humor and art",
       "location": "ArtisticAvenue"
     }
@@ -145,6 +159,7 @@
       "fullName": "Ava Martinez",
       "email": "musiclover@gmail.com",
       "password": "LovingM8$$",
+      "profilePic": "../client/src/public/assets/musiclover.avif",
       "bio": "Dancing to the beats of laughter",
       "location": "HarmonyVille"
     }

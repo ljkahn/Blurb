@@ -26,15 +26,21 @@ const resolvers = {
         //     throw AuthenticationError;
         // }
     },
-    // Mutation: {
-    // addUser: async (parent, { username, email, password }) => {
-    //   const user = await User.create({ username, email, password });
-    //   const token = signToken(user);
-    //   return { token, user };
-    // },
-
-
-
+    Mutation: {
+        addUser: async (parent, { username, profile }) => {
+            console.log('Attempting to add user');
+            try {
+                const user = await User.create({ username, profile });
+                console.log('User created:', user);
+                const token = signToken(user);
+                return { token, user };
+                } catch (error) {
+                console.log('Error creating user:', error);
+                throw new Error('Failed to add user');
+                }
+            },
+    }
+    
 }
 
 
