@@ -60,13 +60,7 @@ const userSchema = new Schema({
       ref: "Blurbs",
     },
   ],
-  comments: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "Comments",
-    },
-  ],
-  // profile: profileSchema,
+  profile: profileSchema,
 });
 
 profileSchema.pre("save", async function (next) {

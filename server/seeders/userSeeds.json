@@ -1,11 +1,167 @@
 [
   {
-    "username": "Brian Kernighan"
-
+    "username": "Cheeks70",
+    "profile": {
+      "fullName": "Jonah Harvard",
+      "email": "fartmonitor@gmail.com",
+      "password": "LaughingC4$$",
+      "profilePic": "../client/src/public/assets/cheecks70.avif",
+      "bio": "Master of dad jokes",
+      "location": "Punderfulville"
+    }
   },
   {
-    "username": "Max Kanat-Alexander"
-
+    "username": "Bubbles123",
+    "profile": {
+      "fullName": "Alice Johnson",
+      "email": "bubbles123@gmail.com",
+      "password": "BubbleT1$$",
+      "profilePic": "../client/src/public/assets/bubbles123.avif",
+      "bio": "Bubbling with enthusiasm!",
+      "location": "Giggle City"
+    }
+  },
+  {
+    "username": "SunnyDays",
+    "profile": {
+      "fullName": "Ella Smith",
+      "email": "sunnydays@gmail.com",
+      "password": "Sunnys1$$",
+      "profilePic": "../client/src/public/assets/sunnydays.avif",
+      "bio": "Sunbathing in style",
+      "location": "Smileville"
+    }
+  },
+  {
+    "username": "CoolCat22",
+    "profile": {
+      "fullName": "Michael Brown",
+      "email": "coolcat22@gmail.com",
+      "password": "CoolCatR1$$",
+      "profilePic": "../client/src/public/assets/coolcat22.avif",
+      "bio": "Chillin' like a feline",
+      "location": "CatNapCity"
+    }
+  },
+  {
+    "username": "GuitarHero",
+    "profile": {
+      "fullName": "Sarah Taylor",
+      "email": "guitarhero@gmail.com",
+      "password": "StrummingL1$$",
+      "profilePic": "../client/src/public/assets/guitarhero.avif",
+      "bio": "Rockin' and rollin'",
+      "location": "Punstock"
+    }
+  },
+  {
+    "username": "PandaLover",
+    "profile": {
+      "fullName": "David Lee",
+      "email": "pandalover@gmail.com",
+      "password": "PandaHugs4$$",
+      "profilePic": "../client/src/public/assets/pandalover.avif",
+      "bio": "Pawsitively crazy about pandas",
+      "location": "BambooFalls"
+    }
+  },
+  {
+    "username": "StarGazer",
+    "profile": {
+      "fullName": "Emily White",
+      "email": "stargazer@gmail.com",
+      "password": "StarryN8$$",
+      "profilePic": "../client/src/public/assets/stargazer.avif",
+      "bio": "Counting UFOs too!",
+      "location": "CosmicHumorTown"
+    }
+  },
+  {
+    "username": "CoffeeAddict",
+    "profile": {
+      "fullName": "Daniel Johnson",
+      "email": "coffeeaddict@gmail.com",
+      "password": "JavaJokes1$$",
+      "profilePic": "../client/src/public/assets/coffeeaddict.avif",
+      "bio": "Mug life enthusiast",
+      "location": "BeanBrewville"
+    }
+  },
+  {
+    "username": "Bookworm",
+    "profile": {
+      "fullName": "Olivia Davis",
+      "email": "bookworm@gmail.com",
+      "password": "ChapterC2$$",
+      "profilePic": "../client/src/public/assets/bookworm.avif",
+      "bio": "Getting lost in books, and can't find the way out",
+      "location": "NovelLand"
+    }
+  },
+  {
+    "username": "AdventureSeeker",
+    "profile": {
+      "fullName": "William Smith",
+      "email": "adventureseeker@gmail.com",
+      "password": "SeekingL3$$",
+      "profilePic": "../client/src/public/assets/adventureseeker.avif",
+      "bio": "Adventures with a side of humor",
+      "location": "WanderlustVille"
+    }
+  },
+  {
+    "username": "NatureLover",
+    "profile": {
+      "fullName": "Sophia Lee",
+      "email": "naturelover@gmail.com",
+      "password": "LoverOfL4$$",
+      "profilePic": "../client/src/public/assets/naturelover.avif",
+      "bio": "Tree-hugger and pun-lover",
+      "location": "WildLaughWoods"
+    }
+  },
+  {
+    "username": "TechGeek",
+    "profile": {
+      "fullName": "James Johnson",
+      "email": "techgeek@gmail.com",
+      "password": "GeekyGag5$$",
+      "profilePic": "../client/src/public/assets/techgeek.avif",
+      "bio": "Debugging bugs and jokes",
+      "location": "Techtopia"
+    }
+  },
+  {
+    "username": "FitnessFreak",
+    "profile": {
+      "fullName": "Mia Anderson",
+      "email": "fitnessfreak@gmail.com",
+      "password": "FreakyFi6$$",
+      "profilePic": "../client/src/public/assets/fitnessfreak.avif",
+      "bio": "Lifting weights and spirits",
+      "location": "GymTropolis"
+    }
+  },
+  {
+    "username": "ArtEnthusiast",
+    "profile": {
+      "fullName": "Ethan Wilson",
+      "email": "artenthusiast@gmail.com",
+      "password": "Artistic7$$",
+      "profilePic": "../client/src/public/assets/artenthusiast.avif",
+      "bio": "Strokes of humor and art",
+      "location": "ArtisticAvenue"
+    }
+  },
+  {
+    "username": "MusicLover",
+    "profile": {
+      "fullName": "Ava Martinez",
+      "email": "musiclover@gmail.com",
+      "password": "LovingM8$$",
+      "profilePic": "../client/src/public/assets/musiclover.avif",
+      "bio": "Dancing to the beats of laughter",
+      "location": "HarmonyVille"
+    }
   }
-  
 ]
