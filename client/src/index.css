@@ -4,6 +4,10 @@
 
 body {
   height: 100vh;
+
   font-family: 'Inter', sans-serif;
   background-color: var(--gray);
+
+  margin: 0;
+
 }

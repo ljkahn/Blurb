@@ -1,27 +1,76 @@
 #header {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  padding-top: 0.5rem;
+  box-shadow: 3px 0px 2px black;
 }
-#header button{
-    border: none;
-    background-color: none;
+
+#button {
+  height: 50px;
+  width: 50px;
+  margin-right: 1rem;
 }
 
 .friends {
-    background-color: gray;
-    height: 40px;
-    width: 40px;
-    margin: 0rem 0.5rem;
-    border-radius: 50px;
+  background-color: gray;
+  height: 40px;
+  width: 40px;
+  margin: 0rem 0.5rem;
+  border-radius: 50px;
 }
 
 .friendProfile {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .friendProfile p {
-    margin: .3rem;
+  margin: 0.3rem;
+}
+
+#searchSvg {
+  z-index: 1000;
+  top: 15px;
+  left: 15px;
+}
+
+#searchIcon {
+  border: none;
+  height: 50px;
+  width: 50px;
+  background-color: transparent;
+  /* background: rgb(248, 255, 126);
+  background: radial-gradient(
+    circle,
+    rgba(248, 255, 126, 1) 0%,
+    rgba(252, 242, 22, 1) 66%
+  ); */
+  border-radius: 50px;
+  transition: background-color 0.5s ease-in-out, transform 0.2s ease,
+    box-shadow 0.5s ease-in; /* Add transitions */
+  z-index: 1;
+  /* border: rgba(252, 242, 22, 1) solid 2px; */
+}
+
+#searchIcon:hover {
+  transform: scale(1.05); /* Slightly increase the size */
+  border: 1px solid gray;
+  /* background: radial-gradient(
+    circle,
+    rgba(248, 255, 126, 1) 66%,
+    rgba(252, 242, 22, 1) 0%
+  );
+  border: rgba(248, 255, 126, 1); */
+}
+
+#searchIcon:active {
+  transform: none;
+  box-shadow: none;
+  /* background: rgb(141, 126, 255);
+  background: radial-gradient(
+    circle,
+    rgba(141, 126, 255, 1) 0%,
+    rgba(22, 88, 252, 1) 81%
+  ); */
 }
