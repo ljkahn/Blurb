@@ -5,18 +5,25 @@ const resolvers = {
   Query: {
     //get all users
     users: async () => {
-      console.log("users");
       return User.find();
     },
+    // ✅
 
     user: async (parent, { userId }) => {
       return User.findOne({ _id: userId });
     },
 
     //get blurb from username
-    blurbs: async (parent, { username }) => {
+    userBlurbs: async (parent, { username }) => {
       const params = username ? { username } : {};
-      return Blurbs.find(params).sort({ createdAt: -1 });
+
+      return Blurbs.find(params)
+        .populate("blurbAuthor")
+        .sort({ createdAt: -1 });
+    },
+
+    blurbs: async () => {
+      return Blurbs.find();
     },
 
     me: async (parent, args, context) => {
@@ -25,6 +32,7 @@ const resolvers = {
       }
       throw AuthenticationError;
     },
+    // ✅
   },
 
   Mutation: {
@@ -71,6 +79,7 @@ const resolvers = {
       if (context.user) {
         // Create a new blurb using the Blurb model
         const blurb = await Blurbs.create({
+          // blurbAuthor = await Blurbs.findOne({ username: blurbAuthor })
           blurbText,
           blurbAuthor: context.user._id, // Use the user's ID as the blurbAuthor
         });
@@ -78,44 +87,75 @@ const resolvers = {
         await User.findByIdAndUpdate(context.user._id, {
           $addToSet: { blurbs: blurb._id },
         });
-        return blurb;
+        return "Successfully created Blurbo!";
       } else {
         throw new AuthenticationError(
           "You need to be logged in to create a blurb!"
         );
       }
     },
+    // ✅
 
-    addComment: async (parent, { blurbId, commentText }, context) => {
+    addComment: async (parent, { blurbID, commentText }, context) => {
       if (context.user) {
-        return await Blurbs.findOneAndUpdate(
-          { _id: blurbId },
-          {
-            $push: {
-              comments: 
-              { commentText, 
-                commentAuthor: context.user.username,
-                createdAt: new Date(),
-                likes: 0,
+        try {
+          // Attempt to find and update the "Blurbs" document with the given "blurbID."
+          const updatedBlurb = await Blurbs.findOneAndUpdate(
+            { _id: blurbID },
+            {
+              // Use the $push operator to add a new comment object to the "comments" array.
+              $push: {
+                comments: {
+                  commentText, // The text of the comment.
+                  commentAuthor: context.user._id, // The ID of the user adding the comment.
+                },
+              },
             },
-            },
-          },
-          {
-            new: true,
-            runValidators: true,
+            {
+              new: true, // Return the updated document.
+              runValidators: true, // Run validation checks on the update.
+            }
+          );
+
+          if (updatedBlurb) {
+            // If the "updatedBlurb" document exists, find the newly added comment in the "comments" array.
+            const newComment = updatedBlurb.comments.find(
+              (comment) =>
+                comment.commentText === commentText && // Match the comment text.
+                comment.commentAuthor.equals(context.user._id) // Match the comment author (user ID).
+            );
+
+            if (newComment) {
+              // If the new comment is found, return a success message.
+              return "Successfully created Comment!";
+            }
           }
-        );
+          // If the comment creation or retrieval fails, throw an error.
+          throw new Error("Failed to create comment.");
+        } catch (error) {
+          // Handle any errors that occur during the process and throw a generic error message.
+          throw new Error("An error occurred while creating the comment.");
+        }
+      } else {
+        // If the user is not authenticated, throw an "AuthenticationError" with a specific message.
+        throw new AuthenticationError("You need to be logged in to comment!");
       }
-      throw AuthenticationError;
-      ("You need to be logged in to comment!");
     },
+    // ✅
 
     // Set up mutation so a logged in user can only remove their profile and no one else's
-    deleteUser: async (parent, args, context) => {
-      if (context.user) {
-        return User.findOneAndDelete({ _id: context.user._id });
+    deleteUser: async (parent, { userID }, context) => {
+      if (context.user && context.user._id.toString() === userID) {
+        // Delete user's blurbs first if needed
+        await Blurbs.deleteMany({ blurbAuthor: context.user._id });
+
+        // Now delete the user
+        await User.findByIdAndDelete(userID);
+
+        return "User deleted successfully.";
+      } else {
+        throw new Error("User not found"); // Handle the case when the user doesn't exist.
       }
-      throw AuthenticationError;
     },
 
     removeBlurb: async (parent, { blurbId }, context) => {

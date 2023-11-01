@@ -11,7 +11,7 @@ function Home() {
   return (
     <div>
       <div>
-        <Header />
+       
         <Stream />
         <Nav />
       </div>
