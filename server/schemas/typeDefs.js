@@ -68,16 +68,15 @@ const typeDefs = `
       addUser(username: String!, profile: ProfileInput!): Auth
       editUser(username: String!, input: UserInput!): User
       editProfile(fullName: String!, email: String!, profilePic: String, bio: String, location: String): Profile
-      deleteUser(username: String!): String
+      deleteUser(userID: ID!): String
       addLike(blurbID: ID!): Blurbs
       removeLike(blurbID: ID!): Blurbs
-      addBlurb(blurbText: String!, blurbAuthor: String!): Blurbs
+      addBlurb(blurbText: String!): String
       editBlurb(blurbID: ID!, blurbText: String): Blurbs
       removeBlurb(blurbID: ID!): String
-      addComment(blurbID: ID!, commentText: String!): Comment
+      addComment(blurbID: ID!, commentText: String!): String
       removeComment(blurbID: ID!, commentID: ID!): Blurbs
     }
     `;
-    
-    
-    module.exports = typeDefs;
+
+module.exports = typeDefs;
