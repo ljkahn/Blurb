@@ -88,11 +88,16 @@ const resolvers = {
 
     addComment: async (parent, { blurbId, commentText }, context) => {
       if (context.user) {
-        return Blurbs.findOneAndUpdate(
+        return await Blurbs.findOneAndUpdate(
           { _id: blurbId },
           {
-            $addToSet: {
-              comments: { commentText, commentAuthor: context.user.username },
+            $push: {
+              comments: 
+              { commentText, 
+                commentAuthor: context.user.username,
+                createdAt: new Date(),
+                likes: 0,
+            },
             },
           },
           {
