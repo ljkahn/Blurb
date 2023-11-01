@@ -14,8 +14,8 @@ const commentSchema = new Schema({
     maxlength: 255,
   },
   commentAuthor: {
-    type: String,
-    required: true,
+    type: Schema.Types.ObjectId,
+    ref: 'User',
   },
   createdAt: {
     type: Date,
@@ -40,8 +40,8 @@ const blurbSchema = new Schema({
     maxlength: 255,
   },
   blurbAuthor: {
-    type: String,
-    required: true,
+    type: Schema.Types.ObjectId,
+    ref: '',
   },
   photo: {
     type: String,
