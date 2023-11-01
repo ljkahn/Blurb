@@ -174,24 +174,22 @@ const resolvers = {
       return updatedBlurb;
     },
 
+
+
     editBlurb: async (parent, { blurbId, newContent }, context) => {
       // Verify the user's authentication token (You should implement your authentication logic here)
       if (!context.user) {
         throw new Error("You must be logged in to edit a blurb.");
       }
-
-      // // Assuming you have a function in your context to edit a blurb
-      // const { editBlurb } = context;
-      const newContent = await Blurbs.findByIdAndUpdate(
+      // Assuming you have a function in your context to edit a blurb
+      const updatedBlurb = await Blurbs.findByIdAndUpdate(
         blurbId,
-        { blurbText },
+        { blurbText: newContent },
         { new: true }
       );
-      // Call the editBlurb function from your context, passing the blurbId and newContent
-      const updatedBlurb = await editBlurb(blurbId, newContent);
-
       return updatedBlurb;
     },
+
   },
 };
 module.exports = resolvers;
