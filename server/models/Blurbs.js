@@ -15,7 +15,7 @@ const commentSchema = new Schema({
   },
   commentAuthor: {
     type: Schema.Types.ObjectId,
-    ref: 'User',
+    ref: "User",
   },
   createdAt: {
     type: Date,
@@ -41,7 +41,7 @@ const blurbSchema = new Schema({
   },
   blurbAuthor: {
     type: Schema.Types.ObjectId,
-    ref: '',
+    ref: "User",
   },
   photo: {
     type: String,
