@@ -1,14 +1,24 @@
 import decode from 'jwt-decode';
+// import { useNavigate } from 'react-router-dom';
+
 
 class AuthService {
+  // constructor() {
+  //   this.navigate = useNavigate;
+  // }
+
   getProfile() {
     return decode(this.getToken());
   }
-  isTokenExpired(token) {
-    const decoded = decode (token);
+  isTokenExpired(navigate) {
+    const token = this.getToken();
 
+    if (!token) {
+      return true; //Token is expired if it doesn't exist
+    }
+    const decoded = decode(token);
     if (decoded.exp < Date.now() / 1000) {
-      localStorage.removeItem('id_token');
+      this.logout(navigate);
       return true;
     }
     return false;
@@ -16,22 +26,24 @@ class AuthService {
 
 
   getToken() {
-    return localStorage.getItem('id_token');
+    localStorage.getItem('id_token');
   }
-
-  login(idToken) {
+  
+  login(idToken, navigate) {
     localStorage.setItem('id_token', idToken);
-    //should lead to landing page but not using window.relocation
+    navigate('/profile');
+    
   }
 
-  loggedIn() {
+  loggedIn(navigate) {
     const token = this.getToken();
-    return token ? true : false;
+    return !this.isTokenExpired(navigate) && token;
   }
 
-  logout() {
+  logout(navigate) {
     localStorage.removeItem('id_token');
-    //should take them back to the landing page where they can sign in / create account upon login. 
+    navigate('/')
+  
   }
 }
 
