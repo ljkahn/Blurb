@@ -25,6 +25,7 @@ const typeDefs = `
       createdAt: String
       comments: [Comment]
       likes: Int
+      tags: [String]
     }
     
     type Comment {
@@ -43,6 +44,15 @@ const typeDefs = `
       profilePic: String
       bio: String
       location: String
+    }
+
+    input BlurbInput {
+      blurbText: String
+      blurbAuthor: User
+      createdAt: String
+      comments: [Comment]
+      likes: Int
+      tags: [String]
     }
     
     input UserInput {
@@ -70,8 +80,8 @@ const typeDefs = `
       deleteUser(userID: ID!): String
       addLike(blurbID: ID!): String
       removeLike(blurbID: ID!): String
-      addBlurb(blurbText: String!): String
-      editBlurb(blurbID: ID!, blurbText: String!): String
+      addBlurb(blurbText: String!, tags: [String]): [Blurbs]
+      editBlurb(blurbID: ID!, blurbText: String!, tags: [String]): String
       removeBlurb(blurbID: ID!): String
       addComment(blurbID: ID!, commentText: String!): String
       removeComment(blurbID: ID!, commentID: ID!): String

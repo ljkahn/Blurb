@@ -13,10 +13,10 @@ db.once('open', async () => {
 
     for (let i = 0; i < blurbSeeds.length; i++) {
       const currentAuthor = await User.findOne({username: blurbSeeds[i].blurbAuthor});
-      if (!currentAuthor) {
-        console.log(`User not found for username: ${blurbSeeds[i].blurbAuthor}`);
-        continue;
-      }
+      // if (!currentAuthor) {
+      //   // console.log(`User not found for username: ${blurbSeeds[i].blurbAuthor}`);
+      //   continue;
+      // }
       
       const cleanComments = blurbSeeds[i].comments.length > 0 ? await Promise.all(blurbSeeds[i].comments.map(async (comment) => {
         const commentAuthor = await User.findOne({username: comment.commentAuthor});

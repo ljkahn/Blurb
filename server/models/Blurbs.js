@@ -56,6 +56,7 @@ const blurbSchema = new Schema({
     type: Date,
   },
   comments: [commentSchema],
+  tags: [String]
 });
 
 const Blurbs = model("Blurbs", blurbSchema);

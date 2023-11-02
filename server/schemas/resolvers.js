@@ -1,5 +1,6 @@
 const { User, Blurbs } = require("../models");
 const { signToken, AuthenticationError } = require("../utils/auth");
+const validTags = ['funny', 'drama', 'inspirational', 'memes', 'art', 'nature', 'pics', 'love', 'lifestyle', 'diy', 'music', 'movies', 'food', 'sports', 'pets', 'travel', 'business', 'health', 'education', 'books'];
 
 const resolvers = {
   Query: {
@@ -86,7 +87,7 @@ const resolvers = {
 
       // If no user is found with the provided email, throw an AuthenticationError
       if (!user) {
-        throw Error("Invalid email or password");
+        throw new Error("Invalid email or password");
       }
 
       // Use the isCorrectPassword method within the profile subdocument to compare the provided password with the stored hashed password
@@ -94,7 +95,7 @@ const resolvers = {
 
       // If the password is incorrect, throw an AuthenticationError
       if (!correctPw) {
-        throw Error("Invalid email or password");
+        throw new Error("Invalid email or password");
       }
 
       // Generate a token for the authenticated user
@@ -105,21 +106,23 @@ const resolvers = {
     },
     // ✅
 
-    addBlurb: async (parent, { blurbText }, context) => {
+    addBlurb: async (parent, { blurbText, tags }, context) => {
       if (context.user) {
+    
+
         // Create a new blurb using the Blurb model
         const blurb = await Blurbs.create({
-          // blurbAuthor = await Blurbs.findOne({ username: blurbAuthor })
           blurbText,
           blurbAuthor: context.user._id, // Use the user's ID as the blurbAuthor
+          tags,
         });
         // Update the user's blurbs array with the new blurb's ID
         await User.findByIdAndUpdate(context.user._id, {
           $addToSet: { blurbs: blurb._id },
         });
-        return "Successfully created Blurbo!";
+        return blurb;
       } else {
-        throw Error("You need to be logged in to create a blurb!");
+        throw new Error("You need to be logged in to create a blurb!");
       }
     },
     // ✅
@@ -159,14 +162,14 @@ const resolvers = {
             }
           }
           // If the comment creation or retrieval fails, throw an error.
-          throw Error("Failed to create comment.");
+          throw new Error("Failed to create comment.");
         } catch (error) {
           // Handle any errors that occur during the process and throw a generic error message.
           throw new Error("An error occurred while creating the comment.");
         }
       } else {
         // If the user is not authenticated, throw an "AuthenticationError" with a specific message.
-        throw Error("You need to be logged in to comment!");
+        throw new Error("You need to be logged in to comment!");
       }
     },
     // ✅
@@ -189,7 +192,7 @@ const resolvers = {
     removeBlurb: async (parent, { blurbID }, context) => {
       // Verify user is logged in
       if (!context.user) {
-        throw Error("You must be logged in to do this!");
+        throw new Error("You must be logged in to do this!");
       }
       // Find the blurb to verify the logged-in user is the author
       const blurb = await Blurbs.findById(blurbID);
@@ -198,7 +201,7 @@ const resolvers = {
         throw new Error("Blurb not found");
       }
       if (blurb.blurbAuthor.toString() !== context.user._id.toString()) {
-        throw Error("You are not authorized to delete this blurb");
+        throw new Error("You are not authorized to delete this blurb");
       }
       // Delete the blurb
       await Blurbs.findOneAndDelete({ _id: blurbID });
@@ -214,7 +217,7 @@ const resolvers = {
     removeComment: async (parent, { blurbID, commentID }, context) => {
       // Verify user is logged in
       if (!context.user) {
-        throw Error("You must be logged in to do this!");
+        throw new Error("You must be logged in to do this!");
       }
 
       // Find the blurb to get access to the comments
@@ -230,7 +233,7 @@ const resolvers = {
       }
 
       if (comment.commentAuthor.toString() !== context.user._id.toString()) {
-        throw Error("You are not authorized to delete this blurb");
+        throw new Error("You are not authorized to delete this blurb");
       }
 
       // Remove the comment from the blurb
@@ -280,7 +283,7 @@ const resolvers = {
     editBlurb: async (parent, { blurbID, blurbText }, context) => {
       // Verify user is logged in
       if (!context.user) {
-        throw Error("You need to be logged in to edit a blurb");
+        throw new Error("You need to be logged in to edit a blurb");
       }
 
       // Find the blurb by ID
@@ -310,12 +313,12 @@ const resolvers = {
 
     editUser: async (_, { profile, username }, context) => {
       if (!context.user) {
-        throw Error("Not logged in");
+        throw new Error("Not logged in");
       }
 
       const user = await User.findById(context.user._id);
       if (!user) {
-        throw Error("User not found");
+        throw new Error("User not found");
       }
 
       // Update user fields here
