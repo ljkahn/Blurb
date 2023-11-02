@@ -9,7 +9,7 @@ import Modal from "@mui/material/Modal";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 
-function BlurbStream() {
+function BlurbStream({ children, username }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => {
     setIsModalOpen(true);
@@ -34,9 +34,9 @@ function BlurbStream() {
           {/* <div className="Blfriend" /> */}
           <div className="blInfo">
             <div>
-              <div className="userName">Jenny</div>
+              <div className="userName">{username}</div>
             </div>
-            <div>once i was a frog that got eaten by a dog</div>
+            <div>{children}</div>
           </div>
         </div>
         <div id="notifyIcons">

@@ -23,6 +23,7 @@
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.14.16",
     "@mui/material": "^5.14.16",
-    "cloudinary": "^1.41.0"
+    "cloudinary": "^1.41.0",
+    "typewriter-effect": "^2.21.0"
   }
 }
