@@ -174,7 +174,6 @@ const resolvers = {
     },
     // ✅
 
-    // Set up mutation so a logged in user can only remove their profile and no one else's
     deleteUser: async (parent, { userID }, context) => {
       if (context.user && context.user._id.toString() === userID) {
         // Delete user's blurbs first if needed
@@ -344,7 +343,7 @@ const resolvers = {
       await user.save();
       return user;
     },
-
+    // ✅
 
 
 editComment: async (_, { blurbID, commentID, newCommentText }, context) => {
@@ -391,4 +390,4 @@ module.exports = resolvers;
 
 //like a comment
 //unlike a comment
-//edit comment
+
