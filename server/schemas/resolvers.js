@@ -94,7 +94,7 @@ const resolvers = {
       // console.log(user.profile.password)
       // console.log(password)
       const correctPw = await user.isCorrectPassword(password);
-      
+
       // If the password is incorrect, throw an AuthenticationError
       if (!correctPw) {
         throw Error("Invalid email or password");
@@ -310,85 +310,79 @@ const resolvers = {
       return "It Worked";
     },
     // ✅
-    
+
     editUser: async (_, { profile, username }, context) => {
       if (!context.user) {
         throw Error("Not logged in");
       }
-      
+
       const user = await User.findById(context.user._id);
       if (!user) {
         throw Error("User not found");
       }
-      
+
       // Update user fields here
-      
-      
+
       if (user.profile.password) {
-        
         user.profile.password = profile.password;
         user.profile.isPasswordChanged = true;
-        
       }
-   
+
       // Update other profile fields
       if (profile.email) user.profile.email = profile.email;
       // Repeat for other fields...
-      if(username) user.username = username
+      if (username) user.username = username;
       if (profile.bio) user.profile.bio = profile.bio;
       if (profile.fullName) user.profile.fullName = profile.fullName;
       if (profile.location) user.profile.location = profile.location;
       if (profile.profilePic) user.profile.profilePic = profile.profilePic;
-      console.log(user)
+      console.log(user);
       await user.save();
       return user;
     },
     // ✅
 
+    editComment: async (_, { blurbID, commentID, newCommentText }, context) => {
+      console.log(newCommentText);
+      // Check if a user is authenticated in the current context
+      if (!context.user) {
+        // If not authenticated, throw an error
+        throw new Error("You need to be logged in to edit a comment");
+      }
 
-editComment: async (_, { blurbID, commentID, newCommentText }, context) => {
-  console.log(newCommentText)
-  // Check if a user is authenticated in the current context
-  if (!context.user) {
-    // If not authenticated, throw an error
-    throw new Error("You need to be logged in to edit a comment");
-  }
+      // Find the blurb by ID and update the comment
+      const updatedComment = await Blurbs.findByIdAndUpdate(
+        blurbID,
+        {
+          $set: {
+            // Update the comment text with the new text
+            "comments.$[comment].commentText": newCommentText,
+            // Update the timestamp of the comment
+            "comments.$[comment].updatedAt": new Date(),
+          },
+        },
+        {
+          new: true, // Return the updated document
+          arrayFilters: [{ "comment._id": commentID }], // Filter comments by their IDs
+        }
+      );
 
-  // Find the blurb by ID and update the comment
-  const updatedComment = await Blurbs.findByIdAndUpdate(
-    blurbID,
-    {
-      $set: {
-        // Update the comment text with the new text
-        "comments.$[comment].commentText": newCommentText,
-        // Update the timestamp of the comment
-        "comments.$[comment].updatedAt": new Date(),
-      },
+      // Log the updated comment to the console for debugging
+      console.log(updatedComment);
+
+      // Check if the comment was not found or could not be updated
+      if (!updatedComment) {
+        // If not found or could not be updated, throw an error
+        throw new Error("Comment not found or could not be updated");
+      }
+
+      // Return a success message
+      return "It worked!";
     },
-    {
-      new: true, // Return the updated document
-      arrayFilters: [{ "comment._id": commentID }], // Filter comments by their IDs
-    }
-  );
-
-  // Log the updated comment to the console for debugging
-  console.log(updatedComment);
-
-  // Check if the comment was not found or could not be updated
-  if (!updatedComment) {
-    // If not found or could not be updated, throw an error
-    throw new Error("Comment not found or could not be updated");
-  }
-
-  // Return a success message
-  return "It worked!";
-}
-
-
+    // ✅
+    //like a comment
+    //unlike a comment
   },
 };
 module.exports = resolvers;
-
-//like a comment
-//unlike a comment
 
