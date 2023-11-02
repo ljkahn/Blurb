@@ -6,6 +6,8 @@ const typeDefs = `
       following: [User]
       blurbs: [Blurbs]
       profile: Profile!
+      followerNumber: Int
+      followingNumber: Int
     }
     
     type Profile {

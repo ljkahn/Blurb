@@ -65,7 +65,13 @@ const userSchema = new Schema({
     },
   ],
   profile: profileSchema,
-});
+}, 
+{
+  toJSON:{
+    virtuals: true,
+  }
+}
+);
 
 profileSchema.pre("save", async function (next) {
   if ((this.isNew || this.isModified("password"))) {
@@ -79,7 +85,13 @@ profileSchema.pre("save", async function (next) {
   next();
 });
 
+userSchema.virtual("followerNumber").get(function ()  {
+return this.followers.length
+})
 
+userSchema.virtual("followingNumber").get(function ()  {
+return this.following.length
+})
 
 userSchema.methods.isCorrectPassword = async function (password) {
   return bcrypt.compare(password, this.profile.password);

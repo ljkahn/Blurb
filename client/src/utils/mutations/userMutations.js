@@ -22,3 +22,4 @@ mutation Mutation($email: String!, $password: String!) {
   }
 }
 `;
+
