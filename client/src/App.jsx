@@ -1,4 +1,5 @@
 import { HashRouter as Router, Routes, Route } from "react-router-dom";
+
 import React, { useState, useEffect } from "react";
 import './index.css'
 
@@ -12,9 +13,10 @@ import Header from  './components/Header';
 import NavBar from './components/NavBar';
 
 
+
 function App() {
   
-  
+ 
   return (
     <Router>
 

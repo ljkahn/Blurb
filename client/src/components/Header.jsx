@@ -4,13 +4,22 @@ import SearchIcon from "@mui/icons-material/Search";
 import "../style/Header.css";
 import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+
 
 function Header() {
-  const [value, setValue] = useState(0); // You need to define value and setValue for BottomNavigation
 
+
+  const [value, setValue] = useState(0); // You need to define value and setValue for BottomNavigation
+  const neon = '#EDFB60';
+  const black = '#212121'
+   const backBtn = {
+    color: black
+   }
   return (
     <>
       <div id="header">
+       
         <div id="button">
           <IconButton>
             <SearchIcon sx={{ fontSize: 40 }} />

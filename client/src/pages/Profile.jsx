@@ -5,10 +5,11 @@ import AccountEdit from "../components/Profile/AccountEdit.jsx"
 import Button from "@mui/material/Button";
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
-
+import IconButton from "@mui/material/IconButton";
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import '../style/Profile.css';
 import '../index.css';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+
 
 
 
@@ -56,6 +57,9 @@ const showAccountSettings = () => {
 
   return (
     <div >
+      <IconButton>
+      <ArrowBackIosIcon/>
+      </IconButton>
      { showProfile ? (
       <Container id='profile'>
       <Photo/>
