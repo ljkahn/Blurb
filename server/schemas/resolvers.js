@@ -371,12 +371,43 @@ const resolvers = {
         if (profileInput.profilePic) {
             user.profile.profilePic = profileInput.profilePic;
         }
-        // Repeat for other fields...
   
         await user.save();
         return user;
       },
-    },
+
+      editComment: async (_, { blurbID, commentID, commentText }, context) => {
+        // Check if user is logged in
+        if (!context.user) {
+          throw new AuthenticationError('You need to be logged in to edit a comment');
+        }
+  
+        // Find the blurb by ID
+        const blurb = await Blurbs.findById(blurbID);
+        if (!blurb) {
+          throw new Error('Blurb not found');
+        }
+  
+        // Find the comment in the blurb
+        const comment = blurb.comments.id(commentID);
+        if (!comment) {
+          throw new Error('Comment not found');
+        }
+  
+        // Optional: Check if the logged in user is the author of the comment
+        if (comment.commentAuthor.toString() !== context.user._id) {
+          throw new AuthenticationError('You can only edit your own comments');
+        }
+  
+        // Update the comment text
+        comment.commentText = commentText;
+  
+        // Save the updated blurb
+        await blurb.save();
+  
+        return "It worked";
+      }
+    }
   };
 module.exports = resolvers;
 

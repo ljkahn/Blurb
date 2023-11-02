@@ -67,7 +67,6 @@ const typeDefs = `
       login(email: String!, password: String!): Auth 
       addUser(username: String!, profile: ProfileInput!): Auth 
       editUser(username: String, profile: ProfileInput): User
-      editProfile(fullName: String!, email: String!, profilePic: String, bio: String, location: String): Profile
       deleteUser(userID: ID!): String
       addLike(blurbID: ID!): String
       removeLike(blurbID: ID!): String
@@ -76,6 +75,7 @@ const typeDefs = `
       removeBlurb(blurbID: ID!): String
       addComment(blurbID: ID!, commentText: String!): String
       removeComment(blurbID: ID!, commentID: ID!): String
+      editComment(blurbID: ID!, commentID: ID!, commentText: String!): String
     }
     `;
 
