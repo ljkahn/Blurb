@@ -1,13 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import "../../style/Blurbs.css";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import Avatar from "@mui/material/Avatar";
 import { Link } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
+import Modal from "@mui/material/Modal";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
 
 function BlurbStream() {
-  //functuion to append list of blurbs
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  // Function to close the modal
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   return (
     <div id="bluMain">
@@ -32,13 +43,28 @@ function BlurbStream() {
           <div className="likeComment">
             <FavoriteBorderIcon />
           </div>
-          <Link to="/comment" className="likeComment">
-          <IconButton>
+          <IconButton onClick={openModal} className="likeComment">
             <ChatBubbleOutlineIcon />
-            </IconButton>
-          </Link>
+          </IconButton>
         </div>
       </div>
+      <Modal
+        style={{ zIndex: 0 }}
+        id="blurbModal"
+        open={isModalOpen}
+        onClose={closeModal}
+      >
+        <form id="blForm">
+          <TextField id="outlined-basic" label="Comment" variant="outlined" />
+          <Button
+            style={{ margin: ".5rem" }}
+            variant="contained"
+            disableElevation
+          >
+            Comment
+          </Button>
+        </form>
+      </Modal>
     </div>
   );
 }
