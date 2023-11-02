@@ -1,12 +1,10 @@
 import React from "react";
 import "../../style/Blurbs.css";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import WhatshotIcon from '@mui/icons-material/Whatshot';
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import Avatar from "@mui/material/Avatar";
 
-function BlurbStream() {
-  //functuion to append list of blurbs
-
+function FireCard() {
   return (
     <div id="bluMain">
       <div className="blurbContainer">
@@ -24,14 +22,14 @@ function BlurbStream() {
           <div>once i was a frog that got eaten by a dog</div>
         </div>
         <div className="likeComment">
-          <FavoriteBorderIcon />
+          <WhatshotIcon />
         </div>
         <div className="likeComment">
           <ChatBubbleOutlineIcon />
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default BlurbStream;
+export default FireCard

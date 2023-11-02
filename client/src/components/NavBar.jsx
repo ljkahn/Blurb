@@ -43,17 +43,25 @@ function NavBar() {
           <LocalFireDepartmentIcon sx={{ fontSize: 40 }} />
         </IconButton>
       </Link>
+
       <button onClick={openModal} id="addBlurb">
         B
       </button>
       <Link to='/notifications'>
+
+      <button id="addBlurb">B</button>
+      <Link to='/Likes'>
         <IconButton aria-label={notificationsLabel(100)}>
           <Badge badgeContent={100} color="secondary">
             <FavoriteIcon sx={{ fontSize: 40 }} />
           </Badge>
         </IconButton>
       </Link>
+
       <Link to="/profile">
+
+      <div>
+
         <IconButton>
           <Avatar
             alt="Remy Sharp"
