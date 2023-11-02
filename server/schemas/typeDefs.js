@@ -64,18 +64,18 @@ const typeDefs = `
     }
     
     type Mutation {
-      login(email: String!, password: String!): Auth
-      addUser(username: String!, profile: ProfileInput!): Auth
+      login(email: String!, password: String!): Auth 
+      addUser(username: String!, profile: ProfileInput!): Auth 
       editUser(username: String!, input: UserInput!): User
       editProfile(fullName: String!, email: String!, profilePic: String, bio: String, location: String): Profile
       deleteUser(userID: ID!): String
-      addLike(blurbID: ID!): Blurbs
-      removeLike(blurbID: ID!): Blurbs
+      addLike(blurbID: ID!): String
+      removeLike(blurbID: ID!): String
       addBlurb(blurbText: String!): String
-      editBlurb(blurbID: ID!, blurbText: String): Blurbs
-      removeBlurb(blurbID: ID!, blurbAuthor: String): String
+      editBlurb(blurbID: ID!, blurbText: String!): String
+      removeBlurb(blurbID: ID!): String
       addComment(blurbID: ID!, commentText: String!): String
-      removeComment(blurbID: ID!, commentID: ID!): Blurbs
+      removeComment(blurbID: ID!, commentID: ID!): String
     }
     `;
 
