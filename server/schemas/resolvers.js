@@ -1,5 +1,6 @@
 const { User, Blurbs } = require("../models");
 const { signToken, AuthenticationError } = require("../utils/auth");
+const bcrypt = require("bcrypt");
 
 const resolvers = {
   Query: {
@@ -86,7 +87,7 @@ const resolvers = {
 
       // If no user is found with the provided email, throw an AuthenticationError
       if (!user) {
-        throw new AuthenticationError("Invalid email or password");
+        throw Error("Invalid email or password");
       }
 
       // Use the isCorrectPassword method within the profile subdocument to compare the provided password with the stored hashed password
@@ -94,7 +95,7 @@ const resolvers = {
 
       // If the password is incorrect, throw an AuthenticationError
       if (!correctPw) {
-        throw new AuthenticationError("Invalid email or password");
+        throw Error("Invalid email or password");
       }
 
       // Generate a token for the authenticated user
@@ -119,9 +120,7 @@ const resolvers = {
         });
         return "Successfully created Blurbo!";
       } else {
-        throw new AuthenticationError(
-          "You need to be logged in to create a blurb!"
-        );
+        throw Error("You need to be logged in to create a blurb!");
       }
     },
     // ✅
@@ -161,14 +160,14 @@ const resolvers = {
             }
           }
           // If the comment creation or retrieval fails, throw an error.
-          throw new Error("Failed to create comment.");
+          throw Error("Failed to create comment.");
         } catch (error) {
           // Handle any errors that occur during the process and throw a generic error message.
           throw new Error("An error occurred while creating the comment.");
         }
       } else {
         // If the user is not authenticated, throw an "AuthenticationError" with a specific message.
-        throw new AuthenticationError("You need to be logged in to comment!");
+        throw Error("You need to be logged in to comment!");
       }
     },
     // ✅
@@ -192,7 +191,7 @@ const resolvers = {
     removeBlurb: async (parent, { blurbID }, context) => {
       // Verify user is logged in
       if (!context.user) {
-        throw new AuthenticationError("You must be logged in to do this!");
+        throw Error("You must be logged in to do this!");
       }
       // Find the blurb to verify the logged-in user is the author
       const blurb = await Blurbs.findById(blurbID);
@@ -217,7 +216,7 @@ const resolvers = {
     removeComment: async (parent, { blurbID, commentID }, context) => {
       // Verify user is logged in
       if (!context.user) {
-        throw new AuthenticationError("You must be logged in to do this!");
+        throw Error("You must be logged in to do this!");
       }
 
       // Find the blurb to get access to the comments
@@ -283,9 +282,7 @@ const resolvers = {
     editBlurb: async (parent, { blurbID, blurbText }, context) => {
       // Verify user is logged in
       if (!context.user) {
-        throw new AuthenticationError(
-          "You need to be logged in to edit a blurb"
-        );
+        throw Error("You need to be logged in to edit a blurb");
       }
 
       // Find the blurb by ID
@@ -313,11 +310,32 @@ const resolvers = {
     },
     // ✅
 
-    //editUser
+    editUser: async (_, { profileInput }, context) => {
+      if (!context.user) {
+        throw Error("Not logged in");
+      }
 
-    //editProfile
+      const user = await User.findById(context.user._id);
+      if (!user) {
+        throw Error("User not found");
+      }
 
-    //like and unlike comments?
+      // Update user fields here
+      if (profileInput.password) {
+        user.profile.password = profileInput.password;
+        user.profile.isPasswordChanged = true;
+      }
+
+      // Update other profile fields
+      if (profileInput.email) user.profile.email = profileInput.email;
+      // Repeat for other fields...
+
+      await user.save();
+      return user;
+    },
   },
 };
 module.exports = resolvers;
+
+//like a comment
+//unlike a comment
