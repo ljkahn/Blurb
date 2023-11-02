@@ -18,8 +18,26 @@
 
 #profilePic {
   border-radius: 50%;
-  height: 12rem;
-  width: 12rem;
+  height: 10rem;
+  width: 10rem;
   /* transform: scale(10%); */
   
+}
+
+
+/* EDIT PROFILE */
+#editProfile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+
+}
+
+#editAccount {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
 }

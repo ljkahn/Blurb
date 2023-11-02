@@ -4,6 +4,7 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import Avatar from "@mui/material/Avatar";
 import { Link } from "@mui/material";
+import IconButton from "@mui/material/IconButton";
 
 function BlurbStream() {
   //functuion to append list of blurbs
@@ -31,8 +32,10 @@ function BlurbStream() {
           <div className="likeComment">
             <FavoriteBorderIcon />
           </div>
-          <Link className="likeComment">
+          <Link to="/comment" className="likeComment">
+          <IconButton>
             <ChatBubbleOutlineIcon />
+            </IconButton>
           </Link>
         </div>
       </div>
