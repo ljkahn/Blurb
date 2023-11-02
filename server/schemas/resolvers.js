@@ -348,6 +348,7 @@ const resolvers = {
 
 
 editComment: async (_, { blurbID, commentID, newCommentText }, context) => {
+  console.log(newCommentText)
   // Check if a user is authenticated in the current context
   if (!context.user) {
     // If not authenticated, throw an error
