@@ -15,7 +15,6 @@ function BlurbStream() {
     setIsModalOpen(true);
   };
 
-  // Function to close the modal
   const closeModal = () => {
     setIsModalOpen(false);
   };

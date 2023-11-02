@@ -134,20 +134,6 @@ function Create() {
           Create Account
         </Button>
       </form>
-
-      {/* Modal for Photo Import */}
-      <Modal
-        id="photoModel"
-        open={isModalOpen}
-        onClose={closeModal}
-        aria-labelledby="photo-import-modal"
-        aria-describedby="photo-import-description"
-        >
-        <div className="modal-content">
-          <h2 id="photo-import-modal">Photo Import</h2>
-          <Photo />
-        </div>
-      </Modal> 
     </div>
   );
 }
