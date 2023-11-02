@@ -381,8 +381,58 @@ editComment: async (_, { blurbID, commentID, newCommentText }, context) => {
 
   // Return a success message
   return "It worked!";
-}
+},
 
+
+
+addCommentLike: async (parent, { blurbID, commentID }, context) => {
+  if (!context.user) {
+    throw new Error("You must be logged in to like a comment");
+  }
+
+    //find blurb if it exists
+  const blurb = await Blurbs.findById(blurbID);
+  if (!blurb) {
+    throw new Error("Blurb not found");
+  }
+
+  const comment = blurb.comments.id(commentID);
+  if (!comment) {
+    throw new Error("Comment not found");
+  }
+
+  // Increment the 'likes' field of the comment
+  comment.likes += 1;
+
+  await blurb.save();
+
+  return "You have liked the comment!";
+},
+
+
+removeCommentLike: async (parent, { blurbID, commentID }, context) => {
+  if (!context.user) {
+    throw new Error("You must be logged in to like a comment");
+  }
+
+    //find blurb if it exists
+  const blurb = await Blurbs.findById(blurbID);
+  if (!blurb) {
+    throw new Error("Blurb not found");
+  }
+
+  const comment = blurb.comments.id(commentID);
+  if (!comment) {
+    throw new Error("Comment not found");
+  }
+
+  // Increment the 'likes' field of the comment
+  comment.likes += -1;
+
+  await blurb.save();
+
+  return "You have unliked the comment!";
+}
 
   },
 };
@@ -390,4 +440,3 @@ module.exports = resolvers;
 
 //like a comment
 //unlike a comment
-//edit comment
