@@ -4,16 +4,23 @@
   align-items: center;
   text-align: center;
   height: 100vh;
-  justify-content: center;
+  justify-content: flex-start;
+  padding-top: 3rem;
+  padding-bottom: 4rem;
 }
 
-
-
 #logBack {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   background-color: rgb(228, 228, 228);
   padding: 1rem;
   border-radius: 20px;
+  width: 250px;
 }
-#photoModel {
-  
+
+#tabs {
+  display: flex;
+  justify-content: center;
 }
