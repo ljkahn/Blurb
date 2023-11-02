@@ -1,0 +1,21 @@
+#blurbModal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#blForm {
+  border: 2px solid black;
+  background-color: azure;
+  height: 300px;
+  width: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  border-radius: 30px;
+}
+
+#addTag {
+    margin: 1rem;
+}
