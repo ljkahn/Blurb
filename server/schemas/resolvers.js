@@ -56,6 +56,29 @@ const resolvers = {
     },
     // ✅
 
+
+    //get all users with blurbs greater than zero
+      randomBlurb: async() => {
+        const loginRandomBlurbs = await User.find({
+          $where: 'this.blurbs.length > 0'
+        }).populate({
+          path: 'blurbs',
+          populate: {
+            path: 'blurbAuthor'
+          }
+        })
+        const blurbs = [] 
+        for (const user of loginRandomBlurbs) {
+          
+          blurbs.push(...user.blurbs)
+        }
+        const randomIndex = Math.floor(Math.random() * blurbs.length)
+        console.log(blurbs[randomIndex])
+        return blurbs[randomIndex]
+      },
+
+
+
     // find my user account
     me: async (parent, args, context) => {
       if (context.user) {
@@ -64,6 +87,9 @@ const resolvers = {
       throw AuthenticationError("You need to be logged in!");
     },
     // ✅
+
+
+
   },
 
   Mutation: {

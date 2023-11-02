@@ -21,7 +21,7 @@ import {
 import { QUERY_Blurbs } from "../../utils/Queries/queries";
 import { useNavigate } from "react-router-dom";
 
-function BlurbStream() {
+function BlurbStream({ children, username }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => {
     setIsModalOpen(true);
@@ -31,18 +31,60 @@ function BlurbStream() {
     setIsModalOpen(false);
   };
 
-  const { loading, data } = useQuery(QUERY_Blurbs);
+  // const { loading, data } = useQuery(QUERY_Blurbs);
 
-  const blurbs = data?.blurbs || [];
+  // const blurbs = data?.blurbs || [];
 
-  //if statement
+  // //if statement
 
-  console.log(blurbs[0].blurbText);
+  // console.log(blurbs[0].blurbText);
 
   return (
-    <>
-      <h1>Blurb</h1>
-    </>
+    <div id="bluMain">
+      <div className="blurbContainer">
+        <div id="blurbColOne">
+          <Avatar
+            id="notifyPP"
+            className="Blfriend"
+            alt="Remy Sharp"
+            src="/static/images/avatar/1.jpg"
+            sx={{ width: 40, height: 40 }}
+          />
+          {/* <div className="Blfriend" /> */}
+          <div className="blInfo">
+            <div>
+              <div className="userName">{username}</div>
+            </div>
+            <div>{children}</div>
+          </div>
+        </div>
+        <div id="notifyIcons">
+          <div className="likeComment">
+            <FavoriteBorderIcon />
+          </div>
+          <IconButton onClick={openModal} className="likeComment">
+            <ChatBubbleOutlineIcon />
+          </IconButton>
+        </div>
+      </div>
+      <Modal
+        style={{ zIndex: 0 }}
+        id="blurbModal"
+        open={isModalOpen}
+        onClose={closeModal}
+      >
+        <form id="blForm">
+          <TextField id="outlined-basic" label="Comment" variant="outlined" />
+          <Button
+            style={{ margin: ".5rem" }}
+            variant="contained"
+            disableElevation
+          >
+            Comment
+          </Button>
+        </form>
+      </Modal>
+    </div>
   );
 }
 

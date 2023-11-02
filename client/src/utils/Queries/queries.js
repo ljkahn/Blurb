@@ -19,3 +19,14 @@ query allBlurbs {
     }
   }
 `;
+export const RANDOM_BLURB = gql`
+query randomBlurb {
+  randomBlurb {
+    blurbText
+    blurbAuthor {
+      username
+    }
+  }
+}
+
+`;
