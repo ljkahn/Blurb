@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client';
 
-export const QUERY_Blurbs = gql`
+export const ALL_BLURBS = gql`
 query allBlurbs {
     blurbs {
       blurbText
