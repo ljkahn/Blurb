@@ -6,6 +6,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import Avatar from "@mui/material/Avatar";
 import Badge from "@mui/material/Badge";
 import IconButton from "@mui/material/IconButton";
+import {Link} from "react-router-dom";
 
 function notificationsLabel(count) {
   if (count === 0) {
@@ -20,24 +21,24 @@ function notificationsLabel(count) {
 function NavBar() {
   return (
     <div id="navContain">
-      <div>
+      <Link to='/home'>
         <IconButton>
           <HomeIcon sx={{ fontSize: 40 }} />
         </IconButton>
-      </div>
-      <div>
+      </Link>
+      <Link to='/flame'>
         <IconButton>
           <LocalFireDepartmentIcon sx={{ fontSize: 40 }} />
         </IconButton>
-      </div>
+      </Link>
       <button id="addBlurb">B</button>
-      <div>
+      <Link to='/Likes'>
         <IconButton aria-label={notificationsLabel(100)}>
           <Badge badgeContent={100} color="secondary">
             <FavoriteIcon sx={{ fontSize: 40 }} />
           </Badge>
         </IconButton>
-      </div>
+      </Link>
       <div>
         <IconButton>
           <Avatar
