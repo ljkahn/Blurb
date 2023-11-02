@@ -1,9 +1,12 @@
-import React from 'react'
+import React from "react";
+import Fire from "../components/Blurbs/FireCard";
 
 function Flame() {
   return (
-    <div>Flame</div>
-  )
+    <div>
+      <Fire />
+    </div>
+  );
 }
 
-export default Flame
+export default Flame;

@@ -57,6 +57,7 @@ function Create() {
 
       {/* Modal for Photo Import */}
       <Modal
+        id="photoModel"
         open={isModalOpen}
         onClose={closeModal}
         aria-labelledby="photo-import-modal"
@@ -64,6 +65,7 @@ function Create() {
         >
         <div className="modal-content">
           <h2 id="photo-import-modal">Photo Import</h2>
+          <Photo />
         </div>
       </Modal>
     </div>

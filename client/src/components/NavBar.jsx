@@ -32,13 +32,13 @@ function NavBar() {
         </IconButton>
       </Link>
       <button id="addBlurb">B</button>
-      <div>
+      <Link to='/Likes'>
         <IconButton aria-label={notificationsLabel(100)}>
           <Badge badgeContent={100} color="secondary">
             <FavoriteIcon sx={{ fontSize: 40 }} />
           </Badge>
         </IconButton>
-      </div>
+      </Link>
       <div>
         <IconButton>
           <Avatar
