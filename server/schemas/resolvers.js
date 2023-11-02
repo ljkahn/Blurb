@@ -81,7 +81,7 @@ const resolvers = {
     },
     // ✅
 
-    login: async (parent, { email, password }) => {
+    login: async (parent, { email, password, profile }) => {
       // Query the User model to find a user with the provided email within the profile subdocument
       const user = await User.findOne({ "profile.email": email });
 
@@ -91,8 +91,10 @@ const resolvers = {
       }
 
       // Use the isCorrectPassword method within the profile subdocument to compare the provided password with the stored hashed password
+      // console.log(user.profile.password)
+      // console.log(password)
       const correctPw = await user.isCorrectPassword(password);
-
+      
       // If the password is incorrect, throw an AuthenticationError
       if (!correctPw) {
         throw Error("Invalid email or password");
@@ -309,76 +311,84 @@ const resolvers = {
       return "It Worked";
     },
     // ✅
-
-    editUser: async (_, { profileInput }, context) => {
+    
+    editUser: async (_, { profile, username }, context) => {
       if (!context.user) {
         throw Error("Not logged in");
       }
-
+      
       const user = await User.findById(context.user._id);
       if (!user) {
         throw Error("User not found");
       }
-
+      
       // Update user fields here
-      if (profileInput.password) {
-        user.profile.password = profileInput.password;
+      
+      
+      if (user.profile.password) {
+        
+        user.profile.password = profile.password;
         user.profile.isPasswordChanged = true;
+        
       }
-
+   
       // Update other profile fields
-      if (profileInput.email) user.profile.email = profileInput.email;
+      if (profile.email) user.profile.email = profile.email;
       // Repeat for other fields...
-
+      if(username) user.username = username
+      if (profile.bio) user.profile.bio = profile.bio;
+      if (profile.fullName) user.profile.fullName = profile.fullName;
+      if (profile.location) user.profile.location = profile.location;
+      if (profile.profilePic) user.profile.profilePic = profile.profilePic;
+      console.log(user)
       await user.save();
       return user;
     },
 
 
-    editUser: async (_, { profileInput }, context) => {
-        if (!context.user) {
-          throw new AuthenticationError('Not logged in');
-        }
-  
-        const user = await User.findById(context.user._id);
-        if (!user) {
-          throw new Error('User not found');
-        }
-        console.log(user);
-  
-        // Update user fields here
-        if (profileInput.password) {
-          user.profile.password = profileInput.password;
-          user.profile.isPasswordChanged = true;
-        }
-        
-        // Update other profile fields
-        if (user.username) {
-            user.username = user.username;
-        }
-        if (profileInput.email) {
-            user.profile.email = profileInput.email;
-        }
-        if (profileInput.bio) {
-            user.profile.bio = profileInput.bio;
-        }
-        if (profileInput.fullName) {
-            user.profile.fullName = profileInput.fullName;
-        }
-        if (profileInput.location) {
-            user.profile.location = profileInput.location;
-        }
-        if (profileInput.profilePic) {
-            user.profile.profilePic = profileInput.profilePic;
-        }
-        // Repeat for other fields...
-  
-        await user.save();
-        return user;
+
+editComment: async (_, { blurbID, commentID, newCommentText }, context) => {
+  // Check if a user is authenticated in the current context
+  if (!context.user) {
+    // If not authenticated, throw an error
+    throw new Error("You need to be logged in to edit a comment");
+  }
+
+  // Find the blurb by ID and update the comment
+  const updatedComment = await Blurbs.findByIdAndUpdate(
+    blurbID,
+    {
+      $set: {
+        // Update the comment text with the new text
+        "comments.$[comment].commentText": newCommentText,
+        // Update the timestamp of the comment
+        "comments.$[comment].updatedAt": new Date(),
       },
     },
-  };
+    {
+      new: true, // Return the updated document
+      arrayFilters: [{ "comment._id": commentID }], // Filter comments by their IDs
+    }
+  );
+
+  // Log the updated comment to the console for debugging
+  console.log(updatedComment);
+
+  // Check if the comment was not found or could not be updated
+  if (!updatedComment) {
+    // If not found or could not be updated, throw an error
+    throw new Error("Comment not found or could not be updated");
+  }
+
+  // Return a success message
+  return "It worked!";
+}
+
+
+  },
+};
 module.exports = resolvers;
 
 //like a comment
 //unlike a comment
+//edit comment
