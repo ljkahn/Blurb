@@ -11,45 +11,46 @@ const resolvers = {
 
     // Find single user by username( and populate blurbs or just get user???)
     user: async (parent, { username }) => {
-      return User.findOne({ username: username }).populate('blurbs'); //.populate('blurbs')???
+      return User.findOne({ username: username }).populate("blurbs"); //.populate('blurbs')???
     },
     // ✅
 
     // get blurb from username
     userBlurbs: async (parent, { username }) => {
-        if (username) {
-            const user = await User.findOne({ username });
-            if (!user) {
-                return [];
-            }
+      if (username) {
+        const user = await User.findOne({ username });
+        if (!user) {
+          return [];
+        }
         const params = username ? { username } : {};
 
         // find blurbs by username and populate author and comments
-      return Blurbs.find({ blurbAuthor: user._id })
-        .populate("blurbAuthor")
-        .sort({ createdAt: -1 })
-        .populate({
-            path: 'comments',
+        return Blurbs.find({ blurbAuthor: user._id })
+          .populate("blurbAuthor")
+          .sort({ createdAt: -1 })
+          .populate({
+            path: "comments",
             populate: {
-                path: 'commentAuthor',
-                model: 'User'
-            }
-            });
-        }
-        return [];
+              path: "commentAuthor",
+              model: "User",
+            },
+          });
+      }
+      return [];
     },
     // ✅
 
     // get all blurbs and comments for each
     blurbs: async () => {
-      return Blurbs.find().populate("blurbAuthor")
-      .sort({ createdAt: -1 })
+      return Blurbs.find()
+        .populate("blurbAuthor")
+        .sort({ createdAt: -1 })
         .populate({
-            path: 'comments',
-            populate: {
-                path: 'commentAuthor',
-                model: 'User'
-            }
+          path: "comments",
+          populate: {
+            path: "commentAuthor",
+            model: "User",
+          },
         });
     },
     // ✅
@@ -57,23 +58,23 @@ const resolvers = {
     // find my user account
     me: async (parent, args, context) => {
       if (context.user) {
-        return User.findOne({ _id: context.user._id }).populate('blurbs');
+        return User.findOne({ _id: context.user._id }).populate("blurbs");
       }
-      throw AuthenticationError('You need to be logged in!');
+      throw AuthenticationError("You need to be logged in!");
     },
     // ✅
-},
+  },
 
   Mutation: {
     addUser: async (parent, { username, profile }) => {
       console.log("Attempting to add user");
       try {
         const user = await User.create({ username, profile });
-        console.log("User created:", user);
+        // console.log("User created:", user);
         const token = signToken(user);
         return { token, user };
       } catch (error) {
-        console.log("Error creating user:", error);
+        // console.log("Error creating user:", error);
         throw new Error("Failed to add user");
       }
     },
@@ -188,95 +189,135 @@ const resolvers = {
     },
     // ✅
 
-    // 
-    removeBlurb: async (parent, { blurbId, blurbAuthor }, context) => {
-      // Verify user is logged in and they're the author of the blurb
-      if (context.user) {
-        const blurb = await Blurbs.findOneAndDelete({
-          _id: blurbId,
-          blurbAuthor: context.user._id,
-        });
-
-        await User.findOneAndUpdate(
-          { _id: context.user._id },
-          { $pull: { blurbs: blurb._id } }
-        );
-
-        return "Blurb successfully deleted!";
+    removeBlurb: async (parent, { blurbID }, context) => {
+      // Verify user is logged in
+      if (!context.user) {
+        throw new AuthenticationError("You must be logged in to do this!");
       }
-      throw AuthenticationError;
-    },
+      // Find the blurb to verify the logged-in user is the author
+      const blurb = await Blurbs.findById(blurbID);
 
-
-    removeComment: async (parent, { blurbId, commentId }, context) => {
-      if (context.user) {
-        return Blurbs.findOneAndUpdate(
-          { _id: blurbId },
-          {
-            $pull: {
-              comments: {
-                _id: commentId,
-                commentAuthor: context.user.username,
-              },
-            },
-          },
-          { new: true }
-        );
-        return "Comment successfully deleted!";
+      if (!blurb) {
+        throw new Error("Blurb not found");
       }
-      throw AuthenticationError;
+      if (blurb.blurbAuthor.toString() !== context.user._id.toString()) {
+        throw Error("You are not authorized to delete this blurb");
+      }
+      // Delete the blurb
+      await Blurbs.findOneAndDelete({ _id: blurbID });
+      // Remove the blurb from the user’s blurbs array
+      await User.findOneAndUpdate(
+        { _id: context.user._id },
+        { $pull: { blurbs: blurbID } }
+      );
+      return "Blurb successfully deleted!";
     },
+    // ✅
 
+    removeComment: async (parent, { blurbID, commentID }, context) => {
+      // Verify user is logged in
+      if (!context.user) {
+        throw new AuthenticationError("You must be logged in to do this!");
+      }
 
-    addLike: async (parent, { blurbId }, context) => {
+      // Find the blurb to get access to the comments
+      const blurb = await Blurbs.findById(blurbID);
+      if (!blurb) {
+        throw new Error("Blurb not found");
+      }
+
+      // Find the comment to verify the logged-in user is the author
+      const comment = blurb.comments.id(commentID);
+      if (!comment) {
+        throw new Error("Comment not found");
+      }
+
+      if (comment.commentAuthor.toString() !== context.user._id.toString()) {
+        throw Error("You are not authorized to delete this blurb");
+      }
+
+      // Remove the comment from the blurb
+      await Blurbs.findOneAndUpdate(
+        { _id: blurbID },
+        { $pull: { comments: { _id: commentID } } }
+      );
+
+      return "Comment successfully deleted!";
+    },
+    // ✅
+
+    addLike: async (parent, { blurbID }, context) => {
       if (!context.user) {
         throw new Error("you must be logged in to like a blurb");
       }
 
       const updatedBlurb = await Blurbs.findByIdAndUpdate(
-        blurbId,
+        blurbID,
         { $inc: { likes: 1 } },
         { new: true }
       );
       if (!updatedBlurb) {
         throw new Error("Blurb not found!");
       }
-      return updatedBlurb;
+      return "You have liked the blurb!";
     },
+    // ✅
 
-
-    removeLike: async (parent, { blurbId }, context) => {
-      // if (!context.user) {
-      //     throw new Error('you must be logged in to like a blurb')
-      // }
+    removeLike: async (parent, { blurbID }, context) => {
+      if (!context.user) {
+        throw new Error("you must be logged in to like or unlike a blurb");
+      }
 
       const updatedBlurb = await Blurbs.findByIdAndUpdate(
-        blurbId,
+        blurbID,
         { $inc: { likes: -1 } },
         { new: true }
       );
       if (!updatedBlurb) {
         throw new Error("Blurb not found!");
       }
-      return updatedBlurb;
+      return "You have unliked the blurb!";
     },
+    // ✅
 
-    
-    editBlurb: async (parent, { blurbId, newContent }, context) => {
-      // Verify the user's authentication token (You should implement your authentication logic here)
+    editBlurb: async (parent, { blurbID, blurbText }, context) => {
+      // Verify user is logged in
       if (!context.user) {
-        throw new Error("You must be logged in to edit a blurb.");
+        throw new AuthenticationError(
+          "You need to be logged in to edit a blurb"
+        );
       }
 
-      // Assuming you have a function in your context to edit a blurb
-      const updatedBlurb = await Blurbs.findByIdAndUpdate(
-        blurbId,
-        { blurbText: newContent },
-        { new: true }
-      );
+      // Find the blurb by ID
+      const blurb = await Blurbs.findById(blurbID);
 
-      return updatedBlurb;
+      // Check if the blurb exists
+      if (!blurb) {
+        throw new Error("Blurb not found");
+      }
+
+      // Check if the user is authorized to edit the blurb
+      if (blurb.blurbAuthor.toString() !== context.user._id.toString()) {
+        throw new Error("You can only edit your own blurbs");
+      }
+
+      // Update the blurb's text and updatedAt field
+      blurb.blurbText = blurbText;
+      blurb.updatedAt = Date.now();
+
+      // Save the updated blurb to the database
+      await blurb.save();
+
+      // Return a success message
+      return "It Worked";
     },
+    // ✅
+
+    //editUser
+
+    //editProfile
+
+    //like and unlike comments?
   },
 };
 module.exports = resolvers;
