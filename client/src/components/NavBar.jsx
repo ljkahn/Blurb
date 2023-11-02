@@ -82,7 +82,9 @@ function NavBar() {
       >
         <form id="blForm">
           <TextField id="outlined-basic" label="Blurb" variant="outlined" />
-          <Dropdown >
+          <Dropdown 
+        
+          >
             <MenuButton id="addTag">Add Tag</MenuButton>
             <Menu slots={{ listbox: Listbox }}>
               <MenuItem onClick={createHandleMenuClick("Profile")}>
