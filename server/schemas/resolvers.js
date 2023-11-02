@@ -5,25 +5,47 @@ const resolvers = {
   Query: {
     //get all users
     users: async () => {
-      return User.find();
+      return User.find().populate("blurbs");
     },
     // ✅
 
     user: async (parent, { userId }) => {
-      return User.findOne({ _id: userId });
+      return User.findOne({ _id: userId }).populate("blurbs");
     },
 
     //get blurb from username
     userBlurbs: async (parent, { username }) => {
-      const params = username ? { username } : {};
+        if (username) {
+            const user = await User.findOne({ username });
+            if (!user) {
+                return [];
+        }
+        const params = username ? { username } : {};
 
-      return Blurbs.find(params)
+      return Blurbs.find({ blurbAuthor: user._id })
         .populate("blurbAuthor")
-        .sort({ createdAt: -1 });
+        .sort({ createdAt: -1 })
+        .populate({
+            path: 'comments',
+            populate: {
+                path: 'commentAuthor',
+                model: 'User'
+            }
+            });
+        }
+        return [];
     },
 
     blurbs: async () => {
-      return Blurbs.find();
+      return Blurbs.find().populate("blurbAuthor")
+      .sort({ createdAt: -1 })
+        .populate({
+            path: 'comments',
+            populate: {
+                path: 'commentAuthor',
+                model: 'User'
+            }
+        });
     },
 
     me: async (parent, args, context) => {
@@ -158,11 +180,12 @@ const resolvers = {
       }
     },
 
-    removeBlurb: async (parent, { blurbId }, context) => {
+    removeBlurb: async (parent, { blurbId, blurbAuthor }, context) => {
+      // Verify user is logged in and they're the author of the blurb
       if (context.user) {
         const blurb = await Blurbs.findOneAndDelete({
           _id: blurbId,
-          blurbAuthor: context.user.username,
+          blurbAuthor: context.user._id,
         });
 
         await User.findOneAndUpdate(
