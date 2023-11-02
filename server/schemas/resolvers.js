@@ -372,8 +372,6 @@ editComment: async (_, { blurbID, commentID, newCommentText }, context) => {
     }
   );
 
-  // Log the updated comment to the console for debugging
-  console.log(updatedComment);
 
   // Check if the comment was not found or could not be updated
   if (!updatedComment) {
