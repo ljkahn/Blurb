@@ -26,7 +26,7 @@ function Header() {
           </IconButton>
         </div>
 
-        <div className="friendProfile">
+        {/* <div className="friendProfile">
           <Avatar
             alt="Remy Sharp"
             src="/static/images/avatar/1.jpg"
@@ -63,10 +63,10 @@ function Header() {
             alt="Remy Sharp"
             src="/static/images/avatar/1.jpg"
             sx={{ width: 40, height: 40 }}
-          />
+          /> */}
           <p>Name</p>
         </div>
-      </div>
+      {/* </div> */}
     </>
   );
 }
