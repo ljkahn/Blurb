@@ -75,7 +75,7 @@ const typeDefs = `
       removeBlurb(blurbID: ID!): String
       addComment(blurbID: ID!, commentText: String!): String
       removeComment(blurbID: ID!, commentID: ID!): String
-      editComment(blurbID: ID!, commentID: ID!, commentText: String!): String
+      editComment(blurbID: ID!, commentID: ID!, newCommentText: String!):String
     }
     `;
 

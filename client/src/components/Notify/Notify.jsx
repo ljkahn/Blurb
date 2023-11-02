@@ -8,7 +8,6 @@ function Notify() {
   return (
     <div id="bluMain">
       <div>
-        <Text />
       </div>
       <div className="blurbContainer">
         <div id="blurbColOne">

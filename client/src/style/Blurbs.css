@@ -46,6 +46,8 @@
 #notifyIcons {
   display: flex;
   margin: 5px;
+  align-items: center;
+  margin-bottom: 50px;
 }
 
 #notifyPP {
