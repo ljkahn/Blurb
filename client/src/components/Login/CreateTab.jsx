@@ -4,6 +4,7 @@ import Modal from "@mui/material/Modal";
 import TextField from "@mui/material/TextField";
 import CloudinaryUploadWidget from "../Upload";
 import Photo from "../Profile/ProfilePhoto";
+
 import { useMutation } from "@apollo/client";
 import Auth from "../../utils/auth";
 import { ADD_USER } from "../../utils/mutations/userMutations";
@@ -133,6 +134,7 @@ function Create() {
           Create Account
         </Button>
       </form>
+
     </div>
   );
 }
