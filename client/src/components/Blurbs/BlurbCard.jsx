@@ -31,13 +31,13 @@ function BlurbStream({ children, username }) {
     setIsModalOpen(false);
   };
 
-  const { loading, data } = useQuery(QUERY_Blurbs);
+  // const { loading, data } = useQuery(QUERY_Blurbs);
 
-  const blurbs = data?.blurbs || [];
+  // const blurbs = data?.blurbs || [];
 
-  //if statement
+  // //if statement
 
-  console.log(blurbs[0].blurbText);
+  // console.log(blurbs[0].blurbText);
 
   return (
     <div id="bluMain">
