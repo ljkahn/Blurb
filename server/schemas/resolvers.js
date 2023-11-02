@@ -1,5 +1,5 @@
 const { User, Blurbs } = require("../models");
-const { where } = require("../models/User");
+
 const { signToken, AuthenticationError } = require("../utils/auth");
 
 const resolvers = {
