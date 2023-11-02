@@ -9,19 +9,22 @@ const resolvers = {
     },
     // ✅
 
-    user: async (parent, { userId }) => {
-      return User.findOne({ _id: userId }).populate("blurbs");
+    // Find single user by username( and populate blurbs or just get user???)
+    user: async (parent, { username }) => {
+      return User.findOne({ username: username }).populate('blurbs'); //.populate('blurbs')???
     },
+    // ✅
 
-    //get blurb from username
+    // get blurb from username
     userBlurbs: async (parent, { username }) => {
         if (username) {
             const user = await User.findOne({ username });
             if (!user) {
                 return [];
-        }
+            }
         const params = username ? { username } : {};
 
+        // find blurbs by username and populate author and comments
       return Blurbs.find({ blurbAuthor: user._id })
         .populate("blurbAuthor")
         .sort({ createdAt: -1 })
@@ -35,7 +38,9 @@ const resolvers = {
         }
         return [];
     },
+    // ✅
 
+    // get all blurbs and comments for each
     blurbs: async () => {
       return Blurbs.find().populate("blurbAuthor")
       .sort({ createdAt: -1 })
@@ -47,15 +52,17 @@ const resolvers = {
             }
         });
     },
+    // ✅
 
+    // find my user account
     me: async (parent, args, context) => {
       if (context.user) {
-        return User.findOne({ _id: context.user._id });
+        return User.findOne({ _id: context.user._id }).populate('blurbs');
       }
-      throw AuthenticationError;
+      throw AuthenticationError('You need to be logged in!');
     },
     // ✅
-  },
+},
 
   Mutation: {
     addUser: async (parent, { username, profile }) => {
@@ -179,7 +186,9 @@ const resolvers = {
         throw new Error("User not found"); // Handle the case when the user doesn't exist.
       }
     },
+    // ✅
 
+    // 
     removeBlurb: async (parent, { blurbId, blurbAuthor }, context) => {
       // Verify user is logged in and they're the author of the blurb
       if (context.user) {
@@ -197,6 +206,7 @@ const resolvers = {
       }
       throw AuthenticationError;
     },
+
 
     removeComment: async (parent, { blurbId, commentId }, context) => {
       if (context.user) {
@@ -217,6 +227,7 @@ const resolvers = {
       throw AuthenticationError;
     },
 
+
     addLike: async (parent, { blurbId }, context) => {
       if (!context.user) {
         throw new Error("you must be logged in to like a blurb");
@@ -232,6 +243,7 @@ const resolvers = {
       }
       return updatedBlurb;
     },
+
 
     removeLike: async (parent, { blurbId }, context) => {
       // if (!context.user) {
@@ -249,6 +261,7 @@ const resolvers = {
       return updatedBlurb;
     },
 
+    
     editBlurb: async (parent, { blurbId, newContent }, context) => {
       // Verify the user's authentication token (You should implement your authentication logic here)
       if (!context.user) {
