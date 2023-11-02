@@ -376,62 +376,57 @@ const resolvers = {
         throw new Error("Comment not found or could not be updated");
       }
 
-  // Return a success message
-  return "It worked!";
-},
+      // Return a success message
+      return "It worked!";
+    },
 
+    addCommentLike: async (parent, { blurbID, commentID }, context) => {
+      if (!context.user) {
+        throw new Error("You must be logged in to like a comment");
+      }
 
+      //find blurb if it exists
+      const blurb = await Blurbs.findById(blurbID);
+      if (!blurb) {
+        throw new Error("Blurb not found");
+      }
 
-addCommentLike: async (parent, { blurbID, commentID }, context) => {
-  if (!context.user) {
-    throw new Error("You must be logged in to like a comment");
-  }
+      const comment = blurb.comments.id(commentID);
+      if (!comment) {
+        throw new Error("Comment not found");
+      }
 
-    //find blurb if it exists
-  const blurb = await Blurbs.findById(blurbID);
-  if (!blurb) {
-    throw new Error("Blurb not found");
-  }
+      // Increment the 'likes' field of the comment
+      comment.likes += 1;
 
-  const comment = blurb.comments.id(commentID);
-  if (!comment) {
-    throw new Error("Comment not found");
-  }
+      await blurb.save();
 
-  // Increment the 'likes' field of the comment
-  comment.likes += 1;
+      return "You have liked the comment!";
+    },
 
-  await blurb.save();
+    removeCommentLike: async (parent, { blurbID, commentID }, context) => {
+      if (!context.user) {
+        throw new Error("You must be logged in to like a comment");
+      }
 
-  return "You have liked the comment!";
-},
+      //find blurb if it exists
+      const blurb = await Blurbs.findById(blurbID);
+      if (!blurb) {
+        throw new Error("Blurb not found");
+      }
 
+      const comment = blurb.comments.id(commentID);
+      if (!comment) {
+        throw new Error("Comment not found");
+      }
 
-removeCommentLike: async (parent, { blurbID, commentID }, context) => {
-  if (!context.user) {
-    throw new Error("You must be logged in to like a comment");
-  }
+      // Increment the 'likes' field of the comment
+      comment.likes += -1;
 
-    //find blurb if it exists
-  const blurb = await Blurbs.findById(blurbID);
-  if (!blurb) {
-    throw new Error("Blurb not found");
-  }
+      await blurb.save();
 
-  const comment = blurb.comments.id(commentID);
-  if (!comment) {
-    throw new Error("Comment not found");
-  }
-
-  // Increment the 'likes' field of the comment
-  comment.likes += -1;
-
-  await blurb.save();
-
-  return "You have unliked the comment!";
-}
-
+      return "You have unliked the comment!";
+    },
   },
 };
 module.exports = resolvers;
-

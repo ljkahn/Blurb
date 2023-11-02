@@ -7,7 +7,7 @@ import Photo from "../Profile/ProfilePhoto";
 import { useMutation } from "@apollo/client";
 import Auth from "../../utils/auth";
 import { ADD_USER } from "../../utils/mutations/userMutations";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 function Create() {
   const navigation = useNavigate();
@@ -38,7 +38,7 @@ function Create() {
 
   const handleChange = async (e) => {
     const { name, value } = e.target;
-   
+
     setFormState({
       ...formState,
       [name]: value,
@@ -50,7 +50,6 @@ function Create() {
     console.log(formState);
 
     try {
-     
       const { data } = await addUser({
         variables: {
           username: formState.username,
@@ -62,7 +61,7 @@ function Create() {
           },
         },
       });
-      console.log(data)
+      console.log(data);
       Auth.login(data.addUser.token, navigation);
     } catch (error) {
       console.error(error);
@@ -134,20 +133,6 @@ function Create() {
           Create Account
         </Button>
       </form>
-
-      {/* Modal for Photo Import */}
-      <Modal
-        id="photoModel"
-        open={isModalOpen}
-        onClose={closeModal}
-        aria-labelledby="photo-import-modal"
-        aria-describedby="photo-import-description"
-        >
-        <div className="modal-content">
-          <h2 id="photo-import-modal">Photo Import</h2>
-          <Photo />
-        </div>
-      </Modal> 
     </div>
   );
 }
