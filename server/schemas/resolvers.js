@@ -316,7 +316,7 @@ const resolvers = {
     //editUser
 
     //editProfile
-
+    //edit comment
     //like and unlike comments?
   },
 };
