@@ -4,6 +4,7 @@ import Modal from "@mui/material/Modal";
 import TextField from "@mui/material/TextField";
 import CloudinaryUploadWidget from "../Upload";
 import Photo from "../Profile/ProfilePhoto";
+
 import { useMutation } from "@apollo/client";
 import Auth from "../../utils/auth";
 import { ADD_USER } from "../../utils/mutations/userMutations";
@@ -135,19 +136,7 @@ function Create() {
         </Button>
       </form>
 
-      {/* Modal for Photo Import */}
-      <Modal
-        id="photoModel"
-        open={isModalOpen}
-        onClose={closeModal}
-        aria-labelledby="photo-import-modal"
-        aria-describedby="photo-import-description"
-        >
-        <div className="modal-content">
-          <h2 id="photo-import-modal">Photo Import</h2>
-          <Photo />
-        </div>
-      </Modal> 
+   
     </div>
   );
 }

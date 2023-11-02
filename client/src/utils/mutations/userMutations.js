@@ -7,3 +7,18 @@ mutation addUser($username: String!, $profile: ProfileInput!) {
   }
 }
 `;
+
+export const LOGIN_USER = gql
+`
+mutation Mutation($email: String!, $password: String!) {
+  login(email: $email, password: $password) {
+    user {
+      _id
+      profile {
+        fullName
+        _id
+      }
+    }
+  }
+}
+`;
