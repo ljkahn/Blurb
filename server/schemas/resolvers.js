@@ -89,7 +89,7 @@ const resolvers = {
       }
 
       // Use the isCorrectPassword method within the profile subdocument to compare the provided password with the stored hashed password
-      const correctPw = await user.profile.isCorrectPassword(password);
+      const correctPw = await user.isCorrectPassword(password);
 
       // If the password is incorrect, throw an AuthenticationError
       if (!correctPw) {
@@ -277,6 +277,49 @@ const resolvers = {
 
       return updatedBlurb;
     },
-  },
-};
+
+
+    editUser: async (_, { profileInput }, context) => {
+        if (!context.user) {
+          throw new AuthenticationError('Not logged in');
+        }
+  
+        const user = await User.findById(context.user._id);
+        if (!user) {
+          throw new Error('User not found');
+        }
+        console.log(user);
+  
+        // Update user fields here
+        if (profileInput.password) {
+          user.profile.password = profileInput.password;
+          user.profile.isPasswordChanged = true;
+        }
+        
+        // Update other profile fields
+        if (user.username) {
+            user.username = user.username;
+        }
+        if (profileInput.email) {
+            user.profile.email = profileInput.email;
+        }
+        if (profileInput.bio) {
+            user.profile.bio = profileInput.bio;
+        }
+        if (profileInput.fullName) {
+            user.profile.fullName = profileInput.fullName;
+        }
+        if (profileInput.location) {
+            user.profile.location = profileInput.location;
+        }
+        if (profileInput.profilePic) {
+            user.profile.profilePic = profileInput.profilePic;
+        }
+        // Repeat for other fields...
+  
+        await user.save();
+        return user;
+      },
+    },
+  };
 module.exports = resolvers;

@@ -24,6 +24,7 @@ const commentSchema = new Schema({
   },
   updatedAt: {
     type: Date,
+    get: (timestamp) => dateFormat(timestamp)
   }
 });
 

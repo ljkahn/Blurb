@@ -37,9 +37,9 @@ const typeDefs = `
     }
     
     input ProfileInput {
-      fullName: String!
-      email: String!
-      password: String!
+      fullName: String
+      email: String
+      password: String
       profilePic: String
       bio: String
       location: String
@@ -66,14 +66,14 @@ const typeDefs = `
     type Mutation {
       login(email: String!, password: String!): Auth
       addUser(username: String!, profile: ProfileInput!): Auth
-      editUser(username: String!, input: UserInput!): User
+      editUser(username: String!, profile: ProfileInput): User
       editProfile(fullName: String!, email: String!, profilePic: String, bio: String, location: String): Profile
       deleteUser(userID: ID!): String
       addLike(blurbID: ID!): Blurbs
       removeLike(blurbID: ID!): Blurbs
       addBlurb(blurbText: String!): String
       editBlurb(blurbID: ID!, blurbText: String): Blurbs
-      removeBlurb(blurbID: ID!, blurbAuthor: String): String
+      removeBlurb(blurbID: ID!): String
       addComment(blurbID: ID!, commentText: String!): String
       removeComment(blurbID: ID!, commentID: ID!): Blurbs
     }
