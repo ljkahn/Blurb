@@ -18,6 +18,7 @@ function Login() {
         <div id="logBack">
           <h2>Login or Create</h2>
           <Tabs
+            id="tabs"
             value={tabValue}
             onChange={handleChange}
             textColor="secondary"

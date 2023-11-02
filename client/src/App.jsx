@@ -7,7 +7,7 @@ import {
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import React, { useState, useEffect } from "react";
-import './index.css'
+import "./index.css";
 
 import Notifications from './pages/Notifications'
 import Flame from './pages/Flame'
@@ -22,6 +22,8 @@ import NavBar from './components/NavBar';
 const httpLink = createHttpLink({
   uri: '/graphql',
 });
+import Likes from './pages/Likes';
+import CommentPage from "./pages/CommentPage";
 
 
 const authLink = setContext((_, { headers }) => {
@@ -48,7 +50,6 @@ function App() {
   return (
     <ApolloProvider client={client}>
     <Router>
-
     <Header/>
       <Routes>
         <Route path="/" element={<Login />} />
@@ -57,6 +58,8 @@ function App() {
         <Route path="/notifications" element={<Notifications />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="*" element={<Error />} />
+        <Route path="/likes" element={<Likes />} />
+        <Route path="/comment" element={<CommentPage />} />
       </Routes>
       <NavBar/>
     </Router>

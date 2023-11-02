@@ -33,6 +33,10 @@ const profileSchema = new Schema({
     type: String,
     required: false,
   },
+  isPasswordChanged: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const userSchema = new Schema({
@@ -64,16 +68,21 @@ const userSchema = new Schema({
 });
 
 profileSchema.pre("save", async function (next) {
-  if (this.isNew || this.isModified("password")) {
+  if ((this.isNew || this.isModified("password"))) {
     const saltRounds = 10;
     this.password = await bcrypt.hash(this.password, saltRounds);
   }
 
+  // Clear the isPasswordChanged flag to prevent it from affecting future saves
+  this.isPasswordChanged = false;
+
   next();
 });
 
-profileSchema.methods.isCorrectPassword = async function (password) {
-  return bcrypt.compare(password, this.password);
+
+
+userSchema.methods.isCorrectPassword = async function (password) {
+  return bcrypt.compare(password, this.profile.password);
 };
 
 const User = model("User", userSchema);
