@@ -7,10 +7,22 @@ export const QUERY_MY_PROFILE = gql`
       username
       profile {
         bio
+        email
         fullName
         location
         profilePic
-        email
+      }
+      followingNumber
+      followerNumber
+      blurbs {
+        blurbText
+        comments {
+          likes
+          commentText
+          commentAuthor {
+            username
+          }
+        }
       }
     }
   }

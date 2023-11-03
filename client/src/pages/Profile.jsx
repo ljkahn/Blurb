@@ -27,7 +27,7 @@ function Profile() {
 
   useEffect (() => {
     if (!loading) {
-      console.log({username: data.me.username, ...data.me.profile});
+      console.log( data.me);
       setUserData({username: data.me.username, ...data.me.profile})
     }
 
