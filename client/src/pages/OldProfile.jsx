@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from "react";
 import Photo from "../components/Profile/ProfilePhoto.jsx";
 import Edit from "../components/Profile/Edit.jsx";
 import AccountEdit from "../components/Profile/AccountEdit.jsx";
@@ -16,22 +16,33 @@ import { useQuery } from "@apollo/client";
 import { QUERY_MY_PROFILE } from "../utils/queries/userQueries.js";
 import Auth from "../utils/auth.js";
 
-
 function Profile() {
+  // const { username } = useParams();
+  const { loading, data, error } = useQuery(QUERY_MY_PROFILE);
+  
+  if (error) {
+    console.log(JSON.stringify(error))
+  }
+
+  const user = data?.me || [];
+  console.log(user);
+
+  const navigation = useNavigate();
+
   const [isEditVisible, setIsEditVisible] = useState(false);
   const [showProfile, setShowProfile] = useState(true);
   const [accountSettingsVisible, setAccountSettingsVisible] = useState(false);
   const [currentComponent, setCurrentComponent] = useState("profile");
-  const [userData, setUserData] = useState(null); 
-  const { loading, data } = useQuery(QUERY_MY_PROFILE);
+  
+  // if (Auth.loggedIn(navigation)) {
+  //     const profileData = Auth.getProfile();
+  //     console.log(profileData);
+  //   }
+    
+    // console.log(data)
+    // Auth.getProfile(data.me.token, navigation)
+    // const currentUser = data.me;
 
-  useEffect (() => {
-    if (!loading) {
-      console.log({username: data.me.username, ...data.me.profile});
-      setUserData({username: data.me.username, ...data.me.profile})
-    }
-
-  }, [loading]);
 
   const handleEditClick = () => {
     setIsEditVisible(true);
@@ -46,6 +57,21 @@ function Profile() {
     setAccountSettingsVisible(true);
     setCurrentComponent("accountSettings");
   };
+
+  // useEffect (() => {
+  //   if (loading) {
+  //     return;
+  //   }
+
+  // }, []);
+
+  // if (loading) {
+  //   return <p>Loading...</p>
+  // }
+  // if (error) {
+  //   return <p>Error: {error.message}</p>
+  // }
+
 
   const handleGoBack = () => {
     if (currentComponent === "edit" || currentComponent === "accountSettings") {
@@ -73,25 +99,25 @@ function Profile() {
     color: black,
   };
 
-
   return (
     <div>
       <IconButton onClick={handleGoBack}>
         <ArrowBackIosIcon />
       </IconButton>
-      {userData && (showProfile ? (
+      {showProfile ? (
         <Container id="profile">
-          <Photo profileImg={userData.profilePic} />
-      <h1>{ userData.fullName}</h1>
-      <h2>{userData.username}</h2>
-          <p id="info">{userData.bio}</p>
-          <p id="info">📍{userData.location}</p>
+          <Photo profileImg={profileData.profile.profilePic} />
+      {loading ? <h1>Loading...</h1> : <h2>Data is here</h2>}
+      <h1>{ profileData.profile.fullName}</h1>
+      <h2>{profileData.username}</h2>
+          <p id="info">{profileData.profile.bio}</p>
+          <p id="info">📍{profileData.profile.location}</p>
           <Grid>
             <Button id="btn" style={buttonStyle} variant="contained">
-              {userData.followerNumber || 0} Followers
+              {profileData.followerNumber} Followers
             </Button>
             <Button id="btn" style={buttonStyle} variant="contained">
-              {userData.followingNumber || 0} Following
+              {profileData.followingNumber} Following
             </Button>
           </Grid>
 
@@ -104,7 +130,7 @@ function Profile() {
             Edit Profile{" "}
           </Button>
 
-          {userData.blurbs && userData.blurbs.map((blurb, index) => (
+          {profileData.blurbs.map((blurb, index) => (
             <BlurbCard key={index} blurbData={blurb} />
           ))}
         </Container>
@@ -112,9 +138,9 @@ function Profile() {
         <Edit showAccountSettings={showAccountSettings} />
       ) : (
         accountSettingsVisible && <AccountEdit />
-      ))}
+      )}
     </div>
-  )
+  );
 }
 
-export default Profile
+export default Profile;
