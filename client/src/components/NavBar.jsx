@@ -16,6 +16,7 @@ import { MenuButton as BaseMenuButton } from "@mui/base/MenuButton";
 import { MenuItem as BaseMenuItem, menuItemClasses } from "@mui/base/MenuItem";
 import { styled } from "@mui/system";
 import Button from "@mui/material/Button";
+import AddBlurb from "./Blurbs/AddBlurb";
 
 function notificationsLabel(count) {
   if (count === 0) {
@@ -44,10 +45,6 @@ function NavBar() {
     setIsModalOpen(false);
   };
 
-
-
-
-  
   return (
     <div id="navContain">
       <Link to="/home">
@@ -85,11 +82,13 @@ function NavBar() {
         open={isModalOpen}
         onClose={closeModal}
       >
-        <form id="blForm">
+        <div>
+          <AddBlurb />
+        </div>
+
+        {/* <form id="blForm">
           <TextField id="outlined-basic" label="Blurb" variant="outlined" />
-          <Dropdown 
-        
-          >
+          <Dropdown>
             <MenuButton id="addTag">Add Tag</MenuButton>
             <Menu slots={{ listbox: Listbox }}>
               <MenuItem onClick={createHandleMenuClick("Profile")}>
@@ -116,7 +115,7 @@ function NavBar() {
           >
             Post
           </Button>
-        </form>
+        </form> */}
       </Modal>
     </div>
   );
