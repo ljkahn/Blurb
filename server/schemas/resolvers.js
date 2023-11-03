@@ -110,7 +110,7 @@ const resolvers = {
         throw new Error("Failed to add user");
       }
     },
-    // ✅
+    // ✅ 👍🏼
 
     login: async (parent, { email, password, profile }) => {
       // Query the User model to find a user with the provided email within the profile subdocument
@@ -135,7 +135,7 @@ const resolvers = {
       // Return the generated token and the user object
       return { token, user };
     },
-    // ✅
+    // ✅ 👍🏼
 
     addBlurb: async (parent, { blurbText, tags }, context) => {
       if (context.user) {
