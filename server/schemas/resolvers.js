@@ -128,6 +128,9 @@ const resolvers = {
       }
     },
     // ✅
+
+
+    
   },
 
   Mutation: {
@@ -552,6 +555,9 @@ const resolvers = {
         throw new Error("Failed to remove like from comment");
       }
     },
+
+
+    
   },
 };
 module.exports = resolvers;
