@@ -7,7 +7,16 @@ const resolvers = {
     users: async () => {
       try {
         // Removed populate blurbs because user search shouldn't return all users and all blurbs - get all blurbs will include the blurbAuthor so it's redundant
-        return User.find();
+        return User.find()
+          .populate("blurbs")
+          .populate({
+            path: "followers",
+            model: "User"
+            })
+          .populate({
+            path: "following",
+            model: "User"
+            });
       } catch (error) {
         console.error(error);
         throw new Error("An error occurred while searching for users");
@@ -128,6 +137,52 @@ const resolvers = {
       }
     },
     // ✅
+
+    following: async (parent, args, context) => {
+      // if (!context.user) {
+      //   throw new Error("You must be logged in to view followers!");
+      // }
+      console.log("context");
+      
+      try {
+        // Find myself and populate the following array
+        const user = await User.findById(context.user._id)
+        .populate('following');
+        console.log(user);
+        if (!user) {
+          throw new Error("User not found");
+        }
+
+        // Return the list of users I follow
+        return user.following;
+      } catch (error) {
+        console.error(error);
+        throw new Error("Failed to find followers")
+      }
+    },
+
+    followers: async (parent, args, context) => {
+      if (!context.user) {
+        throw new Error("You must be logged in to view followers!");
+      }
+      
+      try {
+        // Find myself and populate the followers array
+        const user = await User.findById(context.user._id)
+        .populate('followers');
+        if (!user) {
+          throw new Error("User not found");
+        }
+
+        console.log("----------");
+        console.log(user.followers);
+        // Return the list of users who follow me
+        return user.followers;
+      } catch (error) {
+        console.error(error);
+        throw new Error("Failed to find followers")
+      }
+    },
   },
 
   Mutation: {
@@ -550,6 +605,64 @@ const resolvers = {
       } catch (error) {
         console.error(error);
         throw new Error("Failed to remove like from comment");
+      }
+    },
+
+    followUser: async (parent, { userIdToFollow }, context) => {
+      console.log(context.user);
+      // Verify user is logged in
+      if (!context.user) {
+        throw new Error("You must be logged in to follow users");
+      }
+      console.log("hello")
+      try {
+        const userToFollow = await User.findById(userIdToFollow);
+
+        if(!userToFollow) {
+          throw new Error("Failed to find user");
+        }
+
+        // const blurb = await Blurbs.findById(blurbID);
+        // if (!blurb) {
+        //   throw new Error("Blurb not found");
+        // }
+
+
+        // const comment = blurb.comments.id(commentID);
+        // if (!comment) {
+        //   throw new Error("Comment not found");
+        // }
+
+        // Increment the 'likes' field of the comment
+        // comment.likes += 1;
+
+        // await blurb.save();
+
+        console.log(context.user);
+        console.log(userIdToFollow);
+        console.log(userToFollow);
+        // Check if you're already following this user to prevent duplicate
+        // const isFollowing = context.user.following.includes(userToFollow);
+        // if (isFollowing) {
+        //   throw new Error("You are already following this user");
+        // }
+        
+        await User.findByIdAndUpdate(
+          context.user._id,
+          { $addToSet: { following: userIdToFollow } },
+          { new: true }
+        );
+
+        await User.findByIdAndUpdate(
+          userIdToFollow,
+          { $addToSet: { followers: context.user._id } },
+          { new: true }
+        );
+
+        return "User followed successfully!";
+      } catch (error) {
+        console.error(error);
+        throw new Error("Failed to follow user")
       }
     },
   },
