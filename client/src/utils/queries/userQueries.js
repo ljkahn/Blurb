@@ -3,7 +3,6 @@ import { gql } from '@apollo/client';
 export const QUERY_MY_PROFILE = gql `
 query me {
   me {
-    token
     followerNumber
     followingNumber
     username
