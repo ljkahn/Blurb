@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
 export const ADD_Blurb = gql`
-  mutation addBlurb($blurbText: String!) {
-    addBlurb(blurbText: $blurbText)
+  mutation addBlurb($blurbText: String!, $tags: [Tag]) {
+    addBlurb(blurbText: $blurbText, tags: $tags)
   }
 `;
 

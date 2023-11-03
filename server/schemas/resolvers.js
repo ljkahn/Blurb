@@ -11,12 +11,12 @@ const resolvers = {
           .populate("blurbs")
           .populate({
             path: "followers",
-            model: "User"
-            })
+            model: "User",
+          })
           .populate({
             path: "following",
-            model: "User"
-            });
+            model: "User",
+          });
       } catch (error) {
         console.error(error);
         throw new Error("An error occurred while searching for users");
@@ -45,17 +45,17 @@ const resolvers = {
           }
           const params = username ? { username } : {};
 
-          // find blurbs by username and populate author and comments
-          return Blurbs.find({ blurbAuthor: user._id })
-            .populate("blurbAuthor")
-            .sort({ createdAt: -1 })
-            .populate('tags')
-            .populate({
-              path: "comments",
-              populate: {
-                path: "commentAuthor",
-                model: "User",
-              },
+        // find blurbs by username and populate author and comments
+        return Blurbs.find({ blurbAuthor: user._id })
+          .populate("blurbAuthor")
+          .sort({ createdAt: -1 })
+          .populate("tags")
+          .populate({
+            path: "comments",
+            populate: {
+              path: "commentAuthor",
+              model: "User",
+            },
           });
         } catch (error) {
           console.error(error);
@@ -72,7 +72,7 @@ const resolvers = {
         return Blurbs.find()
         .populate("blurbAuthor")
         .sort({ createdAt: -1 })
-        .populate('tags')
+        .populate("tags")
         .populate({
           path: "comments",
           populate: {
@@ -154,7 +154,7 @@ const resolvers = {
         return user.following;
       } catch (error) {
         console.error(error);
-        throw new Error("Failed to find followers")
+        throw new Error("Failed to find followers");
       }
     },
 
@@ -162,11 +162,12 @@ const resolvers = {
       if (!context.user) {
         throw new Error("You must be logged in to view followers!");
       }
-      
+
       try {
         // Find myself and populate the followers array
-        const user = await User.findById(context.user._id)
-        .populate('followers');
+        const user = await User.findById(context.user._id).populate(
+          "followers"
+        );
         if (!user) {
           throw new Error("User not found");
         }
@@ -175,7 +176,7 @@ const resolvers = {
         return user.followers;
       } catch (error) {
         console.error(error);
-        throw new Error("Failed to find followers")
+        throw new Error("Failed to find followers");
       }
     },
   },
@@ -221,7 +222,6 @@ const resolvers = {
 
     addBlurb: async (parent, { blurbText, tags }, context) => {
       if (context.user) {
-
         // Create a new blurb using the Blurb model
         const blurb = await Blurbs.create({
           blurbText,
@@ -232,10 +232,10 @@ const resolvers = {
         await User.findByIdAndUpdate(context.user._id, {
           $addToSet: { blurbs: blurb._id },
         });
-        return blurb;
+        return "Successfully added Blurb";
       } else {
         throw new Error("You need to be logged in to create a blurb!");
-      }
+      } 
     },
     // ✅
 
@@ -551,7 +551,7 @@ const resolvers = {
       try {
         const userToFollow = await User.findById(userIdToFollow);
 
-        if(!userToFollow) {
+        if (!userToFollow) {
           throw new Error("Failed to find user");
         }
 
@@ -574,7 +574,7 @@ const resolvers = {
         return "User followed successfully!";
       } catch (error) {
         console.error(error);
-        throw new Error("Failed to follow user")
+        throw new Error("Failed to follow user");
       }
     },
   },
