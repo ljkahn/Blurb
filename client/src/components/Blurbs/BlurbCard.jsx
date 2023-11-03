@@ -34,6 +34,7 @@ function BlurbStream({ children, username, blurbId, commentText }) {
 
   const [addComment] = useMutation(ADD_COMMENT);
 
+  console.log(useMutation);
   const handleComment = async () => {
     try {
       await addComment({
@@ -84,7 +85,7 @@ function BlurbStream({ children, username, blurbId, commentText }) {
             id="outlined-basic"
             label="Comment"
             variant="outlined"
-            value="comText"
+            value={comText}
             onChange={(e) => setComText(e.target.value)}
           />
           <Button
