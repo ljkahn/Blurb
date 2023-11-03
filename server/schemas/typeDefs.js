@@ -107,10 +107,6 @@ const typeDefs = `
       addCommentLike(blurbID: ID!, commentID: ID!): String
       removeCommentLike(blurbID: ID!, commentID: ID!): String
       followUser(userIdToFollow: ID!): String
-<<<<<<< HEAD
-=======
-      
->>>>>>> main
     }
     `;
 
