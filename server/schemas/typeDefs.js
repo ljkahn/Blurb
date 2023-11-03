@@ -86,6 +86,7 @@ const typeDefs = `
       blurbs: [Blurbs]
       blurbsByTag(tags: [Tag]!): [Blurbs]
       me: User
+      randomBlurb: Blurbs
     }
     
     type Mutation {
@@ -103,6 +104,7 @@ const typeDefs = `
       editComment(blurbID: ID!, commentID: ID!, newCommentText: String!):String
       addCommentLike(blurbID: ID!, commentID: ID!): String
       removeCommentLike(blurbID: ID!, commentID: ID!): String
+      
     }
     `;
 

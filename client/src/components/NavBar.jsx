@@ -67,11 +67,11 @@ function NavBar() {
       </Link>
       <Link to="/profile">
         <IconButton>
-          <Avatar
+          {/* <Avatar
             alt="Remy Sharp"
             src="/static/images/avatar/1.jpg"
             sx={{ width: 40, height: 40 }}
-          />
+          /> */}
         </IconButton>
       </Link>
       <Modal

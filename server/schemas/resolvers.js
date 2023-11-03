@@ -1,6 +1,5 @@
 const { User, Blurbs } = require("../models");
 const { signToken, AuthenticationError } = require("../utils/auth");
-// const validTags = ['funny', 'drama', 'inspirational', 'memes', 'art', 'nature', 'pics', 'love', 'lifestyle', 'diy', 'music', 'movies', 'food', 'sports', 'pets', 'travel', 'business', 'health', 'education', 'books'];
 
 const resolvers = {
   Query: {
@@ -61,6 +60,29 @@ const resolvers = {
     blurbsByTag: async (parent, { tags }) => {
         return Blurbs.find({ tags: tags });
     },
+    // ✅
+
+    //get all users with blurbs greater than zero
+    randomBlurb: async() => {
+      const loginRandomBlurbs = await User.find({
+        $where: 'this.blurbs.length > 0'
+      }).populate({
+        path: 'blurbs',
+        populate: {
+          path: 'blurbAuthor'
+        }
+      })
+      const blurbs = [] 
+      for (const user of loginRandomBlurbs) {
+        
+        blurbs.push(...user.blurbs)
+      }
+      const randomIndex = Math.floor(Math.random() * blurbs.length)
+      console.log(blurbs[randomIndex])
+      return blurbs[randomIndex]
+    },
+
+
 
     // find my user account
     me: async (parent, args, context) => {
@@ -70,6 +92,9 @@ const resolvers = {
       throw AuthenticationError("You need to be logged in!");
     },
     // ✅
+
+
+
   },
 
   Mutation: {
