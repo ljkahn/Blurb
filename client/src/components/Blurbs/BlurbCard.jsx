@@ -9,9 +9,12 @@ import Modal from "@mui/material/Modal";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { LIKE_Blurb } from "../../utils/mutations/Blurb/BlurbMutations";
+import { ADD_COMMENT } from "../../utils/mutations/Likes/CommentMutations";
 
-function BlurbStream({ children, username, blurbId }) {
+function BlurbStream({ children, username, blurbId, commentText }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [comText, setComText] = useState("");
+
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -27,7 +30,20 @@ function BlurbStream({ children, username, blurbId }) {
       variables: { blurbId },
     });
   };
-  console.log(blurbId);
+  // console.log(blurbId);
+
+  const [addComment] = useMutation(ADD_COMMENT);
+
+  const handleComment = async () => {
+    try {
+      await addComment({
+        variables: { commentText, blurbId },
+      });
+      setComText(""); // Clear the comment input field
+    } catch (error) {
+      console.error("Error adding comment:", error);
+    }
+  };
 
   return (
     <div id="bluMain">
@@ -64,11 +80,18 @@ function BlurbStream({ children, username, blurbId }) {
         onClose={closeModal}
       >
         <form id="blForm">
-          <TextField id="outlined-basic" label="Comment" variant="outlined" />
+          <TextField
+            id="outlined-basic"
+            label="Comment"
+            variant="outlined"
+            value="comText"
+            onChange={(e) => setComText(e.target.value)}
+          />
           <Button
             style={{ margin: ".5rem" }}
             variant="contained"
             disableElevation
+            onClick={handleComment}
           >
             Comment
           </Button>
