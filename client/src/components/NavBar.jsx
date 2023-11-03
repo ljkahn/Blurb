@@ -10,12 +10,10 @@ import IconButton from "@mui/material/IconButton";
 import { Link } from "react-router-dom";
 import Modal from "@mui/material/Modal";
 import TextField from "@mui/material/TextField";
-import { Dropdown } from "@mui/base/Dropdown";
-import { Menu } from "@mui/base/Menu";
-import { MenuButton as BaseMenuButton } from "@mui/base/MenuButton";
-import { MenuItem as BaseMenuItem, menuItemClasses } from "@mui/base/MenuItem";
+import { Select, MenuItem, Input, Button } from "@mui/material"; // Import Select and MenuItem
 import { styled } from "@mui/system";
-import Button from "@mui/material/Button";
+import { ADD_Blurb } from "../utils/mutations/Blurb/BlurbMutations";
+import { useMutation } from "@apollo/client";
 
 function notificationsLabel(count) {
   if (count === 0) {
@@ -28,15 +26,15 @@ function notificationsLabel(count) {
 }
 
 function NavBar() {
+  const [selectedTags, setSelectedTags] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedOptions, setSelectedOptions] = useState([]);
+  const handleOptionChange = (event) => {
+    setSelectedTags(event.target.value); // Update selected tags
+  };
+  const [addBlurb] = useMutation(ADD_Blurb); // State for selected options
   const openModal = () => {
     setIsModalOpen(true);
-  };
-
-  const createHandleMenuClick = (menuItem) => {
-    return () => {
-      console.log(`Clicked on ${menuItem}`);
-    };
   };
 
   // Function to close the modal
@@ -44,10 +42,38 @@ function NavBar() {
     setIsModalOpen(false);
   };
 
+  const [blurbText, setBlurbText] = useState(""); // State for blurb text
 
+  const createHandleMenuClick = (menuItem) => {
+    return () => {
+      console.log(`Clicked on ${menuItem}`);
+    };
+  };
 
+  const handleBlurbSubmit = (event) => {
+    event.preventDefault();
 
-  
+    // Combine blurbText and selectedTags before submitting to the database
+    const blurbData = {
+      blurbText: blurbText,
+      tags: selectedTags,
+    };
+
+    addBlurb({
+      variables: blurbData,
+    })
+      .then((response) => {
+        // Handle the response from the server, e.g., show a success message or navigate to a new page.
+        console.log("Mutation Response:", response);
+      })
+      .catch((error) => {
+        // Handle errors, e.g., show an error message.
+        console.error("Mutation Error:", error);
+      });
+
+    // No need to console.log("Blurb Data:", blurbData) anymore
+  };
+
   return (
     <div id="navContain">
       <Link to="/home">
@@ -85,30 +111,28 @@ function NavBar() {
         open={isModalOpen}
         onClose={closeModal}
       >
-        <form id="blForm">
-          <TextField id="outlined-basic" label="Blurb" variant="outlined" />
-          <Dropdown 
-        
+        <form id="blForm" onSubmit={handleBlurbSubmit}>
+          <TextField
+            id="outlined-basic"
+            label="Blurb"
+            variant="outlined"
+            name=""
+            value={blurbText}
+            onChange={(e) => setBlurbText(e.target.value)}
+          />
+          <Select
+            multiple
+            value={selectedTags}
+            onChange={handleOptionChange}
+            input={<Input />}
+            renderValue={(selected) => selected.join(", ")}
           >
-            <MenuButton id="addTag">Add Tag</MenuButton>
-            <Menu slots={{ listbox: Listbox }}>
-              <MenuItem onClick={createHandleMenuClick("Profile")}>
-                Funny
-              </MenuItem>
-              <MenuItem onClick={createHandleMenuClick("Language settings")}>
-                Tanks
-              </MenuItem>
-              <MenuItem onClick={createHandleMenuClick("Log out")}>
-                Rats
-              </MenuItem>
-              <MenuItem onClick={createHandleMenuClick("Log out")}>
-                Dogs
-              </MenuItem>
-              <MenuItem onClick={createHandleMenuClick("Log out")}>
-                Cats
-              </MenuItem>
-            </Menu>
-          </Dropdown>
+            <MenuItem value="Funny">Funny</MenuItem>
+            <MenuItem value="Tanks">Tanks</MenuItem>
+            <MenuItem value="Rats">Rats</MenuItem>
+            <MenuItem value="Dogs">Dogs</MenuItem>
+            <MenuItem value="Cats">Cats</MenuItem>
+          </Select>
           <Button
             style={{ margin: ".5rem" }}
             variant="contained"
@@ -121,114 +145,5 @@ function NavBar() {
     </div>
   );
 }
-const blue = {
-  50: "#F0F7FF",
-  100: "#C2E0FF",
-  200: "#99CCF3",
-  300: "#66B2FF",
-  400: "#3399FF",
-  500: "#007FFF",
-  600: "#0072E6",
-  700: "#0059B3",
-  800: "#004C99",
-  900: "#003A75",
-};
-
-const grey = {
-  50: "#F3F6F9",
-  100: "#E5EAF2",
-  200: "#DAE2ED",
-  300: "#C7D0DD",
-  400: "#B0B8C4",
-  500: "#9DA8B7",
-  600: "#6B7A90",
-  700: "#434D5B",
-  800: "#303740",
-  900: "#1C2025",
-};
-
-const Listbox = styled("ul")(
-  ({ theme }) => `
-  font-family: IBM Plex Sans, sans-serif;
-  font-size: 0.875rem;
-  box-sizing: border-box;
-  padding: 6px;
-  margin: 12px 0;
-  min-width: 200px;
-  border-radius: 12px;
-  overflow: auto;
-  outline: 0px;
-  background: ${theme.palette.mode === "dark" ? grey[900] : "#fff"};
-  border: 1px solid ${theme.palette.mode === "dark" ? grey[700] : grey[200]};
-  color: ${theme.palette.mode === "dark" ? grey[300] : grey[900]};
-  box-shadow: 0px 4px 30px ${
-    theme.palette.mode === "dark" ? grey[900] : grey[200]
-  };
-  z-index: 1;
-  `
-);
-
-const MenuItem = styled(BaseMenuItem)(
-  ({ theme }) => `
-  list-style: none;
-  padding: 8px;
-  border-radius: 8px;
-  cursor: default;
-  user-select: none;
-
-  &:last-of-type {
-    border-bottom: none;
-  }
-
-  &.${menuItemClasses.focusVisible} {
-    outline: 3px solid ${theme.palette.mode === "dark" ? blue[600] : blue[200]};
-    background-color: ${theme.palette.mode === "dark" ? grey[800] : grey[100]};
-    color: ${theme.palette.mode === "dark" ? grey[300] : grey[900]};
-  }
-
-  &.${menuItemClasses.disabled} {
-    color: ${theme.palette.mode === "dark" ? grey[700] : grey[400]};
-  }
-
-  &:hover:not(.${menuItemClasses.disabled}) {
-    background-color: ${theme.palette.mode === "dark" ? blue[900] : blue[50]};
-    color: ${theme.palette.mode === "dark" ? blue[100] : blue[900]};
-  }
-  `
-);
-
-const MenuButton = styled(BaseMenuButton)(
-  ({ theme }) => `
-  font-family: IBM Plex Sans, sans-serif;
-  font-weight: 600;
-  font-size: 0.875rem;
-  line-height: 1.5;
-  padding: 8px 16px;
-  border-radius: 8px;
-  color: white;
-  transition: all 150ms ease;
-  cursor: pointer;
-  background: ${theme.palette.mode === "dark" ? grey[900] : "#fff"};
-  border: 1px solid ${theme.palette.mode === "dark" ? grey[700] : grey[200]};
-  color: ${theme.palette.mode === "dark" ? grey[200] : grey[900]};
-  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-
-  &:hover {
-    background: ${theme.palette.mode === "dark" ? grey[800] : grey[50]};
-    border-color: ${theme.palette.mode === "dark" ? grey[600] : grey[300]};
-  }
-
-  &:active {
-    background: ${theme.palette.mode === "dark" ? grey[700] : grey[100]};
-  }
-
-  &:focus-visible {
-    box-shadow: 0 0 0 4px ${
-      theme.palette.mode === "dark" ? blue[300] : blue[200]
-    };
-    outline: none;
-  }
-  `
-);
 
 export default NavBar;
