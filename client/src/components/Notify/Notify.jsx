@@ -17,6 +17,7 @@ function Notify() {
         variables: { blurbId },
       });
     
+      console.log(response.data);
     } catch (err) {
       console.error("Error removing blurb: ", err);
     }
