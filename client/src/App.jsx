@@ -18,13 +18,14 @@ import Error from "./pages/Error";
 import Header from "./components/Header";
 import NavBar from "./components/NavBar";
 import UserProfile from "./pages/UserProfile";
+import Likes from "./pages/Likes";
+import CommentPage from "./pages/CommentPage";
 
 // Construct our main GraphQL API endpoint
 const httpLink = createHttpLink({
   uri: "/graphql",
 });
-import Likes from "./pages/Likes";
-import CommentPage from "./pages/CommentPage";
+console.log(httpLink);
 
 const authLink = setContext((_, { headers }) => {
   const token = localStorage.getItem("id_token");
@@ -53,7 +54,7 @@ function App() {
           <Route path="/flame" element={<Flame />} />
           <Route path="/notifications" element={<Notifications />} />
           <Route path="/profile" element={<Profile />} />
-          <Route path = "/profile/:profileId" element={<UserProfile/>}/>
+          <Route path = "/profile/:username" element={<UserProfile/>}/>
           <Route path="*" element={<Error />} />
           <Route path="/likes" element={<Likes />} />
           <Route path="/comment" element={<CommentPage />} />
