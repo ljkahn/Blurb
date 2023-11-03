@@ -24,6 +24,7 @@ const commentSchema = new Schema({
   },
   updatedAt: {
     type: Date,
+    get: (timestamp) => dateFormat(timestamp)
   }
 });
 
@@ -55,6 +56,7 @@ const blurbSchema = new Schema({
     type: Date,
   },
   comments: [commentSchema],
+  tags: [String]
 });
 
 const Blurbs = model("Blurbs", blurbSchema);
