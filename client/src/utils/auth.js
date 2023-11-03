@@ -10,6 +10,7 @@ class AuthService {
   getProfile() {
     return decode(this.getToken());
   }
+  
   isTokenExpired(navigate) {
     const token = this.getToken();
 
