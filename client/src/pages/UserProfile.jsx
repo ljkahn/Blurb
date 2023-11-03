@@ -7,8 +7,31 @@ import Photo from "../components/Profile/ProfilePhoto.jsx";
 import Button from "@mui/material/Button";
 import BlurbCard from '../components/Blurbs/BlurbCard.jsx';
 
+import { useQuery } from '@apollo/client';
+import { QUERY_ONE_USER } from '../utils/queries/userQueries';
+import { useParams } from 'react-router-dom';
+
 
 function UserProfile() {
+  const {username} = useParams();
+  const {data,  loading} = useQuery(QUERY_ONE_USER, {
+    variables: {username: username},
+  });
+  
+  const userData = data.user;
+  // if (loading) {
+  //   return <p>Loading...</p>
+  // }
+
+  if (error) {
+    console.error(error)
+  }
+
+  if (!data || !data.user) {
+    return <p>No data found for this user.</p>;
+  }
+
+
   const neon = '#EDFB60';
   const white = '#f5f5f5';
   const lightGray = '#BEBFC5';
@@ -30,16 +53,16 @@ function UserProfile() {
   return (
     <div>
       <Container id='userProfile'>
-      <Photo/>
-      <h1>NAME</h1>
-      <h2>USERNAME</h2>
-      <p>BIO</p>
-      <p>LOCATION</p>
+      <Photo profileImg={userData.profile.profilePic}/>
+      <h1>{userData.profile.fullName}</h1>
+      <h2>{userData.username}</h2>
+      <p>{userData.profile.bio}</p>
+      <p>📍{userData.profile.location}</p>
       <Grid>
-        <Button id='btn' style={infoStyle} variant="contained">FOLLOWERS
+        <Button id='btn' style={infoStyle} variant="contained"> {userData.followerNumber}Followers
         </Button>
         <Button id='btn' style={infoStyle} variant="contained">
-          FOLLOWING
+          {userData.followingNumber}Following
         </Button>
       </Grid>
 

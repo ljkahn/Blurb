@@ -27,3 +27,20 @@ query me {
   }
 }
 `
+
+export const QUERY_ONE_USER = gql `
+query user($username: String!) {
+  user(username: $username) {
+    followerNumber
+    followingNumber
+    username
+    profile {
+      _id
+      fullName
+      location
+      bio
+      profilePic
+    }
+  }
+}
+`

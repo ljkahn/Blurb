@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState } from 'react';
 import Photo from "../components/Profile/ProfilePhoto.jsx";
 import Edit from "../components/Profile/Edit.jsx";
 import AccountEdit from "../components/Profile/AccountEdit.jsx"
@@ -11,19 +11,21 @@ import '../style/Profile.css';
 import '../index.css';
 import BlurbCard from '../components/Blurbs/BlurbCard.jsx'
 
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import {QUERY_MY_PROFILE} from '../utils/queries/userQueries.js';
 import Auth from "../utils/auth.js";
 
 
 function Profile() {
-  navigation = useNavigate();
+  const {username} = useParams();
+  console.log(username)
+  const navigation = useNavigate();
 
   const [isEditVisible, setIsEditVisible] = useState(false);
   const [showProfile, setShowProfile] = useState(true);
   const [accountSettingsVisible, setAccountSettingsVisible] = useState(false);
-const [currentComponent, setCurrentComponent] = useState('profile')
+  const [currentComponent, setCurrentComponent] = useState('profile')
   
   const handleEditClick = () => {
     setIsEditVisible(true);
@@ -39,25 +41,28 @@ const [currentComponent, setCurrentComponent] = useState('profile')
     setCurrentComponent('accountSettings')
   }
   
-  const {loading, error, data} = useQuery(QUERY_MY_PROFILE);
-  useEffect (() => {
-    if (loading) {
-      return;
-    }
+  const {loading, data} = useQuery(QUERY_MY_PROFILE);
 
-  }, [loading, error]);
 
-  if (loading) {
-    return <p>Loading...</p>
-  }
-  if (error) {
-    return <p>Error: {error.message}</p>
-  }
+
+  // useEffect (() => {
+  //   if (loading) {
+  //     return;
+  //   }
+
+  // }, []);
+
+  // if (loading) {
+  //   return <p>Loading...</p>
+  // }
+  // if (error) {
+  //   return <p>Error: {error.message}</p>
+  // }
   
 
-console.log(data)
-Auth.loggedIn(data.me.token, navigation)
-const profileData = data.me 
+// console.log(data)
+// Auth.loggedIn(data.me.token, navigation)
+// const profileData = data.me 
 
 const handleGoBack = () => {
   if (currentComponent === 'edit' || currentComponent === 'accountSettings') {
@@ -91,8 +96,8 @@ const handleGoBack = () => {
 
   return (
     <div >
-      <IconButton>
-      <ArrowBackIosIcon onClick={handleGoBack} />
+      <IconButton onClick={handleGoBack}>
+      <ArrowBackIosIcon />
       </IconButton>
      { showProfile ? (
       <Container id='profile'>
