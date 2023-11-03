@@ -10,8 +10,9 @@ mutation addUser($username: String!, $profile: ProfileInput!) {
 
 export const LOGIN_USER = gql
 `
-mutation Mutation($email: String!, $password: String!) {
+mutation login($email: String!, $password: String!) {
   login(email: $email, password: $password) {
+   token
     user {
       _id
       profile {
@@ -22,3 +23,4 @@ mutation Mutation($email: String!, $password: String!) {
   }
 }
 `;
+

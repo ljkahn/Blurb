@@ -17,6 +17,7 @@ import Home from "./pages/Home";
 import Error from "./pages/Error";
 import Header from "./components/Header";
 import NavBar from "./components/NavBar";
+import UserProfile from "./pages/UserProfile";
 
 // Construct our main GraphQL API endpoint
 const httpLink = createHttpLink({
@@ -52,6 +53,7 @@ function App() {
           <Route path="/flame" element={<Flame />} />
           <Route path="/notifications" element={<Notifications />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path = "/profile/:profileId" element={<UserProfile/>}/>
           <Route path="*" element={<Error />} />
           <Route path="/likes" element={<Likes />} />
           <Route path="/comment" element={<CommentPage />} />

@@ -142,7 +142,7 @@ const resolvers = {
         throw new Error("Failed to add user");
       }
     },
-    // ✅
+    // ✅ 👍🏼
 
     login: async (parent, { email, password, profile }) => {
       try {
@@ -172,7 +172,7 @@ const resolvers = {
         throw new Error("Login failed");
       }
     },
-    // ✅
+    // ✅ 👍🏼
 
     addBlurb: async (parent, { blurbText, tags }, context) => {
       if (context.user) {
