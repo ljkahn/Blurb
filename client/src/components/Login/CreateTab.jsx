@@ -20,7 +20,7 @@ function Create() {
     fullName: "",
     email: "",
     password: "",
-    username: " ",
+    username: "",
   });
   const [addUser, { error }] = useMutation(ADD_USER);
   if (error) {

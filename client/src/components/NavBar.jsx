@@ -43,6 +43,11 @@ function NavBar() {
   const closeModal = () => {
     setIsModalOpen(false);
   };
+
+
+
+
+  
   return (
     <div id="navContain">
       <Link to="/home">
