@@ -9,17 +9,6 @@ import IconButton from "@mui/material/IconButton";
 import Modal from "@mui/material/Modal";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-// import Auth from "../../utils/auth";
-// import { useMutation } from "@apollo/client";
-// import {
-//   ADD_Blurb,
-//   REMOVE_Blurb,
-//   EDIT_Blurb,
-//   LIKE_Blurb,
-//   UNLIKE_Blurb,
-// } from "../../utils/mutations/Blurb/BlurbMutations";
-// import { QUERY_Blurbs } from "../../utils/Queries/queries";
-// import { useNavigate } from "react-router-dom";
 
 function BlurbStream({ children, username }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
