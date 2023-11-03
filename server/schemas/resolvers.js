@@ -93,7 +93,7 @@ const resolvers = {
         blurbs.push(...user.blurbs)
       }
       const randomIndex = Math.floor(Math.random() * blurbs.length)
-      console.log(blurbs[randomIndex])
+      // console.log(blurbs[randomIndex])
       return blurbs[randomIndex]
     },
 
