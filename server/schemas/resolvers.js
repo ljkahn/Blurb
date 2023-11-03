@@ -104,7 +104,7 @@ const resolvers = {
       if (context.user) {
         return User.findOne({ _id: context.user._id }).populate("blurbs");
       }
-      throw AuthenticationError("You need to be logged in!");
+      throw AuthenticationError;
     },
     // ✅
 
