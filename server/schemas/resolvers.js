@@ -524,7 +524,6 @@ const resolvers = {
         throw new Error("You must be logged in to follow users");
       }
 
-
       try {
         const userToFollow = await User.findById(userIdToFollow);
 
