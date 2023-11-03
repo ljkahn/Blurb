@@ -1,11 +1,10 @@
-import {gql} from '@apollo/client';
+import { gql } from "@apollo/client";
 
-
-export const ADD_COMMENT =gql `
-mutation addComment($blurbId: ID!, $commentText: String!) {
-  addComment(blurbID: $blurbId, commentText: $commentText)
-}`
-
+export const ADD_COMMENT = gql`
+  mutation addComment($blurbId: ID!, $commentText: String!) {
+    addComment(blurbID: $blurbId, commentText: $commentText)
+  }
+`;
 
 //example add comment variables
 // {
@@ -13,10 +12,11 @@ mutation addComment($blurbId: ID!, $commentText: String!) {
 //   "commentText": null
 // }
 
-export const REMOVE_COMMENT = gql `
-mutation removeComment($blurbId: ID!, $commentId: ID!) {
-  removeComment(blurbID: $blurbId, commentID: $commentId)
-}`
+export const REMOVE_COMMENT = gql`
+  mutation removeComment($blurbId: ID!, $commentId: ID!) {
+    removeComment(blurbID: $blurbId, commentID: $commentId)
+  }
+`;
 
 //example remove comment variables
 // {
@@ -24,10 +24,19 @@ mutation removeComment($blurbId: ID!, $commentId: ID!) {
 //   "commentId": null
 // }
 
-export const EDIT_COMMENT = gql `
-mutation editComment($blurbId: ID!, $commentId: ID!, $newCommentText: String!) {
-  editComment(blurbID: $blurbId, commentID: $commentId, newCommentText: $newCommentText)
-}`
+export const EDIT_COMMENT = gql`
+  mutation editComment(
+    $blurbId: ID!
+    $commentId: ID!
+    $newCommentText: String!
+  ) {
+    editComment(
+      blurbID: $blurbId
+      commentID: $commentId
+      newCommentText: $newCommentText
+    )
+  }
+`;
 
 //exmaple edit comment variables
 // {
@@ -36,10 +45,11 @@ mutation editComment($blurbId: ID!, $commentId: ID!, $newCommentText: String!) {
 //   "newCommentText": null
 // }
 
-export const ADD_COMMENT_LIKE = gql `
-mutation addCommentLike($blurbId: ID!, $commentId: ID!) {
-  addCommentLike(blurbID: $blurbId, commentID: $commentId)
-}`
+export const ADD_COMMENT_LIKE = gql`
+  mutation addCommentLike($blurbId: ID!, $commentId: ID!) {
+    addCommentLike(blurbID: $blurbId, commentID: $commentId)
+  }
+`;
 
 //example add comment like variables
 // {
@@ -47,11 +57,11 @@ mutation addCommentLike($blurbId: ID!, $commentId: ID!) {
 //   "commentId": null
 // }
 
-export const REMOVE_COMMENT_LIKE =gql `
-mutation removeCommentLike($blurbId: ID!, $commentId: ID!) {
-  removeCommentLike(blurbID: $blurbId, commentID: $commentId)
-}`
-
+export const REMOVE_COMMENT_LIKE = gql`
+  mutation removeCommentLike($blurbId: ID!, $commentId: ID!) {
+    removeCommentLike(blurbID: $blurbId, commentID: $commentId)
+  }
+`;
 
 //example remove comment like variables
 // {
