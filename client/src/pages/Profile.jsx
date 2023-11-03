@@ -26,16 +26,15 @@ function Profile() {
 
   // const navigation = useNavigate();
 
-  const [isEditVisible, setIsEditVisible] = useState(false);
-  const [showProfile, setShowProfile] = useState(true);
-  const [accountSettingsVisible, setAccountSettingsVisible] = useState(false);
-  const [currentComponent, setCurrentComponent] = useState("profile");
-  
-  if (Auth.loggedIn) {
-    const profileData = Auth.getProfile();
-    console.log(profileData);
-  }
+  // const [isEditVisible, setIsEditVisible] = useState(false);
+  // const [showProfile, setShowProfile] = useState(true);
+  // const [accountSettingsVisible, setAccountSettingsVisible] = useState(false);
+  // const [currentComponent, setCurrentComponent] = useState("profile");
 
+  // if (Auth.loggedIn) {
+  //   const profileData = Auth.getProfile();
+  //   console.log(profileData);
+  // }
 
   // const handleEditClick = () => {
   //   setIsEditVisible(true);
@@ -65,8 +64,6 @@ function Profile() {
   //   return <p>Error: {error.message}</p>
   // }
 
-  
-
   // console.log(data)
   // Auth.loggedIn(data.me.token, navigation)
   // const currentUser = data.me;
@@ -80,7 +77,6 @@ function Profile() {
   //   }
   // };
 
-  
   // const neon = "#EDFB60";
   // const white = "#f5f5f5";
   // const lightGray = "#BEBFC5";
@@ -106,9 +102,9 @@ function Profile() {
       {showProfile ? (
         <Container id="profile">
           <Photo profileImg={profileData.profile.profilePic} /> */}
-          {loading ? (<h1>Loading...</h1>) : (<h2>Data is here</h2>)}
-          {/* <h1>{ profileData.profile.fullName}</h1> */}
-          {/* <h2>{profileData.username}</h2>
+      {loading ? <h1>Loading...</h1> : <h2>Data is here</h2>}
+      {/* <h1>{ profileData.profile.fullName}</h1> */}
+      {/* <h2>{profileData.username}</h2>
           <p id="info">{profileData.profile.bio}</p>
           <p id="info">📍{profileData.profile.location}</p>
           <Grid>
