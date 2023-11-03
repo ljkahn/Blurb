@@ -1,4 +1,27 @@
-const typeDefs = ` 
+const typeDefs = `
+    enum Tag {
+      FUNNY
+      INSPIRATIONAL
+      LIFE
+      LOVE
+      NATURE
+      TRAVEL
+      MUSIC
+      FITNESS
+      FOOD
+      ART
+      TECH
+      SPORTS
+      HEALTH
+      FASHION
+      BEAUTY
+      SCIENCE
+      EDUCATION
+      POLITICS
+      BUSINESS
+      PHOTOGRAPHY
+    }
+
     type User {
       _id: ID!
       username: String
@@ -25,7 +48,7 @@ const typeDefs = `
       createdAt: String
       comments: [Comment]
       likes: Int
-      tags: [String]
+      tags: [Tag]
     }
     
     type Comment {
@@ -45,15 +68,6 @@ const typeDefs = `
       bio: String
       location: String
     }
-
-    input BlurbInput {
-      blurbText: String
-      blurbAuthor: User
-      createdAt: String
-      comments: [Comment]
-      likes: Int
-      tags: [String]
-    }
     
     input UserInput {
       username: String!
@@ -70,6 +84,7 @@ const typeDefs = `
       user(username: String!): User
       userBlurbs(username: String!): [Blurbs]
       blurbs: [Blurbs]
+      blurbsByTag(tags: [Tag]!): [Blurbs]
       me: User
     }
     
@@ -80,8 +95,8 @@ const typeDefs = `
       deleteUser(userID: ID!): String
       addLike(blurbID: ID!): String
       removeLike(blurbID: ID!): String
-      addBlurb(blurbText: String!, tags: [String]): [Blurbs]
-      editBlurb(blurbID: ID!, blurbText: String!, tags: [String]): String
+      addBlurb(blurbText: String!, tags: [Tag]): Blurbs
+      editBlurb(blurbID: ID!, blurbText: String!, tags: [Tag]): String
       removeBlurb(blurbID: ID!): String
       addComment(blurbID: ID!, commentText: String!): String
       removeComment(blurbID: ID!, commentID: ID!): String

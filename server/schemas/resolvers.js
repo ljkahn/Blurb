@@ -1,6 +1,6 @@
 const { User, Blurbs } = require("../models");
 const { signToken, AuthenticationError } = require("../utils/auth");
-const validTags = ['funny', 'drama', 'inspirational', 'memes', 'art', 'nature', 'pics', 'love', 'lifestyle', 'diy', 'music', 'movies', 'food', 'sports', 'pets', 'travel', 'business', 'health', 'education', 'books'];
+// const validTags = ['funny', 'drama', 'inspirational', 'memes', 'art', 'nature', 'pics', 'love', 'lifestyle', 'diy', 'music', 'movies', 'food', 'sports', 'pets', 'travel', 'business', 'health', 'education', 'books'];
 
 const resolvers = {
   Query: {
@@ -29,6 +29,7 @@ const resolvers = {
         return Blurbs.find({ blurbAuthor: user._id })
           .populate("blurbAuthor")
           .sort({ createdAt: -1 })
+          .populate('tags')
           .populate({
             path: "comments",
             populate: {
@@ -46,6 +47,7 @@ const resolvers = {
       return Blurbs.find()
         .populate("blurbAuthor")
         .sort({ createdAt: -1 })
+        .populate('tags')
         .populate({
           path: "comments",
           populate: {
@@ -55,6 +57,10 @@ const resolvers = {
         });
     },
     // ✅
+
+    blurbsByTag: async (parent, { tags }) => {
+        return Blurbs.find({ tags: tags });
+    },
 
     // find my user account
     me: async (parent, args, context) => {
@@ -108,7 +114,6 @@ const resolvers = {
 
     addBlurb: async (parent, { blurbText, tags }, context) => {
       if (context.user) {
-    
 
         // Create a new blurb using the Blurb model
         const blurb = await Blurbs.create({
@@ -280,7 +285,7 @@ const resolvers = {
     },
     // ✅
 
-    editBlurb: async (parent, { blurbID, blurbText }, context) => {
+    editBlurb: async (parent, { blurbID, blurbText, tags }, context) => {
       // Verify user is logged in
       if (!context.user) {
         throw new Error("You need to be logged in to edit a blurb");
@@ -299,9 +304,10 @@ const resolvers = {
         throw new Error("You can only edit your own blurbs");
       }
 
-      // Update the blurb's text and updatedAt field
+      // Update the blurb's text, updatedAt, and tags fields
       blurb.blurbText = blurbText;
       blurb.updatedAt = Date.now();
+      blurb.tags = tags;
 
       // Save the updated blurb to the database
       await blurb.save();
