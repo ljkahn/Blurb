@@ -24,7 +24,8 @@
     "react-easy-crop": "^5.0.2",
     "react-loader-spinner": "^5.4.5",
     "react-router-dom": "^6.11.2",
-    "react-type-animation": "^3.2.0"
+    "react-type-animation": "^3.2.0",
+    "typewriter-effect": "^2.21.0"
   },
   "devDependencies": {
     "@esbuild/darwin-arm64": "^0.19.5",

@@ -11,7 +11,7 @@ import '../style/Profile.css';
 import '../index.css';
 import BlurbCard from '../components/Blurbs/BlurbCard.jsx'
 
-import { useNavigate, useLocation, useLoaderData } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import {QUERY_MY_PROFILE} from '../utils/queries/userQueries.js';
 import Auth from "../utils/auth.js";
@@ -19,43 +19,55 @@ import Auth from "../utils/auth.js";
 
 function Profile() {
   navigation = useNavigate();
-  location = useLocation();
+
   const [isEditVisible, setIsEditVisible] = useState(false);
   const [showProfile, setShowProfile] = useState(true);
   const [accountSettingsVisible, setAccountSettingsVisible] = useState(false);
-  const [previousPage, setPreviousPage] = useState(null)
+const [currentComponent, setCurrentComponent] = useState('profile')
   
   const handleEditClick = () => {
     setIsEditVisible(true);
     setShowProfile(false);
     setAccountSettingsVisible(false)
+    setCurrentComponent('edit')
   };
   
   const showAccountSettings = () => {
     setShowProfile(false);
     setIsEditVisible(false);
     setAccountSettingsVisible(true);
+    setCurrentComponent('accountSettings')
   }
   
-  // const {loading, error, data} = useQuery(QUERY_MY_PROFILE);
-  // useEffect (() => {
-  //   if (loading) {
-  //     return;
-  //   }
+  const {loading, error, data} = useQuery(QUERY_MY_PROFILE);
+  useEffect (() => {
+    if (loading) {
+      return;
+    }
 
-  // }, [loading, error]);
+  }, [loading, error]);
 
-  // if (loading) {
-  //   return <p>Loading...</p>
-  // }
-  // if (error) {
-  //   return <p>Error: {error.message}</p>
-  // }
+  if (loading) {
+    return <p>Loading...</p>
+  }
+  if (error) {
+    return <p>Error: {error.message}</p>
+  }
   
 
-// console.log(data)
-// Auth.loggedIn(data.me.token, navigation)
+console.log(data)
+Auth.loggedIn(data.me.token, navigation)
 const profileData = data.me 
+
+const handleGoBack = () => {
+  if (currentComponent === 'edit' || currentComponent === 'accountSettings') {
+    setIsEditVisible(false);
+    setAccountSettingsVisible(false);
+    setShowProfile(true);
+    setCurrentComponent('profile');
+  }
+};
+
   //Use query to display blubrs attatched to one user
   const neon = '#EDFB60';
   const white = '#f5f5f5';
@@ -80,7 +92,7 @@ const profileData = data.me
   return (
     <div >
       <IconButton>
-      <ArrowBackIosIcon/>
+      <ArrowBackIosIcon onClick={handleGoBack} />
       </IconButton>
      { showProfile ? (
       <Container id='profile'>
@@ -97,9 +109,9 @@ const profileData = data.me
       
       <Button id='btn' style={editStyle} variant="contained" onClick={handleEditClick}>Edit Profile </Button>
       
-      {/* {profileData.blurbs.map((blurb, index) => (
+      {profileData.blurbs.map((blurb, index) => (
         <BlurbCard key={index} blurbData={blurb}/>
-      ))} */}
+      ))}
      
       </Container>
      ) : (
