@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client';
 
-export const QUERY_Blurbs = gql`
+export const ALL_BLURBS = gql`
 query allBlurbs {
     blurbs {
       blurbText
@@ -18,4 +18,15 @@ query allBlurbs {
       likes
     }
   }
+`;
+export const RANDOM_BLURB = gql`
+query randomBlurb {
+  randomBlurb {
+    blurbText
+    blurbAuthor {
+      username
+    }
+  }
+}
+
 `;
