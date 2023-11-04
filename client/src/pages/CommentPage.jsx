@@ -1,6 +1,6 @@
-import React from 'react'
-import Blurb from '../components/Blurbs/BlurbCard'
-import Comment from '../components/Blurbs/BlurbComCard'
+import React from 'react';
+import Blurb from '../components/Blurbs/BlurbCard';
+import Comment from '../components/Blurbs/BlurbComCard';
 
 function CommentPage() {
   return (

@@ -24,9 +24,14 @@ const resolvers = {
     },
     // ✅
 
-    // Find single user by username( and populate blurbs or just get user???)
-    user: async (parent, { username }) => {
-      return User.findOne({ username: username }).populate("blurbs"); //.populate('blurbs')???
+     // Find single user by username
+     user: async (parent, { username }) => {
+      try {
+        return User.findOne({ username: username }).populate("blurbs");
+      } catch (error) {
+        console.error(error);
+        throw new Error("Failed to find user");
+      }
     },
     // ✅
 

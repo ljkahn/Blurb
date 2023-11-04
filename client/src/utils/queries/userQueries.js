@@ -30,17 +30,21 @@ export const QUERY_MY_PROFILE = gql`
 
 
 export const QUERY_ONE_USER = gql `
-query user($username: String!) {
+query User($username: String!) {
   user(username: $username) {
+    _id
+    username
     followerNumber
     followingNumber
-    username
     profile {
-      _id
+      bio
       fullName
       location
-      bio
       profilePic
+      email
+    }
+    blurbs {
+      blurbText
     }
   }
 }
