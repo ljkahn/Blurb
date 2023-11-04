@@ -30,15 +30,17 @@ function BlurbStream({ children, username, blurbId, commentText }) {
       variables: { blurbId },
     });
   };
-  // console.log(blurbId);
-
+  // const [addComment] = useMutation(ADD_COMMENT); // Destructure the addComment function
   const [addComment] = useMutation(ADD_COMMENT);
 
-  console.log(useMutation);
+  const { loading, error, data } = useQuery(GET_COMMENTS, {
+    variables: { blurbId },
+  });
+
   const handleComment = async () => {
     try {
       await addComment({
-        variables: { commentText, blurbId },
+        variables: { blurbId, commentText: comText },
       });
       setComText(""); // Clear the comment input field
     } catch (error) {
@@ -79,6 +81,8 @@ function BlurbStream({ children, username, blurbId, commentText }) {
         id="blurbModal"
         open={isModalOpen}
         onClose={closeModal}
+        value={comText} // Bind the value of the input field to comText
+        onChange={(e) => setComText(e.target.value)}
       >
         <form id="blForm">
           <TextField
@@ -86,7 +90,6 @@ function BlurbStream({ children, username, blurbId, commentText }) {
             label="Comment"
             variant="outlined"
             value={comText}
-            onChange={(e) => setComText(e.target.value)}
           />
           <Button
             style={{ margin: ".5rem" }}
@@ -98,6 +101,11 @@ function BlurbStream({ children, username, blurbId, commentText }) {
           </Button>
         </form>
       </Modal>
+      <div>
+        {data.comments.map((comment) => (
+          <div key={comment.id}>{comment.text}</div>
+        ))}
+      </div>
     </div>
   );
 }
