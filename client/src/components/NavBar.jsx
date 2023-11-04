@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../style/Nav.css";
 import "../style/BlurbModel.css";
 import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -11,9 +11,9 @@ import { Link } from "react-router-dom";
 import Modal from "@mui/material/Modal";
 import TextField from "@mui/material/TextField";
 import { Select, MenuItem, Input, Button } from "@mui/material"; // Import Select and MenuItem
-import { styled } from "@mui/system";
-import { ADD_Blurb } from "../utils/mutations/Blurb/BlurbMutations";
-import { useMutation } from "@apollo/client";
+import { useQuery } from "@apollo/client";
+import { QUERY_MY_PROFILE } from "../utils/queries/userQueries.js";
+import Photo from "../components/Profile/tinyPhoto.jsx";
 
 function notificationsLabel(count) {
   if (count === 0) {
@@ -26,13 +26,14 @@ function notificationsLabel(count) {
 }
 
 function NavBar() {
-  const [selectedTags, setSelectedTags] = useState([]);
+  const [userData, setUserData] = useState({
+    username: "Guest", // Default username or any other default values
+    profilePic: "default-profile-pic-url", // Default profile picture URL
+    // Other default properties
+  });
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState([]);
-  const handleOptionChange = (event) => {
-    setSelectedTags(event.target.value); // Update selected tags
-  };
-  const [addBlurb] = useMutation(ADD_Blurb); // State for selected options
+
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -42,37 +43,21 @@ function NavBar() {
     setIsModalOpen(false);
   };
 
-  const [blurbText, setBlurbText] = useState(""); // State for blurb text
+  const { loading, data } = useQuery(QUERY_MY_PROFILE);
 
-  const createHandleMenuClick = (menuItem) => {
-    return () => {
-      console.log(`Clicked on ${menuItem}`);
-    };
-  };
-
-  const handleBlurbSubmit = (event) => {
-    event.preventDefault();
-
-    // Combine blurbText and selectedTags before submitting to the database
-    const blurbData = {
-      blurbText: blurbText,
-      tags: selectedTags,
-    };
-
-    addBlurb({
-      variables: blurbData,
-    })
-      .then((response) => {
-        // Handle the response from the server, e.g., show a success message or navigate to a new page.
-        console.log("Mutation Response:", response);
-      })
-      .catch((error) => {
-        // Handle errors, e.g., show an error message.
-        console.error("Mutation Error:", error);
+  useEffect(() => {
+    if (!loading && data && data.me) {
+      setUserData({
+        username: data.me.username,
+        profilePic: data.me.profile
+          ? data.me.profile.profilePic
+          : "default-profile-pic-url",
+        // Set other properties based on data.me
       });
+    }
+  }, [loading, data]);
 
-    // No need to console.log("Blurb Data:", blurbData) anymore
-  };
+  console.log(userData);
 
   return (
     <div id="navContain">
@@ -98,11 +83,7 @@ function NavBar() {
       </Link>
       <Link to="/profile">
         <IconButton>
-          {/* <Avatar
-            alt="Remy Sharp"
-            src="/static/images/avatar/1.jpg"
-            sx={{ width: 40, height: 40 }}
-          /> */}
+          <Photo profileImg={userData.profilePic} />
         </IconButton>
       </Link>
       <Modal
@@ -111,27 +92,22 @@ function NavBar() {
         open={isModalOpen}
         onClose={closeModal}
       >
-        <form id="blForm" onSubmit={handleBlurbSubmit}>
+        <form id="blForm">
           <TextField
             id="outlined-basic"
             label="Blurb"
             variant="outlined"
             name=""
-            value={blurbText}
-            onChange={(e) => setBlurbText(e.target.value)}
           />
           <Select
             multiple
-            value={selectedTags}
-            onChange={handleOptionChange}
+            value={selectedOptions}
             input={<Input />}
             renderValue={(selected) => selected.join(", ")}
           >
-            <MenuItem value="Funny">Funny</MenuItem>
-            <MenuItem value="Tanks">Tanks</MenuItem>
-            <MenuItem value="Rats">Rats</MenuItem>
-            <MenuItem value="Dogs">Dogs</MenuItem>
-            <MenuItem value="Cats">Cats</MenuItem>
+            <MenuItem value="Option 1">Option 1</MenuItem>
+            <MenuItem value="Option 2">Option 2</MenuItem>
+            <MenuItem value="Option 3">Option 3</MenuItem>
           </Select>
           <Button
             style={{ margin: ".5rem" }}

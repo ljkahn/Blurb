@@ -29,6 +29,7 @@ const typeDefs = `
       following: [User]
       blurbs: [Blurbs]
       profile: Profile!
+    
     }
     
     type Profile {
