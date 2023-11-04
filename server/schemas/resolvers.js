@@ -585,6 +585,42 @@ const resolvers = {
         throw new Error("Failed to follow user");
       }
     },
+    unfollowUser: async (parent, { userIdToUnfollow }, context) => {
+      console.log(context.user);
+      // Verify user is logged in
+      if (!context.user) {
+        throw new Error("You must be logged in to follow users");
+      }
+
+      try {
+        const userToUnfollow = await User.findById(userIdToUnfollow);
+
+        if (!userToUnfollow) {
+          throw new Error("Failed to find user");
+        }
+
+        if (context.user._id.toString() === userIdToUnfollow) {
+          throw new Error("You cannot follow yourself");
+        }
+
+        await User.findByIdAndUpdate(
+          context.user._id,
+          { $pull: { following: userIdToUnfollow } },
+          { new: true }
+        );
+
+        await User.findByIdAndUpdate(
+          userIdToUnfollow,
+          { $pull: { followers: context.user._id } },
+          { new: true }
+        );
+
+        return "User unfollowed successfully!";
+      } catch (error) {
+        console.error(error);
+        throw new Error("Failed to unfollow user");
+      }
+    },
   },
 };
 module.exports = resolvers;

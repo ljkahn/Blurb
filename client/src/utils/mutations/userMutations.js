@@ -70,3 +70,15 @@ export const DELETE_USER = gql`
 // {
 //   "userId": null
 // }
+
+export const FOLLOW_USER = gql `
+mutation followUser($userIdToFollow: ID!) {
+  followUser(userIdToFollow: $userIdToFollow)
+}
+`;
+
+export const UNFOLLOW_USER = gql `
+mutation unfollowUser($userIdToUnfollow: ID!) {
+  unfollowUser(userIdToUnfollow: $userIdToUnfollow)
+}
+`;

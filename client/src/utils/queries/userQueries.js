@@ -35,6 +35,14 @@ export const QUERY_ONE_USER = gql`
       username
       followerNumber
       followingNumber
+      followers {
+        _id
+        username
+      }
+      following {
+        _id
+        username
+      }
       profile {
         bio
         fullName
