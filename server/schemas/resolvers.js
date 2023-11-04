@@ -209,7 +209,7 @@ const resolvers = {
         return "Successfully added Blurb";
       } else {
         throw new Error("You need to be logged in to create a blurb!");
-      } 
+      }
     },
     // ✅
 
@@ -389,6 +389,7 @@ const resolvers = {
       blurb.blurbText = blurbText;
       blurb.updatedAt = Date.now();
       blurb.tags = tags;
+      blurb.new = true;
 
       // Save the updated blurb to the database
       await blurb.save();
