@@ -11,8 +11,9 @@ import "../style/Profile.css";
 import "../index.css";
 
 import { useNavigate, useParams } from "react-router-dom";
-import { useQuery } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_MY_PROFILE } from "../utils/queries/userQueries.js";
+
 import Auth from "../utils/auth.js";
 import BlurbStream from '../components/Blurbs/BlurbCard.jsx';
 
@@ -81,7 +82,7 @@ function Profile() {
       </IconButton>
       {userData && (showProfile ? (
         <Container id="profile">
-          <Photo profileImg={userData.profilePic} />
+          <Photo profileImg={userData.profile.profilePic} />
       <h1>{ userData.profile.fullName}</h1>
       <h2>{userData.username}</h2>
           <p id="info">{userData.profile.bio}</p>
@@ -111,7 +112,8 @@ function Profile() {
           ))}
         </Container>
       ) : isEditVisible ? (
-        <Edit showAccountSettings={showAccountSettings} />
+        <Edit userData={userData} 
+        showAccountSettings={showAccountSettings} />
       ) : (
         accountSettingsVisible && <AccountEdit />
       ))}
