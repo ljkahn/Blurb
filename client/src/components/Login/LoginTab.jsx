@@ -5,6 +5,9 @@ import Button from "@mui/material/Button";
 import { useMutation } from "@apollo/client";
 import { LOGIN_USER } from "../../utils/mutations/userMutations";
 import { useNavigate } from "react-router-dom";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+
 import Auth from "../../utils/auth";
 
 function LoginTab() {
@@ -13,6 +16,8 @@ function LoginTab() {
     email: "",
     password: "",
   });
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const [login, { error }] = useMutation(LOGIN_USER);
   if (error) {
@@ -39,10 +44,13 @@ function LoginTab() {
           password: formState.password,
         },
       });
-      console.log(data);
       Auth.login(data.login.token, navigation);
     } catch (error) {
       console.error(error);
+      if (error.message === "Invalid email or password") {
+        setErrorMessage("Incorrect login credentials. Please try again.");
+        setSnackbarOpen(true);
+      }
     }
   };
   return (
@@ -80,6 +88,15 @@ function LoginTab() {
           Login
         </Button>
       </form>
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000} // Adjust this as needed
+        onClose={() => setSnackbarOpen(false)}
+      >
+        <MuiAlert elevation={6} variant="filled" severity="error">
+          {errorMessage}
+        </MuiAlert>
+      </Snackbar>
     </div>
   );
 }

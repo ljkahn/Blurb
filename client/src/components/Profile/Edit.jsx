@@ -9,6 +9,8 @@ import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
 import SettingsIcon from "@mui/icons-material/Settings";
 import CloudinaryUploadWidget from "../Upload";
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 
 // import AccountEdit from "../Profile/AccountEdit"
 import { useMutation } from "@apollo/client";
@@ -48,7 +50,14 @@ function Edit({ userData, showAccountSettings }) {
   }, [userData]);
 
   const [editUser, { loading, error }] = useMutation(EDIT_USER);
-
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarSeverity, setSnackbarSeverity] = useState('success');
+  const showSnackbar = (message, severity) => {
+    setSnackbarMessage(message);
+    setSnackbarSeverity(severity);
+    setOpenSnackbar(true);
+  };
 
   const buttonStyle = {
     backgroundColor: neon,
@@ -75,10 +84,12 @@ function Edit({ userData, showAccountSettings }) {
     })
     .then((result) => {
       console.log('User updated:', result.data.editUser);
-      //Handle success somehow, alert or redirect back to profile page?
+      showSnackbar('Profile updated successfully', 'success');
+      
     })
     .catch((e) => {
-      console.error("Error updating user:", e)
+      console.error("Error updating user:", e);
+      showSnackbar('Failed to update profile, check that you are logged in!', 'error');
     });
   };
 
@@ -188,7 +199,15 @@ function Edit({ userData, showAccountSettings }) {
           Account Settings
         </Button>
       </div>
-      
+      <Snackbar
+  open={openSnackbar}
+  autoHideDuration={3000} // Duration in milliseconds
+  onClose={() => setOpenSnackbar(false)}
+>
+  <MuiAlert elevation={6} variant="filled" severity={snackbarSeverity}>
+    {snackbarMessage}
+  </MuiAlert>
+</Snackbar>
       
     </div>
   );

@@ -8,12 +8,11 @@ import Button from "@mui/material/Button";
 import BlurbStream from '../components/Blurbs/BlurbCard.jsx';
 
 import { useQuery, useMutation } from '@apollo/client';
-import { QUERY_ONE_USER } from '../utils/queries/userQueries';
+import { QUERY_ONE_USER } from '../utils/Queries/userQueries';
 import {FOLLOW_USER, UNFOLLOW_USER} from '../utils/mutations/userMutations';
 import { useParams } from 'react-router-dom';
 import Auth from '../utils/auth.js';
 import { useNavigate } from 'react-router-dom';
-
 
 function UserProfile() {
   const {username} = useParams();

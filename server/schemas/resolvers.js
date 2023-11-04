@@ -414,15 +414,6 @@ const resolvers = {
         throw new Error("User not found");
       }
 
-      // Update user fields here
-
-      if (user.profile.password) {
-        user.profile.password = profile.password;
-        user.profile.isPasswordChanged = true;
-      }
-
-      // Update other profile fields
-      if (profile.email) user.profile.email = profile.email;
       // Repeat for other fields...
       if (username) user.username = username;
       if (profile.bio) user.profile.bio = profile.bio;
