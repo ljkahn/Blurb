@@ -28,31 +28,32 @@ export const QUERY_MY_PROFILE = gql`
   }
 `;
 
-
-
-export const QUERY_ONE_USER = gql `
-query User($username: String!) {
-  user(username: $username) {
-    _id
-    username
-    followerNumber
-    followingNumber
-    profile {
-      bio
-      fullName
-      location
-      profilePic
-      email
+export const QUERY_ONE_USER = gql`
+  query User($username: String!) {
+    user(username: $username) {
+      _id
+      username
+      followerNumber
+      followingNumber
+      profile {
+        bio
+        fullName
+        location
+        profilePic
+        email
+      }
+      blurbs {
+        blurbText
+      }
     }
-    blurbs {
-      blurbText
+  }
+`;
 
 export const USER_LIST = gql`
   query user_list {
     users {
       username
       _id
-
     }
   }
 `;
