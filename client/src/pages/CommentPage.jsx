@@ -1,4 +1,3 @@
-
 import Blurb from "../components/Blurbs/BlurbCard";
 import React from "react";
 import { useQuery } from "@apollo/client";
@@ -30,7 +29,5 @@ function CommentPage() {
     </div>
   );
 }
-
-export default CommentPage;
 
 export default CommentPage;
