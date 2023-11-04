@@ -1,8 +1,7 @@
 import { gql } from "@apollo/client";
 
 
-export const ADD_COMMENT =gql 
-`
+export const ADD_COMMENT =gql`
 mutation addComment($blurbId: ID!, $commentText: String!) {
   addComment(blurbID: $blurbId, commentText: $commentText)
 }`
@@ -14,8 +13,7 @@ mutation addComment($blurbId: ID!, $commentText: String!) {
 //   "commentText": null
 // }
 
-export const REMOVE_COMMENT = gql 
-`
+export const REMOVE_COMMENT = gql`
 mutation removeComment($blurbId: ID!, $commentId: ID!) {
   removeComment(blurbID: $blurbId, commentID: $commentId)
 }`
@@ -26,8 +24,7 @@ mutation removeComment($blurbId: ID!, $commentId: ID!) {
 //   "commentId": null
 // }
 
-export const EDIT_COMMENT = gql 
-`
+export const EDIT_COMMENT = gql`
 mutation editComment($blurbId: ID!, $commentId: ID!, $newCommentText: String!) {
   editComment(blurbID: $blurbId, commentID: $commentId, newCommentText: $newCommentText)
 }`
@@ -39,8 +36,7 @@ mutation editComment($blurbId: ID!, $commentId: ID!, $newCommentText: String!) {
 //   "newCommentText": null
 // }
 
-export const ADD_COMMENT_LIKE = gql 
-`
+export const ADD_COMMENT_LIKE = gql`
 mutation addCommentLike($blurbId: ID!, $commentId: ID!) {
   addCommentLike(blurbID: $blurbId, commentID: $commentId)
 }`
@@ -51,8 +47,7 @@ mutation addCommentLike($blurbId: ID!, $commentId: ID!) {
 //   "commentId": null
 // }
 
-export const REMOVE_COMMENT_LIKE =gql 
-`
+export const REMOVE_COMMENT_LIKE =gql`
 mutation removeCommentLike($blurbId: ID!, $commentId: ID!) {
   removeCommentLike(blurbID: $blurbId, commentID: $commentId)
 }`
