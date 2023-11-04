@@ -8,10 +8,13 @@ import IconButton from "@mui/material/IconButton";
 import Modal from "@mui/material/Modal";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import { LIKE_Blurb } from "../../utils/mutations/Blurb/BlurbMutations";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { LIKE_Blurb, REMOVE_Blurb } from "../../utils/mutations/Blurb/BlurbMutations";
 
 function BlurbStream({ children, username, blurbId }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDeleted, setIsDeleted] = useState(false);
+
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -27,7 +30,23 @@ function BlurbStream({ children, username, blurbId }) {
       variables: { blurbId },
     });
   };
-  console.log(blurbId);
+
+  const [removeBlurb] = useMutation(REMOVE_Blurb, {
+    variables: { blurbId },
+    onCompleted: () => {
+      setIsDeleted(true);
+    },
+    onError: (err) => {
+      console.error("Error removing blurb: ", err);
+    }
+  });
+
+  const handleRemove = async () => {
+    
+      await removeBlurb();
+  }
+  
+  if (isDeleted) return <p></p>;
 
   return (
     <div id="bluMain">
@@ -54,6 +73,9 @@ function BlurbStream({ children, username, blurbId }) {
           </IconButton>
           <IconButton onClick={openModal} className="likeComment">
             <ChatBubbleOutlineIcon />
+          </IconButton>
+          <IconButton onClick={handleRemove} className="removeComment">
+            <DeleteIcon />
           </IconButton>
         </div>
       </div>

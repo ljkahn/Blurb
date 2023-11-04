@@ -360,7 +360,7 @@ const resolvers = {
 
     addLike: async (parent, { blurbID }, context) => {
       if (!context.user) {
-        throw new Error("you must be logged in to like a blurb");
+        throw new Error("You must be logged in to like a blurb");
       }
 
       const updatedBlurb = await Blurbs.findByIdAndUpdate(
@@ -377,7 +377,7 @@ const resolvers = {
 
     removeLike: async (parent, { blurbID }, context) => {
       if (!context.user) {
-        throw new Error("you must be logged in to like or unlike a blurb");
+        throw new Error("You must be logged in to like or unlike a blurb");
       }
 
       const updatedBlurb = await Blurbs.findByIdAndUpdate(
@@ -534,7 +534,7 @@ const resolvers = {
       }
 
       // Increment the 'likes' field of the comment
-      comment.likes += -1;
+      comment.likes -= 1;
 
       await blurb.save();
 

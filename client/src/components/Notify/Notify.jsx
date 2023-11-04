@@ -7,22 +7,23 @@ import "../../style/Blurbs.css";
 import { REMOVE_Blurb } from "../../utils/mutations/Blurb/BlurbMutations";
 import { useMutation } from "@apollo/client";
 
-function Notify() {
-  const blurbId = "";
-  const [removeBlurb, { error }] = useMutation(REMOVE_Blurb);
-
-  const handleRemove = async () => {
-    try {
-      const response = await removeBlurb({
-        variables: { blurbId },
-      });
-    
-      console.log(response.data);
-    } catch (err) {
+function Notify({ blurbId }) {
+  const [isDeleted, setIsDeleted] = useState(false);
+  const [removeBlurb] = useMutation(REMOVE_Blurb, {
+    variables: { blurbId },
+    onCompleted: () => {
+      setIsDeleted(true);
+    },
+    onError: (err) => {
       console.error("Error removing blurb: ", err);
     }
-    console.log(blurbId);
+  });
+
+  const handleRemove = async () => {
+      await removeBlurb();
   };
+
+  if (isDeleted) return <p>Successfully deleted</p>
 
   if (error) {
     return <p>An error occurred while trying to remove the blurb.</p>;
