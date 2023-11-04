@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useContext} from "react";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
@@ -7,19 +7,26 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import Grid from "@mui/material/Grid";
 import { useMutation } from "@apollo/client";
 import { EDIT_ACCOUNT } from "../../utils/mutations/userMutations";
+import {DELETE_USER} from '../../utils/mutations/userMutations';
+import Auth from '../../utils/auth';
+import { useNavigate } from "react-router-dom";
 
 const neon = "#EDFB60";
 const black = "#212121";
 const red = "#CE2029";
 const white = "#F5F5F5";
 
-function AccountEdit() {
+function AccountEdit({userData}) {
+  navigation = useNavigate();
+  const userId = userData._id
   const [formData, setFormData] = useState({
     email:"",
     password: "",
   })
 
-  const [editAccount, {loading, error}] = useMutation(EDIT_ACCOUNT);
+  const [editAccount, {loading: editLoading, error: editError}] = useMutation(EDIT_ACCOUNT);
+  const [deleteUser, {loading: deleteLoading, error: deleteError}] = useMutation(DELETE_USER);
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
 
   const handleSaveChanges = () => {
     editAccount({
@@ -30,13 +37,37 @@ function AccountEdit() {
     })
     .then((result) => {
       console.log("Account updated!");
+      
       //Handle success by throwing an alert or navigating back to profile. 
     })
     .catch((e) => {
       console.error('Error updating account:', e);
       //Handle errors, show an alert
     })
+  };
+
+  const handleDeleteAccount = () => {
+    setShowConfirmationModal(true)
+  };
+
+  
+  const handleConfirmDelete =  () => {
+    deleteUser({
+      variables: {
+        userId: userId,
+      }
+    })
+    .then(() => {
+      console.log('Account Deleted');
+      Auth.logout(navigation)
+    })
+    .catch((e) => {
+      console.error('Error deleting account:', e)
+    })
+    setShowConfirmationModal(false);
   }
+
+
   const buttonStyle = {
     backgroundColor: neon,
     color: black,
@@ -48,6 +79,12 @@ function AccountEdit() {
     color: white,
     margin: 10,
   };
+
+  const confirmStyle = {
+    backgroundColor: black,
+    color: white,
+    margin: 10,
+  }
   return (
     <div id="editAccount">
       <div>
@@ -80,11 +117,25 @@ function AccountEdit() {
         </Button>
       </div>
       <div>
-        <Button variant="contained" style={deleteStyle}>
+        <Button 
+        onClick={handleDeleteAccount}
+        variant="contained" 
+        style={deleteStyle}
+        >
           <DeleteIcon />
           Delete Account
         </Button>
       </div>
+      {showConfirmationModal && (
+      <div className="confirmationModal">
+        
+        <p>Are you sure you want to delete your Blurb account? 😕</p>
+        <Button  variant="contained"style={confirmStyle} onClick={handleConfirmDelete}>Yes</Button>
+        <Button variant="contained"style={confirmStyle} onClick={() => setShowConfirmationModal(false)}>No</Button>
+        
+      </div>
+
+      )}
     </div>
   );
 }

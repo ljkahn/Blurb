@@ -115,10 +115,10 @@ function Profile() {
         <Edit userData={userData} 
         showAccountSettings={showAccountSettings} />
       ) : (
-        accountSettingsVisible && <AccountEdit />
+        accountSettingsVisible && <AccountEdit userData={userData} />
       ))}
     </div>
   )
-}
+};
 
 export default Profile
