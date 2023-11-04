@@ -2,18 +2,15 @@
 
 ## Description
 
-Welcome to Blurb!
+Blurb is a dynamic and interactive microblogging platform that empowers users to share their thoughts, ideas, and stories in bite-sized messages called 'Blurbs.' With a character limit tailored for brevity, Blurb enables users to express themselves concisely, engaging in real-time conversations with a global community of like-minded individuals.
 
-Provide a short description explaining the what, why, and how of your project. Use the following questions as a guide:
+Share your insights, interests, and updates. Stay up-to-date with trending topics, follow your favorite influencers, and engage in lively discussions. Whether you're into politics, technology, entertainment, or everyday life, Blurb provides a platform to connect, learn, and voice your opinions.
 
-- What was your motivation?
-- Why did you build this project? (Note: the answer is not "Because it was a homework assignment.")
-- What problem does it solve?
-- What did you learn?
+Customize your profile, curate your feed, and interact with other users by liking, Blurbing, and commenting on their Blurbs. Explore relevant tags, create your own trends, and watch your following grow. Blurb offers a seamless, user-friendly experience, ensuring that your ideas are heard, one Blurb at a time.
 
-## Table of Contents (Optional)
+Stay connected with the world, stay informed, and become part of a vibrant online community. Join Blurb and start sharing your world in 280 characters or less!
 
-If your README is long, add a table of contents to make it easy for users to find what they need.
+## Table of Contents
 
 - [Installation](#installation)
 - [Usage](#usage)
@@ -36,11 +33,11 @@ To add a screenshot, create an `assets/images` folder in your repository and upl
 
 ## Credits
 
-List your collaborators, if any, with links to their GitHub profiles.
-
-If you used any third-party assets that require attribution, list the creators with links to their primary web presence in this section.
-
-If you followed tutorials, include links to those here as well.
+[Lillian Edwards](https://github.com/lillianedwards)
+[Jordan Adams](https://github.com/JMADA257)
+[Mitchell Morgan](https://github.com/M1TCH3llM)
+[Pete Richards](https://github.com/PRich57)
+[Lia Kahn](https://github.com/ljkahn)
 
 ## License
 
@@ -50,15 +47,9 @@ The last section of a high-quality README file is the license. This lets other d
 
 🏆 The previous sections are the bare minimum, and your project will ultimately determine the content of this document. You might also want to consider adding the following sections.
 
-## Badges
-
-![badmath](https://img.shields.io/github/languages/top/lernantino/badmath)
-
-Badges aren't necessary, per se, but they demonstrate street cred. Badges let other developers know that you know what you're doing. Check out the badges hosted by [shields.io](https://shields.io/). You may not understand what they all represent now, but you will in time.
-
 ## Features
 
-If your project has a lot of features, list them here.
+-
 
 ## How to Contribute
 
