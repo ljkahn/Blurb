@@ -11,9 +11,9 @@ import Button from "@mui/material/Button";
 import { LIKE_Blurb } from "../../utils/mutations/Blurb/BlurbMutations";
 import { ADD_COMMENT } from "../../utils/mutations/Likes/CommentMutations";
 
-function BlurbStream({ children, username, blurbId, commentText }) {
+function BlurbStream({ children, username, blurbId }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [comText, setComText] = useState("");
+  const [commentText, setCommentText] = useState("");
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -30,19 +30,15 @@ function BlurbStream({ children, username, blurbId, commentText }) {
       variables: { blurbId },
     });
   };
-  // const [addComment] = useMutation(ADD_COMMENT); // Destructure the addComment function
+
   const [addComment] = useMutation(ADD_COMMENT);
-
-  const { loading, error, data } = useQuery(GET_COMMENTS, {
-    variables: { blurbId },
-  });
-
   const handleComment = async () => {
+    console.log(commentText); // Log the comment text
     try {
       await addComment({
-        variables: { blurbId, commentText: comText },
+        variables: { blurbId: blurbId, commentText: commentText },
       });
-      setComText(""); // Clear the comment input field
+      setCommentText(""); // Clear the comment input field
     } catch (error) {
       console.error("Error adding comment:", error);
     }
@@ -81,16 +77,11 @@ function BlurbStream({ children, username, blurbId, commentText }) {
         id="blurbModal"
         open={isModalOpen}
         onClose={closeModal}
-        value={comText} // Bind the value of the input field to comText
-        onChange={(e) => setComText(e.target.value)}
+        value={commentText}
+        onChange={(e) => setCommentText(e.target.value)}
       >
         <form id="blForm">
-          <TextField
-            id="outlined-basic"
-            label="Comment"
-            variant="outlined"
-            value={comText}
-          />
+          <TextField id="outlined-basic" label="Comment" variant="outlined" />
           <Button
             style={{ margin: ".5rem" }}
             variant="contained"
@@ -101,11 +92,6 @@ function BlurbStream({ children, username, blurbId, commentText }) {
           </Button>
         </form>
       </Modal>
-      <div>
-        {data.comments.map((comment) => (
-          <div key={comment.id}>{comment.text}</div>
-        ))}
-      </div>
     </div>
   );
 }
