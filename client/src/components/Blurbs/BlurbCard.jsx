@@ -8,10 +8,15 @@ import IconButton from "@mui/material/IconButton";
 import Modal from "@mui/material/Modal";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import { LIKE_Blurb } from "../../utils/mutations/Blurb/BlurbMutations";
+import {
+  LIKE_Blurb,
+  UNLIKE_Blurb,
+} from "../../utils/mutations/Blurb/BlurbMutations";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 
-function BlurbStream({ children, username, blurbId }) {
+function BlurbStream({ children, username, blurbId}) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLiked, setIsLiked] = useState(false);
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -21,13 +26,23 @@ function BlurbStream({ children, username, blurbId }) {
   };
 
   const [likeBlurb] = useMutation(LIKE_Blurb);
+  const [unlikeBlurb] = useMutation(UNLIKE_Blurb);
 
   const handleLike = () => {
-    likeBlurb({
-      variables: { blurbId },
-    });
+    if (isLiked) {
+      // If already liked, unlike the blurb
+      unlikeBlurb({
+        variables: { blurbId },
+    
+      });
+    } else {
+      // If not liked, like the blurb
+      likeBlurb({
+        variables: { blurbId },
+      });
+    }
+    setIsLiked(!isLiked); // Toggle the liked state
   };
-  console.log(blurbId);
 
   return (
     <div id="bluMain">
@@ -50,7 +65,7 @@ function BlurbStream({ children, username, blurbId }) {
         </div>
         <div id="notifyIcons">
           <IconButton onClick={handleLike} className="likeComment">
-            <FavoriteBorderIcon />
+            {isLiked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
           </IconButton>
           <IconButton onClick={openModal} className="likeComment">
             <ChatBubbleOutlineIcon />
