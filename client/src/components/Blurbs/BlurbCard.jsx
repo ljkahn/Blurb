@@ -10,11 +10,10 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { LIKE_Blurb, REMOVE_Blurb } from "../../utils/mutations/Blurb/BlurbMutations";
+import { ADD_COMMENT } from "../../utils/mutations/Likes/CommentMutations";
 
 function BlurbStream({ children, username, blurbId }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isDeleted, setIsDeleted] = useState(false);
-
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -30,23 +29,7 @@ function BlurbStream({ children, username, blurbId }) {
       variables: { blurbId },
     });
   };
-
-  const [removeBlurb] = useMutation(REMOVE_Blurb, {
-    variables: { blurbId },
-    onCompleted: () => {
-      setIsDeleted(true);
-    },
-    onError: (err) => {
-      console.error("Error removing blurb: ", err);
-    }
-  });
-
-  const handleRemove = async () => {
-    
-      await removeBlurb();
-  }
-  
-  if (isDeleted) return <p></p>;
+  console.log(blurbId);
 
   return (
     <div id="bluMain">
@@ -84,6 +67,8 @@ function BlurbStream({ children, username, blurbId }) {
         id="blurbModal"
         open={isModalOpen}
         onClose={closeModal}
+        value={commentText}
+        onChange={(e) => setCommentText(e.target.value)}
       >
         <form id="blForm">
           <TextField id="outlined-basic" label="Comment" variant="outlined" />
@@ -91,6 +76,7 @@ function BlurbStream({ children, username, blurbId }) {
             style={{ margin: ".5rem" }}
             variant="contained"
             disableElevation
+            onClick={handleComment}
           >
             Comment
           </Button>
