@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { ThreeDots } from "react-loader-spinner";
 import Fire from "../components/Blurbs/FireCard";
-import BlurbCard from "../components/Blurbs/BlurbCard.jsx";
+// import BlurbCard from "../components/Blurbs/BlurbCard.jsx";
 // import { TypeAnimation } from "react-type-animation";
 import { useQuery } from "@apollo/client";
 import { ALL_BLURBS } from "../utils/Queries/queries.js";
