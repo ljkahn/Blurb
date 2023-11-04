@@ -9,11 +9,15 @@ import Modal from "@mui/material/Modal";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { LIKE_Blurb, REMOVE_Blurb } from "../../utils/mutations/Blurb/BlurbMutations";
 import { ADD_COMMENT } from "../../utils/mutations/Likes/CommentMutations";
+import { LIKE_Blurb, REMOVE_Blurb } from "../../utils/mutations/Blurb/BlurbMutations";
+
 
 function BlurbStream({ children, username, blurbId }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [commentText, setCommentText] = useState("");
+  const [isDeleted, setIsDeleted] = useState(false);
+
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -29,7 +33,35 @@ function BlurbStream({ children, username, blurbId }) {
       variables: { blurbId },
     });
   };
-  console.log(blurbId);
+
+  const [removeBlurb] = useMutation(REMOVE_Blurb, {
+    variables: { blurbId },
+    onCompleted: () => {
+      setIsDeleted(true);
+    },
+    onError: (err) => {
+      console.error("Error removing blurb: ", err);
+    }
+  });
+
+  const handleRemove = async () => {
+    
+      await removeBlurb();
+  }
+  if (isDeleted) return <p>Comment deleted</p>;
+  
+  const [addComment] = useMutation(ADD_COMMENT);
+  const handleComment = async () => {
+    console.log(commentText); // Log the comment text
+    try {
+      await addComment({
+        variables: { blurbId, commentText: commentText },
+      });
+      setCommentText(""); // Clear the comment input field
+    } catch (error) {
+      console.error("Error adding comment:", error);
+    }
+  };
 
   return (
     <div id="bluMain">
