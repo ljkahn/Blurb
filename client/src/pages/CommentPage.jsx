@@ -2,6 +2,9 @@ import Blurb from "../components/Blurbs/BlurbCard";
 import React from "react";
 import { useQuery } from "@apollo/client";
 import { GET_BLURB_BY_ID } from "../utils/mutations/Blurb/BlurbMutations";
+import React from "react";
+import BlurbStream from "../components/Blurbs/BlurbCard";
+import BlurbCom from "../components/Blurbs/BlurbComCard";
 
 function CommentPage() {
   const { loading, data } = useQuery(GET_BLURB_BY_ID, {
@@ -28,5 +31,7 @@ function CommentPage() {
     </div>
   );
 }
+
+export default CommentPage;
 
 export default CommentPage;

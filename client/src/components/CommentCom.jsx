@@ -1,16 +1,18 @@
 import React from "react";
-import Blurb from "./Blurbs/BlurbCard";
+import BlurbStream from "./Blurbs/BlurbCard";
 import Comment from "./Blurbs/BlurbComCard";
 
 function CommentCom() {
-  return <div>
+  return (
     <div>
-        <Blurb />
-    </div>
-    <div>
+      <div>
+        <BlurbStream />
+      </div>
+      <div>
         <Comment />
+      </div>
     </div>
-  </div>;
+  );
 }
 
 export default CommentCom;
