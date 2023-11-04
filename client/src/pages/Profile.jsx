@@ -9,11 +9,12 @@ import IconButton from "@mui/material/IconButton";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import "../style/Profile.css";
 import "../index.css";
-import CommentCom from "../components/CommentCom.jsx";
-import { REMOVE_Blurb } from "../utils/mutations/Blurb/BlurbMutations.js";
+import BlurbComCard from "../components/Blurbs/BlurbComCard.jsx";
+
 import { useNavigate, useParams } from "react-router-dom";
 import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_MY_PROFILE } from "../utils/Queries/userQueries.js";
+
 import Auth from "../utils/auth.js";
 import BlurbStream from "../components/Blurbs/BlurbCard.jsx";
 
@@ -31,18 +32,21 @@ function Profile() {
       setUserData(data.me);
     }
   }, [loading]);
+
   const handleEditClick = () => {
     setIsEditVisible(true);
     setShowProfile(false);
     setAccountSettingsVisible(false);
     setCurrentComponent("edit");
   };
+
   const showAccountSettings = () => {
     setShowProfile(false);
     setIsEditVisible(false);
     setAccountSettingsVisible(true);
     setCurrentComponent("accountSettings");
   };
+
   const handleGoBack = () => {
     if (currentComponent === "edit" || currentComponent === "accountSettings") {
       setIsEditVisible(false);
@@ -51,6 +55,7 @@ function Profile() {
       setCurrentComponent("profile");
     }
   };
+
   const neon = "#EDFB60";
   const white = "#f5f5f5";
   const lightGray = "#BEBFC5";
@@ -58,6 +63,7 @@ function Profile() {
   const darkGray = "#555555";
   const jetBlack = "#343434";
   const black = "#212121";
+
   const buttonStyle = {
     backgroundColor: neon,
     color: black,
@@ -99,14 +105,23 @@ function Profile() {
             </Button>
 
             {userData.blurbs &&
-              userData.blurbs.map((blurb, index) => (
-                <BlurbStream
-                  key={index}
-                  blurbId={blurb.blurbId}
-                  username={blurb.username}
-                >
-                  {blurb.blurbText}
-                </BlurbStream>
+              userData.blurbs.map((blurbs, index, commentId) => (
+                <>
+                  <BlurbStream
+                    key={index}
+                    blurbId={blurbs._id}
+                    username={blurbs.username}
+                    comments={blurbs.comments}
+                  >
+                    {blurbs.blurbText}
+                  </BlurbStream>
+                  <BlurbComCard
+                    key={commentId}
+                    blurbId={blurbs.blurbId}
+                    username={blurbs.username}
+                    comments={blurbs.comments}
+                  />
+                </>
               ))}
           </Container>
         ) : isEditVisible ? (

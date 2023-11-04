@@ -77,6 +77,11 @@ const resolvers = {
     },
     // ✅
 
+
+ findBlurbById: async (parent, { blurbId }) => {
+      return Blurbs.findById({ _id: blurbId });
+    },
+
     //get all users with blurbs greater than zero
     randomBlurb: async () => {
       const loginRandomBlurbs = await User.find({
@@ -102,6 +107,8 @@ const resolvers = {
         return User.findOne({ _id: context.user._id }).populate("blurbs");
       }
       throw AuthenticationError;
+
+      
     },
     // ✅
 

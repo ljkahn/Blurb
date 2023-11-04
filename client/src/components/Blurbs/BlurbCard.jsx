@@ -431,6 +431,8 @@ function BlurbStream({
 
   const handleComment = async () => {
     try {
+      console.log(blurbId);
+      console.log(commentText);
       await addComment({
         variables: {
           blurbId: blurbId,
