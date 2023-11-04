@@ -16,3 +16,9 @@
   margin-bottom: 60px;
   background-color: #edfb60;
 }
+
+#tinyPhoto {
+  height: 40px;
+  width: 40px;
+  border-radius: 20px;
+}
