@@ -75,3 +75,10 @@
     rgba(22, 88, 252, 1) 81%
   ); */
 }
+
+/* Mitch go ahead and take out the Grid on this button if you need to, it works to log people out but for styling purposes this is the best i could get it   */
+#logout {
+  margin-left:  20px;
+  background-color: #EDFB60;
+  color: #212121;
+}

@@ -37,6 +37,16 @@ export const EDIT_USER = gql`
   }
 `;
 
+export const EDIT_ACCOUNT = gql `
+mutation editAccount($password: String, $email: String) {
+  editAccount(password: $password, email: $email) {
+    profile {
+      email
+      password
+    }
+  }
+}
+`;
 //example edit user variables
 // {
 //   "username": null,
@@ -60,3 +70,15 @@ export const DELETE_USER = gql`
 // {
 //   "userId": null
 // }
+
+export const FOLLOW_USER = gql `
+mutation followUser($userIdToFollow: ID!) {
+  followUser(userIdToFollow: $userIdToFollow)
+}
+`;
+
+export const UNFOLLOW_USER = gql `
+mutation unfollowUser($userIdToUnfollow: ID!) {
+  unfollowUser(userIdToUnfollow: $userIdToUnfollow)
+}
+`;
