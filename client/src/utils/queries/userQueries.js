@@ -7,36 +7,52 @@ export const QUERY_MY_PROFILE = gql`
       username
       profile {
         bio
+        email
         fullName
         location
         profilePic
-        email
+      }
+      followingNumber
+      followerNumber
+      blurbs {
+        blurbText
+        comments {
+          likes
+          commentText
+          commentAuthor {
+            username
+          }
+        }
       }
     }
   }
 `;
 
-export const QUERY_ONE_USER = gql`
-  query user($username: String!) {
-    user(username: $username) {
-      followerNumber
-      followingNumber
-      username
-      profile {
-        _id
-        fullName
-        location
-        bio
-        profilePic
-      }
+
+
+export const QUERY_ONE_USER = gql `
+query User($username: String!) {
+  user(username: $username) {
+    _id
+    username
+    followerNumber
+    followingNumber
+    profile {
+      bio
+      fullName
+      location
+      profilePic
+      email
     }
-  }
-`;
+    blurbs {
+      blurbText
+
 export const USER_LIST = gql`
   query user_list {
     users {
       username
       _id
+
     }
   }
 `;

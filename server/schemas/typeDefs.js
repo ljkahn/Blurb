@@ -29,7 +29,8 @@ const typeDefs = `
       following: [User]
       blurbs: [Blurbs]
       profile: Profile!
-    
+      followerNumber: Int
+      followingNumber: Int
     }
     
     type Profile {
@@ -96,6 +97,7 @@ const typeDefs = `
       login(email: String!, password: String!): Auth 
       addUser(username: String!, profile: ProfileInput!): Auth 
       editUser(username: String, profile: ProfileInput): User
+      editAccount(password: String, email: String): User
       deleteUser(userID: ID!): String
       addLike(blurbID: ID!): String
       removeLike(blurbID: ID!): String
