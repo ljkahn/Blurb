@@ -1,12 +1,12 @@
 import React from "react";
-import Blurb from "../components/Blurbs/BlurbCard";
+import BlurbStream from "../components/Blurbs/BlurbCard";
 import BlurbCom from "../components/Blurbs/BlurbComCard";
 
 function CommentPage() {
   return (
     <>
       <div>
-        <Blurb />
+        <BlurbStream />
       </div>
       <div>
         <BlurbCom />
