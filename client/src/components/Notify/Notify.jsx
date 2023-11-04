@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import Avatar from "@mui/material/Avatar";
@@ -24,10 +24,6 @@ function Notify({ blurbId }) {
   };
 
   if (isDeleted) return <p>Successfully deleted</p>
-
-  if (error) {
-    return <p>An error occurred while trying to remove the blurb.</p>;
-  }
 
   return (
     <div id="bluMain">
