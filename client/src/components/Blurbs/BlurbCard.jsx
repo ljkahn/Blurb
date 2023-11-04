@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import "../../style/Blurbs.css";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
@@ -18,12 +18,14 @@ import {
   UNLIKE_Blurb,
   REMOVE_Blurb,
 } from "../../utils/mutations/Blurb/BlurbMutations";
+import { QUERY_MY_PROFILE } from "../../utils/Queries/userQueries";
 
-function BlurbStream({ children, username, blurbId, initialBlurbText }) {
+function BlurbStream({ children, username, blurbId, onDelete, initialBlurbText }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [commentText, setCommentText] = useState("");
   const [isDeleted, setIsDeleted] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
+  const { loading, data } = useQuery(QUERY_MY_PROFILE);
   const [blurbIdForEdit, setBlurbIdForEdit] = useState(null);
 
   const openModal = () => {
@@ -53,8 +55,10 @@ function BlurbStream({ children, username, blurbId, initialBlurbText }) {
 
   const [removeBlurb] = useMutation(REMOVE_Blurb, {
     variables: { blurbId },
+    refetchQueries: [{ query: QUERY_MY_PROFILE }],
     onCompleted: () => {
       setIsDeleted(true);
+      if (onDelete) onDelete();
     },
     onError: (err) => {
       console.error("Error removing blurb: ", err);
@@ -62,7 +66,15 @@ function BlurbStream({ children, username, blurbId, initialBlurbText }) {
   });
 
   const handleRemove = async () => {
-    await removeBlurb();
+    console.log("Attempting to remove blurb with ID:", blurbId);
+    try {
+      await removeBlurb();
+      if (onDelete) {
+        onDelete(blurbId);
+      }
+    } catch (error) {
+      console.error("Error removing blurb: ", error);
+    }
   };
 
   const [addComment] = useMutation(ADD_COMMENT);
@@ -105,6 +117,7 @@ function BlurbStream({ children, username, blurbId, initialBlurbText }) {
   };
 
   if (isDeleted) return null;
+
   return (
     <div id="bluMain">
       <div className="blurbContainer">

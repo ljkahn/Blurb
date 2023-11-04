@@ -8,29 +8,25 @@ export const ADD_Blurb = gql`
 
 export const REMOVE_Blurb = gql`
   mutation removeBlurb($blurbId: ID!) {
-    removeBlurb(blurbID: $blurbId)
+    removeBlurb(blurbId: $blurbId)
   }
 `;
 
 export const EDIT_Blurb = gql`
   mutation editBlurb($blurbId: ID!, $blurbText: String!) {
-    editBlurb(
-      blurbId: $blurbId
-      blurbAuthor: $blurbAuthor
-      blurbText: $blurbText
-    )
+    editBlurb(blurbId: $blurbId, blurbText: $blurbText, blurbAuthor: $blurbAuthor)
   }
 `;
 
 export const LIKE_Blurb = gql`
   mutation likeBlurb($blurbId: ID!) {
-    addLike(blurbID: $blurbId)
+    addLike(blurbId: $blurbId)
   }
 `;
 
 export const UNLIKE_Blurb = gql`
   mutation removeLike($blurbId: ID!) {
-    removeLike(blurbID: $blurbId)
+    removeLike(blurbId: $blurbId)
   }
 `;
 
