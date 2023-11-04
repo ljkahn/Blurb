@@ -6,7 +6,7 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 function BlurbCom() {
   return (
     <div>
-      {" "}
+
       <div id="bluMain">
         <div className="blurbContainer comContainer">
           <div id="blurbColOne">

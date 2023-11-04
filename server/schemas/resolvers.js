@@ -24,8 +24,13 @@ const resolvers = {
     },
     // ✅
 
+<<<<<<< HEAD
     // Find single user by username
     user: async (parent, { username }) => {
+=======
+     // Find single user by username
+     user: async (parent, { username }) => {
+>>>>>>> main
       try {
         return User.findOne({ username: username }).populate("blurbs");
       } catch (error) {
@@ -237,7 +242,7 @@ const resolvers = {
         return "Successfully added Blurb";
       } else {
         throw new Error("You need to be logged in to create a blurb!");
-      } 
+      }
     },
     // ✅
 
@@ -390,7 +395,8 @@ const resolvers = {
       if (!updatedBlurb) {
         throw new Error("Blurb not found!");
       }
-      return "You have unliked the blurb!";
+
+      return updatedBlurb; // Return the updated blurb to provide information back to the client
     },
     // ✅
 
@@ -438,10 +444,10 @@ const resolvers = {
 
       // Update user fields here
 
-      if (user.profile.password) {
-        user.profile.password = profile.password;
-        user.profile.isPasswordChanged = true;
-      }
+      // if (user.profile.password) {
+      //   user.profile.password = profile.password;
+      //   user.profile.isPasswordChanged = true;
+      // }
 
       // Update other profile fields
       if (profile.email) user.profile.email = profile.email;
@@ -456,6 +462,36 @@ const resolvers = {
       return user;
     },
     // ✅
+
+    editAccount: async (_, { profile}, context) => {
+      if (!context.user) {
+        throw new Error("Not logged in");
+      }
+
+      const user = await User.findById(context.user._id);
+      if (!user) {
+        throw new Error("User not found");
+      }
+
+      // Update user fields here
+
+      if (user.profile.password) {
+        user.profile.password = profile.password;
+        user.profile.isPasswordChanged = true;
+      }
+
+      // Update other profile fields
+      if (profile.email) user.profile.email = profile.email;
+      // Repeat for other fields...
+      
+      console.log(user);
+      await user.save();
+      return user;
+    },
+    // ✅
+
+
+
 
     editComment: async (_, { blurbID, commentID, newCommentText }, context) => {
       console.log(newCommentText);
