@@ -24,31 +24,20 @@ const resolvers = {
     },
     // ✅
 
-<<<<<<< HEAD
-    // Find single user by username
+    // Find single user by username( and populate blurbs or just get user???)
     user: async (parent, { username }) => {
-=======
-     // Find single user by username
-     user: async (parent, { username }) => {
->>>>>>> main
-      try {
-        return User.findOne({ username: username }).populate("blurbs");
-      } catch (error) {
-        console.error(error);
-        throw new Error("Failed to find user");
-      }
+      return User.findOne({ username: username }).populate("blurbs"); //.populate('blurbs')???
     },
     // ✅
 
     // get blurb from username
     userBlurbs: async (parent, { username }) => {
       if (username) {
-        try {
-          const user = await User.findOne({ username });
-          if (!user) {
-            return [];
-          }
-          const params = username ? { username } : {};
+        const user = await User.findOne({ username });
+        if (!user) {
+          return [];
+        }
+        const params = username ? { username } : {};
 
         // find blurbs by username and populate author and comments
         return Blurbs.find({ blurbAuthor: user._id })
@@ -62,10 +51,6 @@ const resolvers = {
               model: "User",
             },
           });
-        } catch (error) {
-          console.error(error);
-          throw new Error("Failed to get blurbs");
-        }
       }
       return [];
     },
@@ -73,8 +58,7 @@ const resolvers = {
 
     // get all blurbs and comments for each
     blurbs: async () => {
-      try {
-        return Blurbs.find()
+      return Blurbs.find()
         .populate("blurbAuthor")
         .sort({ createdAt: -1 })
         .populate("tags")
@@ -85,72 +69,54 @@ const resolvers = {
             model: "User",
           },
         });
-      } catch (error) {
-        console.error(error);
-        throw new Error("Failed to get blurbs");
-      }
     },
     // ✅
 
     blurbsByTag: async (parent, { tags }) => {
-      try {
-        return Blurbs.find({ tags: tags });
-      } catch (error) {
-        console.error(error);
-        throw new Error("Failed to find blurbs");
-      }
+      return Blurbs.find({ tags: tags });
     },
     // ✅
 
     //get all users with blurbs greater than zero
-    randomBlurb: async() => {
-      try {
-        const loginRandomBlurbs = await User.find({
-          $where: 'this.blurbs.length > 0'
-        }).populate({
-          path: 'blurbs',
-          populate: {
-            path: 'blurbAuthor'
-          }
-        })
-        const blurbs = [] 
-        for (const user of loginRandomBlurbs) {
-          
-          blurbs.push(...user.blurbs)
-        }
-        const randomIndex = Math.floor(Math.random() * blurbs.length)
-        console.log(blurbs[randomIndex])
-        return blurbs[randomIndex]
-      } catch (error) {
-        console.error(error);
-        throw new Error("Failed to find blurb");
+    randomBlurb: async () => {
+      const loginRandomBlurbs = await User.find({
+        $where: "this.blurbs.length > 0",
+      }).populate({
+        path: "blurbs",
+        populate: {
+          path: "blurbAuthor",
+        },
+      });
+      const blurbs = [];
+      for (const user of loginRandomBlurbs) {
+        blurbs.push(...user.blurbs);
       }
+      const randomIndex = Math.floor(Math.random() * blurbs.length);
+      // console.log(blurbs[randomIndex])
+      return blurbs[randomIndex];
     },
 
-
-
-    // Find my user account
+    // find my user account
     me: async (parent, args, context) => {
-      try {
-        if (context.user) {
-          return User.findOne({ _id: context.user._id }).populate("blurbs");
-        }
-        throw AuthenticationError;
-      } catch (error) {
-        console.error(error);
-        throw new Error("Failed to find profile");
+      if (context.user) {
+        return User.findOne({ _id: context.user._id }).populate("blurbs");
       }
+      throw AuthenticationError;
     },
     // ✅
 
     following: async (parent, args, context) => {
       // if (!context.user) {
       //   throw new Error("You must be logged in to view followers!");
-      // }      
+      // }
+      console.log("context");
+
       try {
         // Find myself and populate the following array
-        const user = await User.findById(context.user._id)
-        .populate('following');
+        const user = await User.findById(context.user._id).populate(
+          "following"
+        );
+        console.log(user);
         if (!user) {
           throw new Error("User not found");
         }
@@ -177,6 +143,8 @@ const resolvers = {
           throw new Error("User not found");
         }
 
+        console.log("----------");
+        console.log(user.followers);
         // Return the list of users who follow me
         return user.followers;
       } catch (error) {
@@ -188,10 +156,9 @@ const resolvers = {
 
   Mutation: {
     addUser: async (parent, { username, profile }) => {
+      console.log("Attempting to add user");
       try {
-        const user = await User.create(
-          { username, profile },
-          { new: true });
+        const user = await User.create({ username, profile });
         // console.log("User created:", user);
         const token = signToken(user);
         return { token, user };
@@ -242,7 +209,7 @@ const resolvers = {
         return "Successfully added Blurb";
       } else {
         throw new Error("You need to be logged in to create a blurb!");
-      }
+      } 
     },
     // ✅
 
@@ -367,7 +334,7 @@ const resolvers = {
 
     addLike: async (parent, { blurbID }, context) => {
       if (!context.user) {
-        throw new Error("You must be logged in to like a blurb");
+        throw new Error("you must be logged in to like a blurb");
       }
 
       const updatedBlurb = await Blurbs.findByIdAndUpdate(
@@ -384,7 +351,7 @@ const resolvers = {
 
     removeLike: async (parent, { blurbID }, context) => {
       if (!context.user) {
-        throw new Error("You must be logged in to like or unlike a blurb");
+        throw new Error("you must be logged in to like or unlike a blurb");
       }
 
       const updatedBlurb = await Blurbs.findByIdAndUpdate(
@@ -395,8 +362,7 @@ const resolvers = {
       if (!updatedBlurb) {
         throw new Error("Blurb not found!");
       }
-
-      return updatedBlurb; // Return the updated blurb to provide information back to the client
+      return "You have unliked the blurb!";
     },
     // ✅
 
@@ -444,10 +410,10 @@ const resolvers = {
 
       // Update user fields here
 
-      // if (user.profile.password) {
-      //   user.profile.password = profile.password;
-      //   user.profile.isPasswordChanged = true;
-      // }
+      if (user.profile.password) {
+        user.profile.password = profile.password;
+        user.profile.isPasswordChanged = true;
+      }
 
       // Update other profile fields
       if (profile.email) user.profile.email = profile.email;
@@ -462,36 +428,6 @@ const resolvers = {
       return user;
     },
     // ✅
-
-    editAccount: async (_, { profile}, context) => {
-      if (!context.user) {
-        throw new Error("Not logged in");
-      }
-
-      const user = await User.findById(context.user._id);
-      if (!user) {
-        throw new Error("User not found");
-      }
-
-      // Update user fields here
-
-      if (user.profile.password) {
-        user.profile.password = profile.password;
-        user.profile.isPasswordChanged = true;
-      }
-
-      // Update other profile fields
-      if (profile.email) user.profile.email = profile.email;
-      // Repeat for other fields...
-      
-      console.log(user);
-      await user.save();
-      return user;
-    },
-    // ✅
-
-
-
 
     editComment: async (_, { blurbID, commentID, newCommentText }, context) => {
       console.log(newCommentText);
@@ -572,7 +508,7 @@ const resolvers = {
       }
 
       // Increment the 'likes' field of the comment
-      comment.likes -= 1;
+      comment.likes += -1;
 
       await blurb.save();
 

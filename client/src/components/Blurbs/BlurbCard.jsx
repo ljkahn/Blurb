@@ -9,17 +9,12 @@ import Modal from "@mui/material/Modal";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import DeleteIcon from "@mui/icons-material/Delete";
-import {
-  LIKE_Blurb,
-  UNLIKE_Blurb,
-} from "../../utils/mutations/Blurb/BlurbMutations";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import { ADD_COMMENT } from "../../utils/mutations/Likes/CommentMutations";
 import { LIKE_Blurb, REMOVE_Blurb } from "../../utils/mutations/Blurb/BlurbMutations";
 
-
-function BlurbStream({ children, username, blurbId}) {
+function BlurbStream({ children, username, blurbId }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDeleted, setIsDeleted] = useState(false);
+
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -29,22 +24,11 @@ function BlurbStream({ children, username, blurbId}) {
   };
 
   const [likeBlurb] = useMutation(LIKE_Blurb);
-  const [unlikeBlurb] = useMutation(UNLIKE_Blurb);
 
   const handleLike = () => {
-    if (isLiked) {
-      // If already liked, unlike the blurb
-      unlikeBlurb({
-        variables: { blurbId },
-    
-      });
-    } else {
-      // If not liked, like the blurb
-      likeBlurb({
-        variables: { blurbId },
-      });
-    }
-    setIsLiked(!isLiked); // Toggle the liked state
+    likeBlurb({
+      variables: { blurbId },
+    });
   };
 
   const [removeBlurb] = useMutation(REMOVE_Blurb, {
@@ -61,20 +45,8 @@ function BlurbStream({ children, username, blurbId}) {
     
       await removeBlurb();
   }
-  if (isDeleted) return <p>Comment deleted</p>;
   
-  const [addComment] = useMutation(ADD_COMMENT);
-  const handleComment = async () => {
-    console.log(commentText); // Log the comment text
-    try {
-      await addComment({
-        variables: { blurbId, commentText: commentText },
-      });
-      setCommentText(""); // Clear the comment input field
-    } catch (error) {
-      console.error("Error adding comment:", error);
-    }
-  };
+  if (isDeleted) return null;
 
   return (
     <div id="bluMain">
@@ -97,7 +69,7 @@ function BlurbStream({ children, username, blurbId}) {
         </div>
         <div id="notifyIcons">
           <IconButton onClick={handleLike} className="likeComment">
-            {isLiked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+            <FavoriteBorderIcon />
           </IconButton>
           <IconButton onClick={openModal} className="likeComment">
             <ChatBubbleOutlineIcon />
@@ -112,8 +84,6 @@ function BlurbStream({ children, username, blurbId}) {
         id="blurbModal"
         open={isModalOpen}
         onClose={closeModal}
-        value={commentText}
-        onChange={(e) => setCommentText(e.target.value)}
       >
         <form id="blForm">
           <TextField id="outlined-basic" label="Comment" variant="outlined" />
@@ -121,7 +91,6 @@ function BlurbStream({ children, username, blurbId}) {
             style={{ margin: ".5rem" }}
             variant="contained"
             disableElevation
-            onClick={handleComment}
           >
             Comment
           </Button>
