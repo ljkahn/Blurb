@@ -6,6 +6,7 @@ import Avatar from "@mui/material/Avatar";
 function BlurbCom() {
   return (
     <div>
+
       <div id="bluMain">
         <div className="blurbContainer comContainer">
           <div id="blurbColOne">

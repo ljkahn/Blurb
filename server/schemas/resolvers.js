@@ -356,7 +356,7 @@ const resolvers = {
 
     removeLike: async (parent, { blurbID }, context) => {
       if (!context.user) {
-        throw new Error("you must be logged in to like or unlike a blurb");
+        throw new Error("You must be logged in to like or unlike a blurb");
       }
 
       const updatedBlurb = await Blurbs.findByIdAndUpdate(
@@ -367,7 +367,8 @@ const resolvers = {
       if (!updatedBlurb) {
         throw new Error("Blurb not found!");
       }
-      return "You have unliked the blurb!";
+
+      return updatedBlurb; // Return the updated blurb to provide information back to the client
     },
     // ✅
 

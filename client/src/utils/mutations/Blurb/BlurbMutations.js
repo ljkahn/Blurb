@@ -26,6 +26,19 @@ export const LIKE_Blurb = gql`
 
 export const UNLIKE_Blurb = gql`
   mutation unlikeBlurb($blurbId: ID!) {
-    addLike(blurbID: $blurbId)
+    removeLike(blurbID: $blurbId)
+  }
+`;
+
+export const GET_BLURB_BY_ID = gql`
+  query getBlurbById($blurbId: ID!) {
+    blurb(id: $blurbId) {
+      _id
+      blurbText
+      blurbAuthor {
+        username
+      }
+      createdAt
+    }
   }
 `;
