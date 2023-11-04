@@ -199,7 +199,7 @@ const resolvers = {
     },
     // ✅
 
-    addBlurb: async (parent, { blurbText, tags }, context) => {
+    addBlurb: async (parent, { blurbText, tags, blurbId }, context) => {
       if (context.user) {
         // Create a new blurb using the Blurb model
         const blurb = await Blurbs.create({
@@ -356,7 +356,7 @@ const resolvers = {
 
     removeLike: async (parent, { blurbId }, context) => {
       if (!context.user) {
-        throw new Error("You must be logged in to like or unlike a blurb");
+        throw new Error("you must be logged in to like or unlike a blurb");
       }
 
       const updatedBlurb = await Blurbs.findByIdAndUpdate(
@@ -367,8 +367,7 @@ const resolvers = {
       if (!updatedBlurb) {
         throw new Error("Blurb not found!");
       }
-
-      return updatedBlurb; // Return the updated blurb to provide information back to the client
+      return "You have unliked the blurb!";
     },
     // ✅
 
@@ -417,10 +416,10 @@ const resolvers = {
 
       // Update user fields here
 
-      // if (user.profile.password) {
-      //   user.profile.password = profile.password;
-      //   user.profile.isPasswordChanged = true;
-      // }
+      if (user.profile.password) {
+        user.profile.password = profile.password;
+        user.profile.isPasswordChanged = true;
+      }
 
       // Update other profile fields
       if (profile.email) user.profile.email = profile.email;
