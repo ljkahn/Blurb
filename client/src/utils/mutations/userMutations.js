@@ -37,9 +37,16 @@ export const EDIT_USER = gql`
   }
 `;
 
-
-
-
+export const EDIT_ACCOUNT = gql `
+mutation editAccount($password: String, $email: String) {
+  editAccount(password: $password, email: $email) {
+    profile {
+      email
+      password
+    }
+  }
+}
+`;
 //example edit user variables
 // {
 //   "username": null,

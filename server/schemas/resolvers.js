@@ -435,7 +435,7 @@ const resolvers = {
     },
     // ✅
 
-    editAccount: async (_, { profile}, context) => {
+    editAccount: async (_, { password, email}, context) => {
       if (!context.user) {
         throw new Error("Not logged in");
       }
@@ -447,13 +447,13 @@ const resolvers = {
 
       // Update user fields here
 
-      if (user.profile.password) {
-        user.profile.password = profile.password;
+      if (password) {
+        user.profile.password = password;
         user.profile.isPasswordChanged = true;
       }
 
       // Update other profile fields
-      if (profile.email) user.profile.email = profile.email;
+      if (email) user.profile.email = email;
       // Repeat for other fields...
       
       console.log(user);
