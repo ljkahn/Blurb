@@ -12,7 +12,7 @@ import Modal from "@mui/material/Modal";
 import TextField from "@mui/material/TextField";
 import { Select, MenuItem, Input, Button } from "@mui/material"; // Import Select and MenuItem
 import { useQuery } from "@apollo/client";
-import { QUERY_MY_PROFILE } from "../utils/queries/userQueries.js";
+import { QUERY_MY_PROFILE } from "../utils/Queries/userQueries.js";
 import Photo from "../components/Profile/tinyPhoto.jsx";
 import AddBlurb from "./Blurbs/AddBlurb";
 

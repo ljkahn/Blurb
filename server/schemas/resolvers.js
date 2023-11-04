@@ -389,6 +389,7 @@ const resolvers = {
       blurb.blurbText = blurbText;
       blurb.updatedAt = Date.now();
       blurb.tags = tags;
+      blurb.new = true;
 
       // Save the updated blurb to the database
       await blurb.save();

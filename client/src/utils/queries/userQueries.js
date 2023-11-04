@@ -26,6 +26,7 @@ export const QUERY_MY_PROFILE = gql`
     }
   }
 `;
+
 export const QUERY_ONE_USER = gql`
   query User($username: String!) {
     user(username: $username) {
@@ -46,6 +47,7 @@ export const QUERY_ONE_USER = gql`
     }
   }
 `;
+
 export const USER_LIST = gql`
   query user_list {
     users {
