@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import Photo from "../components/Profile/ProfilePhoto.jsx";
 import Edit from "../components/Profile/Edit.jsx";
 import AccountEdit from "../components/Profile/AccountEdit.jsx";
@@ -9,29 +9,28 @@ import IconButton from "@mui/material/IconButton";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import "../style/Profile.css";
 import "../index.css";
+import CommentCom from "../components/CommentCom.jsx";
 
 import { useNavigate, useParams } from "react-router-dom";
 import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_MY_PROFILE } from "../utils/queries/userQueries.js";
 
 import Auth from "../utils/auth.js";
-import BlurbStream from '../components/Blurbs/BlurbCard.jsx';
-
+import BlurbStream from "../components/Blurbs/BlurbCard.jsx";
 
 function Profile() {
   const [isEditVisible, setIsEditVisible] = useState(false);
   const [showProfile, setShowProfile] = useState(true);
   const [accountSettingsVisible, setAccountSettingsVisible] = useState(false);
   const [currentComponent, setCurrentComponent] = useState("profile");
-  const [userData, setUserData] = useState(null); 
+  const [userData, setUserData] = useState(null);
   const { loading, data } = useQuery(QUERY_MY_PROFILE);
 
-  useEffect (() => {
+  useEffect(() => {
     if (!loading) {
-      console.log( data.me);
-      setUserData(data.me)
+      console.log(data.me);
+      setUserData(data.me);
     }
-
   }, [loading]);
 
   const handleEditClick = () => {
@@ -74,51 +73,64 @@ function Profile() {
     color: black,
   };
 
-
   return (
     <div>
       <IconButton onClick={handleGoBack}>
         <ArrowBackIosIcon />
       </IconButton>
-      {userData && (showProfile ? (
-        <Container id="profile">
-          <Photo profileImg={userData.profile.profilePic} />
-      <h1>{ userData.profile.fullName}</h1>
-      <h2>{userData.username}</h2>
-          <p id="info">{userData.profile.bio}</p>
-          <p id="info">📍{userData.profile.location}</p>
-          <Grid>
-            <Button id="btn" style={buttonStyle} variant="contained">
-              {userData.followerNumber} Followers
-            </Button>
-            <Button id="btn" style={buttonStyle} variant="contained">
-              {userData.followingNumber} Following
-            </Button>
-          </Grid>
+      {userData &&
+        (showProfile ? (
+          <Container id="profile">
+            <Photo profileImg={userData.profile.profilePic} />
+            <h1>{userData.profile.fullName}</h1>
+            <h2>{userData.username}</h2>
+            <p id="info">{userData.profile.bio}</p>
+            <p id="info">📍{userData.profile.location}</p>
+            <Grid>
+              <Button id="btn" style={buttonStyle} variant="contained">
+                {userData.followerNumber} Followers
+              </Button>
+              <Button id="btn" style={buttonStyle} variant="contained">
+                {userData.followingNumber} Following
+              </Button>
+            </Grid>
 
-          <Button
-            id="btn"
-            style={editStyle}
-            variant="contained"
-            onClick={handleEditClick}
-          >
-            Edit Profile{" "}
-          </Button>
+            <Button
+              id="btn"
+              style={editStyle}
+              variant="contained"
+              onClick={handleEditClick}
+            >
+              Edit Profile{" "}
+            </Button>
 
-          {userData.blurbs && userData.blurbs.map((blurb, index) => (
-            <BlurbStream key={index} blurbId={blurb.blurbId} username = {blurb.username} >
-              {blurb.blurbText}
-            </BlurbStream>
-          ))}
-        </Container>
-      ) : isEditVisible ? (
-        <Edit userData={userData} 
-        showAccountSettings={showAccountSettings} />
-      ) : (
-        accountSettingsVisible && <AccountEdit />
-      ))}
+            {userData.blurbs &&
+              userData.blurbs.map((blurbs, index, commentId) => (
+                <>
+                  <BlurbStream
+                    key={index}
+                    blurbId={blurbs.blurbId}
+                    username={blurbs.username}
+                    comments={blurbs.comments}
+                  >
+                    {blurbs.blurbText}
+                  </BlurbStream>
+                  <CommentCom
+                    key={commentId}
+                    blurbId={blurbs.blurbId}
+                    username={blurbs.username}
+                    comments={blurbs.comments}
+                  />
+                </>
+              ))}
+          </Container>
+        ) : isEditVisible ? (
+          <Edit userData={userData} showAccountSettings={showAccountSettings} />
+        ) : (
+          accountSettingsVisible && <AccountEdit />
+        ))}
     </div>
-  )
+  );
 }
 
-export default Profile
+export default Profile;

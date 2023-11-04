@@ -10,14 +10,18 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { ADD_COMMENT } from "../../utils/mutations/Likes/CommentMutations";
+import {
+  ADD_COMMENT,
+  REMOVE_COMMENT,
+  EDIT_COMMENT,
+} from "../../utils/mutations/Likes/CommentMutations";
 import {
   LIKE_Blurb,
   UNLIKE_Blurb,
   REMOVE_Blurb,
 } from "../../utils/mutations/Blurb/BlurbMutations";
 
-function BlurbStream({ children, username, blurbId }) {
+function BlurbStream({ children, username, blurbId, comments }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [commentText, setCommentText] = useState("");
   const [isDeleted, setIsDeleted] = useState(false);
@@ -62,16 +66,44 @@ function BlurbStream({ children, username, blurbId }) {
     await removeBlurb();
   };
 
+  //add comment
   const [addComment] = useMutation(ADD_COMMENT);
   const handleComment = async () => {
     console.log(commentText); // Log the comment text
     try {
       await addComment({
-        variables: { blurbID, commentText: commentText },
+        variables: {
+          blurbId: "654676b83ac2a6d51c0ae1e9",
+          commentText: commentText,
+        },
       });
       setCommentText(""); // Clear the comment input field
     } catch (error) {
       console.error("Error adding comment:", error);
+    }
+  };
+
+  //remove comment
+  const [removeComment] = useMutation(REMOVE_COMMENT); // Import the REMOVE_COMMENT mutation
+  const handleDeleteComment = async (commentId) => {
+    try {
+      await removeComment({
+        variables: { commentId },
+      });
+    } catch (error) {
+      console.error("Error removing comment:", error);
+    }
+  };
+
+  const [editComment] = useMutation(EDIT_COMMENT); // Use the EDIT_COMMENT mutation
+  const handleEditComment = async () => {
+    try {
+      await editComment({
+        variables: { commentId: commentId, commentText: editedCommentText },
+      });
+      setIsEditing(false); // Disable editing mode after saving
+    } catch (error) {
+      console.error("Error editing comment:", error);
     }
   };
 
