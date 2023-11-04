@@ -1,6 +1,7 @@
 import React from "react";
 import "../../style/Blurbs.css";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import Avatar from "@mui/material/Avatar";
 
 function BlurbCom() {
   return (
