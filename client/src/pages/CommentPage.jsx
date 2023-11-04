@@ -33,4 +33,3 @@ function CommentPage() {
 
 export default CommentPage;
 
-export default CommentPage;

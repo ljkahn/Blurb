@@ -33,6 +33,19 @@ function Edit({ userData, showAccountSettings }) {
     },
   });
 
+  useEffect(() => {
+    if (userData) {
+      setFormData({
+        username: userData.username,
+        profile: {
+          fullName: userData.profile.fullName,
+          location: userData.profile.location,
+          bio: userData.profile.bio,
+          profilePic: userData.profile.profilePic,
+        },
+      });
+    }
+  }, [userData]);
 
   const [editUser, { loading, error }] = useMutation(EDIT_USER);
 

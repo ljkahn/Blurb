@@ -46,6 +46,10 @@ query User($username: String!) {
     }
     blurbs {
       blurbText
+    }
+  }
+}
+  `;
 
 export const USER_LIST = gql`
   query user_list {

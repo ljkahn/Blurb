@@ -37,6 +37,9 @@ export const EDIT_USER = gql`
   }
 `;
 
+
+
+
 //example edit user variables
 // {
 //   "username": null,
