@@ -78,9 +78,22 @@ const resolvers = {
     // ✅
 
 
- findBlurbById: async (parent, { blurbId }) => {
-      return Blurbs.findById({ _id: blurbId });
-    },
+//  findBlurbById: async (parent, { blurbId }) => {
+//       return Blurbs.findById({ _id: blurbId });
+//     },
+
+findBlurbById: async (parent, { blurbId }) => {
+  return Blurbs.findById(blurbId)
+    .populate("blurbAuthor")
+    .populate({
+      path: "comments",
+      populate: {
+        path: "commentAuthor",
+        model: "User",
+      },
+    });
+},
+
 
     //get all users with blurbs greater than zero
     randomBlurb: async () => {
