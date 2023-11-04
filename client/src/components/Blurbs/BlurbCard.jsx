@@ -99,7 +99,7 @@ function BlurbStream({ children, username, blurbId}) {
             style={{ margin: ".5rem" }}
             variant="contained"
             disableElevation
-            onClick={handleComment}
+            // onClick={handleComment}
           >
             Comment
           </Button>
