@@ -25,7 +25,7 @@ export const LIKE_Blurb = gql`
 `;
 
 export const UNLIKE_Blurb = gql`
-  mutation unlikeBlurb($blurbId: ID!) {
+  mutation removeLike($blurbId: ID!) {
     removeLike(blurbID: $blurbId)
   }
 `;
