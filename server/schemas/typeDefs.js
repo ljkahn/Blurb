@@ -102,7 +102,7 @@ const typeDefs = `
       addLike(blurbID: ID!): String
       removeLike(blurbID: ID!): String
       addBlurb(blurbText: String!, tags: [Tag]): String
-      editBlurb(blurbID: ID!, blurbText: String!, tags: [Tag]): String
+      editBlurb(blurbID: ID!, blurbAuthor: String, blurbText: String!, tags: [Tag]): String
       removeBlurb(blurbID: ID!): String
       addComment(blurbID: ID!, commentText: String!): String
       removeComment(blurbID: ID!, commentID: ID!): String
