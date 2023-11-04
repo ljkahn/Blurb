@@ -58,8 +58,6 @@ function NavBar() {
     }
   }, [loading, data]);
 
-  console.log(userData);
-
   return (
     <div id="navContain">
       <Link to="/home">

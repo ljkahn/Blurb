@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import "../../style/Blurbs.css";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
@@ -16,12 +16,14 @@ import {
   UNLIKE_Blurb,
   REMOVE_Blurb,
 } from "../../utils/mutations/Blurb/BlurbMutations";
+import { QUERY_MY_PROFILE } from "../../utils/Queries/userQueries";
 
-function BlurbStream({ children, username, blurbId }) {
+function BlurbStream({ children, username, blurbId, onDelete }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [commentText, setCommentText] = useState("");
   const [isDeleted, setIsDeleted] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
+  const { loading, data } = useQuery(QUERY_MY_PROFILE);
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -50,8 +52,10 @@ function BlurbStream({ children, username, blurbId }) {
 
   const [removeBlurb] = useMutation(REMOVE_Blurb, {
     variables: { blurbId },
+    refetchQueries: [{ query: QUERY_MY_PROFILE }],
     onCompleted: () => {
       setIsDeleted(true);
+      if (onDelete) onDelete();
     },
     onError: (err) => {
       console.error("Error removing blurb: ", err);
@@ -59,8 +63,15 @@ function BlurbStream({ children, username, blurbId }) {
   });
 
   const handleRemove = async () => {
-    await removeBlurb();
-    props.onDelete();
+    console.log("Attempting to remove blurb with ID:", blurbId);
+    try {
+      await removeBlurb();
+      if (onDelete) {
+        onDelete(blurbId);
+      }
+    } catch (error) {
+      console.error("Error removing blurb: ", error);
+    }
   };
 
   const [addComment] = useMutation(ADD_COMMENT);
@@ -76,8 +87,8 @@ function BlurbStream({ children, username, blurbId }) {
     }
   };
 
-
   if (isDeleted) return null;
+
   return (
     <div id="bluMain">
       <div className="blurbContainer">
@@ -99,7 +110,7 @@ function BlurbStream({ children, username, blurbId }) {
         </div>
         <div id="notifyIcons">
           <IconButton onClick={handleLike} className="likeComment">
-            <FavoriteBorderIcon />
+            {isLiked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
           </IconButton>
           <IconButton onClick={openModal} className="likeComment">
             <ChatBubbleOutlineIcon />
@@ -140,6 +151,7 @@ function BlurbStream({ children, username, blurbId }) {
             style={{ margin: ".5rem" }}
             variant="contained"
             disableElevation
+            onClick={handleComment}
           >
             Comment
           </Button>

@@ -99,16 +99,16 @@ const typeDefs = `
       editUser(username: String, profile: ProfileInput): User
       editAccount(password: String, email: String): User
       deleteUser(userID: ID!): String
-      addLike(blurbID: ID!): String
-      removeLike(blurbID: ID!): String
+      addLike(blurbId: ID!): String
+      removeLike(blurbId: ID!): String
       addBlurb(blurbText: String!, tags: [Tag]): String
-      editBlurb(blurbID: ID!, blurbText: String!, tags: [Tag]): String
-      removeBlurb(blurbID: ID!): String
-      addComment(blurbID: ID!, commentText: String!): String
-      removeComment(blurbID: ID!, commentID: ID!): String
-      editComment(blurbID: ID!, commentID: ID!, newCommentText: String!):String
-      addCommentLike(blurbID: ID!, commentID: ID!): String
-      removeCommentLike(blurbID: ID!, commentID: ID!): String
+      editBlurb(blurbId: ID!, blurbText: String!, tags: [Tag]): String
+      removeBlurb(blurbId: ID!): String
+      addComment(blurbId: ID!, commentText: String!): String
+      removeComment(blurbId: ID!, commentId: ID!): String
+      editComment(blurbId: ID!, commentId: ID!, newCommentText: String!):String
+      addCommentLike(blurbId: ID!, commentId: ID!): String
+      removeCommentLike(blurbId: ID!, commentId: ID!): String
       followUser(userIdToFollow: ID!): String
     }
     `;

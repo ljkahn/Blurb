@@ -14,6 +14,7 @@ export const QUERY_MY_PROFILE = gql`
       followingNumber
       followerNumber
       blurbs {
+        _id
         blurbText
         comments {
           likes
