@@ -1,35 +1,49 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import '../style/Profile.css';
 import '../index.css';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Photo from "../components/Profile/ProfilePhoto.jsx";
 import Button from "@mui/material/Button";
-import BlurbCard from '../components/Blurbs/BlurbCard.jsx';
+import BlurbStream from '../components/Blurbs/BlurbCard.jsx';
 
 import { useQuery } from '@apollo/client';
 import { QUERY_ONE_USER } from '../utils/queries/userQueries';
 import { useParams } from 'react-router-dom';
+import Auth from '../utils/auth.js';
 
 
 function UserProfile() {
   const {username} = useParams();
-  const {data,  loading} = useQuery(QUERY_ONE_USER, {
+  const [userData, setUserData] = useState(null);
+  const {data,  loading, error} = useQuery(QUERY_ONE_USER, {
     variables: {username: username},
   });
   
-  const userData = data.user;
-  // if (loading) {
-  //   return <p>Loading...</p>
+  console.log(data);
+
+useEffect(() => {
+  if (!loading && data && data.user) {
+    setUserData(data.user);
+  }
+}, [loading,data]);
+
+if (error) {
+  console.log(JSON.stringify(error))
+}
+
+  // const userData = data.user;
+  // // if (loading) {
+  // //   return <p>Loading...</p>
+  // // }
+
+  // if (error) {
+  //   console.error(error)
   // }
 
-  if (error) {
-    console.error(error)
-  }
-
-  if (!data || !data.user) {
-    return <p>No data found for this user.</p>;
-  }
+  // if (!data || !data.user) {
+  //   return <p>No data found for this user.</p>;
+  // }
 
 
   const neon = '#EDFB60';
@@ -52,6 +66,7 @@ function UserProfile() {
   }
   return (
     <div>
+      {userData && userData.profile && (
       <Container id='userProfile'>
       <Photo profileImg={userData.profile.profilePic}/>
       <h1>{userData.profile.fullName}</h1>
@@ -69,8 +84,13 @@ function UserProfile() {
       <Button id='btn' style={followStyle} variant="contained">
         FOLLOW
       </Button>
-      <BlurbCard/>
+      {userData.blurbs.map((blurb, index) => (
+            <BlurbStream key={index} blurbId={blurb.blurbId} username = {blurb.username} >
+              {blurb.blurbText}
+            </BlurbStream>
+      ))}
       </Container>
+      )}
     </div>
   )
 }

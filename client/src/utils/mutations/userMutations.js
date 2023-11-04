@@ -29,10 +29,8 @@ export const EDIT_USER = gql`
       username
       profile {
         bio
-        email
         fullName
         location
-        password
         profilePic
       }
     }
