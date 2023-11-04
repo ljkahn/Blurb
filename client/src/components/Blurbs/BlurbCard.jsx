@@ -340,7 +340,7 @@
 // // export default BlurbStream;
 
 import React, { useState } from "react";
-import { useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import "../../style/Blurbs.css";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
@@ -359,14 +359,23 @@ import {
   ADD_COMMENT,
   REMOVE_COMMENT,
 } from "../../utils/mutations/Likes/CommentMutations";
+import { QUERY_MY_PROFILE } from "../../utils/Queries/userQueries";
 
-function BlurbStream({ children, username, blurbId, comments, isLiked }) {
+function BlurbStream({
+  children,
+  username,
+  blurbId,
+  comments,
+  isLiked,
+  onDelete,
+}) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [commentText, setCommentText] = useState("");
   const [isDeleted, setIsDeleted] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [editedCommentText, setEditedCommentText] = useState("");
   const [commentId, setCommentId] = useState("");
+  const { loading, data } = useQuery(QUERY_MY_PROFILE);
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -396,8 +405,10 @@ function BlurbStream({ children, username, blurbId, comments, isLiked }) {
 
   const [removeBlurb] = useMutation(REMOVE_Blurb, {
     variables: { blurbId },
+    refetchQueries: [{ query: QUERY_MY_PROFILE }],
     onCompleted: () => {
       setIsDeleted(true);
+      if (onDelete) onDelete();
     },
     onError: (err) => {
       console.error("Error removing blurb: ", err);
@@ -405,7 +416,15 @@ function BlurbStream({ children, username, blurbId, comments, isLiked }) {
   });
 
   const handleRemove = async () => {
-    await removeBlurb();
+    console.log("Attempting to remove blurb with ID:", blurbId);
+    try {
+      await removeBlurb();
+      if (onDelete) {
+        onDelete(blurbId);
+      }
+    } catch (error) {
+      console.error("Error removing blurb: ", error);
+    }
   };
 
   const [addComment] = useMutation(ADD_COMMENT);
