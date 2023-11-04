@@ -14,6 +14,7 @@ import { Select, MenuItem, Input, Button } from "@mui/material"; // Import Selec
 import { useQuery } from "@apollo/client";
 import { QUERY_MY_PROFILE } from "../utils/queries/userQueries.js";
 import Photo from "../components/Profile/tinyPhoto.jsx";
+import AddBlurb from "./Blurbs/AddBlurb";
 
 function notificationsLabel(count) {
   if (count === 0) {
@@ -92,23 +93,32 @@ function NavBar() {
         open={isModalOpen}
         onClose={closeModal}
       >
-        <form id="blForm">
-          <TextField
-            id="outlined-basic"
-            label="Blurb"
-            variant="outlined"
-            name=""
-          />
-          <Select
-            multiple
-            value={selectedOptions}
-            input={<Input />}
-            renderValue={(selected) => selected.join(", ")}
-          >
-            <MenuItem value="Option 1">Option 1</MenuItem>
-            <MenuItem value="Option 2">Option 2</MenuItem>
-            <MenuItem value="Option 3">Option 3</MenuItem>
-          </Select>
+        <div>
+          <AddBlurb />
+        </div>
+
+        {/* <form id="blForm">
+          <TextField id="outlined-basic" label="Blurb" variant="outlined" />
+          <Dropdown>
+            <MenuButton id="addTag">Add Tag</MenuButton>
+            <Menu slots={{ listbox: Listbox }}>
+              <MenuItem onClick={createHandleMenuClick("Profile")}>
+                Funny
+              </MenuItem>
+              <MenuItem onClick={createHandleMenuClick("Language settings")}>
+                Tanks
+              </MenuItem>
+              <MenuItem onClick={createHandleMenuClick("Log out")}>
+                Rats
+              </MenuItem>
+              <MenuItem onClick={createHandleMenuClick("Log out")}>
+                Dogs
+              </MenuItem>
+              <MenuItem onClick={createHandleMenuClick("Log out")}>
+                Cats
+              </MenuItem>
+            </Menu>
+          </Dropdown>
           <Button
             style={{ margin: ".5rem" }}
             variant="contained"
@@ -116,7 +126,7 @@ function NavBar() {
           >
             Post
           </Button>
-        </form>
+        </form> */}
       </Modal>
     </div>
   );

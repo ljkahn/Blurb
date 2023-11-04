@@ -1,22 +1,8 @@
 import { gql } from "@apollo/client";
 
 export const ADD_Blurb = gql`
-  mutation addBlurb($blurbText: String!, $tags: [Tag], $blurbAuthorId: ID!) {
-    addBlurb(
-      blurbText: $blurbText
-      tags: $tags
-      blurbAuthorId: $blurbAuthorId
-    ) {
-      _id
-      createdAt
-      blurbText
-      blurbAuthor {
-        profile {
-          profilePic
-        }
-        username
-      }
-    }
+  mutation addBlurb($blurbText: String!, $tags: [Tag]) {
+    addBlurb(blurbText: $blurbText, tags: $tags)
   }
 `;
 

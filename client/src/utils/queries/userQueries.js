@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import { gql } from "@apollo/client";
 
 export const QUERY_MY_PROFILE = gql`
   query me {
@@ -14,22 +14,29 @@ export const QUERY_MY_PROFILE = gql`
       }
     }
   }
-`
+`;
 
-
-export const QUERY_ONE_USER = gql `
-query user($username: String!) {
-  user(username: $username) {
-    followerNumber
-    followingNumber
-    username
-    profile {
-      _id
-      fullName
-      location
-      bio
-      profilePic
+export const QUERY_ONE_USER = gql`
+  query user($username: String!) {
+    user(username: $username) {
+      followerNumber
+      followingNumber
+      username
+      profile {
+        _id
+        fullName
+        location
+        bio
+        profilePic
+      }
     }
   }
-}
-`
+`;
+export const USER_LIST = gql`
+  query user_list {
+    users {
+      username
+      _id
+    }
+  }
+`;
