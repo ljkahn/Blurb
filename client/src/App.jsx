@@ -8,7 +8,7 @@ import {
 import { setContext } from "@apollo/client/link/context";
 import React, { useState, useEffect } from "react";
 import "./index.css";
-import Blurb from "./components/Blurbs/BlurbCard";
+import BlurbStream from "./components/Blurbs/BlurbCard";
 import Notifications from "./pages/Notifications";
 import Flame from "./pages/Flame";
 import Login from "./pages/Login";
@@ -25,7 +25,6 @@ import CommentPage from "./pages/CommentPage";
 const httpLink = createHttpLink({
   uri: "/graphql",
 });
-console.log(httpLink);
 
 const authLink = setContext((_, { headers }) => {
   const token = localStorage.getItem("id_token");
@@ -54,11 +53,11 @@ function App() {
           <Route path="/flame" element={<Flame />} />
           <Route path="/notifications" element={<Notifications />} />
           <Route path="/profile" element={<Profile />} />
-          <Route path = "/profile/:username" element={<UserProfile/>}/>
+          <Route path="/profile/:username" element={<UserProfile />} />
           <Route path="*" element={<Error />} />
           <Route path="/likes" element={<Likes />} />
           <Route path="/comment" element={<CommentPage />} />
-          <Route path="/blurb" element={<Blurb />} />
+          <Route path="/blurb" element={<BlurbStream />} />
         </Routes>
         <NavBar />
       </Router>

@@ -9,12 +9,13 @@ import IconButton from "@mui/material/IconButton";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import "../style/Profile.css";
 import "../index.css";
-import BlurbCard from "../components/Blurbs/BlurbCard.jsx";
 
 import { useNavigate, useParams } from "react-router-dom";
-import { useQuery } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_MY_PROFILE } from "../utils/queries/userQueries.js";
+
 import Auth from "../utils/auth.js";
+import BlurbStream from '../components/Blurbs/BlurbCard.jsx';
 
 
 function Profile() {
@@ -27,8 +28,8 @@ function Profile() {
 
   useEffect (() => {
     if (!loading) {
-      console.log({username: data.me.username, ...data.me.profile});
-      setUserData({username: data.me.username, ...data.me.profile})
+      console.log( data.me);
+      setUserData(data.me)
     }
 
   }, [loading]);
@@ -81,17 +82,17 @@ function Profile() {
       </IconButton>
       {userData && (showProfile ? (
         <Container id="profile">
-          <Photo profileImg={userData.profilePic} />
-      <h1>{ userData.fullName}</h1>
+          <Photo profileImg={userData.profile.profilePic} />
+      <h1>{ userData.profile.fullName}</h1>
       <h2>{userData.username}</h2>
-          <p id="info">{userData.bio}</p>
-          <p id="info">📍{userData.location}</p>
+          <p id="info">{userData.profile.bio}</p>
+          <p id="info">📍{userData.profile.location}</p>
           <Grid>
             <Button id="btn" style={buttonStyle} variant="contained">
-              {userData.followerNumber || 0} Followers
+              {userData.followerNumber} Followers
             </Button>
             <Button id="btn" style={buttonStyle} variant="contained">
-              {userData.followingNumber || 0} Following
+              {userData.followingNumber} Following
             </Button>
           </Grid>
 
@@ -105,11 +106,14 @@ function Profile() {
           </Button>
 
           {userData.blurbs && userData.blurbs.map((blurb, index) => (
-            <BlurbCard key={index} blurbData={blurb} />
+            <BlurbStream key={index} blurbId={blurb.blurbId} username = {blurb.username} >
+              {blurb.blurbText}
+            </BlurbStream>
           ))}
         </Container>
       ) : isEditVisible ? (
-        <Edit showAccountSettings={showAccountSettings} />
+        <Edit userData={userData} 
+        showAccountSettings={showAccountSettings} />
       ) : (
         accountSettingsVisible && <AccountEdit />
       ))}

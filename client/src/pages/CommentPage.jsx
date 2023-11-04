@@ -1,14 +1,19 @@
-import React from 'react'
-import Blurb from '../components/Blurbs/BlurbCard'
-import Comment from '../components/Blurbs/BlurbComCard'
+
+import React from "react";
+import BlurbStream from "../components/Blurbs/BlurbCard";
+import BlurbCom from "../components/Blurbs/BlurbComCard";
 
 function CommentPage() {
   return (
     <>
-    <div><Blurb /></div>
-    <div><Comment /></div>
+      <div>
+        <BlurbStream />
+      </div>
+      <div>
+        <BlurbCom />
+      </div>
     </>
-  )
+  );
 }
 
-export default CommentPage
+export default CommentPage;
