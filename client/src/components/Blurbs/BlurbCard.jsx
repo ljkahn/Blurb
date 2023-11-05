@@ -114,11 +114,24 @@ function BlurbStream({
 
   const [updateBlurb] = useMutation(EDIT_Blurb);
 
-  const handleEditBlurb = () => {
+  const handleEditBlurb = async () => {
     console.log("BlurbId", blurbId);
-    console.log("username", username); // Log the blurb author
     console.log("Edited Blurb Text:", editBlurbText); // Log the edited blurb text
-    // const currentUser = console.log(currentUser);
+    try {
+      // Call the updateBlurb mutation with the provided variables using await
+      const result = await updateBlurb({
+        variables: {
+          blurbId: blurbId,
+          blurbText: editBlurbText,
+        },
+      });
+      // Handle the result if needed
+      // The updated blurb text will be available in result.data.editBlurb
+      console.log("Blurb updated:", result.data.editBlurb);
+    } catch (error) {
+      // Handle errors if the mutation fails
+      console.error("Error updating blurb:", error);
+    }
     closeEditBlurbModal();
   };
 

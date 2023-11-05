@@ -14,7 +14,7 @@ export const REMOVE_Blurb = gql`
 
 export const EDIT_Blurb = gql`
   mutation editBlurb($blurbId: ID!, $blurbText: String!) {
-    editBlurb(blurbId: $blurbId, blurbText: $blurbText, blurbAuthor: $blurbAuthor)
+    editBlurb(blurbId: $blurbId, blurbText: $blurbText)
   }
 `;
 
