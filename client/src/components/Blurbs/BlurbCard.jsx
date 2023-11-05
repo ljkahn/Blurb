@@ -20,7 +20,13 @@ import {
 } from "../../utils/mutations/Blurb/BlurbMutations";
 import { QUERY_MY_PROFILE } from "../../utils/Queries/userQueries";
 
-function BlurbStream({ children, username, blurbId, onDelete, initialBlurbText }) {
+function BlurbStream({
+  children,
+  username,
+  blurbId,
+  onDelete,
+  initialBlurbText,
+}) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [commentText, setCommentText] = useState("");
   const [isDeleted, setIsDeleted] = useState(false);
@@ -112,7 +118,7 @@ function BlurbStream({ children, username, blurbId, onDelete, initialBlurbText }
     console.log("BlurbId", blurbId);
     console.log("username", username); // Log the blurb author
     console.log("Edited Blurb Text:", editBlurbText); // Log the edited blurb text
-    const currentUser = console.log(currentUser);
+    // const currentUser = console.log(currentUser);
     closeEditBlurbModal();
   };
 
