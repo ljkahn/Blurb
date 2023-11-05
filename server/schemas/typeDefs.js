@@ -87,7 +87,9 @@ const typeDefs = `
       userBlurbs(username: String!): [Blurbs]
       blurbs: [Blurbs]
       blurbsByTag(tags: [Tag]!): [Blurbs]
+      blurbsById(blurbId: ID!): Blurbs
       me: User
+      findBlurbById(blurbId: ID!): String
       randomBlurb: Blurbs
       followers: [User]
       following: [User]
