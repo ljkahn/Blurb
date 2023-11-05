@@ -82,6 +82,29 @@ const resolvers = {
     },
     // ✅
 
+    blurbsById: async (parent, { blurbId }) => {
+      try {
+        const blurb = await Blurbs.findById(blurbId)
+          .populate("blurbAuthor")
+          .populate("tags")
+          .populate({
+            path: "comments",
+            populate: {
+              path: "commentAuthor",
+              model: "User",
+            },
+          });
+
+        if (!blurb) {
+          throw new Error("Blurb not found!");
+        }
+
+        return blurb;
+      } catch (error) {
+        throw new Error(`Error fetching blurb: ${error.message}`);
+      }
+    },
+
     //get all users with blurbs greater than zero
     randomBlurb: async () => {
       const loginRandomBlurbs = await User.find({

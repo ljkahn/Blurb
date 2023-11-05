@@ -37,6 +37,7 @@ export default function SearchBar() {
     <>
       {!loading ? (
         <Select
+          id="searchTxt"
           defaultValue={selectedOption}
           onChange={setSelectedOption}
           onInputChange={handleInputChange}

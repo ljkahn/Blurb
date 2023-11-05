@@ -30,3 +30,16 @@ export const RANDOM_BLURB = gql`
     }
   }
 `;
+
+export const GET_BLURB_BY_ID = gql`
+  query blurbsById($blurbId: ID!) {
+    blurb(id: $blurbId) {
+      _id
+      blurbText
+      blurbAuthor {
+        username
+      }
+      createdAt
+    }
+  }
+`;
