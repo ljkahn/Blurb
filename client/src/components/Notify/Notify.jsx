@@ -16,19 +16,18 @@ function Notify({ blurbId }) {
     },
     onError: (err) => {
       console.error("Error removing blurb: ", err);
-    }
+    },
   });
 
   const handleRemove = async () => {
-      await removeBlurb();
+    await removeBlurb();
   };
 
-  if (isDeleted) return <p>Successfully deleted</p>
+  if (isDeleted) return <p>Successfully deleted</p>;
 
   return (
     <div id="bluMain">
-      <div>
-      </div>
+      <div></div>
       <div className="blurbContainer">
         <div id="blurbColOne">
           <Avatar
@@ -47,10 +46,8 @@ function Notify({ blurbId }) {
             </div>
           </div>
         </div>
-        <div id="notifyIcons">
-          <div className="likeComment">
-            <RemoveRedEyeOutlinedIcon />
-          </div>
+        <div id="notifyIcons" style={{alignItems: "center"}}>
+          <RemoveRedEyeOutlinedIcon />
           <IconButton onClick={handleRemove} className="removeComment">
             <DeleteIcon />
           </IconButton>

@@ -2,8 +2,9 @@
   display: flex;
   justify-content: center;
   padding-top: 0.5rem;
-  box-shadow: 0px 1px 1px black;
-  background-color: #14015e;
+  box-shadow: 0px 1px 1px #b6b7bd;
+  background-color: #2e2e2e;
+  margin-bottom: 5px;
 }
 
 #button {
@@ -34,6 +35,10 @@
   z-index: 1000;
   top: 15px;
   left: 15px;
+}
+
+#searchTxt {
+  color: black;
 }
 
 #searchIcon {
@@ -77,9 +82,20 @@
   ); */
 }
 
+.searchBar {
+  display: none;
+}
+
+/* Show the search bar when it's visible */
+.searchBar.show {
+  display: block;
+  /* Add other styling as needed */
+}
+
 /* Mitch go ahead and take out the Grid on this button if you need to, it works to log people out but for styling purposes this is the best i could get it   */
 #logout {
-  margin-left:  20px;
-  background-color: #EDFB60;
+  background-color: #f7e258;
   color: #212121;
+  border-radius: 10px;
+  height: 40px;
 }

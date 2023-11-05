@@ -125,7 +125,7 @@ function Create() {
         </div>
 
         <Button
-          style={{ margin: "1rem" }}
+          id="logCreateB"
           variant="contained"
           disableElevation
           // onClick={openModal}
@@ -134,7 +134,6 @@ function Create() {
           Create Account
         </Button>
       </form>
-
     </div>
   );
 }

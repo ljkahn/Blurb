@@ -15,7 +15,6 @@ import { useQuery } from "@apollo/client";
 import { QUERY_MY_PROFILE } from "../utils/Queries/userQueries.js";
 import Photo from "../components/Profile/tinyPhoto.jsx";
 import AddBlurb from "./Blurbs/AddBlurb";
-import theme from "../style/Theme";
 
 function notificationsLabel(count) {
   if (count === 0) {
