@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 
-const neon = "#EDFB60";
+const neon = "#F7E258";
 const black = "#212121";
 const red = "#CE2029";
 const white = "#F5F5F5";
@@ -128,6 +128,7 @@ function AccountEdit({ userData }) {
           onClick={handleSaveChanges}
           variant="contained"
           style={buttonStyle}
+          id="btn"
         >
           <SaveIcon />
           Save Changes
@@ -138,6 +139,7 @@ function AccountEdit({ userData }) {
           onClick={handleDeleteAccount}
           variant="contained"
           style={deleteStyle}
+          id="btn"
         >
           <DeleteIcon />
           Delete Account
@@ -150,6 +152,7 @@ function AccountEdit({ userData }) {
             variant="contained"
             style={confirmStyle}
             onClick={handleConfirmDelete}
+            id="btn"
           >
             Yes
           </Button>
@@ -157,6 +160,7 @@ function AccountEdit({ userData }) {
             variant="contained"
             style={confirmStyle}
             onClick={() => setShowConfirmationModal(false)}
+            id="btn"
           >
             No
           </Button>

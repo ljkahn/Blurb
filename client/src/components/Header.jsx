@@ -25,7 +25,7 @@ function Header() {
   };
 
   //I am trying to get the login button to only show up when a user is logged in but it's not working, going to ask Justin about it. 
-  // const isLoggedIn = Auth.loggedIn();
+  const isLoggedIn = Auth.loggedIn(navigation);
 
   return (
     <>
@@ -37,13 +37,13 @@ function Header() {
         </div>
         <SearchBar />
       <Grid justify="flex-end">
-        { 
+        { isLoggedIn && (
         <Grid  item>
           <Button id="logout" onClick={handleLogout} variant='contained'>
             Logout
           </Button>
           </Grid>
-        }
+       ) }
        </Grid>
         {/* <div className="friendProfile">
           <Avatar

@@ -25,7 +25,7 @@ function UserProfile() {
   const navigation = useNavigate();
 
   console.log(data);
-  const neon = '#EDFB60';
+  const neon = '#F7E258';
   const white = '#f5f5f5';
   const lightGray = '#BEBFC5';
   const gray = '#808080';
@@ -36,13 +36,14 @@ function UserProfile() {
   const followStyle = {
     backgroundColor: neon,
     color: black,
+    borderRadius: 10,
     
   }
   const infoStyle = {
     backgroundColor: white,
     color: black,
-   
   }
+
 useEffect(() => {
   if (!loading && data && data.user) {
     setUserData(data.user);

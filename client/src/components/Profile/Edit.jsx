@@ -16,7 +16,7 @@ import MuiAlert from '@mui/material/Alert';
 import { useMutation } from "@apollo/client";
 import { EDIT_USER } from "../../utils/mutations/userMutations";
 
-const neon = "#EDFB60";
+const neon = "#F7E258";
 const white = "#f5f5f5";
 const lightGray = "#BEBFC5";
 const gray = "#808080";
@@ -184,6 +184,7 @@ function Edit({ userData, showAccountSettings }) {
           style={buttonStyle}
           onClick={handleSaveChanges}
           variant="contained"
+          id="btn"
         >
           <SaveIcon />
           Save Changes
@@ -194,6 +195,7 @@ function Edit({ userData, showAccountSettings }) {
           variant="contained"
           style={accountStyle}
           onClick={handleAccountSettingsClick}
+          id="btn"
         >
           <SettingsIcon />
           Account Settings

@@ -51,7 +51,7 @@ function Profile() {
       setCurrentComponent("profile");
     }
   };
-  const neon = "#EDFB60";
+  const neon = "#F7E258";
   const white = "#f5f5f5";
   const lightGray = "#BEBFC5";
   const gray = "#808080";
