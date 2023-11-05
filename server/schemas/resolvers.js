@@ -222,7 +222,7 @@ const resolvers = {
     },
     // ✅
 
-    addBlurb: async (parent, { blurbText, tags }, context) => {
+    addBlurb: async (parent, { blurbText, tags, blurbId }, context) => {
       if (context.user) {
         // Create a new blurb using the Blurb model
         const blurb = await Blurbs.create({
@@ -379,7 +379,7 @@ const resolvers = {
 
     removeLike: async (parent, { blurbId }, context) => {
       if (!context.user) {
-        throw new Error("You must be logged in to like or unlike a blurb");
+        throw new Error("you must be logged in to like or unlike a blurb");
       }
 
       const updatedBlurb = await Blurbs.findByIdAndUpdate(
@@ -390,8 +390,7 @@ const resolvers = {
       if (!updatedBlurb) {
         throw new Error("Blurb not found!");
       }
-
-      return updatedBlurb; // Return the updated blurb to provide information back to the client
+      return "You have unliked the blurb!";
     },
     // ✅
 
@@ -438,15 +437,6 @@ const resolvers = {
         throw new Error("User not found");
       }
 
-      // Update user fields here
-
-      // if (user.profile.password) {
-      //   user.profile.password = profile.password;
-      //   user.profile.isPasswordChanged = true;
-      // }
-
-      // Update other profile fields
-      if (profile.email) user.profile.email = profile.email;
       // Repeat for other fields...
       if (username) user.username = username;
       if (profile.bio) user.profile.bio = profile.bio;
@@ -459,7 +449,7 @@ const resolvers = {
     },
     // ✅
 
-    editAccount: async (_, { profile }, context) => {
+    editAccount: async (_, { password, email }, context) => {
       if (!context.user) {
         throw new Error("Not logged in");
       }
@@ -471,13 +461,13 @@ const resolvers = {
 
       // Update user fields here
 
-      if (user.profile.password) {
-        user.profile.password = profile.password;
+      if (password) {
+        user.profile.password = password;
         user.profile.isPasswordChanged = true;
       }
 
       // Update other profile fields
-      if (profile.email) user.profile.email = profile.email;
+      if (email) user.profile.email = email;
       // Repeat for other fields...
 
       console.log(user);
@@ -606,6 +596,42 @@ const resolvers = {
       } catch (error) {
         console.error(error);
         throw new Error("Failed to follow user");
+      }
+    },
+    unfollowUser: async (parent, { userIdToUnfollow }, context) => {
+      console.log(context.user);
+      // Verify user is logged in
+      if (!context.user) {
+        throw new Error("You must be logged in to follow users");
+      }
+
+      try {
+        const userToUnfollow = await User.findById(userIdToUnfollow);
+
+        if (!userToUnfollow) {
+          throw new Error("Failed to find user");
+        }
+
+        if (context.user._id.toString() === userIdToUnfollow) {
+          throw new Error("You cannot follow yourself");
+        }
+
+        await User.findByIdAndUpdate(
+          context.user._id,
+          { $pull: { following: userIdToUnfollow } },
+          { new: true }
+        );
+
+        await User.findByIdAndUpdate(
+          userIdToUnfollow,
+          { $pull: { followers: context.user._id } },
+          { new: true }
+        );
+
+        return "User unfollowed successfully!";
+      } catch (error) {
+        console.error(error);
+        throw new Error("Failed to unfollow user");
       }
     },
   },

@@ -1,5 +1,4 @@
 import { gql } from "@apollo/client";
-
 export const QUERY_MY_PROFILE = gql`
   query me {
     me {
@@ -15,6 +14,7 @@ export const QUERY_MY_PROFILE = gql`
       followingNumber
       followerNumber
       blurbs {
+        _id
         blurbText
         comments {
           likes
@@ -35,6 +35,14 @@ export const QUERY_ONE_USER = gql`
       username
       followerNumber
       followingNumber
+      followers {
+        _id
+        username
+      }
+      following {
+        _id
+        username
+      }
       profile {
         bio
         fullName
