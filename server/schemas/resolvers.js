@@ -24,8 +24,8 @@ const resolvers = {
     },
     // ✅
 
-     // Find single user by username
-     user: async (parent, { username }) => {
+    // Find single user by username
+    user: async (parent, { username }) => {
       try {
         return User.findOne({ username: username }).populate("blurbs");
       } catch (error) {
@@ -81,6 +81,29 @@ const resolvers = {
       return Blurbs.find({ tags: tags });
     },
     // ✅
+
+    blurbsById: async (parent, { blurbId }) => {
+      try {
+        const blurb = await Blurbs.findById(blurbId)
+          .populate("blurbAuthor")
+          .populate("tags")
+          .populate({
+            path: "comments",
+            populate: {
+              path: "commentAuthor",
+              model: "User",
+            },
+          });
+
+        if (!blurb) {
+          throw new Error("Blurb not found!");
+        }
+
+        return blurb;
+      } catch (error) {
+        throw new Error(`Error fetching blurb: ${error.message}`);
+      }
+    },
 
     //get all users with blurbs greater than zero
     randomBlurb: async () => {
@@ -218,12 +241,12 @@ const resolvers = {
     },
     // ✅
 
-    addComment: async (parent, { blurbID, commentText }, context) => {
+    addComment: async (parent, { blurbId, commentText }, context) => {
       if (context.user) {
         try {
-          // Attempt to find and update the "Blurbs" document with the given "blurbID."
+          // Attempt to find and update the "Blurbs" document with the given "blurbId."
           const updatedBlurb = await Blurbs.findOneAndUpdate(
-            { _id: blurbID },
+            { _id: blurbId },
             {
               // Use the $push operator to add a new comment object to the "comments" array.
               $push: {
@@ -280,13 +303,13 @@ const resolvers = {
     },
     // ✅
 
-    removeBlurb: async (parent, { blurbID }, context) => {
+    removeBlurb: async (parent, { blurbId }, context) => {
       // Verify user is logged in
       if (!context.user) {
         throw new Error("You must be logged in to do this!");
       }
       // Find the blurb to verify the logged-in user is the author
-      const blurb = await Blurbs.findById(blurbID);
+      const blurb = await Blurbs.findById(blurbId);
 
       if (!blurb) {
         throw new Error("Blurb not found");
@@ -295,30 +318,30 @@ const resolvers = {
         throw new Error("You are not authorized to delete this blurb");
       }
       // Delete the blurb
-      await Blurbs.findOneAndDelete({ _id: blurbID });
+      await Blurbs.findOneAndDelete({ _id: blurbId });
       // Remove the blurb from the user’s blurbs array
       await User.findOneAndUpdate(
         { _id: context.user._id },
-        { $pull: { blurbs: blurbID } }
+        { $pull: { blurbs: blurbId } }
       );
       return "Blurb successfully deleted!";
     },
     // ✅
 
-    removeComment: async (parent, { blurbID, commentID }, context) => {
+    removeComment: async (parent, { blurbId, commentId }, context) => {
       // Verify user is logged in
       if (!context.user) {
         throw new Error("You must be logged in to do this!");
       }
 
       // Find the blurb to get access to the comments
-      const blurb = await Blurbs.findById(blurbID);
+      const blurb = await Blurbs.findById(blurbId);
       if (!blurb) {
         throw new Error("Blurb not found");
       }
 
       // Find the comment to verify the logged-in user is the author
-      const comment = blurb.comments.id(commentID);
+      const comment = blurb.comments.id(commentId);
       if (!comment) {
         throw new Error("Comment not found");
       }
@@ -329,21 +352,21 @@ const resolvers = {
 
       // Remove the comment from the blurb
       await Blurbs.findOneAndUpdate(
-        { _id: blurbID },
-        { $pull: { comments: { _id: commentID } } }
+        { _id: blurbId },
+        { $pull: { comments: { _id: commentId } } }
       );
 
       return "Comment successfully deleted!";
     },
     // ✅
 
-    addLike: async (parent, { blurbID }, context) => {
+    addLike: async (parent, { blurbId }, context) => {
       if (!context.user) {
         throw new Error("you must be logged in to like a blurb");
       }
 
       const updatedBlurb = await Blurbs.findByIdAndUpdate(
-        blurbID,
+        blurbId,
         { $inc: { likes: 1 } },
         { new: true }
       );
@@ -354,13 +377,13 @@ const resolvers = {
     },
     // ✅
 
-    removeLike: async (parent, { blurbID }, context) => {
+    removeLike: async (parent, { blurbId }, context) => {
       if (!context.user) {
         throw new Error("You must be logged in to like or unlike a blurb");
       }
 
       const updatedBlurb = await Blurbs.findByIdAndUpdate(
-        blurbID,
+        blurbId,
         { $inc: { likes: -1 } },
         { new: true }
       );
@@ -372,14 +395,14 @@ const resolvers = {
     },
     // ✅
 
-    editBlurb: async (parent, { blurbID, blurbText, tags }, context) => {
+    editBlurb: async (parent, { blurbId, blurbText, tags }, context) => {
       // Verify user is logged in
       if (!context.user) {
         throw new Error("You need to be logged in to edit a blurb");
       }
 
       // Find the blurb by ID
-      const blurb = await Blurbs.findById(blurbID);
+      const blurb = await Blurbs.findById(blurbId);
 
       // Check if the blurb exists
       if (!blurb) {
@@ -436,7 +459,7 @@ const resolvers = {
     },
     // ✅
 
-    editAccount: async (_, { profile}, context) => {
+    editAccount: async (_, { profile }, context) => {
       if (!context.user) {
         throw new Error("Not logged in");
       }
@@ -456,17 +479,14 @@ const resolvers = {
       // Update other profile fields
       if (profile.email) user.profile.email = profile.email;
       // Repeat for other fields...
-      
+
       console.log(user);
       await user.save();
       return user;
     },
     // ✅
 
-
-
-
-    editComment: async (_, { blurbID, commentID, newCommentText }, context) => {
+    editComment: async (_, { blurbId, commentId, newCommentText }, context) => {
       console.log(newCommentText);
       // Check if a user is authenticated in the current context
       if (!context.user) {
@@ -476,7 +496,7 @@ const resolvers = {
 
       // Find the blurb by ID and update the comment
       const updatedComment = await Blurbs.findByIdAndUpdate(
-        blurbID,
+        blurbId,
         {
           $set: {
             // Update the comment text with the new text
@@ -487,7 +507,7 @@ const resolvers = {
         },
         {
           new: true, // Return the updated document
-          arrayFilters: [{ "comment._id": commentID }], // Filter comments by their IDs
+          arrayFilters: [{ "comment._id": commentId }], // Filter comments by their IDs
         }
       );
 
@@ -504,18 +524,18 @@ const resolvers = {
       return "It worked!";
     },
 
-    addCommentLike: async (parent, { blurbID, commentID }, context) => {
+    addCommentLike: async (parent, { blurbId, commentId }, context) => {
       if (!context.user) {
         throw new Error("You must be logged in to like a comment");
       }
 
       //find blurb if it exists
-      const blurb = await Blurbs.findById(blurbID);
+      const blurb = await Blurbs.findById(blurbId);
       if (!blurb) {
         throw new Error("Blurb not found");
       }
 
-      const comment = blurb.comments.id(commentID);
+      const comment = blurb.comments.id(commentId);
       if (!comment) {
         throw new Error("Comment not found");
       }
@@ -528,18 +548,18 @@ const resolvers = {
       return "You have liked the comment!";
     },
 
-    removeCommentLike: async (parent, { blurbID, commentID }, context) => {
+    removeCommentLike: async (parent, { blurbId, commentId }, context) => {
       if (!context.user) {
         throw new Error("You must be logged in to like a comment");
       }
 
       //find blurb if it exists
-      const blurb = await Blurbs.findById(blurbID);
+      const blurb = await Blurbs.findById(blurbId);
       if (!blurb) {
         throw new Error("Blurb not found");
       }
 
-      const comment = blurb.comments.id(commentID);
+      const comment = blurb.comments.id(commentId);
       if (!comment) {
         throw new Error("Comment not found");
       }

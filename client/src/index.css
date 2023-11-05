@@ -6,7 +6,9 @@ body {
   height: 100vh;
 
   font-family: 'Inter', sans-serif;
-  background-color: var(--gray);
+  background-color: #04002a;
+  color: azure;
+
 
   margin: 0;
 

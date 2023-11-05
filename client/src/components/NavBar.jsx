@@ -15,6 +15,7 @@ import { useQuery } from "@apollo/client";
 import { QUERY_MY_PROFILE } from "../utils/queries/userQueries.js";
 import Photo from "../components/Profile/tinyPhoto.jsx";
 import AddBlurb from "./Blurbs/AddBlurb";
+import theme from "../style/Theme";
 
 function notificationsLabel(count) {
   if (count === 0) {
@@ -29,7 +30,7 @@ function notificationsLabel(count) {
 function NavBar() {
   const [userData, setUserData] = useState({
     username: "Guest", // Default username or any other default values
-    profilePic: "default-profile-pic-url", // Default profile picture URL
+    profilePic: "", // Default profile picture URL
     // Other default properties
   });
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -64,12 +65,12 @@ function NavBar() {
     <div id="navContain">
       <Link to="/home">
         <IconButton>
-          <HomeIcon sx={{ fontSize: 40 }} />
+          <HomeIcon color="action" sx={{ fontSize: 40 }} />
         </IconButton>
       </Link>
       <Link to="/flame">
         <IconButton>
-          <LocalFireDepartmentIcon sx={{ fontSize: 40 }} />
+          <LocalFireDepartmentIcon sx={{ fontSize: 40, }} />
         </IconButton>
       </Link>
       <button onClick={openModal} id="addBlurb">
@@ -86,7 +87,8 @@ function NavBar() {
         <IconButton>
           <Photo profileImg={userData.profilePic} />
         </IconButton>
-      </Link>
+      </Link> 
+   
       <Modal
         style={{ zIndex: 0 }}
         id="blurbModal"
@@ -128,6 +130,7 @@ function NavBar() {
           </Button>
         </form> */}
       </Modal>
+  
     </div>
   );
 }

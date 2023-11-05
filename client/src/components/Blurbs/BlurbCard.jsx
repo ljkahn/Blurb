@@ -67,7 +67,7 @@ function BlurbStream({ children, username, blurbId }) {
     console.log(commentText); // Log the comment text
     try {
       await addComment({
-        variables: { blurbID, commentText: commentText },
+        variables: { blurbId, commentText: commentText },
       });
       setCommentText(""); // Clear the comment input field
     } catch (error) {
