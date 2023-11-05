@@ -24,9 +24,14 @@ const resolvers = {
     },
     // ✅
 
-    // Find single user by username( and populate blurbs or just get user???)
+    // Find single user by username
     user: async (parent, { username }) => {
-      return User.findOne({ username: username }).populate("blurbs"); //.populate('blurbs')???
+      try {
+        return User.findOne({ username: username }).populate("blurbs");
+      } catch (error) {
+        console.error(error);
+        throw new Error("Failed to find user");
+      }
     },
     // ✅
 
@@ -409,21 +414,39 @@ const resolvers = {
         throw new Error("User not found");
       }
 
-      // Update user fields here
-
-      if (user.profile.password) {
-        user.profile.password = profile.password;
-        user.profile.isPasswordChanged = true;
-      }
-
-      // Update other profile fields
-      if (profile.email) user.profile.email = profile.email;
       // Repeat for other fields...
       if (username) user.username = username;
       if (profile.bio) user.profile.bio = profile.bio;
       if (profile.fullName) user.profile.fullName = profile.fullName;
       if (profile.location) user.profile.location = profile.location;
       if (profile.profilePic) user.profile.profilePic = profile.profilePic;
+      console.log(user);
+      await user.save();
+      return user;
+    },
+    // ✅
+
+    editAccount: async (_, { password, email }, context) => {
+      if (!context.user) {
+        throw new Error("Not logged in");
+      }
+
+      const user = await User.findById(context.user._id);
+      if (!user) {
+        throw new Error("User not found");
+      }
+
+      // Update user fields here
+
+      if (password) {
+        user.profile.password = password;
+        user.profile.isPasswordChanged = true;
+      }
+
+      // Update other profile fields
+      if (email) user.profile.email = email;
+      // Repeat for other fields...
+
       console.log(user);
       await user.save();
       return user;
@@ -550,6 +573,42 @@ const resolvers = {
       } catch (error) {
         console.error(error);
         throw new Error("Failed to follow user");
+      }
+    },
+    unfollowUser: async (parent, { userIdToUnfollow }, context) => {
+      console.log(context.user);
+      // Verify user is logged in
+      if (!context.user) {
+        throw new Error("You must be logged in to follow users");
+      }
+
+      try {
+        const userToUnfollow = await User.findById(userIdToUnfollow);
+
+        if (!userToUnfollow) {
+          throw new Error("Failed to find user");
+        }
+
+        if (context.user._id.toString() === userIdToUnfollow) {
+          throw new Error("You cannot follow yourself");
+        }
+
+        await User.findByIdAndUpdate(
+          context.user._id,
+          { $pull: { following: userIdToUnfollow } },
+          { new: true }
+        );
+
+        await User.findByIdAndUpdate(
+          userIdToUnfollow,
+          { $pull: { followers: context.user._id } },
+          { new: true }
+        );
+
+        return "User unfollowed successfully!";
+      } catch (error) {
+        console.error(error);
+        throw new Error("Failed to unfollow user");
       }
     },
   },
