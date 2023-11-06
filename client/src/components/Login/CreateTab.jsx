@@ -19,6 +19,7 @@ function Create({ isRegistered }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [profileImg, setProfileImg] = useState("");
   const [isAlertOpen, setIsAlertOpen] = useState(false);
+  const [isPasswordFocused, setIsPasswordFocused] = useState(false); // Track password field focus
 
   const [formState, setFormState] = useState({
     fullName: "",
@@ -96,6 +97,14 @@ function Create({ isRegistered }) {
     return passwordPattern.test(password);
   };
 
+  const handlePasswordFocus = () => {
+    setIsPasswordFocused(true);
+  };
+
+  const handlePasswordBlur = () => {
+    setIsPasswordFocused(false);
+  };
+
   return (
     <div>
       <h2>Create Account</h2>
@@ -114,9 +123,6 @@ function Create({ isRegistered }) {
             onChange={handleChange}
           />
         </div>
-        {/* <div>
-        <TextField id="standard-basic" label="Last Name" variant="standard" />
-      </div> */}
         <div>
           <TextField
             id="standard-basic"
@@ -137,7 +143,15 @@ function Create({ isRegistered }) {
             type="password"
             value={formState.password}
             onChange={handleChange}
+            onFocus={handlePasswordFocus}
+            onBlur={handlePasswordBlur}
           />
+          {isPasswordFocused && ( // Display the text only when password field is focused
+            <div style={{ fontSize: "0.8rem" }}>
+              Password must contain at least 8 characters, 1 lowercase, 1
+              uppercase, 1 special character, and 1 number.
+            </div>
+          )}
         </div>
         <div>
           <TextField
@@ -155,7 +169,6 @@ function Create({ isRegistered }) {
           id="logCreateB"
           variant="contained"
           disableElevation
-          // onClick={openModal}
           type="submit"
         >
           Create Account
@@ -166,12 +179,9 @@ function Create({ isRegistered }) {
         autoHideDuration={6000}
         onClose={handleCloseAlert}
       >
-        <MuiAlert
-          severity="error"
-          variant="filled"
-          onClose={handleCloseAlert}
-        >
-          Please make sure your password has at least 8 characters, a lowercase, uppercase, special character and a number.
+        <MuiAlert severity="error" variant="filled" onClose={handleCloseAlert}>
+          Please make sure your password has at least 8 characters, a lowercase,
+          uppercase, special character, and a number.
         </MuiAlert>
       </Snackbar>
     </div>

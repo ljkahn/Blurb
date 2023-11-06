@@ -12,60 +12,26 @@ import "../index.css";
 import { REMOVE_Blurb } from "../utils/mutations/Blurb/BlurbMutations.js";
 import { useNavigate, useParams } from "react-router-dom";
 import { useQuery, useMutation } from "@apollo/client";
-import { QUERY_MY_PROFILE } from "../utils/Queries/userQueries.js";
+import { QUERY_MY_PROFILE } from "../utils/Queries/userQueries";
 import Auth from "../utils/auth.js";
-import BlurbStream from '../components/Blurbs/BlurbCard.jsx';
+import BlurbStream from "../components/Blurbs/BlurbCard.jsx";
 import BlurbCom from "../components/Blurbs/BlurbComCard.jsx";
 
-
-function Profile({ registered }) {
+function Profile() {
   const [isEditVisible, setIsEditVisible] = useState(false);
   const [showProfile, setShowProfile] = useState(true);
   const [accountSettingsVisible, setAccountSettingsVisible] = useState(false);
   const [currentComponent, setCurrentComponent] = useState("profile");
   const [userData, setUserData] = useState(null);
-  const [isLoading, setLoading] = useState(true);
-  const { loading, data, refetch } = useQuery(QUERY_MY_PROFILE);
-      
-  // useEffect (() => {
-  //   const { loading, data } = useQuery(QUERY_MY_PROFILE);
+  const { loading, data } = useQuery(QUERY_MY_PROFILE);
 
-  //   if (!isLoading) {
-  //     console.log(data.me);
-  //     setUserData(data.me)
-  //   }
-  //   else {
-  //     setLoading(loading);
-  //   }
-  // }, [isLoading]);
+  const navigate = useNavigate();
 
-  useEffect (() => {
-    if (registered) {
-      refetch();
+  useEffect(() => {
+    if (!loading && data) {
+      setUserData(data.me);
     }
-    if (!loading) {
-      console.log(data.me);
-      setUserData(data.me)
-    }
-  }, [loading, registered]);
-
-
-  //   useEffect(() => {
-  //   if (data && data.me) {
-  //     // Assuming data.me.blurbs is the array that needs to be sorted
-  //     const sortedBlurbs = data.me.blurbs.slice().sort((a, b) => {
-  //       const dateA = new Date(a.createdAt);
-  //       const dateB = new Date(b.createdAt);
-  //       return dateB - dateA; // This will sort blurbs in descending order
-  //     });
-
-  //     // Set the user data with the sorted blurbs array
-  //     setUserData({
-  //       ...data.me,
-  //       blurbs: sortedBlurbs,
-  //     });
-  //   }
-  // }, [data]);
+  }, [loading, data]);
 
   const handleEditClick = () => {
     setIsEditVisible(true);
@@ -90,50 +56,23 @@ function Profile({ registered }) {
     }
   };
 
-  const neon = "#F7E258";
-  const white = "#F5F5F5";
-  const lightGray = "#BEBFC5";
-  const gray = "#808080";
-  const darkGray = "#555555";
-  const jetBlack = "#343434";
+  console.log(userData);
+  const neon = "#EDFB60";
+  const white = "#f5f5f5";
   const black = "#212121";
+
   const buttonStyle = {
     backgroundColor: neon,
     color: black,
   };
-
   const editStyle = {
     backgroundColor: white,
     color: black,
   };
 
-  const [removeBlurb] = useMutation(REMOVE_Blurb, {
-    refetchQueries: [QUERY_MY_PROFILE],
-  });
-
-  useEffect(() => {
-    if (data && data.me) {
-      setUserData(data.me);
-    }
-  }, [data]);
-
-  const handleBlurbDelete = async (deletedBlurbId) => {
-    try {
-      await removeBlurb({ variables: { blurbId: deletedBlurbId } });
-      setUserData((prevUserData) => ({
-        ...prevUserData,
-        blurbs: prevUserData.blurbs.filter(
-          (blurb) => blurb._id !== deletedBlurbId
-        ),
-      }));
-    } catch (err) {
-      console.log("blurb not found");
-    }
-  };
-
   return (
     <div>
-      <IconButton onClick={handleGoBack}>
+      <IconButton onClick={() => navigate(-1)}>
         <ArrowBackIosIcon />
       </IconButton>
       {userData &&
@@ -144,37 +83,33 @@ function Profile({ registered }) {
             <h2>{userData.username}</h2>
             <p id="info">{userData.profile.bio}</p>
             <p id="info">📍{userData.profile.location}</p>
-            <Grid>
-              <Button id="btn" style={buttonStyle} variant="contained">
-                {userData.followerNumber} Followers
-              </Button>
-              <Button id="btn" style={buttonStyle} variant="contained">
-                {userData.followingNumber} Following
-              </Button>
-            </Grid>
+            <Button id="btn" style={buttonStyle} variant="contained">
+              {userData.followerNumber} Followers
+            </Button>
+            <Button id="btn" style={buttonStyle} variant="contained">
+              {userData.followingNumber} Following
+            </Button>
             <Button
               id="btn"
               style={editStyle}
               variant="contained"
               onClick={handleEditClick}
             >
-              Edit Profile{" "}
+              Edit Profile
             </Button>
             {userData.blurbs &&
               userData.blurbs.map((blurb) => (
                 <div key={blurb._id}>
                   <BlurbStream
-                    // key={blurb._id}
                     blurbId={blurb._id}
-                    username={blurb.username}
-                    onDelete={() => handleBlurbDelete(blurb._id)}
-                    showEdit={true}
+                    // username={blurb.blurbAuthor.username}
+                    comments={blurb.comments}
                   >
                     {blurb.blurbText}
                   </BlurbStream>
                   {blurb.comments.map((comment) => (
                     <BlurbCom
-                      // key={comment._id}
+                      key={comment._id}
                       blurbId={blurb._id}
                       // username={comment.commentAuthor.username}
                       comments={comment.commentText}
@@ -186,9 +121,10 @@ function Profile({ registered }) {
         ) : isEditVisible ? (
           <Edit userData={userData} showAccountSettings={showAccountSettings} />
         ) : (
-          accountSettingsVisible && <AccountEdit userData={userData} />
+          accountSettingsVisible && <AccountEdit />
         ))}
     </div>
   );
 }
+
 export default Profile;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useMutation, useQuery } from "@apollo/client";
 import "../../style/Blurbs.css";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -11,7 +11,10 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { ADD_COMMENT } from "../../utils/mutations/Likes/CommentMutations";
+import {
+  ADD_COMMENT,
+  REMOVE_COMMENT,
+} from "../../utils/mutations/Likes/CommentMutations";
 import { EDIT_Blurb } from "../../utils/mutations/Blurb/BlurbMutations";
 import {
   LIKE_Blurb,
@@ -25,9 +28,11 @@ function BlurbStream({
   blurbId,
   onDelete,
   initialBlurbText,
+  // isLiked,
+  // comments,
   showEdit,
+  profilePic,
 }) {
-  
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [commentText, setCommentText] = useState("");
   const [isDeleted, setIsDeleted] = useState(false);
@@ -37,11 +42,9 @@ function BlurbStream({
   const openModal = () => {
     setIsModalOpen(true);
   };
-
   const closeModal = () => {
     setIsModalOpen(false);
   };
-
   const [likeBlurb] = useMutation(LIKE_Blurb);
   const [unlikeBlurb] = useMutation(UNLIKE_Blurb);
   const handleLike = () => {
@@ -58,7 +61,6 @@ function BlurbStream({
     }
     setIsLiked(!isLiked); // Toggle the liked state
   };
-
   const [removeBlurb] = useMutation(REMOVE_Blurb, {
     variables: { blurbId },
     refetchQueries: [{ query: QUERY_MY_PROFILE }],
@@ -70,7 +72,6 @@ function BlurbStream({
       console.error("Error removing blurb: ", err);
     },
   });
-
   const handleRemove = async () => {
     console.log("Attempting to remove blurb with ID:", blurbId);
     try {
@@ -82,7 +83,7 @@ function BlurbStream({
       console.error("Error removing blurb: ", error);
     }
   };
-
+  // const proPic = blurbs?.blurbAuthor?.profile?.profilePic;
   const [addComment] = useMutation(ADD_COMMENT);
   const handleComment = async () => {
     console.log("Blurb ID:", blurbId); // Log the blurb ID
@@ -96,7 +97,6 @@ function BlurbStream({
       console.error("Error adding comment:", error);
     }
   };
-
   // Add the edit blurb modal state and functions
   const [isEditBlurbModalOpen, setIsEditBlurbModalOpen] = useState(false);
   const [editBlurbText, setEditBlurbText] = useState("");
@@ -105,12 +105,11 @@ function BlurbStream({
     setIsEditBlurbModalOpen(true);
     setEditBlurbText(initialBlurbText);
   };
-
   const closeEditBlurbModal = () => {
     setIsEditBlurbModalOpen(false);
     setEditBlurbText("");
   };
-
+  console.log(profilePic);
   const [updateBlurb] = useMutation(EDIT_Blurb);
   const handleEditBlurb = async () => {
     console.log("BlurbId", blurbId);
@@ -133,6 +132,43 @@ function BlurbStream({
     }
     closeEditBlurbModal();
   };
+  const sample = "cld-sample-5";
+  const cloudName = "dmnfg3ids";
+  const [staticImg, setStaticPic] = useState(
+    `https://res.cloudinary.com/${cloudName}/image/upload/t_custom-resize/${sample}.png`
+  );
+  useEffect(() => {
+    if (profilePic) {
+      setStaticPic(
+        `https://res.cloudinary.com/${cloudName}/image/upload/t_custom-resize/${profilePic}.png`
+      );
+    }
+  }, [profilePic]);
+
+  const [removeComment] = useMutation(REMOVE_COMMENT);
+
+  const handleDeleteComment = async (commentId) => {
+    try {
+      await removeComment({
+        variables: { commentId },
+      });
+    } catch (error) {
+      console.error("Error removing comment:", error);
+    }
+  };
+
+  const handleEditComment = () => {
+    // Use the editedCommentText and commentId to update the comment
+    // You should have a way to set the commentId when editing a comment
+    // In your UI, you can set commentId when clicking on the comment to edit
+    if (commentId) {
+      // Make sure to use the correct variables in the editComment mutation
+      editComment({
+        variables: { commentId: commentId, commentText: editedCommentText },
+      });
+    }
+    closeModal(); // Close the modal after saving the edits
+  };
 
   if (isDeleted) return null;
   return (
@@ -142,11 +178,10 @@ function BlurbStream({
           <Avatar
             id="notifyPP"
             className="Blfriend"
-            alt="Remy Sharp"
-            src="/static/images/avatar/1.jpg"
+            alt={username}
+            src={staticImg}
             sx={{ width: 40, height: 40 }}
           />
-
           <div className="blInfo">
             <div>
               <div className="userName">{username}</div>
@@ -234,5 +269,4 @@ function BlurbStream({
     </div>
   );
 }
-
 export default BlurbStream;
