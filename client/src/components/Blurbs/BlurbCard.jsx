@@ -22,6 +22,8 @@ import {
   REMOVE_Blurb,
 } from "../../utils/mutations/Blurb/BlurbMutations";
 import { QUERY_MY_PROFILE } from "../../utils/Queries/userQueries";
+
+
 function BlurbStream({
   children,
   username,
@@ -39,12 +41,15 @@ function BlurbStream({
   const [isLiked, setIsLiked] = useState(false);
   const { loading, data } = useQuery(QUERY_MY_PROFILE);
   const [blurbIdForEdit, setBlurbIdForEdit] = useState(null);
+
   const openModal = () => {
     setIsModalOpen(true);
   };
+
   const closeModal = () => {
     setIsModalOpen(false);
   };
+
   const [likeBlurb] = useMutation(LIKE_Blurb);
   const [unlikeBlurb] = useMutation(UNLIKE_Blurb);
   const handleLike = () => {
@@ -61,6 +66,7 @@ function BlurbStream({
     }
     setIsLiked(!isLiked); // Toggle the liked state
   };
+
   const [removeBlurb] = useMutation(REMOVE_Blurb, {
     variables: { blurbId },
     refetchQueries: [{ query: QUERY_MY_PROFILE }],
@@ -72,6 +78,7 @@ function BlurbStream({
       console.error("Error removing blurb: ", err);
     },
   });
+
   const handleRemove = async () => {
     console.log("Attempting to remove blurb with ID:", blurbId);
     try {
@@ -83,6 +90,7 @@ function BlurbStream({
       console.error("Error removing blurb: ", error);
     }
   };
+
   // const proPic = blurbs?.blurbAuthor?.profile?.profilePic;
   const [addComment] = useMutation(ADD_COMMENT);
   const handleComment = async () => {
@@ -97,6 +105,7 @@ function BlurbStream({
       console.error("Error adding comment:", error);
     }
   };
+
   // Add the edit blurb modal state and functions
   const [isEditBlurbModalOpen, setIsEditBlurbModalOpen] = useState(false);
   const [editBlurbText, setEditBlurbText] = useState("");
@@ -105,10 +114,12 @@ function BlurbStream({
     setIsEditBlurbModalOpen(true);
     setEditBlurbText(initialBlurbText);
   };
+
   const closeEditBlurbModal = () => {
     setIsEditBlurbModalOpen(false);
     setEditBlurbText("");
   };
+
   console.log(profilePic);
   const [updateBlurb] = useMutation(EDIT_Blurb);
   const handleEditBlurb = async () => {
@@ -132,11 +143,13 @@ function BlurbStream({
     }
     closeEditBlurbModal();
   };
+
   const sample = "cld-sample-5";
   const cloudName = "dmnfg3ids";
   const [staticImg, setStaticPic] = useState(
     `https://res.cloudinary.com/${cloudName}/image/upload/t_custom-resize/${sample}.png`
   );
+
   useEffect(() => {
     if (profilePic) {
       setStaticPic(
