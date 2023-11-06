@@ -7,6 +7,9 @@ export const ALL_BLURBS = gql`
       blurbText
       blurbAuthor {
         username
+        profile {
+          profilePic
+        }
       }
       createdAt
       comments {
