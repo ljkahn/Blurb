@@ -7,6 +7,9 @@ export const ALL_BLURBS = gql`
       blurbText
       blurbAuthor {
         username
+        profile {
+          profilePic
+        }
       }
       createdAt
       comments {
@@ -26,6 +29,9 @@ export const RANDOM_BLURB = gql`
       blurbText
       blurbAuthor {
         username
+        profile {
+          profilePic
+        }
       }
     }
   }

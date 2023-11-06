@@ -13,11 +13,9 @@ export default function SearchBar() {
   const [userList, setUserList] = useState(null);
   const [menuIsOpen, setMenuIsOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState("");
-
   const { loading, data } = useQuery(USER_LIST);
   const { username } = useParams();
   const navigation = useNavigate();
-
   useEffect(() => {
     if (!loading) {
       const cleanList = data.users.map((obj) => {
@@ -29,23 +27,35 @@ export default function SearchBar() {
       setUserList(cleanList);
     }
   }, [loading]);
-
   const handleInputChange = (inputValue) => {
     // Open the menu if the user starts typing
     setMenuIsOpen(!!inputValue);
   };
-
   const handleUserSelect = (selectedOption) => {
     setSelectedUser(selectedOption.label);
     navigation(`/profile/${selectedOption.label}`);
     setSelectedOption(null); // Clear the selected option
     setSelectedUser(""); // Clear the selected user
   };
+
+  const customStyles = {
+    control: (provided) => ({
+      ...provided,
+      width: "225px",
+      border: "1px solid #ced4da",
+      boxShadow: "none",
+      marginRight: "5px",
+      borderRadius: "4px",
+      "&:hover": {
+        border: "1px solid #ced4da",
+      },
+    }),
+    dropdownIndicator: () => ({ display: "none" }),
+  };
   const handleFormSubmit = (e) => {
     e.preventDefault();
     navigation(`/profile/${selectedUser}`);
   };
-
   return (
     <form onSubmit={handleFormSubmit}>
       {!loading ? (
@@ -60,6 +70,7 @@ export default function SearchBar() {
           options={userList}
           menuIsOpen={menuIsOpen}
           isSearchable={true}
+          styles={customStyles}
         />
       ) : (
         <ThreeDots
@@ -76,3 +87,9 @@ export default function SearchBar() {
     </form>
   );
 }
+
+
+
+
+
+
