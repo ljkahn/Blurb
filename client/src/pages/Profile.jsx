@@ -168,8 +168,12 @@ function Profile({ registered }) {
                     profilePic={userData.profile.profilePic}
                     onDelete={() => handleBlurbDelete(blurb._id)}
                     showEdit={true}
+                    // isLiked={}
                   >
                     {blurb.blurbText}
+                    <div>
+                      {blurb.tags}
+                    </div>
                   </BlurbStream>
                   {blurb.comments.map((comment) => (
                     <BlurbCom
