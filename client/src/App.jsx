@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
 import {
   ApolloClient,
   InMemoryCache,
@@ -21,6 +21,7 @@ import UserProfile from "./pages/UserProfile";
 import Likes from "./pages/Likes";
 import CommentPage from "./pages/CommentPage";
 import SearchBar from "./components/SearchBar/SearchBar";
+import Auth from "./utils/auth";
 
 // Construct our main GraphQL API endpoint
 const httpLink = createHttpLink({
@@ -43,24 +44,39 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
+
+const isLoggedIn = () => {
+  return !!localStorage.getItem("id_token");
+};
+
 function App() {
+  const [registered, isRegistered] = useState(Auth.getToken() ? true : false);
+  
+  // useEffect(() => {
+
+  //   // const navigation = useNavigate()
+  //   const res = Auth.getToken()
+  //   console.log(res);
+  //   isRegistered (res ? true : false);
+  // }, [])
+
   return (
     <ApolloProvider client={client}>
       <Router>
-        <Header />
+        <Header registered={registered} isRegistered={isRegistered} />
         <Routes>
-          <Route path="/" element={<Login />} />
+          <Route path="/" element={<Login isRegistered={isRegistered} />} />
           <Route path="/home" element={<Home />} />
           <Route path="/flame" element={<Flame />} />
           <Route path="/notifications" element={<Notifications />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route path="/profile" element={registered ? <Profile registered={registered} /> : <Login />} />
           <Route path="/profile/:username" element={<UserProfile />} />
           <Route path="*" element={<Error />} />
           <Route path="/likes" element={<Likes />} />
           <Route path="/comment" element={<CommentPage />} />
           <Route path="/blurb" element={<BlurbStream />} />
         </Routes>
-        <NavBar />
+        {registered && <NavBar />} {/* Conditionally render NavBar based on login status */}
       </Router>
     </ApolloProvider>
   );
