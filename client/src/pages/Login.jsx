@@ -43,7 +43,7 @@ function Login({ isRegistered }) {
   //if statement
 
   // console.log(blurb);
-
+console.log(data);
   return (
     <>
       <div id="loginBlurb">

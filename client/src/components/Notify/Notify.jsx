@@ -40,9 +40,9 @@ function Notify({ blurbId }) {
           <div>
             <div className="blInfo">
               <div>
-                <div className="userName">Jenny</div>
+                <div className="userName">Blurb Team</div>
               </div>
-              <div>Notification</div>
+              <div>This page is currently under construction, check back soon! ⚠️</div>
             </div>
           </div>
         </div>
