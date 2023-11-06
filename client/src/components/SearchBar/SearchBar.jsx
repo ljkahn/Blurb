@@ -41,7 +41,7 @@ export default function SearchBar() {
   const customStyles = {
     control: (provided) => ({
       ...provided,
-      width: "225px",
+      width: "200px",
       border: "1px solid #ced4da",
       boxShadow: "none",
       marginRight: "5px",
@@ -56,7 +56,7 @@ export default function SearchBar() {
     e.preventDefault();
     navigation(`/profile/${selectedUser}`);
   };
-  
+
   return (
     <form onSubmit={handleFormSubmit}>
       {!loading ? (

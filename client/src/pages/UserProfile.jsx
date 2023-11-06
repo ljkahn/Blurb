@@ -24,7 +24,7 @@ function UserProfile() {
   const [unfollowUser] = useMutation(UNFOLLOW_USER);
   const navigation = useNavigate();
 
-  console.log(data);
+  // console.log(data);
   const neon = '#F7E258';
   const white = '#f5f5f5';
   const lightGray = '#BEBFC5';
@@ -61,7 +61,7 @@ const handleFollowUser = (userIdToFollow) => {
     }
   })
   .then((result) => {
-    console.log('User followed successfully!');
+    // console.log('User followed successfully!');
     //Show a success message 
   })
   .catch ((error) => {

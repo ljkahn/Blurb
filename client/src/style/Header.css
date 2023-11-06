@@ -82,6 +82,7 @@
   transform: none;
   box-shadow: none;
   transform: scale(0.9);
+  border: 2px solid #f7e258;
   /* background: rgb(141, 126, 255);
   background: radial-gradient(
     circle,
@@ -91,13 +92,23 @@
 }
 
 .searchBar {
-  display: none;
+  position: absolute;
+  left: -200px;
+  width: 200px;
+  transition: left 0.5s ease; /* Add a transition for smooth animation */
+}
+/* Show the search bar when it's visible */
+.searchBar {
+  display: block;
+  position: absolute !important;
+  left: -200px !important; /* Initially hidden off-screen to the left */
+  width: 200px !important;
+  transition: left 01s ease !important; /* Smooth transition animation */
+  /* Add other styling as needed */
 }
 
-/* Show the search bar when it's visible */
-.searchBar.show {
-  display: block;
-  /* Add other styling as needed */
+.search-bar.open {
+  left: 0; /* Slides in from the left when open */
 }
 
 /* Mitch go ahead and take out the Grid on this button if you need to, it works to log people out but for styling purposes this is the best i could get it   */
