@@ -51,13 +51,7 @@ const isLoggedIn = () => {
 function App() {
   const [registered, isRegistered] = useState(Auth.getToken() ? true : false);
   
-  // useEffect(() => {
 
-  //   // const navigation = useNavigate()
-  //   const res = Auth.getToken()
-  //   console.log(res);
-  //   isRegistered (res ? true : false);
-  // }, [])
 
   return (
     <ApolloProvider client={client}>
@@ -67,7 +61,6 @@ function App() {
           <Route path="/" element={<Login isRegistered={isRegistered} />} />
           <Route path="/home" element={<Home />} />
           <Route path="/flame" element={<Flame />} />
-          <Route path="/notifications" element={<Notifications />} />
           <Route path="/profile" element={registered ? <Profile registered={registered} /> : <Login />} />
           <Route path="/profile/:username" element={<UserProfile />} />
           <Route path="*" element={<Error />} />
