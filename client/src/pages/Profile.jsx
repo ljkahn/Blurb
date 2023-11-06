@@ -99,7 +99,7 @@ function Profile() {
       <h1>{ userData.profile.fullName}</h1>
       <h2>{userData.username}</h2>
           <p id="info">{userData.profile.bio}</p>
-          <p id="info">:round_pushpin:{userData.profile.location}</p>
+          <p id="info">📍{userData.profile.location}</p>
           <Grid>
             <Button id="btn" style={buttonStyle} variant="contained">
               {userData.followerNumber} Followers
