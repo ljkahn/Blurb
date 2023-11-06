@@ -82,28 +82,19 @@ const resolvers = {
     },
     // ✅
 
-    blurbsById: async (parent, { blurbId }) => {
-      try {
-        const blurb = await Blurbs.findById(blurbId)
-          .populate("blurbAuthor")
-          .populate("tags")
-          .populate({
-            path: "comments",
-            populate: {
-              path: "commentAuthor",
-              model: "User",
-            },
-          });
 
-        if (!blurb) {
-          throw new Error("Blurb not found!");
-        }
+findBlurbById: async (parent, { blurbId }) => {
+  return Blurbs.findById(blurbId)
+    .populate("blurbAuthor")
+    .populate({
+      path: "comments",
+      populate: {
+        path: "commentAuthor",
+        model: "User",
+      },
+    });
+},
 
-        return blurb;
-      } catch (error) {
-        throw new Error(`Error fetching blurb: ${error.message}`);
-      }
-    },
 
     //get all users with blurbs greater than zero
     randomBlurb: async () => {
@@ -130,6 +121,8 @@ const resolvers = {
         return User.findOne({ _id: context.user._id }).populate("blurbs");
       }
       throw AuthenticationError;
+
+      
     },
     // ✅
 
@@ -475,6 +468,36 @@ const resolvers = {
       return user;
     },
     // ✅
+
+    editAccount: async (_, { profile}, context) => {
+      if (!context.user) {
+        throw new Error("Not logged in");
+      }
+
+      const user = await User.findById(context.user._id);
+      if (!user) {
+        throw new Error("User not found");
+      }
+
+      // Update user fields here
+
+      if (user.profile.password) {
+        user.profile.password = profile.password;
+        user.profile.isPasswordChanged = true;
+      }
+
+      // Update other profile fields
+      if (profile.email) user.profile.email = profile.email;
+      // Repeat for other fields...
+      
+      console.log(user);
+      await user.save();
+      return user;
+    },
+    // ✅
+
+
+
 
     editComment: async (_, { blurbId, commentId, newCommentText }, context) => {
       console.log(newCommentText);

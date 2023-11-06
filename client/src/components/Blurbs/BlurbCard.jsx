@@ -19,7 +19,6 @@ import {
   REMOVE_Blurb,
 } from "../../utils/mutations/Blurb/BlurbMutations";
 import { QUERY_MY_PROFILE } from "../../utils/Queries/userQueries";
-
 function BlurbStream({
   children,
   username,
@@ -33,7 +32,6 @@ function BlurbStream({
   const [isLiked, setIsLiked] = useState(false);
   const { loading, data } = useQuery(QUERY_MY_PROFILE);
   const [blurbIdForEdit, setBlurbIdForEdit] = useState(null);
-
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -91,24 +89,19 @@ function BlurbStream({
       console.error("Error adding comment:", error);
     }
   };
-
   // Add the edit blurb modal state and functions
   const [isEditBlurbModalOpen, setIsEditBlurbModalOpen] = useState(false);
   const [editBlurbText, setEditBlurbText] = useState("");
-
   const openEditBlurbModal = (initialBlurbText) => {
     setBlurbIdForEdit(blurbId);
     setIsEditBlurbModalOpen(true);
     setEditBlurbText(initialBlurbText);
   };
-
   const closeEditBlurbModal = () => {
     setIsEditBlurbModalOpen(false);
     setEditBlurbText("");
   };
-
   const [updateBlurb] = useMutation(EDIT_Blurb);
-
   const handleEditBlurb = async () => {
     console.log("BlurbId", blurbId);
     console.log("Edited Blurb Text:", editBlurbText); // Log the edited blurb text
@@ -129,19 +122,11 @@ function BlurbStream({
     }
     closeEditBlurbModal();
   };
-
   if (isDeleted) return null;
   return (
     <div id="bluMain">
       <div className="blurbContainer">
         <div id="blurbColOne">
-          <Avatar
-            id="notifyPP"
-            className="Blfriend"
-            alt="Remy Sharp"
-            src="/static/images/avatar/1.jpg"
-            sx={{ width: 40, height: 40 }}
-          />
           <div className="blInfo">
             <div>
               <div className="userName">{username}</div>
@@ -150,22 +135,21 @@ function BlurbStream({
           </div>
         </div>
         <div id="notifyIcons">
-          <div style={{ flexDirection: "row", display: "flex" }}>
-            <IconButton onClick={handleLike} className="likeComment">
-              {isLiked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-            </IconButton>
-            <IconButton onClick={openModal} className="likeComment">
-              <ChatBubbleOutlineIcon />
-            </IconButton>
-          </div>
-          <div>
-            <IconButton
-              onClick={() => openEditBlurbModal(initialBlurbText)}
-              className="editBlurb"
-            >
-              <EditIcon />
-            </IconButton>
-          </div>
+          <IconButton onClick={handleLike} className="likeComment">
+            {isLiked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+          </IconButton>
+          <IconButton onClick={openModal} className="likeComment">
+            <ChatBubbleOutlineIcon />
+          </IconButton>
+          <IconButton
+            onClick={() => openEditBlurbModal(initialBlurbText)}
+            className="editBlurb"
+          >
+            <EditIcon />
+          </IconButton>
+          <IconButton onClick={handleRemove} className="removeComment">
+            <DeleteIcon />
+          </IconButton>
         </div>
       </div>
       <Modal
@@ -213,9 +197,6 @@ function BlurbStream({
             onClick={handleEditBlurb}
           >
             Save Changes
-          </Button>
-          <Button onClick={handleRemove} className="removeComment">
-            Delete Blurb
           </Button>
         </form>
       </Modal>
