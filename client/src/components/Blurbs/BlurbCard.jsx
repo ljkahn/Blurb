@@ -11,7 +11,6 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { ADD_COMMENT } from "../../utils/mutations/Likes/CommentMutations";
 import { EDIT_Blurb } from "../../utils/mutations/Blurb/BlurbMutations";
 import {
   LIKE_Blurb,
