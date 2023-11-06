@@ -20,7 +20,19 @@ function Login({ isRegistered }) {
   useEffect(() => {
     if (!loading) {
       // console.log(data.randomBlurb);
-      setBlurb(data.randomBlurb);
+      setBlurb(
+        data
+          ? data.randomBlurb
+          : {
+              blurbText: "placeholder",
+              blurbAuthor: {
+                username: "placeholder",
+                profile: {
+                  profilePic: "cld-sample-5",
+                },
+              },
+            }
+      );
     }
   }, [loading]);
   // const blurb = data?.randomBlurb || {
@@ -30,16 +42,15 @@ function Login({ isRegistered }) {
 
   //if statement
 
-
-
   // console.log(blurb);
 
   return (
     <>
       <div id="loginBlurb">
         {blurb && (
-          <BlurbCard username={blurb.blurbAuthor.username}
-          profilePic={blurb.blurbAuthor.profile.profilePic}
+          <BlurbCard
+            username={blurb.blurbAuthor.username}
+            profilePic={blurb.blurbAuthor.profile.profilePic}
           >
             <TypeAnimation
               sequence={[blurb.blurbText, 500, " "]}
