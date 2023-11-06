@@ -69,13 +69,17 @@ import {
 
 // export default BlurbCom;
 
-function BlurbCom({ blurbId, comments, commentId }) {
+function BlurbCom({ blurbId, comments, commentId, commentTest }) {
+  console.log(commentTest);
   const [isLiked, setIsLiked] = useState(false);
 
   const { loading, data, error } = useQuery(FIND_BLURB_BY_ID, {
     variables: { blurbId },
   });
-  const [likeComment] = useMutation(ADD_COMMENT_LIKE);
+  const [likeComment, { error: likeError }] = useMutation(ADD_COMMENT_LIKE);
+  if (likeError) {
+    console.log(JSON.stringify(likeError));
+  }
   const [unlikeComment] = useMutation(REMOVE_COMMENT_LIKE);
 
   useEffect(() => {
@@ -94,12 +98,14 @@ function BlurbCom({ blurbId, comments, commentId }) {
     if (isLiked) {
       // If already liked, unlike the comment
       unlikeComment({
-        variables: { commentId },
+        variables: { commentId, blurbId },
       });
     } else {
       // If not liked, like the comment
+      console.log("comment id: ", commentId);
+      console.log("blurb id: ", blurbId);
       likeComment({
-        variables: { commentId },
+        variables: { commentId, blurbId },
       });
     }
     setIsLiked(!isLiked); // Toggle the liked state

@@ -14,9 +14,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_MY_PROFILE } from "../utils/Queries/userQueries.js";
 import Auth from "../utils/auth.js";
-import BlurbStream from '../components/Blurbs/BlurbCard.jsx';
+import BlurbStream from "../components/Blurbs/BlurbCard.jsx";
 import BlurbCom from "../components/Blurbs/BlurbComCard.jsx";
-
 
 function Profile({ registered }) {
   const [isEditVisible, setIsEditVisible] = useState(false);
@@ -26,7 +25,7 @@ function Profile({ registered }) {
   const [userData, setUserData] = useState(null);
   const [isLoading, setLoading] = useState(true);
   const { loading, data, refetch } = useQuery(QUERY_MY_PROFILE);
-      
+
   // useEffect (() => {
   //   const { loading, data } = useQuery(QUERY_MY_PROFILE);
 
@@ -39,16 +38,15 @@ function Profile({ registered }) {
   //   }
   // }, [isLoading]);
 
-  useEffect (() => {
+  useEffect(() => {
     if (registered) {
       refetch();
     }
     if (!loading) {
       console.log(data.me);
-      setUserData(data.me)
+      setUserData(data.me);
     }
   }, [loading, registered]);
-
 
   //   useEffect(() => {
   //   if (data && data.me) {
@@ -174,7 +172,8 @@ function Profile({ registered }) {
                   </BlurbStream>
                   {blurb.comments.map((comment) => (
                     <BlurbCom
-                      // key={comment._id}
+                      commentId={comment._id}
+                      commentTest={comment}
                       blurbId={blurb._id}
                       // username={comment.commentAuthor.username}
                       comments={comment.commentText}
