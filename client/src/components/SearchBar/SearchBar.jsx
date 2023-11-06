@@ -7,19 +7,12 @@ import { useParams, useNavigate } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
 import IconButton from "@mui/material/IconButton";
 import Grid from "@mui/material/Grid";
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 export default function SearchBar() {
   const [selectedOption, setSelectedOption] = useState(null);
   const [userList, setUserList] = useState(null);
   const [menuIsOpen, setMenuIsOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState("");
-<<<<<<< HEAD
-=======
-
->>>>>>> main
   const { loading, data } = useQuery(USER_LIST);
   const { username } = useParams();
   const navigation = useNavigate();
@@ -43,8 +36,6 @@ export default function SearchBar() {
     navigation(`/profile/${selectedOption.label}`);
     setSelectedOption(null); // Clear the selected option
     setSelectedUser(""); // Clear the selected user
-<<<<<<< HEAD
-=======
   };
 
   const customStyles = {
@@ -60,16 +51,11 @@ export default function SearchBar() {
       },
     }),
     dropdownIndicator: () => ({ display: "none" }),
->>>>>>> main
   };
   const handleFormSubmit = (e) => {
     e.preventDefault();
     navigation(`/profile/${selectedUser}`);
   };
-<<<<<<< HEAD
-=======
-
->>>>>>> main
   return (
     <form onSubmit={handleFormSubmit}>
       {!loading ? (
@@ -84,10 +70,7 @@ export default function SearchBar() {
           options={userList}
           menuIsOpen={menuIsOpen}
           isSearchable={true}
-<<<<<<< HEAD
-=======
           styles={customStyles}
->>>>>>> main
         />
       ) : (
         <ThreeDots

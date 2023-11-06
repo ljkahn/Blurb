@@ -5,6 +5,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import LocalFireDepartmentIcon from "@mui/icons-material/LocalFireDepartment";
 import HomeIcon from "@mui/icons-material/Home";
 import Avatar from "@mui/material/Avatar";
+import Tooltip from "@mui/material/Tooltip";
 import Badge from "@mui/material/Badge";
 import IconButton from "@mui/material/IconButton";
 import { Link } from "react-router-dom";
@@ -60,19 +61,26 @@ function NavBar() {
 
   return (
     <div id="navContain">
+      <Tooltip title="Home page, this is where you can check out other user's blurbs! 👥">
       <Link to="/home">
         <IconButton>
           <HomeIcon color="action" sx={{ fontSize: 40 }} />
         </IconButton>
       </Link>
+      </Tooltip>
+      <Tooltip title="Flame page, this is where Blurbs with more than 10 likes get promoted to! 🎉">
       <Link to="/flame">
         <IconButton>
           <LocalFireDepartmentIcon sx={{ fontSize: 40, }} />
         </IconButton>
       </Link>
+      </Tooltip>
+      <Tooltip title="Click this button to post a blurb! 💬 " >
       <button onClick={openModal} id="addBlurb">
         B
       </button>
+      </Tooltip>
+      <Tooltip title ="Notifications page, this is under construction right now! 🚧">
       <Link to="/Likes">
         <IconButton aria-label={notificationsLabel(100)}>
           <Badge badgeContent={100} color="secondary">
@@ -80,11 +88,14 @@ function NavBar() {
           </Badge>
         </IconButton>
       </Link>
+      </Tooltip>
+      <Tooltip title="Profile page, this is where you can edit your profile information, and blurbs! ✏️">
       <Link to="/profile">
         <IconButton>
           <Photo profileImg={userData.profilePic} />
         </IconButton>
       </Link> 
+      </Tooltip>
    
       <Modal
         style={{ zIndex: 0 }}
