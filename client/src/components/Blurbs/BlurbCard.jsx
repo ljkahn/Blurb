@@ -74,6 +74,7 @@ function BlurbStream({
   const handleRemove = async () => {
     console.log("Attempting to remove blurb with ID:", blurbId);
     try {
+      
       await removeBlurb();
       if (onDelete) {
         onDelete(blurbId);
