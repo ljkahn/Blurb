@@ -1,30 +1,50 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "../../style/Blurbs.css";
 import Avatar from "@mui/material/Avatar";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { FIND_BLURB_BY_ID } from "../../utils/Queries/queries";
-import { useQuery } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
+import {
+  ADD_COMMENT_LIKE,
+  REMOVE_COMMENT_LIKE,
+} from "../../utils/mutations/Likes/CommentMutations";
 
-function BlurbCom({ blurbId, comments }) {
+function BlurbCom({ blurbId, comments, commentId }) {
+  const [isLiked, setIsLiked] = useState(false);
   const { loading, data, error } = useQuery(FIND_BLURB_BY_ID, {
     variables: { blurbId },
   });
-  if (error) {
-    console.log(JSON.stringify(error));
-  }
+  const [likeComment] = useMutation(ADD_COMMENT_LIKE);
+  const [unlikeComment] = useMutation(REMOVE_COMMENT_LIKE);
 
-  if (loading) {
-    return <p>Loading...</p>;
-  }
+  useEffect(() => {
+    if (error) {
+      console.log(JSON.stringify(error));
+    }
+  }, [error]);
 
-  if (!data || !data.findBlurbById) {
-    console.log("Data is missing expected properties:", data); // Add this line for debugging
-    return <p>Data is missing expected properties.</p>;
-  }
+  useEffect(() => {
+    if (!loading && data && data.findBlurbById) {
+      console.log("Data:", data); // Add this line for debugging
+      const blurb = data.findBlurbById;
+      // Additional logic or processing with the blurb data here
+    }
+  }, [data, loading]);
 
-  console.log("Data:", data); // Add this line for debugging
-
-  const blurb = data.findBlurbById;
+  const handleCommentLike = () => {
+    if (isLiked) {
+      // If already liked, unlike the comment
+      unlikeComment({
+        variables: { commentId },
+      });
+    } else {
+      // If not liked, like the comment
+      likeComment({
+        variables: { commentId },
+      });
+    }
+    setIsLiked(!isLiked); // Toggle the liked state
+  };
 
   return (
     <div id="bluMain">
@@ -32,18 +52,15 @@ function BlurbCom({ blurbId, comments }) {
         <div id="blurbColOne">
           <div className="blInfo">
             <div>
-              <div className="userName">{blurb.blurbAuthor.username}</div>
+              <div className="userName">
+                {data?.findBlurbById?.blurbAuthor.username}
+              </div>
             </div>
             {comments}
-            {/* {blurb.comments.map((comment) => (
-              <div key={comment._id} className="comment">
-                {comment.commentText}
-              </div>
-            ))} */}
           </div>
         </div>
         <div className="likeComment">
-          <FavoriteBorderIcon />
+          <FavoriteBorderIcon onClick={handleCommentLike} />
         </div>
       </div>
     </div>

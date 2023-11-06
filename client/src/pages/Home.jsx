@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { ThreeDots } from "react-loader-spinner";
 import Fire from "../components/Blurbs/FireCard";
 import BlurbCard from "../components/Blurbs/BlurbCard.jsx";
+import BlurbCom from "../components/Blurbs/BlurbComCard.jsx";
 // import { TypeAnimation } from "react-type-animation";
 import { useQuery } from "@apollo/client";
 import { ALL_BLURBS } from "../utils/Queries/queries.js";
@@ -22,8 +23,8 @@ function Home() {
         return dateA - dateB;
       });
       setBlurbs([...data.blurbs]);
-      console.log(data.blurbs);
       setLoading(false);
+      console.log(...data.blurbs);
     }
   }, [data]);
 
@@ -42,14 +43,24 @@ function Home() {
         />
       ) : (
         blurbs.map((blurb, i) => (
-          <BlurbCard
-            key={i}
-            blurbId={blurb._id}
-            username={blurb.blurbAuthor.username}
-            profilePic={blurb.blurbAuthor.profile.profilePic}
-          >
-            {blurb.blurbText}
-          </BlurbCard>
+          <div key={blurb._id}>
+            <BlurbCard
+              key={i}
+              blurbId={blurb._id}
+              username={blurb.blurbAuthor.username}
+              profilePic={blurb.blurbAuthor.profile.profilePic}
+            >
+              {blurb.blurbText}
+            </BlurbCard>
+            {blurb.comments.map((comment) => (
+              <BlurbCom
+                key={comment._id} // This should be uncommented if comment._id is available
+                blurbId={blurb._id}
+                // username={comment.commentAuthor.username}
+                comments={comment.commentText}
+              />
+            ))}
+          </div>
         ))
       )}
     </div>

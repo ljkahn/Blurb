@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Cloudinary } from "@cloudinary/url-gen";
 import { AdvancedImage, responsive, placeholder } from "@cloudinary/react";
 
-export default function CloudinaryUploadWidget({setProfileImg}) {
+export default function CloudinaryUploadWidget({ setProfileImg }) {
   const [imageKey, setKey] = useState("");
   const [myImage, setImage] = useState(null);
 
@@ -31,17 +31,23 @@ export default function CloudinaryUploadWidget({setProfileImg}) {
       }
     );
   }, []);
-  return ( 
+  return (
     <>
-  {/* <h1>image key: {imageKey}</h1> */}
-  <button type='button' onClick={() => widgetRef.current.open()}>Upload</button>
-  {/* {myImage && (
+      {/* <h1>image key: {imageKey}</h1> */}
+      <button
+        id="upLoad"
+        type="button"
+        onClick={() => widgetRef.current.open()}
+      >
+        Upload
+      </button>
+      {/* {myImage && (
     <AdvancedImage
     style={{ maxWidth: "100%" }}
     cldImg={myImage}
     plugins={[responsive(), placeholder()]}
     />
   )} */}
-  </>
+    </>
   );
 }

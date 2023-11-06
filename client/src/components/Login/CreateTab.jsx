@@ -13,7 +13,7 @@ import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
 
-function Create() {
+function Create({ isRegistered }) {
   const navigation = useNavigate();
   // State to control the visibility of the modal
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -73,6 +73,8 @@ function Create() {
           },
         },
       });
+
+      isRegistered(true);
       Auth.login(data.addUser.token, navigation);
     } catch (error) {
       console.error(error);
