@@ -2,11 +2,11 @@ import React from "react";
 import "../../style/Blurbs.css";
 import Avatar from "@mui/material/Avatar";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import { GET_BLURB_BY_ID } from "../../utils/Queries/queries";
+import { FIND_BLURB_BY_ID } from "../../utils/Queries/queries";
 import { useQuery } from "@apollo/client";
 
 function BlurbCom({ blurbId }) {
-  const { loading, data } = useQuery(GET_BLURB_BY_ID, {
+  const { loading, data } = useQuery(FIND_BLURB_BY_ID, {
     variables: { blurbId },
   });
 

@@ -30,7 +30,7 @@ export const UNLIKE_Blurb = gql`
   }
 `;
 
-export const GET_BLURB_BY_ID = gql`
+export const FIND_BLURB_BY_ID = gql`
   query getBlurbById($blurbId: ID!) {
     blurb(id: $blurbId) {
       _id
