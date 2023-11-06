@@ -8,7 +8,7 @@ import Avatar from "@mui/material/Avatar";
 import Tooltip from "@mui/material/Tooltip";
 import Badge from "@mui/material/Badge";
 import IconButton from "@mui/material/IconButton";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Modal from "@mui/material/Modal";
 import TextField from "@mui/material/TextField";
 import { Select, MenuItem, Input, Button } from "@mui/material"; // Import Select and MenuItem
@@ -60,19 +60,36 @@ function NavBar() {
     }
   }, [loading, data]);
 
+  const yellow = "#F7E258";
+  const lightGray = "#BEBFC5";
+
+  const editStyle = {
+    isActive: yellow,
+    notActive: lightGray,
+  };
+  const location = useLocation();
+
+  const isActive = (path) => location.pathname === path;
+
   return (
     <div id="navContain">
       <Tooltip title="Home page, this is where you can check out other user's blurbs! 👥">
       <Link to="/home">
         <IconButton>
-          <HomeIcon color="action" sx={{ fontSize: 40 }} />
+          <HomeIcon
+            style={{ fill: isActive("/home") ? yellow : lightGray }}
+            sx={{ fontSize: 40 }}
+          />
         </IconButton>
       </Link>
       </Tooltip>
       <Tooltip title="Flame page, this is where Blurbs with more than 10 likes get promoted to! 🎉">
       <Link to="/flame">
         <IconButton>
-          <LocalFireDepartmentIcon sx={{ fontSize: 40, }} />
+          <LocalFireDepartmentIcon
+            style={{ fill: isActive("/flame") ? yellow : lightGray }}
+            sx={{ fontSize: 40 }}
+          />
         </IconButton>
       </Link>
       </Tooltip>
@@ -85,7 +102,10 @@ function NavBar() {
       <Link to="/Likes">
         <IconButton aria-label={notificationsLabel(100)}>
           <Badge badgeContent={100} color="secondary">
-            <FavoriteIcon sx={{ fontSize: 40 }} />
+            <FavoriteIcon
+              style={{ fill: isActive("/Likes") ? yellow : lightGray }}
+              sx={{ fontSize: 40 }}
+            />
           </Badge>
         </IconButton>
       </Link>
@@ -139,7 +159,6 @@ function NavBar() {
           </Button>
         </form> */}
       </Modal>
-  
     </div>
   );
 }

@@ -23,8 +23,8 @@ function Home() {
         return dateA - dateB;
       });
       setBlurbs([...data.blurbs]);
-      console.log(data.blurbs);
       setLoading(false);
+      console.log(...data.blurbs);
     }
   }, [data]);
 
@@ -48,6 +48,7 @@ function Home() {
               key={i}
               blurbId={blurb._id}
               username={blurb.blurbAuthor.username}
+              profilePic={blurb.blurbAuthor.profile.profilePic}
             >
               {blurb.blurbText}
             </BlurbCard>

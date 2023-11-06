@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../../style/Blurbs.css";
 import { useMutation } from "@apollo/client";
 import WhatshotIcon from "@mui/icons-material/Whatshot";
@@ -10,7 +10,7 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { LIKE_Blurb } from "../../utils/mutations/Blurb/BlurbMutations";
 
-function FireCard({ children, username, blurbId }) {
+function FireCard({ children, username, blurbId, profilePic }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => {
     setIsModalOpen(true);
@@ -27,7 +27,21 @@ function FireCard({ children, username, blurbId }) {
       variables: { blurbId },
     });
   };
+  console.log(profilePic);
   console.log(blurbId);
+
+  const sample = "cld-sample-5";
+  const cloudName = "dmnfg3ids";
+  const [staticImg, setStaticPic] = useState(
+    `https://res.cloudinary.com/${cloudName}/image/upload/t_custom-resize/${sample}.png`
+  );
+  useEffect(() => {
+    if (profilePic) {
+      setStaticPic(
+        `https://res.cloudinary.com/${cloudName}/image/upload/t_custom-resize/${profilePic}.png`
+      );
+    }
+  }, [profilePic]);
 
   return (
     <div id="bluMain">
@@ -36,8 +50,8 @@ function FireCard({ children, username, blurbId }) {
           <Avatar
             id="notifyPP"
             className="Blfriend"
-            alt="Remy Sharp"
-            src="/static/images/avatar/1.jpg"
+            alt={username}
+            src={staticImg}
             sx={{ width: 40, height: 40 }}
           />
           {/* <div className="Blfriend" /> */}
