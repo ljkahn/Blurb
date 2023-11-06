@@ -1,21 +1,20 @@
 import Blurbstream from "../components/Blurbs/BlurbCard";
 import React from "react";
 import { useQuery } from "@apollo/client";
-import { GET_BLURB_BY_ID } from "../utils/mutations/Blurb/BlurbMutations";
-import BlurbCom from "../components/Blurbs/BlurbComCard";
+import { GET_BLURB_BY_ID } from "../utils/Queries/queries";
 
 function CommentPage() {
   const { loading, data } = useQuery(GET_BLURB_BY_ID, {
-    variables: { blurbId: "654676b83ac2a6d51c0ae1e9" }, // Replace with the actual blurb ID
+    variables: { blurbId: "6545e091ea310c49c0c35992" }, // Replace with the actual blurb ID
   });
 
-  console.log.apply(data);
+  console.log(data, "-----comment-----");
 
   if (loading) {
     return <p>Loading...</p>;
   }
 
-  const blurb = data.blurbs._id; // Assuming that the query returns a single blurb
+  const blurb = data.blurb; // Access the blurb object
 
   return (
     <div>
@@ -31,3 +30,37 @@ function CommentPage() {
 }
 
 export default CommentPage;
+
+// import Blurb from "../components/Blurbs/BlurbCard";
+// import React from "react";
+// import { useQuery } from "@apollo/client";
+// import { GET_BLURB_BY_ID } from "../utils/Queries/queries";
+// import BlurbCom from "../components/Blurbs/BlurbComCard";
+
+// function CommentPage() {
+//   const { loading, data } = useQuery(GET_BLURB_BY_ID, {
+//     variables: { blurbId: "6545e091ea310c49c0c35992" }, // Replace with the actual blurb ID
+//   });
+
+//   console.log(data, "-----comment-----");
+
+//   if (loading) {
+//     return <p>Loading...</p>;
+//   }
+
+//   const blurb = data.blurbs._id; // Assuming that the query returns a single blurb
+
+//   return (
+//     <div>
+//       <Blurb
+//         key={blurb._id}
+//         blurbId={blurb._id}
+//         username={blurb.blurbAuthor.username}
+//       >
+//         {blurb.blurbText}
+//       </Blurb>
+//     </div>
+//   );
+// }
+
+// export default CommentPage;
