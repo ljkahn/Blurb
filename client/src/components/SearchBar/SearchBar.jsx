@@ -45,10 +45,10 @@ export default function SearchBar() {
   const customStyles = {
     control: (provided) => ({
       ...provided,
-      width: "300px", // Set the width to your desired value (e.g., 300px)
+      width: "225px",
       border: "1px solid #ced4da",
       boxShadow: "none",
-      
+      marginRight: "5px",
       borderRadius: "4px",
       "&:hover": {
         border: "1px solid #ced4da",
