@@ -15,6 +15,7 @@ import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_MY_PROFILE } from "../utils/Queries/userQueries.js";
 import Auth from "../utils/auth.js";
 import BlurbStream from '../components/Blurbs/BlurbCard.jsx';
+
 function Profile() {
   const [isEditVisible, setIsEditVisible] = useState(false);
   const [showProfile, setShowProfile] = useState(true);
@@ -23,24 +24,46 @@ function Profile() {
   const [userData, setUserData] = useState(null);
   const [isDeleted, setIsDeleted] = useState(false);
   const { loading, data } = useQuery(QUERY_MY_PROFILE);
+
   useEffect (() => {
     if (!loading) {
       console.log( data.me);
       setUserData(data.me)
     }
   }, [loading]);
+
+//   useEffect(() => {
+//   if (data && data.me) {
+//     // Assuming data.me.blurbs is the array that needs to be sorted
+//     const sortedBlurbs = data.me.blurbs.slice().sort((a, b) => {
+//       const dateA = new Date(a.createdAt);
+//       const dateB = new Date(b.createdAt);
+//       return dateB - dateA; // This will sort blurbs in descending order
+//     });
+
+//     // Set the user data with the sorted blurbs array
+//     setUserData({
+//       ...data.me,
+//       blurbs: sortedBlurbs,
+//     });
+//   }
+// }, [data]);
+
+
   const handleEditClick = () => {
     setIsEditVisible(true);
     setShowProfile(false);
     setAccountSettingsVisible(false);
     setCurrentComponent("edit");
   };
+
   const showAccountSettings = () => {
     setShowProfile(false);
     setIsEditVisible(false);
     setAccountSettingsVisible(true);
     setCurrentComponent("accountSettings");
   };
+
   const handleGoBack = () => {
     if (currentComponent === "edit" || currentComponent === "accountSettings") {
       setIsEditVisible(false);
@@ -49,6 +72,7 @@ function Profile() {
       setCurrentComponent("profile");
     }
   };
+
   const neon = "#F7E258";
   const white = "#F5F5F5";
   const lightGray = "#BEBFC5";
@@ -60,23 +84,24 @@ function Profile() {
     backgroundColor: neon,
     color: black,
   };
+
   const editStyle = {
     backgroundColor: white,
     color: black,
   };
+
   const [removeBlurb] = useMutation(REMOVE_Blurb, {
     refetchQueries: [
       QUERY_MY_PROFILE,
     ],
-    onError: (err) => {
-      console.error("Error removing blurb: ", err);
-    },
   });
+
   useEffect(() => {
     if (data && data.me) {
       setUserData(data.me);
     }
   }, [data]);
+
   const handleBlurbDelete = async (deletedBlurbId) => {
     try {
       await removeBlurb({ variables: { blurbId: deletedBlurbId } });
@@ -85,9 +110,10 @@ function Profile() {
         blurbs: prevUserData.blurbs.filter(blurb => blurb._id !== deletedBlurbId),
       }));
     } catch (err) {
-      console.error("Error executing removeBlurb mutation", err);
+      console.log("blurb not found");
     }
   };
+
   return (
     <div>
       <IconButton onClick={handleGoBack}>
@@ -120,9 +146,14 @@ function Profile() {
             <BlurbStream
               key={blurb._id}
               blurbId={blurb._id}
-              username = {blurb.username}
-              onDelete={() => handleBlurbDelete(blurb._id)}>
+              username={blurb.username}
+              onDelete={() => handleBlurbDelete(blurb._id)}
+              showEdit={true}
+              >
               {blurb.blurbText}
+              {/* <div>
+              {blurb.tags}
+              </div> */}
             </BlurbStream>
           ))}
         </Container>
@@ -135,6 +166,7 @@ function Profile() {
     </div>
   )
 }
+
 export default Profile
 
 

@@ -93,7 +93,7 @@ function NavBar() {
         onClose={closeModal}
       >
         <div>
-          <AddBlurb />
+          <AddBlurb setIsModalOpen={setIsModalOpen} />
         </div>
 
         {/* <form id="blForm">

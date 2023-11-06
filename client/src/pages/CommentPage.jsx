@@ -1,10 +1,10 @@
 import Blurb from "../components/Blurbs/BlurbCard";
 import React from "react";
 import { useQuery } from "@apollo/client";
-import { GET_BLURB_BY_ID } from "../utils/mutations/Blurb/BlurbMutations";
+import { FIND_BLURB_BY_ID } from "../utils/mutations/Blurb/BlurbMutations";
 import BlurbCom from "../components/Blurbs/BlurbComCard";
 function CommentPage() {
-  const { loading, data } = useQuery(GET_BLURB_BY_ID, {
+  const { loading, data } = useQuery(FIND_BLURB_BY_ID, {
     variables: { blurbId: "6542aa306a9a59a5a9f640d1" }, // Replace with the actual blurb ID
   });
   console.log.apply(data);
