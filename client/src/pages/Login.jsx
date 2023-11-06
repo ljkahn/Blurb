@@ -33,7 +33,7 @@ function Login({ isRegistered }) {
 
 
   // console.log(blurb);
-
+console.log(data);
   return (
     <>
       <div id="loginBlurb">

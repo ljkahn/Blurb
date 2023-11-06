@@ -11,7 +11,15 @@
   background-color: #2e2e2e;
 }
 
+#logo {
+  margin-left: 2px;
+  fill: #2e2e2e;
+}
+
 #addBlurb {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 60px;
   width: 60px;
   border-radius: 60px;

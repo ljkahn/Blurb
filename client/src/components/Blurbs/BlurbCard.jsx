@@ -3,7 +3,7 @@ import { useMutation, useQuery } from "@apollo/client";
 import "../../style/Blurbs.css";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
-import EditIcon from "@mui/icons-material/Edit"; // Import the EditIcon
+import EditIcon from "@mui/icons-material/Edit";
 import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import Modal from "@mui/material/Modal";
@@ -24,15 +24,12 @@ import {
 } from "../../utils/mutations/Blurb/BlurbMutations";
 import { QUERY_MY_PROFILE } from "../../utils/Queries/userQueries";
 
-
 function BlurbStream({
   children,
   username,
   blurbId,
   onDelete,
   initialBlurbText,
-  // isLiked,
-  // comments,
   showEdit,
   profilePic,
 }) {
@@ -42,7 +39,7 @@ function BlurbStream({
   const [isLiked, setIsLiked] = useState(false);
   const { loading, data } = useQuery(QUERY_MY_PROFILE);
   const [blurbIdForEdit, setBlurbIdForEdit] = useState(null);
-  console.log(auth.getProfile);
+  // console.log(auth.getProfile());
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -54,19 +51,18 @@ function BlurbStream({
 
   const [likeBlurb] = useMutation(LIKE_Blurb);
   const [unlikeBlurb] = useMutation(UNLIKE_Blurb);
+
   const handleLike = () => {
     if (isLiked) {
-      // If already liked, unlike the blurb
       unlikeBlurb({
         variables: { blurbId },
       });
     } else {
-      // If not liked, like the blurb
       likeBlurb({
         variables: { blurbId },
       });
     }
-    setIsLiked(!isLiked); // Toggle the liked state
+    setIsLiked(!isLiked);
   };
 
   const [removeBlurb] = useMutation(REMOVE_Blurb, {
@@ -82,7 +78,6 @@ function BlurbStream({
   });
 
   const handleRemove = async () => {
-    // console.log("Attempting to remove blurb with ID:", blurbId);
     try {
       await removeBlurb();
       if (onDelete) {
@@ -93,24 +88,23 @@ function BlurbStream({
     }
   };
 
-  // const proPic = blurbs?.blurbAuthor?.profile?.profilePic;
   const [addComment] = useMutation(ADD_COMMENT);
+
   const handleComment = async () => {
-    // console.log("Blurb ID:", blurbId); // Log the blurb ID
-    // console.log("Comment Text:", commentText); // Log the comment text
     try {
       await addComment({
         variables: { blurbId, commentText: commentText },
       });
-      setCommentText(""); // Clear the comment input field
+      setCommentText("");
+      closeModal();
     } catch (error) {
       console.error("Error adding comment:", error);
     }
   };
 
-  // Add the edit blurb modal state and functions
   const [isEditBlurbModalOpen, setIsEditBlurbModalOpen] = useState(false);
   const [editBlurbText, setEditBlurbText] = useState("");
+
   const openEditBlurbModal = (initialBlurbText) => {
     setBlurbIdForEdit(blurbId);
     setIsEditBlurbModalOpen(true);
@@ -121,12 +115,11 @@ function BlurbStream({
     setIsEditBlurbModalOpen(false);
     setEditBlurbText("");
   };
+
   const [updateBlurb] = useMutation(EDIT_Blurb);
+
   const handleEditBlurb = async () => {
-    // console.log("BlurbId", blurbId);
-    // console.log("Edited Blurb Text:", editBlurbText); // Log the edited blurb text
     try {
-      // Call the updateBlurb mutation with the provided variables using await
       await updateBlurb({
         variables: {
           blurbId: blurbId,
@@ -134,11 +127,7 @@ function BlurbStream({
         },
         refetchQueries: [{ query: QUERY_MY_PROFILE }],
       });
-      // Handle the result if needed
-      // The updated blurb text will be available in result.data.editBlurb
-      // console.log("Blurb updated");
     } catch (error) {
-      // Handle errors if the mutation fails
       console.error("Error updating blurb:", error);
     }
     closeEditBlurbModal();
@@ -170,20 +159,8 @@ function BlurbStream({
     }
   };
 
-  const handleEditComment = () => {
-    // Use the editedCommentText and commentId to update the comment
-    // You should have a way to set the commentId when editing a comment
-    // In your UI, you can set commentId when clicking on the comment to edit
-    if (commentId) {
-      // Make sure to use the correct variables in the editComment mutation
-      editComment({
-        variables: { commentId: commentId, commentText: editedCommentText },
-      });
-    }
-    closeModal(); // Close the modal after saving the edits
-  };
-
   if (isDeleted) return null;
+
   return (
     <div id="bluMain">
       <div className="blurbContainer">
@@ -205,7 +182,7 @@ function BlurbStream({
         <div id="notifyIcons">
           <div style={{ display: "flex", flexDirection: "row" }}>
             <IconButton onClick={handleLike} className="likeComment">
-              {isLiked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+              {isLiked ? <FavoriteIcon style={{color: "red"}} /> : <FavoriteBorderIcon />}
             </IconButton>
             <IconButton onClick={openModal} className="likeComment">
               <ChatBubbleOutlineIcon />
@@ -227,8 +204,7 @@ function BlurbStream({
         style={{ zIndex: 0 }}
         id="blurbModal"
         open={isModalOpen}
-        on
-        lose={closeModal}
+        onClose={closeModal}
       >
         <form id="blForm">
           <TextField
@@ -247,8 +223,11 @@ function BlurbStream({
           >
             Comment
           </Button>
+          <Button className="modalButton" onClick={closeModal}>
+            Cancel
+          </Button>
         </form>
-      </Modal>
+      </Modal>{" "}
       <Modal
         style={{ zIndex: 0 }}
         id="editBlurbModal"
@@ -260,7 +239,7 @@ function BlurbStream({
             id="outlined-basic"
             label="Edit Blurb"
             variant="outlined"
-            value={editBlurbText || ""} // Use an empty string as the default value
+            value={editBlurbText || ""}
             onChange={(e) => setEditBlurbText(e.target.value)}
           />
           <Button
@@ -283,4 +262,5 @@ function BlurbStream({
     </div>
   );
 }
+
 export default BlurbStream;
