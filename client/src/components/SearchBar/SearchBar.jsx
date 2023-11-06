@@ -38,7 +38,7 @@ export default function SearchBar() {
 
   const handleUserSelect = (selectedOption) => {
     setSelectedUser(selectedOption.label);
-   
+  
   };
 
   const handleFormSubmit = (e) => {
