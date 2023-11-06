@@ -1,22 +1,22 @@
 [
   {
     "likes": 10,
-    "blurbText": "Spread em!",
-    "blurbAuthor": "Cheeks70",
+    "blurbText": "Should I start singing?",
+    "blurbAuthor": "JJonah70",
     "photo": "photo_url_1",
     "createdAt": "10/31/2023",
     "updatedAt": null,
     "comments": [
       {
         "likes": 2,
-        "commentText": "Grow up.",
+        "commentText": "Good luck",
         "commentAuthor": "Bubbles123",
         "createdAt": "10/31/2023",
         "updatedAt": null
       },
       {
         "likes": 3,
-        "commentText": "What are you even talking about?",
+        "commentText": "What songs are you thinking?",
         "commentAuthor": "SunnyDays",
         "createdAt": "10/31/2023",
         "updatedAt": null

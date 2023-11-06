@@ -83,7 +83,7 @@ function Edit({ userData, showAccountSettings }) {
       },
     })
     .then((result) => {
-      console.log('User updated:', result.data.editUser);
+      // console.log('User updated:', result.data.editUser);
       showSnackbar('Profile updated successfully', 'success');
       
     })

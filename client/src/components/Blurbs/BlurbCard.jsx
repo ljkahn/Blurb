@@ -73,7 +73,7 @@ function BlurbStream({
     },
   });
   const handleRemove = async () => {
-    console.log("Attempting to remove blurb with ID:", blurbId);
+    // console.log("Attempting to remove blurb with ID:", blurbId);
     try {
       await removeBlurb();
       if (onDelete) {
@@ -86,8 +86,8 @@ function BlurbStream({
   // const proPic = blurbs?.blurbAuthor?.profile?.profilePic;
   const [addComment] = useMutation(ADD_COMMENT);
   const handleComment = async () => {
-    console.log("Blurb ID:", blurbId); // Log the blurb ID
-    console.log("Comment Text:", commentText); // Log the comment text
+    // console.log("Blurb ID:", blurbId); // Log the blurb ID
+    // console.log("Comment Text:", commentText); // Log the comment text
     try {
       await addComment({
         variables: { blurbId, commentText: commentText },
@@ -109,11 +109,10 @@ function BlurbStream({
     setIsEditBlurbModalOpen(false);
     setEditBlurbText("");
   };
-  console.log("blurb card profile pic: ", profilePic);
   const [updateBlurb] = useMutation(EDIT_Blurb);
   const handleEditBlurb = async () => {
-    console.log("BlurbId", blurbId);
-    console.log("Edited Blurb Text:", editBlurbText); // Log the edited blurb text
+    // console.log("BlurbId", blurbId);
+    // console.log("Edited Blurb Text:", editBlurbText); // Log the edited blurb text
     try {
       // Call the updateBlurb mutation with the provided variables using await
       await updateBlurb({
@@ -125,7 +124,7 @@ function BlurbStream({
       });
       // Handle the result if needed
       // The updated blurb text will be available in result.data.editBlurb
-      console.log("Blurb updated");
+      // console.log("Blurb updated");
     } catch (error) {
       // Handle errors if the mutation fails
       console.error("Error updating blurb:", error);

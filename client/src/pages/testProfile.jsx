@@ -56,7 +56,7 @@ function Profile() {
     }
   };
 
-  console.log(userData);
+  // console.log(userData);
   const neon = "#EDFB60";
   const white = "#f5f5f5";
   const black = "#212121";
