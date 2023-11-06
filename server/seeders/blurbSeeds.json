@@ -1,6 +1,5 @@
 [
   {
-
     "blurbText": "Spread em!",
     "blurbAuthor": "Cheeks70",
     "photo": "photo_url_1",
@@ -8,14 +7,12 @@
     "updatedAt": null,
     "comments": [
       {
-
         "commentText": "Grow up.",
         "commentAuthor": "Bubbles123",
         "createdAt": "10/31/2023",
         "updatedAt": null
       },
       {
-
         "commentText": "What are you even talking about?",
         "commentAuthor": "SunnyDays",
         "createdAt": "10/31/2023",
@@ -24,7 +21,6 @@
     ]
   },
   {
-    
     "blurbText": "I'm pretty cool.",
     "blurbAuthor": "CoolCat22",
     "photo": "",
@@ -33,7 +29,6 @@
     "comments": []
   },
   {
-    
     "blurbText": "Enjoying the music vibes!",
     "blurbAuthor": "MusicLover",
     "photo": "",
@@ -41,21 +36,18 @@
     "updatedAt": null,
     "comments": [
       {
-        
         "commentText": "Great taste in music!",
         "commentAuthor": "MelodyMaster",
         "createdAt": "10/31/2023",
         "updatedAt": null
       },
       {
-        
         "commentText": "I love that song too!",
         "commentAuthor": "LyricLover",
         "createdAt": "10/31/2023",
         "updatedAt": null
       },
       {
-        
         "commentText": "Rock on, MusicLover!",
         "commentAuthor": "RockStar123",
         "createdAt": "10/31/2023",
@@ -64,7 +56,6 @@
     ]
   },
   {
-    
     "blurbText": "Artistic creations are the best!",
     "blurbAuthor": "ArtEnthusiast",
     "photo": "",
@@ -72,21 +63,18 @@
     "updatedAt": null,
     "comments": [
       {
-        
         "commentText": "I admire your artistic talent!",
         "commentAuthor": "ArtLover45",
         "createdAt": "10/31/2023",
         "updatedAt": null
       },
       {
-        
         "commentText": "Beautiful artwork!",
         "commentAuthor": "ColorPalette",
         "createdAt": "10/31/2023",
         "updatedAt": null
       },
       {
-        
         "commentText": "ArtEnthusiast, you inspire me!",
         "commentAuthor": "CreativeMind",
         "createdAt": "10/31/2023",
@@ -95,7 +83,6 @@
     ]
   },
   {
-    
     "blurbText": "Tech jokes and coding fun!",
     "blurbAuthor": "TechGeek",
     "photo": "",
@@ -103,21 +90,18 @@
     "updatedAt": null,
     "comments": [
       {
-        
         "commentText": "TechGeek, you always have the best jokes!",
         "commentAuthor": "CodeNinja",
         "createdAt": "10/31/2023",
         "updatedAt": null
       },
       {
-        
         "commentText": "I can relate to those debugging struggles!",
         "commentAuthor": "DebugMaster",
         "createdAt": "10/31/2023",
         "updatedAt": null
       },
       {
-        
         "commentText": "Keep coding and cracking jokes, TechGeek!",
         "commentAuthor": "CodeComedian",
         "createdAt": "10/31/2023",
@@ -126,7 +110,6 @@
     ]
   },
   {
-    
     "blurbText": "Fitness journey continues!",
     "blurbAuthor": "FitnessFreak",
     "photo": "photo_url_2",
@@ -134,21 +117,18 @@
     "updatedAt": null,
     "comments": [
       {
-        
         "commentText": "You're an inspiration to all of us!",
         "commentAuthor": "HealthyLife",
         "createdAt": "10/31/2023",
         "updatedAt": null
       },
       {
-        
         "commentText": "Keep pushing those limits!",
         "commentAuthor": "FitFanatic",
         "createdAt": "10/31/2023",
         "updatedAt": null
       },
       {
-        
         "commentText": "FitnessFreak, you're on fire!",
         "commentAuthor": "SweatSquad",
         "createdAt": "10/31/2023",
@@ -157,7 +137,6 @@
     ]
   },
   {
-    
     "blurbText": "Nature's beauty is breathtaking!",
     "blurbAuthor": "NatureLover",
     "photo": "photo_url_3",
@@ -165,21 +144,18 @@
     "updatedAt": null,
     "comments": [
       {
-        
         "commentText": "Nature has its way of calming the soul.",
         "commentAuthor": "OutdoorExplorer",
         "createdAt": "10/31/2023",
         "updatedAt": null
       },
       {
-        
         "commentText": "I wish I could be there right now!",
         "commentAuthor": "WildAdventures",
         "createdAt": "10/31/2023",
         "updatedAt": null
       },
       {
-        
         "commentText": "NatureLover, your photos are stunning!",
         "commentAuthor": "GreenThumb",
         "createdAt": "10/31/2023",
@@ -188,7 +164,6 @@
     ]
   },
   {
-    
     "blurbText": "Adventures await!",
     "blurbAuthor": "AdventureSeeker",
     "photo": "",
@@ -196,14 +171,12 @@
     "updatedAt": null,
     "comments": [
       {
-        
         "commentText": "Where's your next destination?",
         "commentAuthor": "WanderlustSoul",
         "createdAt": "10/31/2023",
         "updatedAt": null
       },
       {
-        
         "commentText": "AdventureSeeker, you're living the dream!",
         "commentAuthor": "TravelBug",
         "createdAt": "10/31/2023",
