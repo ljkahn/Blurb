@@ -5,7 +5,7 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { FIND_BLURB_BY_ID } from "../../utils/Queries/queries";
 import { useQuery } from "@apollo/client";
 
-function BlurbCom({ blurbId }) {
+function BlurbCom({ blurbId, comments }) {
   const { loading, data, error } = useQuery(FIND_BLURB_BY_ID, {
     variables: { blurbId },
   });
@@ -34,11 +34,12 @@ function BlurbCom({ blurbId }) {
             <div>
               <div className="userName">{blurb.blurbAuthor.username}</div>
             </div>
-            {blurb.comments.map((comment) => (
+            {comments}
+            {/* {blurb.comments.map((comment) => (
               <div key={comment._id} className="comment">
                 {comment.commentText}
               </div>
-            ))}
+            ))} */}
           </div>
         </div>
         <div className="likeComment">
