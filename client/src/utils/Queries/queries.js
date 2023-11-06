@@ -32,6 +32,7 @@ export const RANDOM_BLURB = gql`
 `;
 
 export const GET_BLURB_BY_ID = gql`
+
 query Query($blurbId: ID!) {
   findBlurbById(blurbId: $blurbId) {
     _id

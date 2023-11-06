@@ -7,11 +7,12 @@ import Photo from "../components/Profile/ProfilePhoto.jsx";
 import Button from "@mui/material/Button";
 import BlurbStream from '../components/Blurbs/BlurbCard.jsx';
 
-import { useQuery } from '@apollo/client';
-import { QUERY_ONE_USER } from '../utils/queries/userQueries';
+import { useQuery, useMutation } from '@apollo/client';
+import { QUERY_ONE_USER } from '../utils/Queries/userQueries';
+import {FOLLOW_USER, UNFOLLOW_USER} from '../utils/mutations/userMutations';
 import { useParams } from 'react-router-dom';
 import Auth from '../utils/auth.js';
-
+import { useNavigate } from 'react-router-dom';
 
 function UserProfile() {
   const {username} = useParams();
@@ -19,8 +20,29 @@ function UserProfile() {
   const {data,  loading, error} = useQuery(QUERY_ONE_USER, {
     variables: {username: username},
   });
-  
+  const [followUser, {loading: followLoading, error: followError}] = useMutation(FOLLOW_USER);
+  const [unfollowUser] = useMutation(UNFOLLOW_USER);
+  const navigation = useNavigate();
+
   console.log(data);
+  const neon = '#F7E258';
+  const white = '#f5f5f5';
+  const lightGray = '#BEBFC5';
+  const gray = '#808080';
+  const darkGray = '#555555';
+  const jetBlack = '#343434';
+  const black = '#212121';
+
+  const followStyle = {
+    backgroundColor: neon,
+    color: black,
+    borderRadius: 10,
+    
+  }
+  const infoStyle = {
+    backgroundColor: white,
+    color: black,
+  }
 
 useEffect(() => {
   if (!loading && data && data.user) {
@@ -32,38 +54,59 @@ if (error) {
   console.log(JSON.stringify(error))
 }
 
-  // const userData = data.user;
-  // // if (loading) {
-  // //   return <p>Loading...</p>
-  // // }
+const handleFollowUser = (userIdToFollow) => {
+  followUser({
+    variables: {
+      userIdToFollow: userIdToFollow,
+    }
+  })
+  .then((result) => {
+    console.log('User followed successfully!');
+    //Show a success message 
+  })
+  .catch ((error) => {
+    console.error('Failed to follow user:', error)
+  });
+};
 
-  // if (error) {
-  //   console.error(error)
-  // }
-
-  // if (!data || !data.user) {
-  //   return <p>No data found for this user.</p>;
-  // }
+const isCurrentUserFollowing = userData?.followers?.includes(Auth.loggedIn(navigation)._id);
 
 
-  const neon = '#EDFB60';
-  const white = '#f5f5f5';
-  const lightGray = '#BEBFC5';
-  const gray = '#808080';
-  const darkGray = '#555555';
-  const jetBlack = '#343434';
-  const black = '#212121';
+const handleUnfollowUser = (userIdToUnfollow) => {
+  unfollowUser({
+    variables: {
+      userIdToUnfollow: userIdToUnfollow,
+    }
+  })
+  .then((result) => {
+    console.log('User unfollowed successfully!');
+  })
+  .catch((error) => {
+    console.error('Failed to unfollow user:', error)
+  });
+};
 
-  const followStyle = {
-    backgroundColor: neon,
-    color: black,
-    
-  }
-  const infoStyle = {
-    backgroundColor: white,
-    color: black,
-   
-  }
+const handleFollowButton = isCurrentUserFollowing ? (
+  <Button
+    id="btn"
+    style={followStyle}
+    variant="contained"
+    onClick={() => handleUnfollowUser(userData._id)}
+  >
+    UNFOLLOW
+  </Button>
+) : (
+  <Button
+    id="btn"
+    style={followStyle}
+    variant="contained"
+    onClick={() => handleFollowUser(userData._id)}
+  >
+    FOLLOW
+  </Button>
+);
+
+
   return (
     <div>
       {userData && userData.profile && (
@@ -74,16 +117,14 @@ if (error) {
       <p>{userData.profile.bio}</p>
       <p>📍{userData.profile.location}</p>
       <Grid>
-        <Button id='btn' style={infoStyle} variant="contained"> {userData.followerNumber}Followers
+        <Button id='btn' style={infoStyle} variant="contained"> {userData.followerNumber} Followers
         </Button>
         <Button id='btn' style={infoStyle} variant="contained">
-          {userData.followingNumber}Following
+          {userData.followingNumber} Following
         </Button>
       </Grid>
 
-      <Button id='btn' style={followStyle} variant="contained">
-        FOLLOW
-      </Button>
+      {handleFollowButton}
       {userData.blurbs.map((blurb, index) => (
             <BlurbStream key={index} blurbId={blurb.blurbId} username = {blurb.username} >
               {blurb.blurbText}

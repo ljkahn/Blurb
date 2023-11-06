@@ -34,7 +34,7 @@ function Login() {
 
   return (
     <>
-      <div>
+      <div id="loginBlurb">
         {blurb && (
           <BlurbCard username={blurb.blurbAuthor.username}>
             <TypeAnimation

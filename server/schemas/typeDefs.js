@@ -87,11 +87,12 @@ const typeDefs = `
       userBlurbs(username: String!): [Blurbs]
       blurbs: [Blurbs]
       blurbsByTag(tags: [Tag]!): [Blurbs]
+      blurbsById(blurbId: ID!): Blurbs
       me: User
+      findBlurbById(blurbId: ID!): String
       randomBlurb: Blurbs
       followers: [User]
       following: [User]
-      findBlurbById(blurbId: ID!): Blurbs
     }
     
     type Mutation {
@@ -111,7 +112,8 @@ const typeDefs = `
       addCommentLike(blurbId: ID!, commentId: ID!): String
       removeCommentLike(blurbId: ID!, commentId: ID!): String
       followUser(userIdToFollow: ID!): String
-  
+      unfollowUser(userIdToUnfollow: ID!): String
+
     }
     `;
 

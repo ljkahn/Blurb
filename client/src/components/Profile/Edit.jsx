@@ -9,12 +9,14 @@ import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
 import SettingsIcon from "@mui/icons-material/Settings";
 import CloudinaryUploadWidget from "../Upload";
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 
 // import AccountEdit from "../Profile/AccountEdit"
 import { useMutation } from "@apollo/client";
 import { EDIT_USER } from "../../utils/mutations/userMutations";
 
-const neon = "#EDFB60";
+const neon = "#F7E258";
 const white = "#f5f5f5";
 const lightGray = "#BEBFC5";
 const gray = "#808080";
@@ -33,9 +35,29 @@ function Edit({ userData, showAccountSettings }) {
     },
   });
 
+  useEffect(() => {
+    if (userData) {
+      setFormData({
+        username: userData.username,
+        profile: {
+          fullName: userData.profile.fullName,
+          location: userData.profile.location,
+          bio: userData.profile.bio,
+          profilePic: userData.profile.profilePic,
+        },
+      });
+    }
+  }, [userData]);
 
   const [editUser, { loading, error }] = useMutation(EDIT_USER);
-
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarSeverity, setSnackbarSeverity] = useState('success');
+  const showSnackbar = (message, severity) => {
+    setSnackbarMessage(message);
+    setSnackbarSeverity(severity);
+    setOpenSnackbar(true);
+  };
 
   const buttonStyle = {
     backgroundColor: neon,
@@ -62,10 +84,12 @@ function Edit({ userData, showAccountSettings }) {
     })
     .then((result) => {
       console.log('User updated:', result.data.editUser);
-      //Handle success somehow, alert or redirect back to profile page?
+      showSnackbar('Profile updated successfully', 'success');
+      
     })
     .catch((e) => {
-      console.error("Error updating user:", e)
+      console.error("Error updating user:", e);
+      showSnackbar('Failed to update profile, check that you are logged in!', 'error');
     });
   };
 
@@ -160,6 +184,7 @@ function Edit({ userData, showAccountSettings }) {
           style={buttonStyle}
           onClick={handleSaveChanges}
           variant="contained"
+          id="btn"
         >
           <SaveIcon />
           Save Changes
@@ -170,12 +195,21 @@ function Edit({ userData, showAccountSettings }) {
           variant="contained"
           style={accountStyle}
           onClick={handleAccountSettingsClick}
+          id="btn"
         >
           <SettingsIcon />
           Account Settings
         </Button>
       </div>
-      
+      <Snackbar
+  open={openSnackbar}
+  autoHideDuration={3000} // Duration in milliseconds
+  onClose={() => setOpenSnackbar(false)}
+>
+  <MuiAlert elevation={6} variant="filled" severity={snackbarSeverity}>
+    {snackbarMessage}
+  </MuiAlert>
+</Snackbar>
       
     </div>
   );

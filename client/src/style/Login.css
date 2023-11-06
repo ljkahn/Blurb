@@ -14,7 +14,7 @@
   justify-content: center;
   flex-direction: column;
   align-items: center;
-  background-color: rgb(228, 228, 228);
+  background-color: #757575;
   padding: 1rem;
   border-radius: 20px;
   width: 250px;
@@ -23,4 +23,50 @@
 #tabs {
   display: flex;
   justify-content: center;
+}
+
+#logCreateB {
+  margin-top: 10px;
+  border-radius: 10px;
+  background-color: #f7e258;
+  color: black;
+}
+
+#loginBlurb {
+  display: flex;
+  width: 100%;
+  height: 180px;
+  align-items: center;
+  justify-content: center;
+}
+
+/* LOG IN AND CREATE CSS */
+
+.css-11yukd5-MuiTabs-indicator {
+  background-color: #f7e258 !important;
+}
+
+#upLoad {
+  font-family: "Inter", sans-serif;
+  margin: 10px;
+  border-radius: 10px;
+  background-color: #f7e258;
+  color: black;
+  border: none;
+  height: 25px;
+  width: 60px;
+}
+
+/* FORM TEXT  */
+
+.css-1u3bzj6-MuiFormControl-root-MuiTextField-root,
+.css-1a4cg4j-MuiButtonBase-root-MuiTab-root.Mui-selected,
+.css-1c2i806-MuiFormLabel-root-MuiInputLabel-root,
+.css-aqpgxn-MuiFormLabel-root-MuiInputLabel-root,
+.css-1x51dt5-MuiInputBase-input-MuiInput-input {
+  color: #f3f3f3 !important;
+}
+
+.css-v4u5dn-MuiInputBase-root-MuiInput-root:after {
+  border-bottom: 2px solid #f7e258 !important;
 }

@@ -23,47 +23,6 @@ function BlurbCom({ blurbId }) {
 
   const blurb = data.findBlurbById;
 
-  //   return (
-  //     <div>
-  //       <div id="bluMain">
-  //         <div className="blurbContainer comContainer">
-  //           <div id="blurbColOne">
-  //             {/* <Avatar
-  //               id="notifyPP"
-  //               className="Blfriend"
-  //               alt="Remy Sharp"
-  //               src="/static/images/avatar/1.jpg"
-  //               sx={{ width: 40, height: 40 }}
-  //             /> */}
-  //             {/* <div className="Blfriend" /> */}
-  //             <div className="blInfo">
-  //               <div>
-  //                 <div className="userName">Jenny</div>
-  //               </div>
-  //               {userData.blurbs &&
-  //                 userData.blurbs.map((blurbs, index, commentId) => (
-  //                   <>
-  //                     <BlurbStream
-  //                       key={index}
-  //                       blurbId={blurbs._id}
-  //                       // username={blurbs.username}
-  //                       comments={blurbs.comments}
-  //                     >
-  //                       {blurbs.blurbText}
-  //                     </BlurbStream>
-  //                   </>
-  //                 ))}
-  //             </div>
-  //           </div>
-  //           <div className="likeComment">
-  //             <FavoriteBorderIcon />
-  //           </div>
-  //         </div>
-  //       </div>
-  //     </div>
-  //   );
-  // }
-
   return (
     <div id="bluMain">
       <div className="blurbContainer comContainer">
