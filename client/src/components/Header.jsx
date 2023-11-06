@@ -76,15 +76,16 @@ function Header() {
   return (
     <>
       <div id="header">
-        <Tooltip title="Search other Blurb users by their username here! 🔍">
-        <div id="button">
-          <IconButton onClick={toggleSearchBar}>
-            <SearchIcon sx={{ fontSize: 40 }} />
-          </IconButton>
-        </div>
+        <div id="searchCon">
+          <Tooltip title="Search other Blurb users by their username here! 🔍">
+            <div id="button">
+              <IconButton onClick={toggleSearchBar}>
+                <SearchIcon sx={{ fontSize: 40 }} />
+              </IconButton>
+            </div>
           </Tooltip>
-        {isSearchBarVisible && <SearchBar />}
-
+          {isSearchBarVisible && <SearchBar />}
+        </div>
         <Button id="logout" onClick={handleLogout} variant="contained">
           Logout
         </Button>
