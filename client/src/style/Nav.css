@@ -4,7 +4,7 @@
   height: 60px;
   position: fixed;
   bottom: 0;
-  right:0;
+  right: 0;
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -16,7 +16,13 @@
   width: 60px;
   border-radius: 60px;
   margin-bottom: 60px;
-  background-color: #f7e258;
+  background: rgb(255, 245, 183);
+  background: linear-gradient(
+    151deg,
+    rgba(255, 245, 183, 1) 0%,
+    rgba(247, 226, 88, 1) 43%
+  );
+
   border: none;
   /* box-shadow: 0px 0px 5px 1px #edfb60; */
   transition: 0.2s;
@@ -33,12 +39,11 @@
   border-radius: 20px;
 }
 
-
 /* ICONS ////////////////////////// */
 
 .css-1j61q98-MuiSvgIcon-root,
 .css-1ha5wk2-MuiSvgIcon-root {
-  color: #B6B7BD !important;
+  color: #b6b7bd !important;
 }
 
 .css-1j61q98-MuiSvgIcon-root:active,

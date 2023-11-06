@@ -167,6 +167,7 @@ function Profile({ registered }) {
                     // key={blurb._id}
                     blurbId={blurb._id}
                     username={blurb.username}
+                    profilePic={userData.profile.profilePic}
                     onDelete={() => handleBlurbDelete(blurb._id)}
                     showEdit={true}
                   >
