@@ -14,23 +14,41 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_MY_PROFILE } from "../utils/Queries/userQueries.js";
 import Auth from "../utils/auth.js";
-import BlurbStream from "../components/Blurbs/BlurbCard.jsx";
+import BlurbStream from '../components/Blurbs/BlurbCard.jsx';
 import BlurbCom from "../components/Blurbs/BlurbComCard.jsx";
-function Profile() {
+
+
+function Profile({ registered }) {
   const [isEditVisible, setIsEditVisible] = useState(false);
   const [showProfile, setShowProfile] = useState(true);
   const [accountSettingsVisible, setAccountSettingsVisible] = useState(false);
   const [currentComponent, setCurrentComponent] = useState("profile");
   const [userData, setUserData] = useState(null);
-  const [isDeleted, setIsDeleted] = useState(false);
-  const { loading, data } = useQuery(QUERY_MY_PROFILE);
+  const [isLoading, setLoading] = useState(true);
+  const { loading, data, refetch } = useQuery(QUERY_MY_PROFILE);
+      
+  // useEffect (() => {
+  //   const { loading, data } = useQuery(QUERY_MY_PROFILE);
 
-  useEffect(() => {
+  //   if (!isLoading) {
+  //     console.log(data.me);
+  //     setUserData(data.me)
+  //   }
+  //   else {
+  //     setLoading(loading);
+  //   }
+  // }, [isLoading]);
+
+  useEffect (() => {
+    if (registered) {
+      refetch();
+    }
     if (!loading) {
       console.log(data.me);
-      setUserData(data.me);
+      setUserData(data.me)
     }
-  }, [loading]);
+  }, [loading, registered]);
+
 
   //   useEffect(() => {
   //   if (data && data.me) {
@@ -150,6 +168,7 @@ function Profile() {
                     blurbId={blurb._id}
                     username={blurb.username}
                     onDelete={() => handleBlurbDelete(blurb._id)}
+                    showEdit={true}
                   >
                     {blurb.blurbText}
                   </BlurbStream>
