@@ -119,8 +119,7 @@ function BlurbStream({
     setIsEditBlurbModalOpen(false);
     setEditBlurbText("");
   };
-
-  console.log(profilePic);
+  console.log("blurb card profile pic: ", profilePic);
   const [updateBlurb] = useMutation(EDIT_Blurb);
   const handleEditBlurb = async () => {
     console.log("BlurbId", blurbId);
@@ -227,7 +226,8 @@ function BlurbStream({
         style={{ zIndex: 0 }}
         id="blurbModal"
         open={isModalOpen}
-        onClose={closeModal}
+        on
+        lose={closeModal}
       >
         <form id="blForm">
           <TextField
