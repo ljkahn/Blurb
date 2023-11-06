@@ -59,3 +59,11 @@
 .comContainer {
   width: 320px;
 }
+
+.css-8je8zh-MuiTouchRipple-root {
+  color: #f7e258 !important;
+}
+
+[data-value="FavoriteIcon"] {
+  fill: #f7e258 !important;
+}

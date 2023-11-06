@@ -76,7 +76,6 @@ export default function AddBlurb({ setIsModalOpen }) {
       });
   };
 
-
   return (
     <form id="blForm">
       <TextField
@@ -116,6 +115,7 @@ export default function AddBlurb({ setIsModalOpen }) {
         </Select>
       </FormControl>
       <Button
+        className="modalButton"
         style={{ margin: ".5rem" }}
         variant="contained"
         disableElevation

@@ -3,11 +3,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  backdrop-filter: blur(5px) brightness(100%);
 }
 
 #blForm {
-  border: 2px solid black;
-  background-color: azure;
+  background-color: #ffffff48;
+  color: #f3f3f3 !important;
   height: 300px;
   width: 300px;
   display: flex;
@@ -15,8 +16,29 @@
   justify-content: center;
   flex-direction: column;
   border-radius: 30px;
+  padding: 20px;
 }
 
 #addTag {
-    margin: 1rem;
+  margin: 1rem;
+}
+
+.modalButton {
+  background-color: #f7e258 !important;
+  border-radius: 10px;
+  color: black !important;
+}
+
+.MuiFormLabel-root {
+  color: #f3f3f3 !important;
+}
+
+#outlined-basic {
+  color: #f3f3f3 !important;
+}
+
+.deleteButton {
+  background-color: #f92f2f !important;
+  border-radius: 10px;
+  color: azure !important;
 }
