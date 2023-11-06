@@ -11,6 +11,8 @@ import Select from "@mui/material/Select";
 import Chip from "@mui/material/Chip";
 import { useMutation } from "@apollo/client";
 import { ADD_Blurb } from "../../utils/mutations/Blurb/BlurbMutations";
+import { QUERY_MY_PROFILE } from "../../utils/Queries/userQueries";
+import { ALL_BLURBS } from "../../utils/Queries/queries";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -37,12 +39,14 @@ function getStyles(name, personName, theme) {
   };
 }
 
-export default function AddBlurb() {
+export default function AddBlurb({ setIsModalOpen }) {
   const theme = useTheme();
   const [personName, setPersonName] = React.useState([]);
   const [blurbText, setBlurbText] = React.useState("");
 
-  const [addBlurb] = useMutation(ADD_Blurb);
+  const [addBlurb] = useMutation(ADD_Blurb, {
+    refetchQueries: [{ query: ALL_BLURBS }],
+  });
 
   const handleChange = (event) => {
     const {
@@ -59,10 +63,12 @@ export default function AddBlurb() {
     // Call the mutation to add the blurb
     addBlurb({
       variables: { blurbText: inputValue, tags: selectedTags },
+      refetchQueries: [{ query: QUERY_MY_PROFILE}, {query: ALL_BLURBS}],
     })
       .then((response) => {
         // Handle the response, e.g., show a success message
         console.log("Blurb added successfully:", response);
+        setIsModalOpen(false);
       })
       .catch((error) => {
         // Handle the error, e.g., show an error message

@@ -24,12 +24,30 @@ function Profile() {
   const [userData, setUserData] = useState(null);
   const [isDeleted, setIsDeleted] = useState(false);
   const { loading, data } = useQuery(QUERY_MY_PROFILE);
+
   useEffect (() => {
     if (!loading) {
       console.log( data.me);
       setUserData(data.me)
     }
   }, [loading]);
+
+//   useEffect(() => {
+//   if (data && data.me) {
+//     // Assuming data.me.blurbs is the array that needs to be sorted
+//     const sortedBlurbs = data.me.blurbs.slice().sort((a, b) => {
+//       const dateA = new Date(a.createdAt);
+//       const dateB = new Date(b.createdAt);
+//       return dateB - dateA; // This will sort blurbs in descending order
+//     });
+
+//     // Set the user data with the sorted blurbs array
+//     setUserData({
+//       ...data.me,
+//       blurbs: sortedBlurbs,
+//     });
+//   }
+// }, [data]);
 
   const handleEditClick = () => {
     setIsEditVisible(true);
@@ -109,7 +127,7 @@ function Profile() {
       <h1>{ userData.profile.fullName}</h1>
       <h2>{userData.username}</h2>
           <p id="info">{userData.profile.bio}</p>
-          <p id="info">:round_pushpin:{userData.profile.location}</p>
+          <p id="info">📍{userData.profile.location}</p>
           <Grid>
             <Button id="btn" style={buttonStyle} variant="contained">
               {userData.followerNumber} Followers
