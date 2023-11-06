@@ -11,6 +11,7 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import DeleteIcon from "@mui/icons-material/Delete";
+import auth from "../../utils/auth";
 import {
   ADD_COMMENT,
   REMOVE_COMMENT,
@@ -41,6 +42,7 @@ function BlurbStream({
   const [isLiked, setIsLiked] = useState(false);
   const { loading, data } = useQuery(QUERY_MY_PROFILE);
   const [blurbIdForEdit, setBlurbIdForEdit] = useState(null);
+  console.log(auth.getProfile);
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -119,11 +121,11 @@ function BlurbStream({
     setIsEditBlurbModalOpen(false);
     setEditBlurbText("");
   };
-  console.log("blurb card profile pic: ", profilePic);
+  // console.log("blurb card profile pic: ", profilePic);
   const [updateBlurb] = useMutation(EDIT_Blurb);
   const handleEditBlurb = async () => {
-    console.log("BlurbId", blurbId);
-    console.log("Edited Blurb Text:", editBlurbText); // Log the edited blurb text
+    // console.log("BlurbId", blurbId);
+    // console.log("Edited Blurb Text:", editBlurbText); // Log the edited blurb text
     try {
       // Call the updateBlurb mutation with the provided variables using await
       await updateBlurb({
@@ -135,7 +137,7 @@ function BlurbStream({
       });
       // Handle the result if needed
       // The updated blurb text will be available in result.data.editBlurb
-      console.log("Blurb updated");
+      // console.log("Blurb updated");
     } catch (error) {
       // Handle errors if the mutation fails
       console.error("Error updating blurb:", error);

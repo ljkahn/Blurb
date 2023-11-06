@@ -110,7 +110,8 @@ findBlurbById: async (parent, { blurbId }) => {
         blurbs.push(...user.blurbs);
       }
       const randomIndex = Math.floor(Math.random() * blurbs.length);
-      // console.log(blurbs[randomIndex])
+      // const blurbTest = await Blurbs.find()
+      console.log(blurbs[randomIndex])
       return blurbs[randomIndex];
     },
 
@@ -359,7 +360,8 @@ findBlurbById: async (parent, { blurbId }) => {
 
       const updatedBlurb = await Blurbs.findByIdAndUpdate(
         blurbId,
-        { $inc: { likes: 1 } },
+        // { $inc: { likes: 1 } },
+        { $set: { likeList: context.user._id } },
         { new: true }
       );
       if (!updatedBlurb) {
@@ -376,7 +378,8 @@ findBlurbById: async (parent, { blurbId }) => {
 
       const updatedBlurb = await Blurbs.findByIdAndUpdate(
         blurbId,
-        { $inc: { likes: -1 } },
+        // { $inc: { likes: -1 } },
+        { $pull: { likeList: context.user._id } },
         { new: true }
       );
       if (!updatedBlurb) {
@@ -495,9 +498,6 @@ findBlurbById: async (parent, { blurbId }) => {
     },
     // ✅
 
-
-
-
     editComment: async (_, { blurbId, commentId, newCommentText }, context) => {
       console.log(newCommentText);
       // Check if a user is authenticated in the current context
@@ -553,7 +553,10 @@ findBlurbById: async (parent, { blurbId }) => {
       }
 
       // Increment the 'likes' field of the comment
-      comment.likes += 1;
+      // comment.likes += 1;
+      if (!comment.likeList.includes(context.user._id)) {
+        comment.likeList.push(context.user._id)
+      }
 
       await blurb.save();
 
@@ -577,7 +580,8 @@ findBlurbById: async (parent, { blurbId }) => {
       }
 
       // Increment the 'likes' field of the comment
-      comment.likes += -1;
+      // comment.likes += -1;
+    comment.likeList = comment.likeList.filter(id => id !== context.user._id);
 
       await blurb.save();
 
