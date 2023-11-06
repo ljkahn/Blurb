@@ -146,7 +146,7 @@ function Profile() {
               userData.blurbs.map((blurb) => (
                 <div key={blurb._id}>
                   <BlurbStream
-                    key={blurb._id}
+                    // key={blurb._id}
                     blurbId={blurb._id}
                     username={blurb.username}
                     onDelete={() => handleBlurbDelete(blurb._id)}
@@ -155,7 +155,7 @@ function Profile() {
                   </BlurbStream>
                   {blurb.comments.map((comment) => (
                     <BlurbCom
-                      key={comment._id}
+                      // key={comment._id}
                       blurbId={blurb._id}
                       // username={comment.commentAuthor.username}
                       comments={comment.commentText}
