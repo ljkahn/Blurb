@@ -27,8 +27,8 @@ function FireCard({ children, username, blurbId, profilePic }) {
       variables: { blurbId },
     });
   };
-  console.log(profilePic);
-  console.log(blurbId);
+  // console.log(profilePic);
+  // console.log(blurbId);
 
   const sample = "cld-sample-5";
   const cloudName = "dmnfg3ids";

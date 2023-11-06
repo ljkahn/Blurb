@@ -44,7 +44,7 @@ function Profile({ registered }) {
       refetch();
     }
     if (!loading) {
-      console.log(data.me);
+      // console.log(data.me);
       setUserData(data.me)
     }
   }, [loading, registered]);

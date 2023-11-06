@@ -35,7 +35,7 @@ function LoginTab({ isRegistered }) {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    console.log(formState);
+    // console.log(formState);
 
     try {
       const { data } = await login({

@@ -25,9 +25,9 @@ function BlurbCom({ blurbId, comments, commentId }) {
 
   useEffect(() => {
     if (!loading && data && data.findBlurbById) {
-      console.log("Data:", data); // Add this line for debugging
+      // console.log("Data:", data); 
       const blurb = data.findBlurbById;
-      // Additional logic or processing with the blurb data here
+      
     }
   }, [data, loading]);
 

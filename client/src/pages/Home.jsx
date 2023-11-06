@@ -24,7 +24,7 @@ function Home() {
       });
       setBlurbs([...data.blurbs]);
       setLoading(false);
-      console.log(...data.blurbs);
+      // console.log(...data.blurbs);
     }
   }, [data]);
 
