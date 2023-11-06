@@ -113,7 +113,6 @@ const typeDefs = `
       removeCommentLike(blurbId: ID!, commentId: ID!): String
       followUser(userIdToFollow: ID!): String
       unfollowUser(userIdToUnfollow: ID!): String
-
     }
     `;
 

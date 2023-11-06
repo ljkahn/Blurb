@@ -11,7 +11,10 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { ADD_COMMENT } from "../../utils/mutations/Likes/CommentMutations";
+import {
+  ADD_COMMENT,
+  REMOVE_COMMENT,
+} from "../../utils/mutations/Likes/CommentMutations";
 import { EDIT_Blurb } from "../../utils/mutations/Blurb/BlurbMutations";
 import {
   LIKE_Blurb,
@@ -25,6 +28,8 @@ function BlurbStream({
   blurbId,
   onDelete,
   initialBlurbText,
+  // isLiked,
+  // comments,
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [commentText, setCommentText] = useState("");
@@ -122,6 +127,32 @@ function BlurbStream({
     }
     closeEditBlurbModal();
   };
+
+  const [removeComment] = useMutation(REMOVE_COMMENT);
+
+  const handleDeleteComment = async (commentId) => {
+    try {
+      await removeComment({
+        variables: { commentId },
+      });
+    } catch (error) {
+      console.error("Error removing comment:", error);
+    }
+  };
+
+  const handleEditComment = () => {
+    // Use the editedCommentText and commentId to update the comment
+    // You should have a way to set the commentId when editing a comment
+    // In your UI, you can set commentId when clicking on the comment to edit
+    if (commentId) {
+      // Make sure to use the correct variables in the editComment mutation
+      editComment({
+        variables: { commentId: commentId, commentText: editedCommentText },
+      });
+    }
+    closeModal(); // Close the modal after saving the edits
+  };
+
   if (isDeleted) return null;
   return (
     <div id="bluMain">
@@ -134,7 +165,6 @@ function BlurbStream({
             src="/static/images/avatar/1.jpg"
             sx={{ width: 40, height: 40 }}
           />
-
           <div className="blInfo">
             <div>
               <div className="userName">{username}</div>

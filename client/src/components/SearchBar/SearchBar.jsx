@@ -6,17 +6,16 @@ import { USER_LIST } from "../../utils/Queries/userQueries";
 import { useParams, useNavigate } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
 import IconButton from "@mui/material/IconButton";
-import Grid from '@mui/material/Grid';
-
+import Grid from "@mui/material/Grid";
 
 export default function SearchBar() {
   const [selectedOption, setSelectedOption] = useState(null);
   const [userList, setUserList] = useState(null);
   const [menuIsOpen, setMenuIsOpen] = useState(false);
-  const [selectedUser, setSelectedUser] = useState('');
+  const [selectedUser, setSelectedUser] = useState("");
 
   const { loading, data } = useQuery(USER_LIST);
-  const {username} = useParams();
+  const { username } = useParams();
   const navigation = useNavigate();
 
   useEffect(() => {
@@ -38,17 +37,14 @@ export default function SearchBar() {
 
   const handleUserSelect = (selectedOption) => {
     setSelectedUser(selectedOption.label);
-   
   };
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    navigation(`/profile/${selectedUser}`)
-   
-  }
+    navigation(`/profile/${selectedUser}`);
+  };
 
   return (
-
     <form onSubmit={handleFormSubmit}>
       {!loading ? (
         <Select
@@ -59,7 +55,6 @@ export default function SearchBar() {
           options={userList}
           menuIsOpen={menuIsOpen}
           isSearchable={true}
-          
         />
       ) : (
         <ThreeDots
@@ -73,15 +68,13 @@ export default function SearchBar() {
           visible={true}
         />
       )}
-     
+
       <div id="button">
         {/* <button type="submit">Search</button> */}
-          {/* <IconButton type="submit">
+        {/* <IconButton type="submit">
             <SearchIcon sx={{ fontSize: 40 }} />
           </IconButton> */}
-        </div>
-        
-        </form>
-      
+      </div>
+    </form>
   );
 }
