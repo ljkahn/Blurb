@@ -9,12 +9,16 @@ import { useMutation } from "@apollo/client";
 import Auth from "../../utils/auth";
 import { ADD_USER } from "../../utils/mutations/userMutations";
 import { useNavigate } from "react-router-dom";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+import Stack from "@mui/material/Stack";
 
 function Create() {
   const navigation = useNavigate();
   // State to control the visibility of the modal
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [profileImg, setProfileImg] = useState("");
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
 
   const [formState, setFormState] = useState({
     fullName: "",
@@ -48,7 +52,13 @@ function Create() {
 
   const handleCreateSubmit = async (e) => {
     e.preventDefault();
-    console.log(formState);
+    if (
+      !isValidEmail(formState.email) ||
+      !isValidPassword(formState.password)
+    ) {
+      setIsAlertOpen(true); // Display the alert if validation fails
+      return;
+    }
 
     try {
       const { data } = await addUser({
@@ -62,11 +72,26 @@ function Create() {
           },
         },
       });
-      console.log(data);
       Auth.login(data.addUser.token, navigation);
     } catch (error) {
       console.error(error);
     }
+  };
+
+  const handleCloseAlert = () => {
+    setIsAlertOpen(false);
+  };
+
+  const isValidEmail = (email) => {
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    return emailPattern.test(email);
+  };
+
+  const isValidPassword = (password) => {
+    const passwordPattern =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+    return passwordPattern.test(password);
   };
 
   return (
@@ -125,7 +150,7 @@ function Create() {
         </div>
 
         <Button
-          style={{ margin: "1rem" }}
+          id="logCreateB"
           variant="contained"
           disableElevation
           // onClick={openModal}
@@ -134,7 +159,19 @@ function Create() {
           Create Account
         </Button>
       </form>
-
+      <Snackbar
+        open={isAlertOpen}
+        autoHideDuration={6000}
+        onClose={handleCloseAlert}
+      >
+        <MuiAlert
+          severity="error"
+          variant="filled"
+          onClose={handleCloseAlert}
+        >
+          Please make sure your password has at least 8 characters, a lowercase, uppercase, special character and a number.
+        </MuiAlert>
+      </Snackbar>
     </div>
   );
 }

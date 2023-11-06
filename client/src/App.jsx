@@ -20,6 +20,7 @@ import NavBar from "./components/NavBar";
 import UserProfile from "./pages/UserProfile";
 import Likes from "./pages/Likes";
 import CommentPage from "./pages/CommentPage";
+import SearchBar from "./components/SearchBar/SearchBar";
 
 // Construct our main GraphQL API endpoint
 const httpLink = createHttpLink({
