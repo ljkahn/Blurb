@@ -16,6 +16,8 @@ export const QUERY_MY_PROFILE = gql`
       blurbs {
         _id
         blurbText
+        createdAt
+        tags
         comments {
           likes
           commentText

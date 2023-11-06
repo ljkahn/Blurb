@@ -31,7 +31,7 @@ function Edit({ userData, showAccountSettings }) {
       fullName: "",
       location: "",
       bio: "",
-      profilePic: ""
+      profilePic: "",
     },
   });
 

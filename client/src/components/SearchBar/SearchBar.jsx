@@ -37,8 +37,10 @@ export default function SearchBar() {
 
   const handleUserSelect = (selectedOption) => {
     setSelectedUser(selectedOption.label);
+    navigation(`/profile/${selectedOption.label}`);
+    setSelectedOption(null); // Clear the selected option
+    setSelectedUser(""); // Clear the selected user
   };
-
   const handleFormSubmit = (e) => {
     e.preventDefault();
     navigation(`/profile/${selectedUser}`);
@@ -50,7 +52,10 @@ export default function SearchBar() {
         <Select
           id="searchTxt"
           defaultValue={selectedOption}
-          onChange={setSelectedOption}
+          onChange={(selectedOption) => {
+            setSelectedOption(selectedOption);
+            handleUserSelect(selectedOption);
+          }}
           onInputChange={handleInputChange}
           options={userList}
           menuIsOpen={menuIsOpen}
@@ -68,13 +73,6 @@ export default function SearchBar() {
           visible={true}
         />
       )}
-
-      <div id="button">
-        {/* <button type="submit">Search</button> */}
-        {/* <IconButton type="submit">
-            <SearchIcon sx={{ fontSize: 40 }} />
-          </IconButton> */}
-      </div>
     </form>
   );
 }

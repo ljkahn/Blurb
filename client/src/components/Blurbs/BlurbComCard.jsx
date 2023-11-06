@@ -6,7 +6,6 @@ import { FIND_BLURB_BY_ID } from "../../utils/Queries/queries";
 import { useQuery } from "@apollo/client";
 
 function BlurbCom({ blurbId }) {
-  console.log(blurbId);
   const { loading, data, error } = useQuery(FIND_BLURB_BY_ID, {
     variables: { blurbId },
   });

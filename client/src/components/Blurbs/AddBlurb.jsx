@@ -11,6 +11,8 @@ import Select from "@mui/material/Select";
 import Chip from "@mui/material/Chip";
 import { useMutation } from "@apollo/client";
 import { ADD_Blurb } from "../../utils/mutations/Blurb/BlurbMutations";
+import { QUERY_MY_PROFILE } from "../../utils/Queries/userQueries";
+import { ALL_BLURBS } from "../../utils/Queries/queries";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -37,18 +39,27 @@ function getStyles(name, personName, theme) {
   };
 }
 
-export default function AddBlurb() {
+export default function AddBlurb({ setIsModalOpen }) {
   const theme = useTheme();
   const [personName, setPersonName] = React.useState([]);
   const [blurbText, setBlurbText] = React.useState("");
 
-  const [addBlurb] = useMutation(ADD_Blurb);
+  const [addBlurb] = useMutation(ADD_Blurb, {
+    refetchQueries: [{ query: ALL_BLURBS }],
+  });
 
   const handleChange = (event) => {
     const {
       target: { value },
     } = event;
-    setPersonName(typeof value === "string" ? value.split(",") : value);
+    
+    const newSelection = typeof value === "string" ? value.split(",") : value;
+
+    if (newSelection.length <= 3) {
+      setPersonName(newSelection);
+    } else {
+      console.warn("You can only select up to 3 tags");
+    }
   };
 
   const handlePostClick = () => {
@@ -59,31 +70,18 @@ export default function AddBlurb() {
     // Call the mutation to add the blurb
     addBlurb({
       variables: { blurbText: inputValue, tags: selectedTags },
+      refetchQueries: [{ query: QUERY_MY_PROFILE}, {query: ALL_BLURBS}],
     })
       .then((response) => {
         // Handle the response, e.g., show a success message
         console.log("Blurb added successfully:", response);
+        setIsModalOpen(false);
       })
       .catch((error) => {
         // Handle the error, e.g., show an error message
         console.error("Error adding blurb:", error);
       });
   };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   return (
     <form id="blForm">
@@ -102,7 +100,7 @@ export default function AddBlurb() {
           multiple
           value={personName}
           onChange={handleChange}
-          input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
+          input={<OutlinedInput id="select-multiple-chip" label="Tags" />}
           renderValue={(selected) => (
             <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
               {selected.map((value) => (
@@ -124,6 +122,7 @@ export default function AddBlurb() {
         </Select>
       </FormControl>
       <Button
+        className="modalButton"
         style={{ margin: ".5rem" }}
         variant="contained"
         disableElevation
