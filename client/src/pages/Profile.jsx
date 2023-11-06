@@ -148,9 +148,12 @@ function Profile() {
               blurbId={blurb._id}
               username={blurb.username}
               onDelete={() => handleBlurbDelete(blurb._id)}
-              showEdit={true} // Pass showEdit as true here
-            >
+              showEdit={true}
+              >
               {blurb.blurbText}
+              {/* <div>
+              {blurb.tags}
+              </div> */}
             </BlurbStream>
           ))}
         </Container>
