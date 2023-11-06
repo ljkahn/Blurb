@@ -10,7 +10,7 @@ import MuiAlert from "@mui/material/Alert";
 
 import Auth from "../../utils/auth";
 
-function LoginTab() {
+function LoginTab({ isRegistered }) {
   const navigation = useNavigate();
   const [formState, setFormState] = useState({
     email: "",
@@ -44,6 +44,8 @@ function LoginTab() {
           password: formState.password,
         },
       });
+
+      isRegistered(true);
       Auth.login(data.login.token, navigation);
     } catch (error) {
       console.error(error);

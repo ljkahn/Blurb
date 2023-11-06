@@ -16,21 +16,37 @@ import { QUERY_MY_PROFILE } from "../utils/Queries/userQueries.js";
 import Auth from "../utils/auth.js";
 import BlurbStream from '../components/Blurbs/BlurbCard.jsx';
 
-function Profile() {
+function Profile({ registered }) {
   const [isEditVisible, setIsEditVisible] = useState(false);
   const [showProfile, setShowProfile] = useState(true);
   const [accountSettingsVisible, setAccountSettingsVisible] = useState(false);
   const [currentComponent, setCurrentComponent] = useState("profile");
   const [userData, setUserData] = useState(null);
-  const [isDeleted, setIsDeleted] = useState(false);
-  const { loading, data } = useQuery(QUERY_MY_PROFILE);
+  const [isLoading, setLoading] = useState(true);
+  const { loading, data, refetch } = useQuery(QUERY_MY_PROFILE);
+      
+  // useEffect (() => {
+  //   const { loading, data } = useQuery(QUERY_MY_PROFILE);
+
+  //   if (!isLoading) {
+  //     console.log(data.me);
+  //     setUserData(data.me)
+  //   }
+  //   else {
+  //     setLoading(loading);
+  //   }
+  // }, [isLoading]);
 
   useEffect (() => {
+    if (registered) {
+      refetch();
+    }
     if (!loading) {
-      console.log( data.me);
+      console.log(data.me);
       setUserData(data.me)
     }
-  }, [loading]);
+  }, [loading, registered]);
+
 
 //   useEffect(() => {
 //   if (data && data.me) {
@@ -96,11 +112,14 @@ function Profile() {
     ],
   });
 
-  useEffect(() => {
-    if (data && data.me) {
-      setUserData(data.me);
-    }
-  }, [data]);
+
+  // TEST WITH AND WITHOUT THIS USE EFFECT
+
+  // useEffect(() => {
+  //   if (data && data.me) {
+  //     setUserData(data.me);
+  //   }
+  // }, [data]);
 
   const handleBlurbDelete = async (deletedBlurbId) => {
     try {
@@ -167,7 +186,7 @@ function Profile() {
   )
 }
 
-export default Profile
+export default Profile;
 
 
 

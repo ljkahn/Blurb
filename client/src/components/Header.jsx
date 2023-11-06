@@ -11,7 +11,7 @@ import Grid from "@mui/material/Grid";
 import Auth from "../utils/auth";
 import { useNavigate } from "react-router-dom";
 
-function Header() {
+function Header({ registered, isRegistered}) {
   const [isSearchBarVisible, setIsSearchBarVisible] = useState(false);
   navigation = useNavigate();
   const [value, setValue] = useState(0); // You need to define value and setValue for BottomNavigation
@@ -21,7 +21,9 @@ function Header() {
     color: black,
   };
 
+
   const handleLogout = () => {
+    isRegistered(false);
     Auth.logout(navigation);
   };
 
@@ -39,9 +41,9 @@ function Header() {
         </div>
         <SearchBar />
 
-        <Button id="logout" onClick={handleLogout} variant="contained">
+      {registered && <Button id="logout" onClick={handleLogout} variant="contained">
           Logout
-        </Button>
+        </Button>}
 
       </div>
     

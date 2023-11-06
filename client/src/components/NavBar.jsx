@@ -32,6 +32,7 @@ function NavBar() {
     profilePic: "", // Default profile picture URL
     // Other default properties
   });
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState([]);
 
@@ -85,7 +86,6 @@ function NavBar() {
           <Photo profileImg={userData.profilePic} />
         </IconButton>
       </Link> 
-   
       <Modal
         style={{ zIndex: 0 }}
         id="blurbModal"
