@@ -126,7 +126,9 @@ const handleFollowButton = isCurrentUserFollowing ? (
 
       {handleFollowButton}
       {userData.blurbs.map((blurb, index) => (
-            <BlurbStream key={index} blurbId={blurb.blurbId} username = {blurb.username} >
+            <BlurbStream key={index} blurbId={blurb.blurbId} username = {blurb.username}
+            profilePic={userData.profile.profilePic}
+            >
               {blurb.blurbText}
             </BlurbStream>
       ))}

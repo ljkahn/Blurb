@@ -20,6 +20,7 @@ export const QUERY_MY_PROFILE = gql`
         tags
         comments {
           likes
+          _id
           commentText
           commentAuthor {
             username
