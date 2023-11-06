@@ -25,7 +25,8 @@
 }
 
 #searchCon {
-  
+  display: flex;
+  align-items: center;
 }
 
 .friendProfile {
@@ -105,4 +106,5 @@
   color: #212121;
   border-radius: 10px;
   height: 40px;
+  margin-right: 20px;
 }

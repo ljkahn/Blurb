@@ -48,6 +48,7 @@ function Home() {
               key={i}
               blurbId={blurb._id}
               username={blurb.blurbAuthor.username}
+              profilePic={blurb.blurbAuthor.profile.profilePic}
             >
               {blurb.blurbText}
             </BlurbCard>
