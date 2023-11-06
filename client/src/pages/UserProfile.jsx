@@ -25,14 +25,14 @@ function UserProfile() {
   const [unfollowUser] = useMutation(UNFOLLOW_USER);
   const navigation = useNavigate();
 
-  console.log(data);
-  const neon = "#F7E258";
-  const white = "#f5f5f5";
-  const lightGray = "#BEBFC5";
-  const gray = "#808080";
-  const darkGray = "#555555";
-  const jetBlack = "#343434";
-  const black = "#212121";
+  // console.log(data);
+  const neon = '#F7E258';
+  const white = '#f5f5f5';
+  const lightGray = '#BEBFC5';
+  const gray = '#808080';
+  const darkGray = '#555555';
+  const jetBlack = '#343434';
+  const black = '#212121';
 
   const followStyle = {
     backgroundColor: neon,
@@ -54,20 +54,20 @@ function UserProfile() {
     console.log(JSON.stringify(error));
   }
 
-  const handleFollowUser = (userIdToFollow) => {
-    followUser({
-      variables: {
-        userIdToFollow: userIdToFollow,
-      },
-    })
-      .then((result) => {
-        console.log("User followed successfully!");
-        //Show a success message
-      })
-      .catch((error) => {
-        console.error("Failed to follow user:", error);
-      });
-  };
+const handleFollowUser = (userIdToFollow) => {
+  followUser({
+    variables: {
+      userIdToFollow: userIdToFollow,
+    }
+  })
+  .then((result) => {
+    // console.log('User followed successfully!');
+    //Show a success message 
+  })
+  .catch ((error) => {
+    console.error('Failed to follow user:', error)
+  });
+};
 
   const isCurrentUserFollowing = userData?.followers?.includes(
     Auth.loggedIn(navigation)._id

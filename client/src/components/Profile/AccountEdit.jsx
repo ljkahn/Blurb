@@ -50,7 +50,7 @@ function AccountEdit({ userData }) {
       },
     })
       .then((result) => {
-        console.log("Account updated!");
+        // console.log("Account updated!");
         handleOpenAlert("success", "Account updated successfully");
       })
       .catch((e) => {
@@ -74,7 +74,7 @@ function AccountEdit({ userData }) {
       },
     })
       .then(() => {
-        console.log("Account Deleted");
+        // console.log("Account Deleted");
         Auth.logout(navigation);
       })
       .catch((e) => {

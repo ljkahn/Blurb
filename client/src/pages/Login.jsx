@@ -19,7 +19,7 @@ function Login({ isRegistered }) {
   const { loading, data } = useQuery(RANDOM_BLURB);
   useEffect(() => {
     if (!loading) {
-      console.log(data.randomBlurb);
+      // console.log(data.randomBlurb);
       setBlurb(data.randomBlurb);
     }
   }, [loading]);
@@ -32,7 +32,7 @@ function Login({ isRegistered }) {
 
 
 
-  console.log(blurb);
+  // console.log(blurb);
 
   return (
     <>
