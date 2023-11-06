@@ -2,11 +2,10 @@ const { Schema, model } = require("mongoose");
 const dateFormat = require("../utils/dateFormat");
 
 const commentSchema = new Schema({
-  likes: {
-    type: Number,
-    required: true,
-    default: 0,
-  },
+  likeList: [{
+    type: Schema.Types.ObjectId,
+    ref: "User",
+  }],
   commentText: {
     type: String,
     required: true,
@@ -26,14 +25,25 @@ const commentSchema = new Schema({
     type: Date,
     get: (timestamp) => dateFormat(timestamp)
   }
+}, 
+{
+  toJSON: {
+    virtuals: true,
+  },
+  toObject: {
+    virtuals: true,
+  }
 });
 
+commentSchema.virtual("likes").get(function () {
+  return this.likeList.length;
+})
+
 const blurbSchema = new Schema({
-  likes: {
-    type: Number,
-    required: true,
-    default: 0,
-  },
+  likeList: [{
+    type: Schema.Types.ObjectId,
+    ref: "User",
+  }],
   blurbText: {
     type: String,
     required: true,
@@ -57,6 +67,18 @@ const blurbSchema = new Schema({
   },
   comments: [commentSchema],
   tags: [String]
+}, 
+{
+  toJSON: {
+    virtuals: true,
+  },
+  toObject: {
+    virtuals: true,
+  },
+});
+
+blurbSchema.virtual("likes").get(function () {
+  return this.likeList.length;
 });
 
 const Blurbs = model("Blurbs", blurbSchema);

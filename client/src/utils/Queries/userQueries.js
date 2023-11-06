@@ -18,6 +18,7 @@ export const QUERY_MY_PROFILE = gql`
         blurbText
         createdAt
         tags
+        likes
         comments {
           likes
           _id
@@ -54,6 +55,7 @@ export const QUERY_ONE_USER = gql`
         email
       }
       blurbs {
+        likes
         blurbText
       }
     }

@@ -11,6 +11,7 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import DeleteIcon from "@mui/icons-material/Delete";
+import auth from "../../utils/auth";
 import {
   ADD_COMMENT,
   REMOVE_COMMENT,
@@ -38,6 +39,7 @@ function BlurbStream({
   const [isLiked, setIsLiked] = useState(false);
   const { loading, data } = useQuery(QUERY_MY_PROFILE);
   const [blurbIdForEdit, setBlurbIdForEdit] = useState(null);
+  // console.log(auth.getProfile());
 
   const openModal = () => {
     setIsModalOpen(true);

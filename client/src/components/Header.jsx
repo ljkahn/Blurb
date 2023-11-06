@@ -88,9 +88,9 @@ function Header({ registered, isRegistered}) {
           </Tooltip>
           {isSearchBarVisible && <SearchBar />}
         </div>
-        <Button id="logout" onClick={handleLogout} variant="contained">
+        {registered && <Button id="logout" onClick={handleLogout} variant="contained">
           Logout
-        </Button>
+        </Button>}
       </div>
     </>
   );
