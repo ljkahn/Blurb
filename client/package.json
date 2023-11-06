@@ -10,7 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@esbuild/darwin-arm64": "^0.19.5",
+
     "@apollo/client": "^3.7.14",
     "@cloudinary/react": "^1.11.2",
     "@cloudinary/url-gen": "^1.12.0",
