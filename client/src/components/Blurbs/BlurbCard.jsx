@@ -25,7 +25,9 @@ function BlurbStream({
   blurbId,
   onDelete,
   initialBlurbText,
+  showEdit,
 }) {
+  
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [commentText, setCommentText] = useState("");
   const [isDeleted, setIsDeleted] = useState(false);
@@ -35,9 +37,11 @@ function BlurbStream({
   const openModal = () => {
     setIsModalOpen(true);
   };
+
   const closeModal = () => {
     setIsModalOpen(false);
   };
+
   const [likeBlurb] = useMutation(LIKE_Blurb);
   const [unlikeBlurb] = useMutation(UNLIKE_Blurb);
   const handleLike = () => {
@@ -54,6 +58,7 @@ function BlurbStream({
     }
     setIsLiked(!isLiked); // Toggle the liked state
   };
+
   const [removeBlurb] = useMutation(REMOVE_Blurb, {
     variables: { blurbId },
     refetchQueries: [{ query: QUERY_MY_PROFILE }],
@@ -65,6 +70,7 @@ function BlurbStream({
       console.error("Error removing blurb: ", err);
     },
   });
+
   const handleRemove = async () => {
     console.log("Attempting to remove blurb with ID:", blurbId);
     try {
@@ -76,6 +82,7 @@ function BlurbStream({
       console.error("Error removing blurb: ", error);
     }
   };
+
   const [addComment] = useMutation(ADD_COMMENT);
   const handleComment = async () => {
     console.log("Blurb ID:", blurbId); // Log the blurb ID
@@ -89,6 +96,7 @@ function BlurbStream({
       console.error("Error adding comment:", error);
     }
   };
+
   // Add the edit blurb modal state and functions
   const [isEditBlurbModalOpen, setIsEditBlurbModalOpen] = useState(false);
   const [editBlurbText, setEditBlurbText] = useState("");
@@ -97,31 +105,35 @@ function BlurbStream({
     setIsEditBlurbModalOpen(true);
     setEditBlurbText(initialBlurbText);
   };
+
   const closeEditBlurbModal = () => {
     setIsEditBlurbModalOpen(false);
     setEditBlurbText("");
   };
+
   const [updateBlurb] = useMutation(EDIT_Blurb);
   const handleEditBlurb = async () => {
     console.log("BlurbId", blurbId);
     console.log("Edited Blurb Text:", editBlurbText); // Log the edited blurb text
     try {
       // Call the updateBlurb mutation with the provided variables using await
-      const result = await updateBlurb({
+      await updateBlurb({
         variables: {
           blurbId: blurbId,
           blurbText: editBlurbText,
         },
+        refetchQueries: [{ query: QUERY_MY_PROFILE }],
       });
       // Handle the result if needed
       // The updated blurb text will be available in result.data.editBlurb
-      console.log("Blurb updated:", result.data.editBlurb);
+      console.log("Blurb updated");
     } catch (error) {
       // Handle errors if the mutation fails
       console.error("Error updating blurb:", error);
     }
     closeEditBlurbModal();
   };
+
   if (isDeleted) return null;
   return (
     <div id="bluMain">
@@ -152,12 +164,14 @@ function BlurbStream({
             </IconButton>
           </div>
           <div>
-            <IconButton
-              onClick={() => openEditBlurbModal(initialBlurbText)}
-              className="editBlurb"
-            >
-              <EditIcon />
-            </IconButton>
+            {showEdit && (
+              <IconButton
+                onClick={() => openEditBlurbModal(initialBlurbText)}
+                className="editBlurb"
+              >
+                <EditIcon />
+              </IconButton>
+            )}
           </div>
         </div>
       </div>
@@ -180,7 +194,7 @@ function BlurbStream({
             style={{ margin: ".5rem" }}
             variant="contained"
             disableElevation
-            // onClick={handleComment}
+            onClick={handleComment}
           >
             Comment
           </Button>
@@ -220,4 +234,5 @@ function BlurbStream({
     </div>
   );
 }
+
 export default BlurbStream;
