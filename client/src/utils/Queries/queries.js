@@ -29,6 +29,9 @@ export const RANDOM_BLURB = gql`
       blurbText
       blurbAuthor {
         username
+        profile {
+          profilePic
+        }
       }
     }
   }
