@@ -127,6 +127,14 @@ function BlurbStream({
     <div id="bluMain">
       <div className="blurbContainer">
         <div id="blurbColOne">
+          <Avatar
+            id="notifyPP"
+            className="Blfriend"
+            alt="Remy Sharp"
+            src="/static/images/avatar/1.jpg"
+            sx={{ width: 40, height: 40 }}
+          />
+
           <div className="blInfo">
             <div>
               <div className="userName">{username}</div>
@@ -135,21 +143,22 @@ function BlurbStream({
           </div>
         </div>
         <div id="notifyIcons">
-          <IconButton onClick={handleLike} className="likeComment">
-            {isLiked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-          </IconButton>
-          <IconButton onClick={openModal} className="likeComment">
-            <ChatBubbleOutlineIcon />
-          </IconButton>
-          <IconButton
-            onClick={() => openEditBlurbModal(initialBlurbText)}
-            className="editBlurb"
-          >
-            <EditIcon />
-          </IconButton>
-          <IconButton onClick={handleRemove} className="removeComment">
-            <DeleteIcon />
-          </IconButton>
+          <div style={{ flexDirection: "row", display: "flex" }}>
+            <IconButton onClick={handleLike} className="likeComment">
+              {isLiked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+            </IconButton>
+            <IconButton onClick={openModal} className="likeComment">
+              <ChatBubbleOutlineIcon />
+            </IconButton>
+          </div>
+          <div>
+            <IconButton
+              onClick={() => openEditBlurbModal(initialBlurbText)}
+              className="editBlurb"
+            >
+              <EditIcon />
+            </IconButton>
+          </div>
         </div>
       </div>
       <Modal
@@ -197,6 +206,9 @@ function BlurbStream({
             onClick={handleEditBlurb}
           >
             Save Changes
+          </Button>
+          <Button onClick={handleRemove} className="removeComment">
+            Delete Blurb
           </Button>
         </form>
       </Modal>

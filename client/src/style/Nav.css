@@ -4,6 +4,7 @@
   height: 60px;
   position: fixed;
   bottom: 0;
+  right:0;
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -30,4 +31,17 @@
   height: 40px;
   width: 40px;
   border-radius: 20px;
+}
+
+
+/* ICONS ////////////////////////// */
+
+.css-1j61q98-MuiSvgIcon-root,
+.css-1ha5wk2-MuiSvgIcon-root {
+  color: #B6B7BD !important;
+}
+
+.css-1j61q98-MuiSvgIcon-root:active,
+.css-1ha5wk2-MuiSvgIcon-root:active {
+  color: #f7e258 !important;
 }
