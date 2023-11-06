@@ -7,6 +7,9 @@ export const ALL_BLURBS = gql`
       blurbText
       blurbAuthor {
         username
+        profile {
+          profilePic
+        }
       }
       createdAt
       comments {
@@ -32,24 +35,23 @@ export const RANDOM_BLURB = gql`
 `;
 
 export const FIND_BLURB_BY_ID = gql`
-
-query Query($blurbId: ID!) {
-  findBlurbById(blurbId: $blurbId) {
-    _id
-    blurbAuthor {
-      username
-    }
-    createdAt
-    comments {
-      commentAuthor {
+  query Query($blurbId: ID!) {
+    findBlurbById(blurbId: $blurbId) {
+      _id
+      blurbAuthor {
         username
       }
-      commentText
-      updatedAt
-      likes
       createdAt
-      _id
+      comments {
+        commentAuthor {
+          username
+        }
+        commentText
+        updatedAt
+        likes
+        createdAt
+        _id
+      }
     }
   }
-}
 `;

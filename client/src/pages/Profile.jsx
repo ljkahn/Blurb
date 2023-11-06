@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import Photo from "../components/Profile/ProfilePhoto.jsx";
 import Edit from "../components/Profile/Edit.jsx";
 import AccountEdit from "../components/Profile/AccountEdit.jsx";
@@ -14,7 +14,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_MY_PROFILE } from "../utils/Queries/userQueries.js";
 import Auth from "../utils/auth.js";
-import BlurbStream from '../components/Blurbs/BlurbCard.jsx';
+import BlurbStream from "../components/Blurbs/BlurbCard.jsx";
 
 function Profile() {
   const [isEditVisible, setIsEditVisible] = useState(false);
@@ -25,30 +25,29 @@ function Profile() {
   const [isDeleted, setIsDeleted] = useState(false);
   const { loading, data } = useQuery(QUERY_MY_PROFILE);
 
-  useEffect (() => {
+  useEffect(() => {
     if (!loading) {
-      console.log( data.me);
-      setUserData(data.me)
+      console.log(data.me);
+      setUserData(data.me);
     }
   }, [loading]);
 
-//   useEffect(() => {
-//   if (data && data.me) {
-//     // Assuming data.me.blurbs is the array that needs to be sorted
-//     const sortedBlurbs = data.me.blurbs.slice().sort((a, b) => {
-//       const dateA = new Date(a.createdAt);
-//       const dateB = new Date(b.createdAt);
-//       return dateB - dateA; // This will sort blurbs in descending order
-//     });
+  //   useEffect(() => {
+  //   if (data && data.me) {
+  //     // Assuming data.me.blurbs is the array that needs to be sorted
+  //     const sortedBlurbs = data.me.blurbs.slice().sort((a, b) => {
+  //       const dateA = new Date(a.createdAt);
+  //       const dateB = new Date(b.createdAt);
+  //       return dateB - dateA; // This will sort blurbs in descending order
+  //     });
 
-//     // Set the user data with the sorted blurbs array
-//     setUserData({
-//       ...data.me,
-//       blurbs: sortedBlurbs,
-//     });
-//   }
-// }, [data]);
-
+  //     // Set the user data with the sorted blurbs array
+  //     setUserData({
+  //       ...data.me,
+  //       blurbs: sortedBlurbs,
+  //     });
+  //   }
+  // }, [data]);
 
   const handleEditClick = () => {
     setIsEditVisible(true);
@@ -91,9 +90,7 @@ function Profile() {
   };
 
   const [removeBlurb] = useMutation(REMOVE_Blurb, {
-    refetchQueries: [
-      QUERY_MY_PROFILE,
-    ],
+    refetchQueries: [QUERY_MY_PROFILE],
   });
 
   useEffect(() => {
@@ -107,7 +104,9 @@ function Profile() {
       await removeBlurb({ variables: { blurbId: deletedBlurbId } });
       setUserData((prevUserData) => ({
         ...prevUserData,
-        blurbs: prevUserData.blurbs.filter(blurb => blurb._id !== deletedBlurbId),
+        blurbs: prevUserData.blurbs.filter(
+          (blurb) => blurb._id !== deletedBlurbId
+        ),
       }));
     } catch (err) {
       console.log("blurb not found");
@@ -119,64 +118,54 @@ function Profile() {
       <IconButton onClick={handleGoBack}>
         <ArrowBackIosIcon />
       </IconButton>
-      {userData && (showProfile ? (
-        <Container id="profile">
-          <Photo profileImg={userData.profile.profilePic} />
-      <h1>{ userData.profile.fullName}</h1>
-      <h2>{userData.username}</h2>
-          <p id="info">{userData.profile.bio}</p>
-          <p id="info">📍{userData.profile.location}</p>
-          <Grid>
-            <Button id="btn" style={buttonStyle} variant="contained">
-              {userData.followerNumber} Followers
+      {userData &&
+        (showProfile ? (
+          <Container id="profile">
+            <Photo profileImg={userData.profile.profilePic} />
+            <h1>{userData.profile.fullName}</h1>
+            <h2>{userData.username}</h2>
+            <p id="info">{userData.profile.bio}</p>
+            <p id="info">📍{userData.profile.location}</p>
+            <Grid>
+              <Button id="btn" style={buttonStyle} variant="contained">
+                {userData.followerNumber} Followers
+              </Button>
+              <Button id="btn" style={buttonStyle} variant="contained">
+                {userData.followingNumber} Following
+              </Button>
+            </Grid>
+            <Button
+              id="btn"
+              style={editStyle}
+              variant="contained"
+              onClick={handleEditClick}
+            >
+              Edit Profile{" "}
             </Button>
-            <Button id="btn" style={buttonStyle} variant="contained">
-              {userData.followingNumber} Following
-            </Button>
-          </Grid>
-          <Button
-            id="btn"
-            style={editStyle}
-            variant="contained"
-            onClick={handleEditClick}
-          >
-            Edit Profile{" "}
-          </Button>
-          {userData.blurbs && userData.blurbs.map((blurb) => (
-            <BlurbStream
-              key={blurb._id}
-              blurbId={blurb._id}
-              username={blurb.username}
-              onDelete={() => handleBlurbDelete(blurb._id)}
-              showEdit={true}
-              >
-              {blurb.blurbText}
-              {/* <div>
+            {userData.blurbs &&
+              userData.blurbs.map((blurb) => (
+                <BlurbStream
+                  key={blurb._id}
+                  blurbId={blurb._id}
+                  username={blurb.username}
+                  onDelete={() => handleBlurbDelete(blurb._id)}
+                  showEdit={true}
+                  profilePic={userData.profile.profilePic}
+                >
+                  {blurb.blurbText}
+                  {/* <div>
               {blurb.tags}
               </div> */}
-            </BlurbStream>
-          ))}
-        </Container>
-      ) : isEditVisible ? (
-        <Edit userData={userData}
-        showAccountSettings={showAccountSettings} />
-      ) : (
-        accountSettingsVisible && <AccountEdit userData={userData} />
-      ))}
+                </BlurbStream>
+              ))}
+          </Container>
+        ) : isEditVisible ? (
+          <Edit userData={userData} showAccountSettings={showAccountSettings} />
+        ) : (
+          accountSettingsVisible && <AccountEdit userData={userData} />
+        ))}
     </div>
-  )
+  );
 }
 
-export default Profile
-
-
-
-
-
-
-
-
-
-
-
-
+export default Profile;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useMutation, useQuery } from "@apollo/client";
 import "../../style/Blurbs.css";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -26,8 +26,8 @@ function BlurbStream({
   onDelete,
   initialBlurbText,
   showEdit,
+  profilePic,
 }) {
-  
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [commentText, setCommentText] = useState("");
   const [isDeleted, setIsDeleted] = useState(false);
@@ -82,7 +82,7 @@ function BlurbStream({
       console.error("Error removing blurb: ", error);
     }
   };
-
+  // const proPic = blurbs?.blurbAuthor?.profile?.profilePic;
   const [addComment] = useMutation(ADD_COMMENT);
   const handleComment = async () => {
     console.log("Blurb ID:", blurbId); // Log the blurb ID
@@ -110,7 +110,7 @@ function BlurbStream({
     setIsEditBlurbModalOpen(false);
     setEditBlurbText("");
   };
-
+  console.log(profilePic);
   const [updateBlurb] = useMutation(EDIT_Blurb);
   const handleEditBlurb = async () => {
     console.log("BlurbId", blurbId);
@@ -133,6 +133,19 @@ function BlurbStream({
     }
     closeEditBlurbModal();
   };
+  const sample = "cld-sample-5";
+  const cloudName = "dmnfg3ids";
+
+  const [staticImg, setStaticPic] = useState(
+    `https://res.cloudinary.com/${cloudName}/image/upload/t_custom-resize/${sample}.png`
+  );
+  useEffect(() => {
+    if (profilePic) {
+      setStaticPic(
+        `https://res.cloudinary.com/${cloudName}/image/upload/t_custom-resize/${profilePic}.png`
+      );
+    }
+  }, [profilePic]);
 
   if (isDeleted) return null;
   return (
@@ -142,8 +155,8 @@ function BlurbStream({
           <Avatar
             id="notifyPP"
             className="Blfriend"
-            alt="Remy Sharp"
-            src="/static/images/avatar/1.jpg"
+            alt={username}
+            src={staticImg}
             sx={{ width: 40, height: 40 }}
           />
 
