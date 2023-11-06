@@ -17,8 +17,9 @@ import { useNavigate } from "react-router-dom";
 function UserProfile() {
   const { username } = useParams();
   const [userData, setUserData] = useState(null);
-  const { data, loading, error } = useQuery(QUERY_ONE_USER, {
-    variables: { username: username },
+  const [following, setFollowing] = useState(false);
+  const {data,  loading, error, refetch} = useQuery(QUERY_ONE_USER, {
+    variables: {username: username},
   });
   const [followUser, { loading: followLoading, error: followError }] =
     useMutation(FOLLOW_USER);
@@ -44,11 +45,16 @@ function UserProfile() {
     color: black,
   };
 
-  useEffect(() => {
-    if (!loading && data && data.user) {
-      setUserData(data.user);
-    }
-  }, [loading, data]);
+useEffect(() => {
+  if (!loading && data && data.user) {
+    const currentUser = Auth.getProfile()
+    console.log(data.user.followers);
+    const idArray = data.user.followers.map(obj => obj._id)
+    //currentUser.data._id
+    setFollowing(idArray.includes(currentUser.data._id) ? true : false)
+    setUserData(data.user);
+  }
+}, [loading,data]);
 
   if (error) {
     console.log(JSON.stringify(error));
@@ -61,6 +67,7 @@ const handleFollowUser = (userIdToFollow) => {
     }
   })
   .then((result) => {
+    refetch()
     // console.log('User followed successfully!');
     //Show a success message 
   })
@@ -69,9 +76,6 @@ const handleFollowUser = (userIdToFollow) => {
   });
 };
 
-  const isCurrentUserFollowing = userData?.followers?.includes(
-    Auth.loggedIn(navigation)._id
-  );
 
   // const handleUnfollowUser = (userIdToUnfollow) => {
   //   unfollowUser({
@@ -87,25 +91,21 @@ const handleFollowUser = (userIdToFollow) => {
   //   });
   // };
 
-  const handleFollowButton = isCurrentUserFollowing ? (
-    <Button
-      id="btn"
-      style={followStyle}
-      variant="contained"
-      onClick={() => handleUnfollowUser(userData._id)}
-    >
-      UNFOLLOW
-    </Button>
-  ) : (
-    <Button
-      id="btn"
-      style={followStyle}
-      variant="contained"
-      onClick={() => handleFollowUser(userData._id)}
-    >
-      FOLLOW
-    </Button>
-  );
+const handleUnfollowUser = (userIdToUnfollow) => {
+  unfollowUser({
+    variables: {
+      userIdToUnfollow: userIdToUnfollow,
+    }
+  })
+  .then((result) => {
+    console.log('User unfollowed successfully!');
+    refetch();
+  })
+  .catch((error) => {
+    console.error('Failed to unfollow user:', error)
+  });
+};
+
 
   return (
     <div>
@@ -126,13 +126,29 @@ const handleFollowUser = (userIdToFollow) => {
             </Button>
           </Grid>
 
-          {handleFollowButton}
-          {userData.blurbs.map((blurb, index) => (
-            <BlurbStream
-              key={index}
-              blurbId={blurb.blurbId}
-              username={blurb.username}
-              profilePic={userData.profile.profilePic}
+      {following ? (
+  <Button
+    id="btn"
+    style={followStyle}
+    variant="contained"
+    onClick={() => handleUnfollowUser(userData._id)}
+  >
+    UNFOLLOW
+  </Button>
+) : (
+  <Button
+    id="btn"
+    style={followStyle}
+    variant="contained"
+    onClick={() => handleFollowUser(userData._id)}
+  >
+    FOLLOW
+  </Button>
+)
+}
+      {userData.blurbs.map((blurb, index) => (
+            <BlurbStream key={index} blurbId={blurb.blurbId} username = {blurb.username}
+            profilePic={userData.profile.profilePic}
             >
               {blurb.blurbText}
             </BlurbStream>
