@@ -58,6 +58,7 @@ import SearchBar from "./SearchBar/SearchBar";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import Auth from "../utils/auth";
+import Tooltip from "@mui/material/Tooltip";
 import { useNavigate } from "react-router-dom";
 
 function Header() {
@@ -75,11 +76,13 @@ function Header() {
   return (
     <>
       <div id="header">
+        <Tooltip title="Search other Blurb users by their username here! 🔍">
         <div id="button">
           <IconButton onClick={toggleSearchBar}>
             <SearchIcon sx={{ fontSize: 40 }} />
           </IconButton>
         </div>
+          </Tooltip>
         {isSearchBarVisible && <SearchBar />}
 
         <Button id="logout" onClick={handleLogout} variant="contained">

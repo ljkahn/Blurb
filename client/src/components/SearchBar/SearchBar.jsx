@@ -13,11 +13,9 @@ export default function SearchBar() {
   const [userList, setUserList] = useState(null);
   const [menuIsOpen, setMenuIsOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState("");
-
   const { loading, data } = useQuery(USER_LIST);
   const { username } = useParams();
   const navigation = useNavigate();
-
   useEffect(() => {
     if (!loading) {
       const cleanList = data.users.map((obj) => {
@@ -29,12 +27,10 @@ export default function SearchBar() {
       setUserList(cleanList);
     }
   }, [loading]);
-
   const handleInputChange = (inputValue) => {
     // Open the menu if the user starts typing
     setMenuIsOpen(!!inputValue);
   };
-
   const handleUserSelect = (selectedOption) => {
     setSelectedUser(selectedOption.label);
     navigation(`/profile/${selectedOption.label}`);
@@ -56,12 +52,10 @@ export default function SearchBar() {
     }),
     dropdownIndicator: () => ({ display: "none" }),
   };
-
   const handleFormSubmit = (e) => {
     e.preventDefault();
     navigation(`/profile/${selectedUser}`);
   };
-
   return (
     <form onSubmit={handleFormSubmit}>
       {!loading ? (
@@ -93,3 +87,9 @@ export default function SearchBar() {
     </form>
   );
 }
+
+
+
+
+
+

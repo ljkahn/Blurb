@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useMutation, useQuery } from "@apollo/client";
 import "../../style/Blurbs.css";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -31,6 +31,7 @@ function BlurbStream({
   // isLiked,
   // comments,
   showEdit,
+  profilePic,
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [commentText, setCommentText] = useState("");
@@ -41,11 +42,9 @@ function BlurbStream({
   const openModal = () => {
     setIsModalOpen(true);
   };
-
   const closeModal = () => {
     setIsModalOpen(false);
   };
-
   const [likeBlurb] = useMutation(LIKE_Blurb);
   const [unlikeBlurb] = useMutation(UNLIKE_Blurb);
   const handleLike = () => {
@@ -62,7 +61,6 @@ function BlurbStream({
     }
     setIsLiked(!isLiked); // Toggle the liked state
   };
-
   const [removeBlurb] = useMutation(REMOVE_Blurb, {
     variables: { blurbId },
     refetchQueries: [{ query: QUERY_MY_PROFILE }],
@@ -74,7 +72,6 @@ function BlurbStream({
       console.error("Error removing blurb: ", err);
     },
   });
-
   const handleRemove = async () => {
     console.log("Attempting to remove blurb with ID:", blurbId);
     try {
@@ -86,7 +83,7 @@ function BlurbStream({
       console.error("Error removing blurb: ", error);
     }
   };
-
+  // const proPic = blurbs?.blurbAuthor?.profile?.profilePic;
   const [addComment] = useMutation(ADD_COMMENT);
   const handleComment = async () => {
     console.log("Blurb ID:", blurbId); // Log the blurb ID
@@ -100,7 +97,6 @@ function BlurbStream({
       console.error("Error adding comment:", error);
     }
   };
-
   // Add the edit blurb modal state and functions
   const [isEditBlurbModalOpen, setIsEditBlurbModalOpen] = useState(false);
   const [editBlurbText, setEditBlurbText] = useState("");
@@ -109,12 +105,11 @@ function BlurbStream({
     setIsEditBlurbModalOpen(true);
     setEditBlurbText(initialBlurbText);
   };
-
   const closeEditBlurbModal = () => {
     setIsEditBlurbModalOpen(false);
     setEditBlurbText("");
   };
-
+  console.log(profilePic);
   const [updateBlurb] = useMutation(EDIT_Blurb);
   const handleEditBlurb = async () => {
     console.log("BlurbId", blurbId);
@@ -137,6 +132,18 @@ function BlurbStream({
     }
     closeEditBlurbModal();
   };
+  const sample = "cld-sample-5";
+  const cloudName = "dmnfg3ids";
+  const [staticImg, setStaticPic] = useState(
+    `https://res.cloudinary.com/${cloudName}/image/upload/t_custom-resize/${sample}.png`
+  );
+  useEffect(() => {
+    if (profilePic) {
+      setStaticPic(
+        `https://res.cloudinary.com/${cloudName}/image/upload/t_custom-resize/${profilePic}.png`
+      );
+    }
+  }, [profilePic]);
 
   const [removeComment] = useMutation(REMOVE_COMMENT);
 
@@ -171,8 +178,8 @@ function BlurbStream({
           <Avatar
             id="notifyPP"
             className="Blfriend"
-            alt="Remy Sharp"
-            src="/static/images/avatar/1.jpg"
+            alt={username}
+            src={staticImg}
             sx={{ width: 40, height: 40 }}
           />
           <div className="blInfo">
@@ -262,5 +269,4 @@ function BlurbStream({
     </div>
   );
 }
-
 export default BlurbStream;

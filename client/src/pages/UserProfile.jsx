@@ -72,19 +72,19 @@ const handleFollowUser = (userIdToFollow) => {
 const isCurrentUserFollowing = userData?.followers?.includes(Auth.loggedIn(navigation)._id);
 
 
-const handleUnfollowUser = (userIdToUnfollow) => {
-  unfollowUser({
-    variables: {
-      userIdToUnfollow: userIdToUnfollow,
-    }
-  })
-  .then((result) => {
-    console.log('User unfollowed successfully!');
-  })
-  .catch((error) => {
-    console.error('Failed to unfollow user:', error)
-  });
-};
+// const handleUnfollowUser = (userIdToUnfollow) => {
+//   unfollowUser({
+//     variables: {
+//       userIdToUnfollow: userIdToUnfollow,
+//     }
+//   })
+//   .then((result) => {
+//     console.log('User unfollowed successfully!');
+//   })
+//   .catch((error) => {
+//     console.error('Failed to unfollow user:', error)
+//   });
+// };
 
 const handleFollowButton = isCurrentUserFollowing ? (
   <Button

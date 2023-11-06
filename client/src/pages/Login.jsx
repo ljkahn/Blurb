@@ -30,13 +30,17 @@ function Login() {
 
   //if statement
 
+
+
   console.log(blurb);
 
   return (
     <>
       <div id="loginBlurb">
         {blurb && (
-          <BlurbCard username={blurb.blurbAuthor.username}>
+          <BlurbCard username={blurb.blurbAuthor.username}
+          profilePic={blurb.blurbAuthor.profile.profilePic}
+          >
             <TypeAnimation
               sequence={[blurb.blurbText, 500, " "]}
               style={{ fontSize: "1rem" }}
