@@ -109,7 +109,7 @@ function BlurbStream({
     setIsEditBlurbModalOpen(false);
     setEditBlurbText("");
   };
-  console.log("blurb card profile pic: ", profilePic);
+  // console.log("blurb card profile pic: ", profilePic);
   const [updateBlurb] = useMutation(EDIT_Blurb);
   const handleEditBlurb = async () => {
     // console.log("BlurbId", blurbId);
