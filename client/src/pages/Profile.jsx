@@ -15,6 +15,7 @@ import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_MY_PROFILE } from "../utils/Queries/userQueries.js";
 import Auth from "../utils/auth.js";
 import BlurbStream from '../components/Blurbs/BlurbCard.jsx';
+
 function Profile() {
   const [isEditVisible, setIsEditVisible] = useState(false);
   const [showProfile, setShowProfile] = useState(true);
@@ -29,18 +30,21 @@ function Profile() {
       setUserData(data.me)
     }
   }, [loading]);
+
   const handleEditClick = () => {
     setIsEditVisible(true);
     setShowProfile(false);
     setAccountSettingsVisible(false);
     setCurrentComponent("edit");
   };
+
   const showAccountSettings = () => {
     setShowProfile(false);
     setIsEditVisible(false);
     setAccountSettingsVisible(true);
     setCurrentComponent("accountSettings");
   };
+
   const handleGoBack = () => {
     if (currentComponent === "edit" || currentComponent === "accountSettings") {
       setIsEditVisible(false);
@@ -49,6 +53,7 @@ function Profile() {
       setCurrentComponent("profile");
     }
   };
+
   const neon = "#F7E258";
   const white = "#F5F5F5";
   const lightGray = "#BEBFC5";
@@ -60,10 +65,12 @@ function Profile() {
     backgroundColor: neon,
     color: black,
   };
+
   const editStyle = {
     backgroundColor: white,
     color: black,
   };
+
   const [removeBlurb] = useMutation(REMOVE_Blurb, {
     refetchQueries: [
       QUERY_MY_PROFILE,
@@ -72,11 +79,13 @@ function Profile() {
       console.error("Error removing blurb: ", err);
     },
   });
+
   useEffect(() => {
     if (data && data.me) {
       setUserData(data.me);
     }
   }, [data]);
+
   const handleBlurbDelete = async (deletedBlurbId) => {
     try {
       await removeBlurb({ variables: { blurbId: deletedBlurbId } });
@@ -88,6 +97,7 @@ function Profile() {
       console.error("Error executing removeBlurb mutation", err);
     }
   };
+
   return (
     <div>
       <IconButton onClick={handleGoBack}>
@@ -120,8 +130,10 @@ function Profile() {
             <BlurbStream
               key={blurb._id}
               blurbId={blurb._id}
-              username = {blurb.username}
-              onDelete={() => handleBlurbDelete(blurb._id)}>
+              username={blurb.username}
+              onDelete={() => handleBlurbDelete(blurb._id)}
+              showEdit={true} // Pass showEdit as true here
+            >
               {blurb.blurbText}
             </BlurbStream>
           ))}
@@ -135,6 +147,7 @@ function Profile() {
     </div>
   )
 }
+
 export default Profile
 
 

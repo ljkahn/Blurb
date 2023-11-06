@@ -1,4 +1,5 @@
-#blurbModal {
+#blurbModal,
+#editBlurbModal {
   display: flex;
   justify-content: center;
   align-items: center;
