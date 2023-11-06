@@ -49,6 +49,7 @@ function Profile() {
 //   }
 // }, [data]);
 
+
   const handleEditClick = () => {
     setIsEditVisible(true);
     setShowProfile(false);
@@ -93,9 +94,6 @@ function Profile() {
     refetchQueries: [
       QUERY_MY_PROFILE,
     ],
-    onError: (err) => {
-      console.error("Error removing blurb: ", err);
-    },
   });
 
   useEffect(() => {
@@ -112,7 +110,7 @@ function Profile() {
         blurbs: prevUserData.blurbs.filter(blurb => blurb._id !== deletedBlurbId),
       }));
     } catch (err) {
-      console.error("Error executing removeBlurb mutation", err);
+      console.log("blurb not found");
     }
   };
 

@@ -11,7 +11,7 @@ function Home() {
   const [blurbs, setBlurbs] = useState([]);
   const [isLoading, setLoading] = useState(true);
   const { loading, data } = useQuery(ALL_BLURBS);
-  
+
   useEffect(() => {
     if (!loading) {
       const allBlurbs = [...data.blurbs];
@@ -25,7 +25,7 @@ function Home() {
       console.log(data.blurbs);
       setLoading(false);
     }
-  }, [loading]);
+  }, [data]);
 
   return (
     <div>
