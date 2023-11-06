@@ -4,12 +4,6 @@ import { ThreeDots } from "react-loader-spinner";
 import { useQuery } from "@apollo/client";
 import { USER_LIST } from "../../utils/Queries/userQueries";
 
-const options = [
-  { value: "chocolate", label: "Chocolate" },
-  { value: "strawberry", label: "Strawberry" },
-  { value: "vanilla", label: "Vanilla" },
-];
-
 export default function SearchBar() {
   const [selectedOption, setSelectedOption] = useState(null);
   const [userList, setUserList] = useState(null);
