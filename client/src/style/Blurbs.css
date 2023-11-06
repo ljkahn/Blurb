@@ -25,6 +25,7 @@
   width: 350px;
   justify-content: space-between;
   background-color: #757575;
+  
   border-radius: 20px;
 }
 
@@ -58,7 +59,7 @@
 
 .comContainer {
   width: 320px;
-}
+  background-color: #4b4b4b;}
 
 .css-8je8zh-MuiTouchRipple-root {
   color: #f7e258 !important;
