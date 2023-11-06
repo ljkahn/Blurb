@@ -9,7 +9,7 @@ import { TypeAnimation } from "react-type-animation";
 import { useQuery } from "@apollo/client";
 import { RANDOM_BLURB } from "../utils/Queries/queries.js";
 
-function Login() {
+function Login({ isRegistered }) {
   const [tabValue, setTabValue] = useState("login");
   const [blurb, setBlurb] = useState(null);
   const handleChange = (event, newValue) => {
@@ -65,8 +65,8 @@ function Login() {
             <Tab value="create" label="Create" />
           </Tabs>
 
-          {tabValue === "login" && <LoginTab />}
-          {tabValue === "create" && <Create />}
+          {tabValue === "login" && <LoginTab isRegistered={isRegistered} />}
+          {tabValue === "create" && <Create isRegistered={isRegistered} />}
         </div>
       </div>
     </>

@@ -56,6 +56,7 @@ export default function SearchBar() {
     e.preventDefault();
     navigation(`/profile/${selectedUser}`);
   };
+  
   return (
     <form onSubmit={handleFormSubmit}>
       {!loading ? (
@@ -87,9 +88,3 @@ export default function SearchBar() {
     </form>
   );
 }
-
-
-
-
-
-

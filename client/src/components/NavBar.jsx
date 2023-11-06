@@ -33,6 +33,7 @@ function NavBar() {
     profilePic: "", // Default profile picture URL
     // Other default properties
   });
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState([]);
 

@@ -61,11 +61,13 @@ import Auth from "../utils/auth";
 import Tooltip from "@mui/material/Tooltip";
 import { useNavigate } from "react-router-dom";
 
-function Header() {
+function Header({ registered, isRegistered}) {
   const [isSearchBarVisible, setIsSearchBarVisible] = useState(false);
   const navigation = useNavigate();
 
+
   const handleLogout = () => {
+    isRegistered(false);
     Auth.logout(navigation);
   };
 
@@ -88,7 +90,7 @@ function Header() {
         </div>
         <Button id="logout" onClick={handleLogout} variant="contained">
           Logout
-        </Button>
+        </Button>}
       </div>
     </>
   );
