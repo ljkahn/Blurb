@@ -93,6 +93,7 @@ const typeDefs = `
       randomBlurb: Blurbs
       followers: [User]
       following: [User]
+      findBlurbById(blurbId: ID!): Blurbs
     }
     
     type Mutation {
@@ -113,6 +114,7 @@ const typeDefs = `
       removeCommentLike(blurbId: ID!, commentId: ID!): String
       followUser(userIdToFollow: ID!): String
       unfollowUser(userIdToUnfollow: ID!): String
+
     }
     `;
 
