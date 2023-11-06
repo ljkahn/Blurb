@@ -143,7 +143,7 @@ function BlurbStream({
           </div>
         </div>
         <div id="notifyIcons">
-          <div style={{ flexDirection: "row", display: "flex" }}>
+          <div style={{ display: "flex", flexDirection: "row" }}>
             <IconButton onClick={handleLike} className="likeComment">
               {isLiked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
             </IconButton>
@@ -176,6 +176,7 @@ function BlurbStream({
             onChange={(e) => setCommentText(e.target.value)}
           />
           <Button
+            className="modalButton"
             style={{ margin: ".5rem" }}
             variant="contained"
             disableElevation
@@ -200,6 +201,7 @@ function BlurbStream({
             onChange={(e) => setEditBlurbText(e.target.value)}
           />
           <Button
+            className="modalButton"
             style={{ margin: ".5rem" }}
             variant="contained"
             disableElevation
@@ -207,7 +209,10 @@ function BlurbStream({
           >
             Save Changes
           </Button>
-          <Button onClick={handleRemove} className="removeComment">
+          <Button
+            onClick={handleRemove}
+            className="removeComment, deleteButton"
+          >
             Delete Blurb
           </Button>
         </form>

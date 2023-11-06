@@ -70,21 +70,6 @@ export default function AddBlurb() {
       });
   };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   return (
     <form id="blForm">
       <TextField
@@ -124,6 +109,7 @@ export default function AddBlurb() {
         </Select>
       </FormControl>
       <Button
+        className="modalButton"
         style={{ margin: ".5rem" }}
         variant="contained"
         disableElevation
