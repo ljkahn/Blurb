@@ -46,6 +46,7 @@
 
 #notifyIcons {
   display: flex;
+  margin: 5px;
   flex-direction: column;
   align-items: end;
   margin-bottom: 50px;
