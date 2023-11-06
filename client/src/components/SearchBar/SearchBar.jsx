@@ -41,6 +41,22 @@ export default function SearchBar() {
     setSelectedOption(null); // Clear the selected option
     setSelectedUser(""); // Clear the selected user
   };
+
+  const customStyles = {
+    control: (provided) => ({
+      ...provided,
+      width: "300px", // Set the width to your desired value (e.g., 300px)
+      border: "1px solid #ced4da",
+      boxShadow: "none",
+      
+      borderRadius: "4px",
+      "&:hover": {
+        border: "1px solid #ced4da",
+      },
+    }),
+    dropdownIndicator: () => ({ display: "none" }),
+  };
+
   const handleFormSubmit = (e) => {
     e.preventDefault();
     navigation(`/profile/${selectedUser}`);
@@ -60,6 +76,7 @@ export default function SearchBar() {
           options={userList}
           menuIsOpen={menuIsOpen}
           isSearchable={true}
+          styles={customStyles}
         />
       ) : (
         <ThreeDots
