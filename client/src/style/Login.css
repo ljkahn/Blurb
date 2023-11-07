@@ -42,9 +42,9 @@
 
 /* LOG IN AND CREATE CSS */
 
-.css-11yukd5-MuiTabs-indicator {
+/* .css-11yukd5-MuiTabs-indicator {
   background-color: #f7e258 !important;
-}
+} */
 
 #upLoad {
   font-family: "Inter", sans-serif;
@@ -58,7 +58,7 @@
 }
 
 /* FORM TEXT  */
-
+/* 
 .css-1u3bzj6-MuiFormControl-root-MuiTextField-root,
 .css-1a4cg4j-MuiButtonBase-root-MuiTab-root.Mui-selected,
 .css-1c2i806-MuiFormLabel-root-MuiInputLabel-root,
@@ -69,4 +69,4 @@
 
 .css-v4u5dn-MuiInputBase-root-MuiInput-root:after {
   border-bottom: 2px solid #f7e258 !important;
-}
+} */

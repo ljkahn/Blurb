@@ -4,16 +4,98 @@ import Modal from "@mui/material/Modal";
 import TextField from "@mui/material/TextField";
 import CloudinaryUploadWidget from "../Upload";
 import Photo from "../Profile/ProfilePhoto";
-
+import { outlinedInputClasses } from "@mui/material/OutlinedInput";
+import Box from "@mui/material/Box";
+import { createTheme, ThemeProvider, useTheme } from "@mui/material/styles";
 import { useMutation } from "@apollo/client";
 import Auth from "../../utils/auth";
 import { ADD_USER } from "../../utils/mutations/userMutations";
 import { useNavigate } from "react-router-dom";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
-import Stack from "@mui/material/Stack";
+
+const customTheme = (outerTheme) =>
+  createTheme({
+    palette: {
+      mode: outerTheme.palette.mode,
+    },
+    components: {
+      MuiTextField: {
+        styleOverrides: {
+          root: {
+            "--TextField-brandBorderColor": "#E0E3E7",
+            "--TextField-brandBorderHoverColor": "#B2BAC2",
+            "--TextField-brandBorderFocusedColor": "#f7e258",
+            "& label.Mui-focused": {
+              color: "var(--TextField-brandBorderFocusedColor)",
+            },
+            "& .MuiInputBase-input": {
+              color: "#F3F3F3",
+            },
+          },
+        },
+      },
+      MuiOutlinedInput: {
+        styleOverrides: {
+          notchedOutline: {
+            borderColor: "var(--TextField-brandBorderColor)",
+          },
+          root: {
+            [`&:hover .${outlinedInputClasses.notchedOutline}`]: {
+              borderColor: "var(--TextField-brandBorderHoverColor)",
+            },
+            [`&.Mui-focused .${outlinedInputClasses.notchedOutline}`]: {
+              borderColor: "var(--TextField-brandBorderFocusedColor)",
+            },
+            "& .MuiInputBase-input": {
+              color: "#F3F3F3",
+            },
+          },
+        },
+      },
+      MuiFilledInput: {
+        styleOverrides: {
+          root: {
+            "&:before, &:after": {
+              borderBottom: "2px solid var(--TextField-brandBorderColor)",
+            },
+            "&:hover:not(.Mui-disabled, .Mui-error):before": {
+              borderBottom: "2px solid var(--TextField-brandBorderHoverColor)",
+            },
+            "&.Mui-focused:after": {
+              borderBottom:
+                "2px solid var(--TextField-brandBorderFocusedColor)",
+            },
+            "& .MuiInputBase-input": {
+              color: "#F3F3F3",
+            },
+          },
+        },
+      },
+      MuiInput: {
+        styleOverrides: {
+          root: {
+            "&:before": {
+              borderBottom: "2px solid var(--TextField-brandBorderColor)",
+            },
+            "&:hover:not(.Mui-disabled, .Mui-error):before": {
+              borderBottom: "2px solid var(--TextField-brandBorderHoverColor)",
+            },
+            "&.Mui-focused:after": {
+              borderBottom:
+                "2px solid var(--TextField-brandBorderFocusedColor)",
+            },
+            "& .MuiInputBase-input": {
+              color: "#F3F3F3",
+            },
+          },
+        },
+      },
+    },
+  });
 
 function Create({ isRegistered }) {
+  const outerTheme = useTheme();
   const navigation = useNavigate();
   // State to control the visibility of the modal
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -112,67 +194,69 @@ function Create({ isRegistered }) {
       <CloudinaryUploadWidget setProfileImg={setProfileImg} />
       <Photo profileImg={profileImg} />
       <form onSubmit={handleCreateSubmit}>
-        <div>
-          <TextField
-            id="standard-basic"
-            label="Full Name"
-            variant="standard"
-            name="fullName"
-            type="text"
-            value={formState.fullName}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <TextField
-            id="standard-basic"
-            label="Email"
-            variant="standard"
-            name="email"
-            type="email"
-            value={formState.email}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <TextField
-            id="standard-basic"
-            label="Password"
-            variant="standard"
-            name="password"
-            type="password"
-            value={formState.password}
-            onChange={handleChange}
-            onFocus={handlePasswordFocus}
-            onBlur={handlePasswordBlur}
-          />
-          {isPasswordFocused && ( // Display the text only when password field is focused
-            <div style={{ fontSize: "0.8rem" }}>
-              Password must contain at least 8 characters, 1 lowercase, 1
-              uppercase, 1 special character, and 1 number.
-            </div>
-          )}
-        </div>
-        <div>
-          <TextField
-            id="standard-basic"
-            label="Username"
-            variant="standard"
-            name="username"
-            type="text"
-            value={formState.username}
-            onChange={handleChange}
-          />
-        </div>
+        <ThemeProvider theme={customTheme(outerTheme)}>
+          <div>
+            <TextField
+              id="standard-basic"
+              label="Full Name"
+              variant="standard"
+              name="fullName"
+              type="text"
+              value={formState.fullName}
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <TextField
+              id="standard-basic"
+              label="Email"
+              variant="standard"
+              name="email"
+              type="email"
+              value={formState.email}
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <TextField
+              id="standard-basic"
+              label="Password"
+              variant="standard"
+              name="password"
+              type="password"
+              value={formState.password}
+              onChange={handleChange}
+              onFocus={handlePasswordFocus}
+              onBlur={handlePasswordBlur}
+            />
+            {isPasswordFocused && ( // Display the text only when password field is focused
+              <div style={{ fontSize: "0.8rem" }}>
+                Password must contain at least 8 characters, 1 lowercase, 1
+                uppercase, 1 special character, and 1 number.
+              </div>
+            )}
+          </div>
+          <div>
+            <TextField
+              id="standard-basic"
+              label="Username"
+              variant="standard"
+              name="username"
+              type="text"
+              value={formState.username}
+              onChange={handleChange}
+            />
+          </div>
 
-        <Button
-          id="logCreateB"
-          variant="contained"
-          disableElevation
-          type="submit"
-        >
-          Create Account
-        </Button>
+          <Button
+            id="logCreateB"
+            variant="contained"
+            disableElevation
+            type="submit"
+          >
+            Create Account
+          </Button>
+        </ThemeProvider>
       </form>
       <Snackbar
         open={isAlertOpen}

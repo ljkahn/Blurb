@@ -1,16 +1,97 @@
 import React, { useState } from "react";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-
 import { useMutation } from "@apollo/client";
 import { LOGIN_USER } from "../../utils/mutations/userMutations";
 import { useNavigate } from "react-router-dom";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
-
+import { createTheme, ThemeProvider, useTheme } from "@mui/material/styles";
 import Auth from "../../utils/auth";
+import { outlinedInputClasses } from "@mui/material/OutlinedInput";
+
+const customTheme = (outerTheme) =>
+  createTheme({
+    palette: {
+      mode: outerTheme.palette.mode,
+    },
+    components: {
+      MuiTextField: {
+        styleOverrides: {
+          root: {
+            "--TextField-brandBorderColor": "#E0E3E7",
+            "--TextField-brandBorderHoverColor": "#B2BAC2",
+            "--TextField-brandBorderFocusedColor": "#f7e258",
+            "& label.Mui-focused": {
+              color: "var(--TextField-brandBorderFocusedColor)",
+            },
+            "& .MuiInputBase-input": {
+              color: "#F3F3F3",
+            },
+          },
+        },
+      },
+      MuiOutlinedInput: {
+        styleOverrides: {
+          notchedOutline: {
+            borderColor: "var(--TextField-brandBorderColor)",
+          },
+          root: {
+            [`&:hover .${outlinedInputClasses.notchedOutline}`]: {
+              borderColor: "var(--TextField-brandBorderHoverColor)",
+            },
+            [`&.Mui-focused .${outlinedInputClasses.notchedOutline}`]: {
+              borderColor: "var(--TextField-brandBorderFocusedColor)",
+            },
+            "& .MuiInputBase-input": {
+              color: "#F3F3F3",
+            },
+          },
+        },
+      },
+      MuiFilledInput: {
+        styleOverrides: {
+          root: {
+            "&:before, &:after": {
+              borderBottom: "2px solid var(--TextField-brandBorderColor)",
+            },
+            "&:hover:not(.Mui-disabled, .Mui-error):before": {
+              borderBottom: "2px solid var(--TextField-brandBorderHoverColor)",
+            },
+            "&.Mui-focused:after": {
+              borderBottom:
+                "2px solid var(--TextField-brandBorderFocusedColor)",
+            },
+            "& .MuiInputBase-input": {
+              color: "#F3F3F3",
+            },
+          },
+        },
+      },
+      MuiInput: {
+        styleOverrides: {
+          root: {
+            "&:before": {
+              borderBottom: "2px solid var(--TextField-brandBorderColor)",
+            },
+            "&:hover:not(.Mui-disabled, .Mui-error):before": {
+              borderBottom: "2px solid var(--TextField-brandBorderHoverColor)",
+            },
+            "&.Mui-focused:after": {
+              borderBottom:
+                "2px solid var(--TextField-brandBorderFocusedColor)",
+            },
+            "& .MuiInputBase-input": {
+              color: "#F3F3F3",
+            },
+          },
+        },
+      },
+    },
+  });
 
 function LoginTab({ isRegistered }) {
+  const outerTheme = useTheme();
   const navigation = useNavigate();
   const [formState, setFormState] = useState({
     email: "",
@@ -59,36 +140,39 @@ function LoginTab({ isRegistered }) {
     <div>
       <h2>Login</h2>
       <form onSubmit={handleLogin}>
-        <div>
-          <TextField
-            id="standard-basic"
-            label="Email"
-            variant="standard"
-            name="email"
-            type="email"
-            value={formState.email}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <TextField
-            id="standard-basic"
-            label="Password"
-            variant="standard"
-            name="password"
-            type="password"
-            value={formState.password}
-            onChange={handleChange}
-          />
-        </div>
-        <Button
-          id="logCreateB"
-          variant="contained"
-          disableElevation
-          type="submit"
-        >
-          Login
-        </Button>
+        <ThemeProvider theme={customTheme(outerTheme)}>
+          <div>
+            <TextField
+              id="standard-basic"
+              label="Email"
+              variant="standard"
+              name="email"
+              type="email"
+              value={formState.email}
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <TextField
+              id="standard-basic"
+              label="Password"
+              variant="standard"
+              name="password"
+              type="password"
+              value={formState.password}
+              onChange={handleChange}
+            />
+          </div>
+
+          <Button
+            id="logCreateB"
+            variant="contained"
+            disableElevation
+            type="submit"
+          >
+            Login
+          </Button>
+        </ThemeProvider>
       </form>
       <Snackbar
         open={snackbarOpen}

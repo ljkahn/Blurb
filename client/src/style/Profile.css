@@ -1,15 +1,14 @@
-
 #profile {
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 1rem;
-
+  color: azure !important;
 }
 
 #btn {
- margin: 10px;
- border-radius: 10px;
+  margin: 10px;
+  border-radius: 10px;
 }
 
 #info {
@@ -22,9 +21,7 @@
   height: 10rem;
   width: 10rem;
   /* transform: scale(10%); */
-  
 }
-
 
 /* EDIT PROFILE */
 #editProfile {
@@ -32,7 +29,6 @@
   flex-direction: column;
   align-items: center;
   padding: 1rem;
-
 }
 
 #editAccount {
@@ -43,19 +39,16 @@
   padding: 2rem;
 }
 
-
 /* USERPROFILE */
 #userProfile {
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 1rem;
-
 }
 
-
 .confirmationModal {
-  background-color: #BEBFC5;
+  background-color: #bebfc5;
   border-radius: 10px;
   padding: 1rem;
   margin: 1rem;
@@ -68,5 +61,4 @@
 }
 
 .uploadButton {
-  
 }
