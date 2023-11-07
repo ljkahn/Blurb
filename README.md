@@ -23,13 +23,15 @@ What are the steps required to install your project? Provide a step-by-step desc
 
 ## Usage
 
-Provide instructions and examples for use. Include screenshots as needed.
+To use our app, open our web app and youll be directed to the initial webpage! Here are screen shots showing how Blurb functions and looks.
 
-To add a screenshot, create an `assets/images` folder in your repository and upload your screenshot to it. Then, using the relative filepath, add it to your README using the following syntax:
-
-    ```md
-    ![alt text](assets/images/screenshot.png)
-    ```
+[Login](./assets/images/login.png)
+[Create Account](./assets/images/createAccount.png)
+[Create Blurb](./assets/images/createBlurb.png)
+[Liked Comment](./assets/images/likedComment.png)
+[Profile](./assets/images/profile.png)
+[Edit Profile](./assets/images/editProfile)
+[Home Page](./assets/images/homePage.png)
 
 ## Credits
 
@@ -76,7 +78,3 @@ You can click the edit profile button and be able to change your profile picture
 
 --Logout
 Once youre done hit the log out button on the top right corner.
-
--
-
-## How to Contribute
