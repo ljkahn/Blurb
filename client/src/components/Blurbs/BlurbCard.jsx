@@ -117,15 +117,27 @@ function BlurbStream({
   initialBlurbText,
   showEdit,
   profilePic,
+  propRefetch,
+  liked
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [commentText, setCommentText] = useState("");
   const [isDeleted, setIsDeleted] = useState(false);
-  const [isLiked, setIsLiked] = useState(false);
-  const { loading, data } = useQuery(QUERY_MY_PROFILE);
+  const [isLiked, setIsLiked] = useState(liked ? liked : false);
+  // const { loading, data } = useQuery(QUERY_MY_PROFILE);
   const [blurbIdForEdit, setBlurbIdForEdit] = useState(null);
-  // console.log(auth.getProfile());
-  // console.log(blurbId);
+  console.log(liked);
+  
+  // useEffect(() => {
+  //   if (!loading) {
+  //     // console.log(auth.getToken());
+  //     if (auth.getToken()) {
+  //       console.log(auth.getProfile().data._id);
+  //       console.log(data.me);
+  //     }
+  //   }
+  // }, [loading]);
+
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -181,6 +193,7 @@ function BlurbStream({
         variables: { blurbId, commentText: commentText },
       });
       setCommentText("");
+      propRefetch && propRefetch()
       closeModal();
     } catch (error) {
       console.error("Error adding comment:", error);

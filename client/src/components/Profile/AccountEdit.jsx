@@ -43,10 +43,13 @@ function AccountEdit({ userData }) {
   };
 
   const handleSaveChanges = () => {
+    const {email, password} = formData;
+    console.log(email, password)
+    // console.log(formData);
     editAccount({
       variables: {
-        email: formData.email,
-        password: formData.password,
+        email: email,
+        password: password,
       },
     })
       .then((result) => {
@@ -116,6 +119,7 @@ function AccountEdit({ userData }) {
           id="standard-basic"
           label="Update Password"
           variant="standard"
+          type="password"
           value={formData.password}
           onChange={(e) =>
             setFormData({ ...formData, password: e.target.value })

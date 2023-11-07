@@ -5,6 +5,8 @@ export const ALL_BLURBS = gql`
     blurbs {
       _id
       blurbText
+      likes
+      likeList
       blurbAuthor {
         username
         profile {
@@ -13,13 +15,13 @@ export const ALL_BLURBS = gql`
       }
       createdAt
       comments {
+        likes
+        likeList
         commentText
         commentAuthor {
           username
         }
-        likes
       }
-      likes
     }
   }
 `;

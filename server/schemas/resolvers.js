@@ -118,11 +118,11 @@ findBlurbById: async (parent, { blurbId }) => {
     // find my user account
     me: async (parent, args, context) => {
       if (context.user) {
-        return User.findOne({ _id: context.user._id }).populate("blurbs");
+        const currentUser = await User.findOne({ _id: context.user._id }).populate("blurbs");
+        console.log(currentUser);
+        return currentUser;
       }
       throw AuthenticationError;
-
-      
     },
     // ✅
 
@@ -163,9 +163,7 @@ findBlurbById: async (parent, { blurbId }) => {
         if (!user) {
           throw new Error("User not found");
         }
-
-        console.log("----------");
-        console.log(user.followers);
+        
         // Return the list of users who follow me
         return user.followers;
       } catch (error) {
@@ -471,7 +469,7 @@ findBlurbById: async (parent, { blurbId }) => {
     },
     // ✅
 
-    editAccount: async (_, { profile}, context) => {
+    editAccount: async (_, { email, password}, context) => {
       if (!context.user) {
         throw new Error("Not logged in");
       }
@@ -484,12 +482,12 @@ findBlurbById: async (parent, { blurbId }) => {
       // Update user fields here
 
       if (user.profile.password) {
-        user.profile.password = profile.password;
+        user.profile.password = password;
         user.profile.isPasswordChanged = true;
       }
 
       // Update other profile fields
-      if (profile.email) user.profile.email = profile.email;
+      if (email) user.profile.email = email;
       // Repeat for other fields...
       
       console.log(user);

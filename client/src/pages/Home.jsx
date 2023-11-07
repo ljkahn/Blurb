@@ -7,11 +7,12 @@ import BlurbCom from "../components/Blurbs/BlurbComCard.jsx";
 // import { TypeAnimation } from "react-type-animation";
 import { useQuery } from "@apollo/client";
 import { ALL_BLURBS } from "../utils/Queries/queries.js";
+import auth from "../utils/auth.js";
 
 function Home() {
   const [blurbs, setBlurbs] = useState([]);
   const [isLoading, setLoading] = useState(true);
-  const { loading, data } = useQuery(ALL_BLURBS);
+  const { loading, data, refetch } = useQuery(ALL_BLURBS);
 
   useEffect(() => {
     if (!loading) {
@@ -45,10 +46,12 @@ function Home() {
         blurbs.map((blurb, i) => (
           <div key={i}>
             <BlurbCard
+              propRefetch={refetch}
               // key={i}
               blurbId={blurb._id}
               username={blurb.blurbAuthor.username}
               profilePic={blurb.blurbAuthor.profile.profilePic}
+              liked={blurb.likeList.includes(auth.getProfile().data._id)}
             >
               {blurb.blurbText}
             </BlurbCard>

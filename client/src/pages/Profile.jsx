@@ -13,7 +13,8 @@ import { REMOVE_Blurb } from "../utils/mutations/Blurb/BlurbMutations.js";
 import { useNavigate, useParams } from "react-router-dom";
 import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_MY_PROFILE } from "../utils/Queries/userQueries.js";
-import Auth from "../utils/auth.js";
+import { ALL_BLURBS } from "../utils/Queries/queries.js";
+import auth from "../utils/auth.js";
 import BlurbStream from "../components/Blurbs/BlurbCard.jsx";
 import BlurbCom from "../components/Blurbs/BlurbComCard.jsx";
 import { createTheme, ThemeProvider, useTheme } from "@mui/material/styles";
@@ -153,6 +154,7 @@ function Profile({ registered }) {
     setShowProfile(false);
     setAccountSettingsVisible(false);
     setCurrentComponent("edit");
+    refetch();
   };
 
   const showAccountSettings = () => {
@@ -160,6 +162,7 @@ function Profile({ registered }) {
     setIsEditVisible(false);
     setAccountSettingsVisible(true);
     setCurrentComponent("accountSettings");
+    refetch();
   };
 
   const handleGoBack = () => {
@@ -168,6 +171,7 @@ function Profile({ registered }) {
       setAccountSettingsVisible(false);
       setShowProfile(true);
       setCurrentComponent("profile");
+      refetch();
     }
   };
 
