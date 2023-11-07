@@ -114,7 +114,7 @@ function BlurbCom({ blurbId, comments, commentId, commentTest }) {
     }
     setIsLiked(!isLiked); // Toggle the liked state
   };
-
+  console.log(data);
   return (
     <div id="bluMain">
       <div className="blurbContainer comContainer">
@@ -122,7 +122,11 @@ function BlurbCom({ blurbId, comments, commentId, commentTest }) {
           <div className="blInfo">
             <div>
               <div className="userName">
-                {data?.findBlurbById?.blurbAuthor.username}
+              {/* {
+                data?.findBlurbById?.comments?.map((comment) => 
+                  <div key={comment.id}>{comment.commentAuthor?.username ?? 'Unknown author'}</div>
+                  )
+                } */}
               </div>
             </div>
             {comments}
