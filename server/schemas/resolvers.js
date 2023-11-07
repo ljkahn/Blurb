@@ -118,11 +118,11 @@ findBlurbById: async (parent, { blurbId }) => {
     // find my user account
     me: async (parent, args, context) => {
       if (context.user) {
-        return User.findOne({ _id: context.user._id }).populate("blurbs");
+        const currentUser = await User.findOne({ _id: context.user._id }).populate("blurbs");
+        console.log(currentUser);
+        return currentUser;
       }
       throw AuthenticationError;
-
-      
     },
     // ✅
 

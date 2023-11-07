@@ -13,7 +13,8 @@ import { REMOVE_Blurb } from "../utils/mutations/Blurb/BlurbMutations.js";
 import { useNavigate, useParams } from "react-router-dom";
 import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_MY_PROFILE } from "../utils/Queries/userQueries.js";
-import Auth from "../utils/auth.js";
+import { ALL_BLURBS } from "../utils/Queries/queries.js";
+import auth from "../utils/auth.js";
 import BlurbStream from "../components/Blurbs/BlurbCard.jsx";
 import BlurbCom from "../components/Blurbs/BlurbComCard.jsx";
 
@@ -70,6 +71,7 @@ function Profile({ registered }) {
     setShowProfile(false);
     setAccountSettingsVisible(false);
     setCurrentComponent("edit");
+    refetch();
   };
 
   const showAccountSettings = () => {
@@ -77,6 +79,7 @@ function Profile({ registered }) {
     setIsEditVisible(false);
     setAccountSettingsVisible(true);
     setCurrentComponent("accountSettings");
+    refetch();
   };
 
   const handleGoBack = () => {
@@ -85,6 +88,7 @@ function Profile({ registered }) {
       setAccountSettingsVisible(false);
       setShowProfile(true);
       setCurrentComponent("profile");
+      refetch();
     }
   };
 
@@ -159,8 +163,8 @@ function Profile({ registered }) {
               Edit Profile{" "}
             </Button>
             {userData.blurbs &&
-              userData.blurbs.map((blurb) => (
-                <div key={blurb._id}>
+              userData.blurbs.map((blurb, i) => (
+                <div key={i}>
                   <BlurbStream
                     // key={blurb._id}
                     blurbId={blurb._id}
@@ -168,15 +172,18 @@ function Profile({ registered }) {
                     profilePic={userData.profile.profilePic}
                     onDelete={() => handleBlurbDelete(blurb._id)}
                     showEdit={true}
-                    // isLiked={}
+                    // likeList={blurb.likeList}
+                    // loggedInUserId={auth.getProfile().data._id}
+                    liked={blurb.likeList.includes(auth.getProfile().data._id)}
                   >
                     {blurb.blurbText}
                     <div>
                       {blurb.tags}
                     </div>
                   </BlurbStream>
-                  {blurb.comments.map((comment) => (
+                  {blurb.comments.map((comment, i) => (
                     <BlurbCom
+                      key={i}
                       commentId={comment._id}
                       commentTest={comment}
                       blurbId={blurb._id}
