@@ -43,10 +43,13 @@ function AccountEdit({ userData }) {
   };
 
   const handleSaveChanges = () => {
+    const {email, password} = formData;
+    console.log(email, password)
+    // console.log(formData);
     editAccount({
       variables: {
-        email: formData.email,
-        password: formData.password,
+        email: email,
+        password: password,
       },
     })
       .then((result) => {
