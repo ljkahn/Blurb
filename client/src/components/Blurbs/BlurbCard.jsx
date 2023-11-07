@@ -40,7 +40,7 @@ function BlurbStream({
   const { loading, data } = useQuery(QUERY_MY_PROFILE);
   const [blurbIdForEdit, setBlurbIdForEdit] = useState(null);
   // console.log(auth.getProfile());
-
+  // console.log(blurbId);
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -182,7 +182,11 @@ function BlurbStream({
         <div id="notifyIcons">
           <div style={{ display: "flex", flexDirection: "row" }}>
             <IconButton onClick={handleLike} className="likeComment">
-              {isLiked ? <FavoriteIcon style={{color: "red"}} /> : <FavoriteBorderIcon />}
+              {isLiked ? (
+                <FavoriteIcon style={{ color: "red" }} />
+              ) : (
+                <FavoriteBorderIcon />
+              )}
             </IconButton>
             <IconButton onClick={openModal} className="likeComment">
               <ChatBubbleOutlineIcon />
