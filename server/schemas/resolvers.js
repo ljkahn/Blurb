@@ -97,20 +97,20 @@ findBlurbById: async (parent, { blurbId }) => {
 
     //get all users with blurbs greater than zero
     randomBlurb: async () => {
-      const loginRandomBlurbs = await User.find({
-        $where: "this.blurbs.length > 0",
-      }).populate({
-        path: "blurbs",
-        populate: {
-          path: "blurbAuthor",
-        },
-      });
-      const blurbs = [];
-      for (const user of loginRandomBlurbs) {
-        blurbs.push(...user.blurbs);
-      }
+      // const loginRandomBlurbs = await User.find({
+      //   $where: "this.blurbs.length > 0",
+      // }).populate({
+      //   path: "blurbs",
+      //   populate: {
+      //     path: "blurbAuthor",
+      //   },
+      // });
+      // const blurbs = [];
+      // for (const user of loginRandomBlurbs) {
+      //   blurbs.push(...user.blurbs);
+      // }
+      const blurbs = await Blurbs.find().populate("blurbAuthor")
       const randomIndex = Math.floor(Math.random() * blurbs.length);
-      // const blurbTest = await Blurbs.find()
       console.log(blurbs[randomIndex])
       return blurbs[randomIndex];
     },

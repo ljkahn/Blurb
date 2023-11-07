@@ -43,19 +43,20 @@ function Home() {
         />
       ) : (
         blurbs.map((blurb, i) => (
-          <div key={blurb._id}>
+          <div key={i}>
             <BlurbCard
-              key={i}
+              // key={i}
               blurbId={blurb._id}
               username={blurb.blurbAuthor.username}
               profilePic={blurb.blurbAuthor.profile.profilePic}
             >
               {blurb.blurbText}
             </BlurbCard>
-            {blurb.comments.map((comment) => (
+            {blurb.comments.map((comment, i) => (
               <BlurbCom
-                key={comment._id} // This should be uncommented if comment._id is available
+                key={i} // This should be uncommented if comment._id is available
                 blurbId={blurb._id}
+                commentId={comment._id}
                 // username={comment.commentAuthor.username}
                 comments={comment.commentText}
               />
