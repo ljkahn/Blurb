@@ -19,8 +19,10 @@ export const QUERY_MY_PROFILE = gql`
         createdAt
         tags
         likes
+        likeList
         comments {
           likes
+          likeList
           _id
           commentText
           commentAuthor {

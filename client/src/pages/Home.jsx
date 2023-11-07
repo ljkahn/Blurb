@@ -7,6 +7,7 @@ import BlurbCom from "../components/Blurbs/BlurbComCard.jsx";
 // import { TypeAnimation } from "react-type-animation";
 import { useQuery } from "@apollo/client";
 import { ALL_BLURBS } from "../utils/Queries/queries.js";
+import auth from "../utils/auth.js";
 
 function Home() {
   const [blurbs, setBlurbs] = useState([]);
@@ -50,6 +51,7 @@ function Home() {
               blurbId={blurb._id}
               username={blurb.blurbAuthor.username}
               profilePic={blurb.blurbAuthor.profile.profilePic}
+              liked={blurb.likeList.includes(auth.getProfile().data._id)}
             >
               {blurb.blurbText}
             </BlurbCard>

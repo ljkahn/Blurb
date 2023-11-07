@@ -119,6 +119,7 @@ function AccountEdit({ userData }) {
           id="standard-basic"
           label="Update Password"
           variant="standard"
+          type="password"
           value={formData.password}
           onChange={(e) =>
             setFormData({ ...formData, password: e.target.value })

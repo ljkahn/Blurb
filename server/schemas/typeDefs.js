@@ -49,6 +49,7 @@ const typeDefs = `
       blurbAuthor: User
       createdAt: String
       comments: [Comment]
+      likeList: [ID]
       likes: Int
       tags: [Tag]
     }
@@ -59,6 +60,7 @@ const typeDefs = `
       commentAuthor: User
       createdAt: String
       likes: Int
+      likeList: [ID]
       updatedAt: String
     }
     

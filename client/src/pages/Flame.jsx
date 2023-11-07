@@ -13,9 +13,9 @@ function Flame() {
   useEffect(() => {
     if (!loading) {
       const allBlurbs = [...data.blurbs];
-
+      console.log(allBlurbs);
       // Filter Blurbs with more than 10 likes
-      const popularBlurbs = allBlurbs.filter((blurb) => blurb.likes > 10);
+      const popularBlurbs = allBlurbs.filter((blurb) => blurb.likes >= 1);
 
       // Sort filtered Blurbs in descending order by the number of likes
       popularBlurbs.sort((a, b) => b.likes - a.likes);
@@ -24,6 +24,7 @@ function Flame() {
       setLoading(false);
     }
   }, [loading]);
+
   return (
     <div>
       {isLoading ? (
