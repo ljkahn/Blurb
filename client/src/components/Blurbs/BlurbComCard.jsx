@@ -90,11 +90,8 @@ function BlurbCom({ blurbId, comments, commentId, commentTest }) {
 
   useEffect(() => {
     if (!loading && data && data.findBlurbById) {
-
-      // console.log("Data:", data); 
+      // console.log("Data:", data);
       const blurb = data.findBlurbById;
-      
-
     }
   }, [data, loading]);
 
@@ -122,7 +119,7 @@ function BlurbCom({ blurbId, comments, commentId, commentTest }) {
           <div className="blInfo">
             <div>
               <div className="userName">
-                {data?.findBlurbById?.blurbAuthor.username}
+                {data?.findBlurbById?.commentAuthor.username}
               </div>
             </div>
             {comments}
