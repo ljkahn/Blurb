@@ -35,7 +35,7 @@ To use our app, open our web app and youll be directed to the initial webpage! H
 
 ![Alt text](./assets/images/profile.png)
 
-![Alt text](./assets/images/editProfile)
+![Alt text](./assets/images/editProfile.png)
 
 ![Alt text](./assets/images/homePage.png)
 
@@ -53,36 +53,36 @@ To use our app, open our web app and youll be directed to the initial webpage! H
 
 ## Features
 
-![Alt text](./assets/images/blurb.jpg)Login/Create Account. Upon loading the web application, you will see a polished homepage with a randomly generated Blurb, and a user friendly interface. From the home page you will be prompted to create an account, or login.
+-- Login/Create Account. Upon loading the web application, you will see a polished homepage with a randomly generated Blurb, and a user friendly interface. From the home page you will be prompted to create an account, or login.
 
-![Alt text](./assets/images/blurb.jpg)User Authentication
+-- User Authentication
 To create an account, click "Create" on the middle sign.
 
 Enter your full name, email address, desired password, and username into the modal. You can also choose to add a profile picture as well.
 Click the "Create Account" button to complete the account creation process and be automatically logged into your account.
 
-![Alt text](./assets/images/blurb.jpg)Search Bar
+-- Search Bar
 Search for other users on Blurb by using the search bar at the top of the screen.
 
-![Alt text](./assets/images/blurb.jpg)Home Page
+-- Home Page
 When signed in, along the bottom of the page will be the home button, "fire"/trending Blurbs button, a create a Blurb button in the center, a notifications page (under construction), and your profile button.
 
-![Alt text](./assets/images/blurb.jpg)"Fire"/Trending Blurbs
+-- "Fire"/Trending Blurbs
 When you click on the fire button, Blurbs with ten or more likes will appear. You can comment and like the Blurbs and their respective comments.
 
-![Alt text](./assets/images/blurb.jpg)Create a Blurb
+-- Create a Blurb
 To create a Blurb, click on the center button on the bottom of the screen with the word bubble on it. You will be prompted to create a Blurb and you can tag it from a list of popular trending topics.
 
-![Alt text](./assets/images/blurb.jpg)Notifications
+-- Notifications
 This page is under construction and will be up soon!
 
-![Alt text](./assets/images/blurb.jpg)Your Profile
+-- Your Profile
 Click on the profile icon to see your profile and see your Blurbs and the comments on them.
 
-![Alt text](./assets/images/blurb.jpg)Edit Profile
+-- Edit Profile
 You can click the edit profile button and be able to change your profile picture, name, username, location, and add a bio. You can also click on profile settings and be able to update your email and password or delete your account.
 
-![Alt text](./assets/images/blurb.jpg)Logout
+-- Logout
 Once youre done hit the log out button on the top right corner.
 
 ## Contributing
