@@ -85,6 +85,7 @@ function Profile({ registered }) {
       setAccountSettingsVisible(false);
       setShowProfile(true);
       setCurrentComponent("profile");
+      refetch();
     }
   };
 
