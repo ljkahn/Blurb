@@ -126,7 +126,7 @@ function BlurbStream({
   const [isLiked, setIsLiked] = useState(liked ? liked : false);
   // const { loading, data } = useQuery(QUERY_MY_PROFILE);
   const [blurbIdForEdit, setBlurbIdForEdit] = useState(null);
-  console.log(liked);
+  // console.log(liked);
   
   // useEffect(() => {
   //   if (!loading) {
