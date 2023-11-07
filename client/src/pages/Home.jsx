@@ -29,6 +29,10 @@ function Home() {
     }
   }, [data]);
 
+  useEffect(() => {
+    console.log(data); // Log the data to see its structure
+  }, [data]);
+
   return (
     <div>
       {isLoading ? (
@@ -43,8 +47,8 @@ function Home() {
           visible={true}
         />
       ) : (
-        blurbs.map((blurb, i) => (
-          <div key={i}>
+        blurbs.map((blurb) => (
+          <div key={blurb._id}>
             <BlurbCard
               propRefetch={refetch}
               // key={i}
@@ -55,12 +59,12 @@ function Home() {
             >
               {blurb.blurbText}
             </BlurbCard>
-            {blurb.comments.map((comment, i) => (
+            {blurb.comments.map((comment) => (
               <BlurbCom
-                key={i} // This should be uncommented if comment._id is available
+                key={comment._id} // This should be uncommented if comment._id is available
                 blurbId={blurb._id}
                 commentId={comment._id}
-                // username={comment.commentAuthor.username}
+                username={comment.commentAuthor.username}
                 comments={comment.commentText}
               />
             ))}
