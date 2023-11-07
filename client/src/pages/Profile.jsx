@@ -266,7 +266,7 @@ function Profile({ registered }) {
                         commentId={comment._id}
                         commentTest={comment}
                         blurbId={blurb._id}
-                        username={comment.commentAuthor.username}
+                        username={comment?.commentAuthor?.username}
                         comments={comment.commentText}
                       />
                     ))}
