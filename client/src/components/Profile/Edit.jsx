@@ -49,7 +49,7 @@ function Edit({ userData, showAccountSettings }) {
     }
   }, [userData]);
 
-  const [editUser, { loading, error }] = useMutation(EDIT_USER);
+  const [editUser, refetch, loading] = useMutation(EDIT_USER);
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState('success');
@@ -85,7 +85,7 @@ function Edit({ userData, showAccountSettings }) {
     .then((result) => {
       // console.log('User updated:', result.data.editUser);
       showSnackbar('Profile updated successfully', 'success');
-      
+    
     })
     .catch((e) => {
       console.error("Error updating user:", e);
