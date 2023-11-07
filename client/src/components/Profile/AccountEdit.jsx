@@ -43,6 +43,7 @@ function AccountEdit({ userData }) {
   };
 
   const handleSaveChanges = () => {
+    console.log(formData);
     editAccount({
       variables: {
         email: formData.email,
