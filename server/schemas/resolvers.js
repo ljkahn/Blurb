@@ -471,7 +471,7 @@ findBlurbById: async (parent, { blurbId }) => {
     },
     // ✅
 
-    editAccount: async (_, { profile}, context) => {
+    editAccount: async (_, { email, password}, context) => {
       if (!context.user) {
         throw new Error("Not logged in");
       }
@@ -484,12 +484,12 @@ findBlurbById: async (parent, { blurbId }) => {
       // Update user fields here
 
       if (user.profile.password) {
-        user.profile.password = profile.password;
+        user.profile.password = password;
         user.profile.isPasswordChanged = true;
       }
 
       // Update other profile fields
-      if (profile.email) user.profile.email = profile.email;
+      if (email) user.profile.email = email;
       // Repeat for other fields...
       
       console.log(user);

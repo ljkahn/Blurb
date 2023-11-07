@@ -32,6 +32,7 @@ function BlurbStream({
   initialBlurbText,
   showEdit,
   profilePic,
+  propRefetch
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [commentText, setCommentText] = useState("");
@@ -96,6 +97,7 @@ function BlurbStream({
         variables: { blurbId, commentText: commentText },
       });
       setCommentText("");
+      propRefetch && propRefetch()
       closeModal();
     } catch (error) {
       console.error("Error adding comment:", error);
