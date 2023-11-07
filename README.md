@@ -86,7 +86,7 @@ Click on the profile icon to see your profile and see your Blurbs and the commen
 You can click the edit profile button and be able to change your profile picture, name, username, location, and add a bio. You can also click on profile settings and be able to update your email and password or delete your account.
 
 ##### Logout
-Once youre done hit the log out button on the top right corner.
+Once you're done hit the log out button on the top right corner.
 
 ## Contributing
 
