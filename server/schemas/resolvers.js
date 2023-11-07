@@ -163,9 +163,7 @@ findBlurbById: async (parent, { blurbId }) => {
         if (!user) {
           throw new Error("User not found");
         }
-
-        console.log("----------");
-        console.log(user.followers);
+        
         // Return the list of users who follow me
         return user.followers;
       } catch (error) {
