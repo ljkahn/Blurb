@@ -78,3 +78,13 @@ You can click the edit profile button and be able to change your profile picture
 
 --Logout
 Once youre done hit the log out button on the top right corner.
+
+## Contributing
+
+If you would like to contribute please contact the creators on linked in.
+
+[Jordan Adams](https://www.linkedin.com/in/jordan-adams-a14602288/)
+[Lllian Edwards](https://www.linkedin.com/in/lillian-edwards63/)
+[Mitch Morgan](https://www.linkedin.com/in/mitchell-morgan-0952b1138/)
+[Lia Kahn](https://www.linkedin.com/in/lia-kahn/)
+[Pete Richards](www.linkedin.com/in/peterrichards57)
