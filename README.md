@@ -46,12 +46,15 @@ To add a screenshot, create an `assets/images` folder in your repository and upl
 ## Features
 
 -- Login/Create Account
-Upon loading the web application, you will see a polished homepage with a user friendly interface. From the home page you will be prompted to create an account, or login.
+Upon loading the web application, you will see a polished homepage with a randomly generated Blurb, and a user friendly interface. From the home page you will be prompted to create an account, or login.
 
 --User Authentication
 To create an account, click "Create" on the middle sign.
 Enter your full name, email address, desired password, and username into the modal. You can also choose to add a profile picture as well.
 Click the "Create Account" button to complete the account creation process and be automatically logged into your account.
+
+--Search Bar
+Search for other users on Blurb by using the search bar at the top of the screen.
 
 --Home Page
 When signed in, along the bottom of the page will be the home button, "fire"/trending Blurbs button, a create a Blurb button in the center, a notifications page (under construction), and your profile button.
@@ -59,11 +62,20 @@ When signed in, along the bottom of the page will be the home button, "fire"/tre
 --"Fire"/Trending Blurbs
 When you click on the fire button, Blurbs with ten or more likes will appear. You can comment and like the Blurbs and their respective comments.
 
+--Create a Blurb
+To create a Blurb, click on the center button on the bottom of the screen with the word bubble on it. You will be prompted to create a Blurb and you can tag it from a list of popular trending topics.
+
 --Notifications
 This page is under construction and will be up soon!
 
 --Your Profile
 Click on the profile icon to see your profile and see your Blurbs and the comments on them.
+
+--Edit Profile
+You can click the edit profile button and be able to change your profile picture, name, username, location, and add a bio. You can also click on profile settings and be able to update your email and password or delete your account.
+
+--Logout
+Once youre done hit the log out button on the top right corner.
 
 -
 
