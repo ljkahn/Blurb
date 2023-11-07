@@ -41,16 +41,30 @@ To add a screenshot, create an `assets/images` folder in your repository and upl
 
 ## License
 
-The last section of a high-quality README file is the license. This lets other developers know what they can and cannot do with your project. If you need help choosing a license, refer to [https://choosealicense.com/](https://choosealicense.com/).
-
----
-
-🏆 The previous sections are the bare minimum, and your project will ultimately determine the content of this document. You might also want to consider adding the following sections.
+[MIT](https://opensource.org/license/mit/)
 
 ## Features
+
+-- Login/Create Account
+Upon loading the web application, you will see a polished homepage with a user friendly interface. From the home page you will be prompted to create an account, or login.
+
+--User Authentication
+To create an account, click "Create" on the middle sign.
+Enter your full name, email address, desired password, and username into the modal. You can also choose to add a profile picture as well.
+Click the "Create Account" button to complete the account creation process and be automatically logged into your account.
+
+--Home Page
+When signed in, along the bottom of the page will be the home button, "fire"/trending Blurbs button, a create a Blurb button in the center, a notifications page (under construction), and your profile button.
+
+--"Fire"/Trending Blurbs
+When you click on the fire button, Blurbs with ten or more likes will appear. You can comment and like the Blurbs and their respective comments.
+
+--Notifications
+This page is under construction and will be up soon!
+
+--Your Profile
+Click on the profile icon to see your profile and see your Blurbs and the comments on them.
 
 -
 
 ## How to Contribute
-
-If you created an application or package and would like other developers to contribute it, you can include guidelines for how to do so. The [Contributor Covenant](https://www.contributor-covenant.org/) is an industry standard, but you can always write your own if you'd prefer.
