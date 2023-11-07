@@ -25,13 +25,19 @@ What are the steps required to install your project? Provide a step-by-step desc
 
 To use our app, open our web app and youll be directed to the initial webpage! Here are screen shots showing how Blurb functions and looks.
 
-[Login](./assets/images/login.png)
-[Create Account](./assets/images/createAccount.png)
-[Create Blurb](./assets/images/createBlurb.png)
-[Liked Comment](./assets/images/likedComment.png)
-[Profile](./assets/images/profile.png)
-[Edit Profile](./assets/images/editProfile)
-[Home Page](./assets/images/homePage.png)
+![Alt text](./assets/images/login.png)
+
+![Alt text](./assets/images/createAccount.png)
+
+![Alt text](./assets/images/createBlurb.png)
+
+![Alt text](./assets/images/likedComment.png)
+
+![Alt text](./assets/images/profile.png)
+
+![Alt text](./assets/images/editProfile.png)
+
+![Alt text](./assets/images/homePage.png)
 
 ## Credits
 
@@ -47,44 +53,60 @@ To use our app, open our web app and youll be directed to the initial webpage! H
 
 ## Features
 
--- Login/Create Account
-Upon loading the web application, you will see a polished homepage with a randomly generated Blurb, and a user friendly interface. From the home page you will be prompted to create an account, or login.
+-- Login/Create Account. Upon loading the web application, you will see a polished homepage with a randomly generated Blurb, and a user friendly interface. From the home page you will be prompted to create an account, or login.
 
---User Authentication
+-- User Authentication
 To create an account, click "Create" on the middle sign.
+
 Enter your full name, email address, desired password, and username into the modal. You can also choose to add a profile picture as well.
 Click the "Create Account" button to complete the account creation process and be automatically logged into your account.
 
---Search Bar
+-- Search Bar
 Search for other users on Blurb by using the search bar at the top of the screen.
 
---Home Page
+-- Home Page
 When signed in, along the bottom of the page will be the home button, "fire"/trending Blurbs button, a create a Blurb button in the center, a notifications page (under construction), and your profile button.
 
---"Fire"/Trending Blurbs
+-- "Fire"/Trending Blurbs
 When you click on the fire button, Blurbs with ten or more likes will appear. You can comment and like the Blurbs and their respective comments.
 
---Create a Blurb
+-- Create a Blurb
 To create a Blurb, click on the center button on the bottom of the screen with the word bubble on it. You will be prompted to create a Blurb and you can tag it from a list of popular trending topics.
 
---Notifications
+-- Notifications
 This page is under construction and will be up soon!
 
---Your Profile
+-- Your Profile
 Click on the profile icon to see your profile and see your Blurbs and the comments on them.
 
---Edit Profile
+-- Edit Profile
 You can click the edit profile button and be able to change your profile picture, name, username, location, and add a bio. You can also click on profile settings and be able to update your email and password or delete your account.
 
---Logout
+-- Logout
 Once youre done hit the log out button on the top right corner.
 
 ## Contributing
 
 If you would like to contribute please contact the creators on linked in.
 
+![Alt text](./assets/images/squad.png)
+
 [Jordan Adams](https://www.linkedin.com/in/jordan-adams-a14602288/)
+
 [Lllian Edwards](https://www.linkedin.com/in/lillian-edwards63/)
+
 [Mitch Morgan](https://www.linkedin.com/in/mitchell-morgan-0952b1138/)
+
 [Lia Kahn](https://www.linkedin.com/in/lia-kahn/)
+
 [Pete Richards](www.linkedin.com/in/peterrichards57)
+
+## Organization/Process
+
+Here we've linked our slides, our Figma brainstorm, and our Figma mobile wireframe.
+
+[Slides](https://www.canva.com/design/DAFzEXjIc1I/-ct3nu6yj8wsMWfL3v8LXA/view)
+
+[Figma Brainstorm](https://www.figma.com/file/veDYK1ciMVqf9YKiKsBoIs/Project-3-Brainstorm?type=whiteboard&t=1m8m0yWbdUm6kpTv-0)
+
+[Figma Mobile Wireframe](https://www.figma.com/file/wGAL8buhdWjddEeLUsIDVR/BlurbMobileWire?type=design&node-id=0-1&mode=design&t=57Hyi1eE0JFzB7rb-0)

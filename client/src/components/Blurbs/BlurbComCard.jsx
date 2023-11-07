@@ -69,8 +69,7 @@ import {
 
 // export default BlurbCom;
 
-function BlurbCom({ blurbId, comments, commentId, commentTest }) {
-  // console.log(commentTest);
+function BlurbCom({ blurbId, comments, commentId, username }) {
   const [isLiked, setIsLiked] = useState(false);
 
   const { loading, data, error } = useQuery(FIND_BLURB_BY_ID, {
@@ -90,11 +89,8 @@ function BlurbCom({ blurbId, comments, commentId, commentTest }) {
 
   useEffect(() => {
     if (!loading && data && data.findBlurbById) {
-
-      // console.log("Data:", data); 
+      // console.log("Data:", data);
       const blurb = data.findBlurbById;
-      
-
     }
   }, [data, loading]);
 
@@ -115,15 +111,17 @@ function BlurbCom({ blurbId, comments, commentId, commentTest }) {
     setIsLiked(!isLiked); // Toggle the liked state
   };
 
+  useEffect(() => {
+    console.log(data); // Log the data to see its structure
+  }, [data]);
+
   return (
     <div id="bluMain">
       <div className="blurbContainer comContainer">
         <div id="blurbColOne">
           <div className="blInfo">
             <div>
-              <div className="userName">
-                {data?.findBlurbById?.blurbAuthor.username}
-              </div>
+              <div className="userName">{username}</div>
             </div>
             {comments}
           </div>
