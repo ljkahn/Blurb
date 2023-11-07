@@ -17,8 +17,91 @@ import { ALL_BLURBS } from "../utils/Queries/queries.js";
 import auth from "../utils/auth.js";
 import BlurbStream from "../components/Blurbs/BlurbCard.jsx";
 import BlurbCom from "../components/Blurbs/BlurbComCard.jsx";
+import { createTheme, ThemeProvider, useTheme } from "@mui/material/styles";
+import { outlinedInputClasses } from "@mui/material/OutlinedInput";
+
+const customTheme = (outerTheme) =>
+  createTheme({
+    palette: {
+      mode: outerTheme.palette.mode,
+    },
+    components: {
+      MuiTextField: {
+        styleOverrides: {
+          root: {
+            "--TextField-brandBorderColor": "#E0E3E7",
+            "--TextField-brandBorderHoverColor": "#B2BAC2",
+            "--TextField-brandBorderFocusedColor": "#f7e258",
+            "& label.Mui-focused": {
+              color: "var(--TextField-brandBorderFocusedColor)",
+            },
+            "& .MuiInputBase-input": {
+              color: "#F3F3F3",
+            },
+          },
+        },
+      },
+      MuiOutlinedInput: {
+        styleOverrides: {
+          notchedOutline: {
+            borderColor: "var(--TextField-brandBorderColor)",
+          },
+          root: {
+            [`&:hover .${outlinedInputClasses.notchedOutline}`]: {
+              borderColor: "var(--TextField-brandBorderHoverColor)",
+            },
+            [`&.Mui-focused .${outlinedInputClasses.notchedOutline}`]: {
+              borderColor: "var(--TextField-brandBorderFocusedColor)",
+            },
+            "& .MuiInputBase-input": {
+              color: "#F3F3F3",
+            },
+          },
+        },
+      },
+      MuiFilledInput: {
+        styleOverrides: {
+          root: {
+            "&:before, &:after": {
+              borderBottom: "2px solid var(--TextField-brandBorderColor)",
+            },
+            "&:hover:not(.Mui-disabled, .Mui-error):before": {
+              borderBottom: "2px solid var(--TextField-brandBorderHoverColor)",
+            },
+            "&.Mui-focused:after": {
+              borderBottom:
+                "2px solid var(--TextField-brandBorderFocusedColor)",
+            },
+            "& .MuiInputBase-input": {
+              color: "#F3F3F3",
+            },
+          },
+        },
+      },
+      MuiInput: {
+        styleOverrides: {
+          root: {
+            "&:before": {
+              borderBottom: "2px solid var(--TextField-brandBorderColor)",
+            },
+            "&:hover:not(.Mui-disabled, .Mui-error):before": {
+              borderBottom: "2px solid var(--TextField-brandBorderHoverColor)",
+            },
+            "&.Mui-focused:after": {
+              borderBottom:
+                "2px solid var(--TextField-brandBorderFocusedColor)",
+            },
+            "& .MuiInputBase-input": {
+              color: "#F3F3F3",
+            },
+          },
+        },
+      },
+    },
+  });
 
 function Profile({ registered }) {
+  const outerTheme = useTheme();
   const [isEditVisible, setIsEditVisible] = useState(false);
   const [showProfile, setShowProfile] = useState(true);
   const [accountSettingsVisible, setAccountSettingsVisible] = useState(false);
@@ -135,70 +218,70 @@ function Profile({ registered }) {
 
   return (
     <div>
-      <IconButton onClick={handleGoBack}>
-        <ArrowBackIosIcon />
-      </IconButton>
-      {userData &&
-        (showProfile ? (
-          <Container id="profile">
-            <Photo profileImg={userData.profile.profilePic} />
-            <h1>{userData.profile.fullName}</h1>
-            <h2>{userData.username}</h2>
-            <p id="info">{userData.profile.bio}</p>
-            <p id="info">📍{userData.profile.location}</p>
-            <Grid>
-              <Button id="btn" style={buttonStyle} variant="contained">
-                {userData.followerNumber} Followers
+      <ThemeProvider theme={customTheme(outerTheme)}>
+        <IconButton onClick={handleGoBack}>
+          <ArrowBackIosIcon />
+        </IconButton>
+        {userData &&
+          (showProfile ? (
+            <Container id="profile">
+              <Photo profileImg={userData.profile.profilePic} />
+              <h1>{userData.profile.fullName}</h1>
+              <h2>{userData.username}</h2>
+              <p id="info">{userData.profile.bio}</p>
+              <p id="info">📍{userData.profile.location}</p>
+              <Grid>
+                <Button id="btn" style={buttonStyle} variant="contained">
+                  {userData.followerNumber} Followers
+                </Button>
+                <Button id="btn" style={buttonStyle} variant="contained">
+                  {userData.followingNumber} Following
+                </Button>
+              </Grid>
+              <Button
+                id="btn"
+                style={editStyle}
+                variant="contained"
+                onClick={handleEditClick}
+              >
+                Edit Profile{" "}
               </Button>
-              <Button id="btn" style={buttonStyle} variant="contained">
-                {userData.followingNumber} Following
-              </Button>
-            </Grid>
-            <Button
-              id="btn"
-              style={editStyle}
-              variant="contained"
-              onClick={handleEditClick}
-            >
-              Edit Profile{" "}
-            </Button>
-            {userData.blurbs &&
-              userData.blurbs.map((blurb, i) => (
-                <div key={i}>
-                  <BlurbStream
-                    // key={blurb._id}
-                    blurbId={blurb._id}
-                    username={blurb.username}
-                    profilePic={userData.profile.profilePic}
-                    onDelete={() => handleBlurbDelete(blurb._id)}
-                    showEdit={true}
-                    // likeList={blurb.likeList}
-                    // loggedInUserId={auth.getProfile().data._id}
-                    liked={blurb.likeList.includes(auth.getProfile().data._id)}
-                  >
-                    {blurb.blurbText}
-                    <div>
-                      {blurb.tags}
-                    </div>
-                  </BlurbStream>
-                  {blurb.comments.map((comment, i) => (
-                    <BlurbCom
-                      key={i}
-                      commentId={comment._id}
-                      commentTest={comment}
+              {userData.blurbs &&
+                userData.blurbs.map((blurb) => (
+                  <div key={blurb._id}>
+                    <BlurbStream
+                      // key={blurb._id}
                       blurbId={blurb._id}
-                      // username={comment.commentAuthor.username}
-                      comments={comment.commentText}
-                    />
-                  ))}
-                </div>
-              ))}
-          </Container>
-        ) : isEditVisible ? (
-          <Edit userData={userData} showAccountSettings={showAccountSettings} />
-        ) : (
-          accountSettingsVisible && <AccountEdit userData={userData} />
-        ))}
+                      username={blurb.username}
+                      profilePic={userData.profile.profilePic}
+                      onDelete={() => handleBlurbDelete(blurb._id)}
+                      showEdit={true}
+                      // isLiked={}
+                    >
+                      {blurb.blurbText}
+                      <div>{blurb.tags}</div>
+                    </BlurbStream>
+                    {blurb.comments.map((comment) => (
+                      <BlurbCom
+                        commentId={comment._id}
+                        commentTest={comment}
+                        blurbId={blurb._id}
+                        // username={comment.commentAuthor.username}
+                        comments={comment.commentText}
+                      />
+                    ))}
+                  </div>
+                ))}
+            </Container>
+          ) : isEditVisible ? (
+            <Edit
+              userData={userData}
+              showAccountSettings={showAccountSettings}
+            />
+          ) : (
+            accountSettingsVisible && <AccountEdit userData={userData} />
+          ))}
+      </ThemeProvider>
     </div>
   );
 }

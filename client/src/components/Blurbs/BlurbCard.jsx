@@ -23,6 +23,91 @@ import {
   REMOVE_Blurb,
 } from "../../utils/mutations/Blurb/BlurbMutations";
 import { QUERY_MY_PROFILE } from "../../utils/Queries/userQueries";
+import { createTheme, ThemeProvider, useTheme } from "@mui/material/styles";
+import { outlinedInputClasses } from "@mui/material/OutlinedInput";
+
+
+
+
+const customTheme = (outerTheme) =>
+  createTheme({
+    palette: {
+      mode: outerTheme.palette.mode,
+    },
+    components: {
+      MuiTextField: {
+        styleOverrides: {
+          root: {
+            "--TextField-brandBorderColor": "#E0E3E7",
+            "--TextField-brandBorderHoverColor": "#B2BAC2",
+            "--TextField-brandBorderFocusedColor": "#f7e258",
+            "& label.Mui-focused": {
+              color: "var(--TextField-brandBorderFocusedColor)",
+            },
+            "& .MuiInputBase-input": {
+              color: "#F3F3F3",
+            },
+          },
+        },
+      },
+      MuiOutlinedInput: {
+        styleOverrides: {
+          notchedOutline: {
+            borderColor: "var(--TextField-brandBorderColor)",
+          },
+          root: {
+            [`&:hover .${outlinedInputClasses.notchedOutline}`]: {
+              borderColor: "var(--TextField-brandBorderHoverColor)",
+            },
+            [`&.Mui-focused .${outlinedInputClasses.notchedOutline}`]: {
+              borderColor: "var(--TextField-brandBorderFocusedColor)",
+            },
+            "& .MuiInputBase-input": {
+              color: "#F3F3F3",
+            },
+          },
+        },
+      },
+      MuiFilledInput: {
+        styleOverrides: {
+          root: {
+            "&:before, &:after": {
+              borderBottom: "2px solid var(--TextField-brandBorderColor)",
+            },
+            "&:hover:not(.Mui-disabled, .Mui-error):before": {
+              borderBottom: "2px solid var(--TextField-brandBorderHoverColor)",
+            },
+            "&.Mui-focused:after": {
+              borderBottom:
+                "2px solid var(--TextField-brandBorderFocusedColor)",
+            },
+            "& .MuiInputBase-input": {
+              color: "#F3F3F3",
+            },
+          },
+        },
+      },
+      MuiInput: {
+        styleOverrides: {
+          root: {
+            "&:before": {
+              borderBottom: "2px solid var(--TextField-brandBorderColor)",
+            },
+            "&:hover:not(.Mui-disabled, .Mui-error):before": {
+              borderBottom: "2px solid var(--TextField-brandBorderHoverColor)",
+            },
+            "&.Mui-focused:after": {
+              borderBottom:
+                "2px solid var(--TextField-brandBorderFocusedColor)",
+            },
+            "& .MuiInputBase-input": {
+              color: "#F3F3F3",
+            },
+          },
+        },
+      },
+    },
+  });
 
 function BlurbStream({
   children,
@@ -60,7 +145,7 @@ function BlurbStream({
   const closeModal = () => {
     setIsModalOpen(false);
   };
-
+  const outerTheme = useTheme();
   const [likeBlurb] = useMutation(LIKE_Blurb);
   const [unlikeBlurb] = useMutation(UNLIKE_Blurb);
 
@@ -176,106 +261,108 @@ function BlurbStream({
 
   return (
     <div id="bluMain">
-      <div className="blurbContainer">
-        <div id="blurbColOne">
-          <Avatar
-            id="notifyPP"
-            className="Blfriend"
-            alt={username}
-            src={staticImg}
-            sx={{ width: 40, height: 40 }}
-          />
-          <div className="blInfo">
-            <div>
-              <div className="userName">{username}</div>
+      <ThemeProvider theme={customTheme(outerTheme)}>
+        <div className="blurbContainer">
+          <div id="blurbColOne">
+            <Avatar
+              id="notifyPP"
+              className="Blfriend"
+              alt={username}
+              src={staticImg}
+              sx={{ width: 40, height: 40 }}
+            />
+            <div className="blInfo">
+              <div>
+                <div className="userName">{username}</div>
+              </div>
+              <div>{children}</div>
             </div>
-            <div>{children}</div>
           </div>
-        </div>
-        <div id="notifyIcons">
-          <div style={{ display: "flex", flexDirection: "row" }}>
-            <IconButton onClick={handleLike} className="likeComment">
-              {isLiked ? (
-                <FavoriteIcon style={{ color: "red" }} />
-              ) : (
-                <FavoriteBorderIcon />
-              )}
-            </IconButton>
-            <IconButton onClick={openModal} className="likeComment">
-              <ChatBubbleOutlineIcon />
-            </IconButton>
-          </div>
-          <div>
-            {showEdit && (
-              <IconButton
-                onClick={() => openEditBlurbModal(initialBlurbText)}
-                className="editBlurb"
-              >
-                <EditIcon />
+          <div id="notifyIcons">
+            <div style={{ display: "flex", flexDirection: "row" }}>
+              <IconButton onClick={handleLike} className="likeComment">
+                {isLiked ? (
+                  <FavoriteIcon style={{ color: "red" }} />
+                ) : (
+                  <FavoriteBorderIcon />
+                )}
               </IconButton>
-            )}
+              <IconButton onClick={openModal} className="likeComment">
+                <ChatBubbleOutlineIcon />
+              </IconButton>
+            </div>
+            <div>
+              {showEdit && (
+                <IconButton
+                  onClick={() => openEditBlurbModal(initialBlurbText)}
+                  className="editBlurb"
+                >
+                  <EditIcon />
+                </IconButton>
+              )}
+            </div>
           </div>
         </div>
-      </div>
-      <Modal
-        style={{ zIndex: 0 }}
-        id="blurbModal"
-        open={isModalOpen}
-        onClose={closeModal}
-      >
-        <form id="blForm">
-          <TextField
-            id="outlined-basic"
-            label="Comment"
-            variant="outlined"
-            value={commentText}
-            onChange={(e) => setCommentText(e.target.value)}
-          />
-          <Button
-            className="modalButton"
-            style={{ margin: ".5rem" }}
-            variant="contained"
-            disableElevation
-            onClick={handleComment}
-          >
-            Comment
-          </Button>
-          <Button className="modalButton" onClick={closeModal}>
-            Cancel
-          </Button>
-        </form>
-      </Modal>{" "}
-      <Modal
-        style={{ zIndex: 0 }}
-        id="editBlurbModal"
-        open={isEditBlurbModalOpen}
-        onClose={closeEditBlurbModal}
-      >
-        <form id="blForm">
-          <TextField
-            id="outlined-basic"
-            label="Edit Blurb"
-            variant="outlined"
-            value={editBlurbText || ""}
-            onChange={(e) => setEditBlurbText(e.target.value)}
-          />
-          <Button
-            className="modalButton"
-            style={{ margin: ".5rem" }}
-            variant="contained"
-            disableElevation
-            onClick={handleEditBlurb}
-          >
-            Save Changes
-          </Button>
-          <Button
-            onClick={handleRemove}
-            className="removeComment, deleteButton"
-          >
-            Delete Blurb
-          </Button>
-        </form>
-      </Modal>
+        <Modal
+          style={{ zIndex: 0 }}
+          id="blurbModal"
+          open={isModalOpen}
+          onClose={closeModal}
+        >
+          <form id="blForm">
+            <TextField
+              id="outlined-basic"
+              label="Comment"
+              variant="outlined"
+              value={commentText}
+              onChange={(e) => setCommentText(e.target.value)}
+            />
+            <Button
+              className="modalButton"
+              style={{ margin: ".5rem" }}
+              variant="contained"
+              disableElevation
+              onClick={handleComment}
+            >
+              Comment
+            </Button>
+            <Button className="modalButton" onClick={closeModal}>
+              Cancel
+            </Button>
+          </form>
+        </Modal>{" "}
+        <Modal
+          style={{ zIndex: 0 }}
+          id="editBlurbModal"
+          open={isEditBlurbModalOpen}
+          onClose={closeEditBlurbModal}
+        >
+          <form id="blForm">
+            <TextField
+              id="outlined-basic"
+              label="Edit Blurb"
+              variant="outlined"
+              value={editBlurbText || ""}
+              onChange={(e) => setEditBlurbText(e.target.value)}
+            />
+            <Button
+              className="modalButton"
+              style={{ margin: ".5rem" }}
+              variant="contained"
+              disableElevation
+              onClick={handleEditBlurb}
+            >
+              Save Changes
+            </Button>
+            <Button
+              onClick={handleRemove}
+              className="removeComment, deleteButton"
+            >
+              Delete Blurb
+            </Button>
+          </form>
+        </Modal>
+      </ThemeProvider>
     </div>
   );
 }
