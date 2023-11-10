@@ -93,7 +93,7 @@ If you would like to contribute please contact the creators on linked in.
 
 [Jordan Adams](https://www.linkedin.com/in/jordan-adams-a14602288/)
 
-[Lllian Edwards](https://www.linkedin.com/in/lillian-edwards63/)
+[Lillian Edwards](https://www.linkedin.com/in/lillian-edwards63/)
 
 [Mitch Morgan](https://www.linkedin.com/in/mitchell-morgan-0952b1138/)
 
