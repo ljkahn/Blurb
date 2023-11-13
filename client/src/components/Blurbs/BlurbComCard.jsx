@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import "../../style/Blurbs.css";
 import Avatar from "@mui/material/Avatar";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import IconButton from "@mui/material/IconButton";
 import { FIND_BLURB_BY_ID } from "../../utils/Queries/queries";
 import { useQuery, useMutation } from "@apollo/client";
 import {
@@ -75,10 +77,9 @@ function BlurbCom({ blurbId, comments, commentId, username }) {
   const { loading, data, error } = useQuery(FIND_BLURB_BY_ID, {
     variables: { blurbId },
   });
-  const [likeComment, { error: likeError }] = useMutation(ADD_COMMENT_LIKE);
-  if (likeError) {
-    console.log(JSON.stringify(likeError));
-  }
+
+  const [likeComment] = useMutation(ADD_COMMENT_LIKE);
+
   const [unlikeComment] = useMutation(REMOVE_COMMENT_LIKE);
 
   useEffect(() => {
@@ -126,8 +127,16 @@ function BlurbCom({ blurbId, comments, commentId, username }) {
             {comments}
           </div>
         </div>
-        <div className="likeComment">
-          <FavoriteBorderIcon onClick={handleCommentLike} />
+        <div id="notifyIcons">
+          <div style={{ display: "flex", flexDirection: "row" }}>
+            <IconButton onClick={handleCommentLike} className="likeComment">
+              {isLiked ? (
+                <FavoriteIcon style={{ color: "red" }} />
+              ) : (
+                <FavoriteBorderIcon />
+              )}
+            </IconButton>
+          </div>
         </div>
       </div>
     </div>
