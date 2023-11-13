@@ -19,7 +19,7 @@ import BlurbStream from "../components/Blurbs/BlurbCard.jsx";
 import BlurbCom from "../components/Blurbs/BlurbComCard.jsx";
 import { createTheme, ThemeProvider, useTheme } from "@mui/material/styles";
 import { outlinedInputClasses } from "@mui/material/OutlinedInput";
-
+import FollowersList from "../components/Follow/FollowerListCom.jsx";
 const customTheme = (outerTheme) =>
   createTheme({
     palette: {
@@ -109,7 +109,7 @@ function Profile({ registered }) {
   const [userData, setUserData] = useState(null);
   const [isLoading, setLoading] = useState(true);
   const { loading, data, refetch } = useQuery(QUERY_MY_PROFILE);
-
+  const [followers, setFollowers] = useState([]);
   // useEffect (() => {
   //   const { loading, data } = useQuery(QUERY_MY_PROFILE);
 
@@ -216,6 +216,11 @@ function Profile({ registered }) {
     }
   };
 
+  const showFollowers = async () => {
+    // Fetch followers data (you may need to implement this)
+    const followersData = await fetchFollowersData();
+    setFollowers(followersData);
+  };
   return (
     <div>
       <ThemeProvider theme={customTheme(outerTheme)}>
@@ -231,9 +236,20 @@ function Profile({ registered }) {
               <p id="info">{userData.profile.bio}</p>
               <p id="info">📍{userData.profile.location}</p>
               <Grid>
-                <Button id="btn" style={buttonStyle} variant="contained">
+                <Button
+                  id="btn"
+                  style={buttonStyle}
+                  variant="contained"
+                  onClick={showFollowers}
+                >
                   {userData.followerNumber} Followers
                 </Button>
+                {followers.length > 0 && (
+                  <FollowersList
+                    followers={followers}
+                    onClose={() => setFollowers([])}
+                  />
+                )}
                 <Button id="btn" style={buttonStyle} variant="contained">
                   {userData.followingNumber} Following
                 </Button>
