@@ -131,7 +131,12 @@ function BlurbCom({ blurbId, comments, commentId, username }) {
           <div style={{ display: "flex", flexDirection: "row" }}>
             <IconButton onClick={handleCommentLike} className="likeComment">
               {isLiked ? (
-                <FavoriteIcon style={{ color: "red" }} />
+                <>
+                <FavoriteIcon 
+                style={{ color: "red", fontSize: "4rem" }}
+                label={likeList.length()}
+                />
+                </>
               ) : (
                 <FavoriteBorderIcon />
               )}
