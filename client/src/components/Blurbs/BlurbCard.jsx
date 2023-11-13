@@ -118,7 +118,8 @@ function BlurbStream({
   showEdit,
   profilePic,
   propRefetch,
-  liked
+  liked,
+  likes
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [commentText, setCommentText] = useState("");
@@ -282,12 +283,23 @@ function BlurbStream({
             <div style={{ display: "flex", flexDirection: "row" }}>
               <IconButton onClick={handleLike} className="likeComment">
                 {isLiked ? (
-                  <FavoriteIcon style={{ color: "red" }} />
+                  <>
+                  <FavoriteIcon
+                  style={{ color: "red", fontSize: "2rem", position: "absolute", top: "-10px"}} 
+                  />
+                  <p className="likesCount">{likes}</p>
+                  </>
                 ) : (
-                  <FavoriteBorderIcon />
+                  <>
+                  <FavoriteBorderIcon 
+                  style={{ fontSize: "2.1rem", position: "absolute", top: "-10px",  }}/>
+                  <p className="likesCount">{likes}</p>
+                  </>
                 )}
               </IconButton>
-              <IconButton onClick={openModal} className="likeComment">
+              <IconButton onClick={openModal} className="likeComment"
+              style={{ position: ""}}
+              >
                 <ChatBubbleOutlineIcon />
               </IconButton>
             </div>
