@@ -121,9 +121,7 @@ function BlurbCom({ blurbId, comments, commentId, username }) {
         <div id="blurbColOne">
           <div className="blInfo">
             <div>
-              <div className="userName">
-                {data?.findBlurbById?.commentAuthor.username}
-              </div>
+              <div className="userName">{username}</div>
             </div>
             {comments}
           </div>
