@@ -45,6 +45,7 @@ function Flame() {
             blurbId={blurb._id}
             username={blurb.blurbAuthor.username}
             profilePic={blurb.blurbAuthor.profile.profilePic}
+            likes={blurb.likeList.length}
           >
             {blurb.blurbText}
           </Fire>
