@@ -91,15 +91,15 @@ If you would like to contribute please contact the creators on linked in.
 
 ![Alt text](./assets/images/squad.png)
 
-[Jordan Adams](https://www.linkedin.com/in/jordan-adams-a14602288/)
-
 [Lillian Edwards](https://www.linkedin.com/in/lillian-edwards63/)
 
 [Mitch Morgan](https://www.linkedin.com/in/mitchell-morgan-0952b1138/)
 
 [Lia Kahn](https://www.linkedin.com/in/lia-kahn/)
 
-[Pete Richards](www.linkedin.com/in/peterrichards57)
+[Pete Richards](https://www.linkedin.com/in/peterrichards57)
+
+[Jordan Adams](https://www.linkedin.com/in/jordan-adams-a14602288/)
 
 ## Organization/Process
 
