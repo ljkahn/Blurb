@@ -359,7 +359,7 @@ findBlurbById: async (parent, { blurbId }) => {
       const updatedBlurb = await Blurbs.findByIdAndUpdate(
         blurbId,
         // { $inc: { likes: 1 } },
-        { $set: { likeList: context.user._id } },
+        { $push: { likeList: context.user._id } },
         { new: true }
       );
       if (!updatedBlurb) {
@@ -508,7 +508,7 @@ findBlurbById: async (parent, { blurbId }) => {
       const updatedComment = await Blurbs.findByIdAndUpdate(
         blurbId,
         {
-          $set: {
+          $push: {
             // Update the comment text with the new text
             "comments.$[comment].commentText": newCommentText,
             // Update the timestamp of the comment

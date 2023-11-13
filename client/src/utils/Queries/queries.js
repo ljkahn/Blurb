@@ -15,6 +15,7 @@ export const ALL_BLURBS = gql`
       }
       createdAt
       comments {
+        _id
         likes
         likeList
         commentText
@@ -25,6 +26,7 @@ export const ALL_BLURBS = gql`
     }
   }
 `;
+
 export const RANDOM_BLURB = gql`
   query randomBlurb {
     randomBlurb {
@@ -48,6 +50,7 @@ export const FIND_BLURB_BY_ID = gql`
       }
       createdAt
       comments {
+        _id
         commentAuthor {
           username
         }
@@ -55,7 +58,6 @@ export const FIND_BLURB_BY_ID = gql`
         updatedAt
         likes
         createdAt
-        _id
       }
     }
   }
