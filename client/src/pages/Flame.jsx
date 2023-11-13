@@ -15,10 +15,10 @@ function Flame() {
       const allBlurbs = [...data.blurbs];
       console.log(allBlurbs);
       // Filter Blurbs with more than 10 likes
-      const popularBlurbs = allBlurbs.filter((blurb) => blurb.likes >= 1);
+      const popularBlurbs = allBlurbs.filter((blurb) => blurb.likeList.length >= 10);
 
       // Sort filtered Blurbs in descending order by the number of likes
-      popularBlurbs.sort((a, b) => b.likes - a.likes);
+      popularBlurbs.sort((a, b) => b.likeList.length - a.likeList.length);
 
       setBlurbs(popularBlurbs);
       setLoading(false);
