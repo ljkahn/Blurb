@@ -56,6 +56,7 @@ function Home() {
               username={blurb.blurbAuthor.username}
               profilePic={blurb.blurbAuthor.profile.profilePic}
               liked={blurb.likeList.includes(auth.getProfile().data._id)}
+              likes={blurb.likes}
             >
               {blurb.blurbText}
             </BlurbCard>

@@ -68,3 +68,11 @@
 [data-value="FavoriteIcon"] {
   fill: #f7e258 !important;
 }
+
+.likesCount {
+  font-size: .5rem;
+  position: absolute;
+  top: -5px;
+  font-weight: 600;
+  color: white;
+}
