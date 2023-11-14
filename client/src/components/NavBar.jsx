@@ -16,8 +16,9 @@ import { useQuery } from "@apollo/client";
 import { QUERY_MY_PROFILE } from "../utils/Queries/userQueries.js";
 import Photo from "../components/Profile/tinyPhoto.jsx";
 import AddBlurb from "./Blurbs/AddBlurb";
-import logo from "../public/assets/Untitled-1.png";
+import logo from "../public/assets/blurbLogo.png";
 import Box from "@mui/material/Box";
+
 
 function notificationsLabel(count) {
   if (count === 0) {
