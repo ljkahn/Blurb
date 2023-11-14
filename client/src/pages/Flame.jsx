@@ -5,14 +5,11 @@ import Fire from "../components/Blurbs/FireCard";
 // import { TypeAnimation } from "react-type-animation";
 import { useQuery } from "@apollo/client";
 import { ALL_BLURBS } from "../utils/Queries/queries.js";
-<<<<<<< HEAD
 import WhatshotIcon from "@mui/icons-material/Whatshot";
 import "../style/Flame.css"
 
 import Tooltip from "@mui/material/Tooltip";
-=======
 import auth from "../utils/auth.js";
->>>>>>> main
 
 function Flame(liked, likes, registered) {
   const [blurbs, setBlurbs] = useState([]);
