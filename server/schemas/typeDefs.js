@@ -31,6 +31,7 @@ const typeDefs = `
       profile: Profile!
       followerNumber: Int
       followingNumber: Int
+      notifications: [Notification]!
     }
     
     type Profile {
@@ -82,6 +83,14 @@ const typeDefs = `
       token: ID!
       user: User
     }
+
+    type Notification {
+      _id: ID!
+      type: String!
+      sender: User!
+      blurbId: ID
+      createdAt: String!
+    }
     
     type Query {
       users: [User]
@@ -115,6 +124,7 @@ const typeDefs = `
       removeCommentLike(blurbId: ID!, commentId: ID!): String
       followUser(userIdToFollow: ID!): String
       unfollowUser(userIdToUnfollow: ID!): String
+      markNotificationAsRead(notificationId: ID!): String
     }
     `;
 
