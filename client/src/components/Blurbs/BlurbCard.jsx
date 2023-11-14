@@ -25,6 +25,7 @@ import {
 import { QUERY_MY_PROFILE } from "../../utils/Queries/userQueries";
 import { createTheme, ThemeProvider, useTheme } from "@mui/material/styles";
 import { outlinedInputClasses } from "@mui/material/OutlinedInput";
+import { ALL_BLURBS } from "../../utils/Queries/queries";
 
 
 
@@ -125,7 +126,7 @@ function BlurbStream({
   const [commentText, setCommentText] = useState("");
   const [isDeleted, setIsDeleted] = useState(false);
   const [isLiked, setIsLiked] = useState(liked ? liked : false);
-  // const { loading, data } = useQuery(QUERY_MY_PROFILE);
+  const { loading, data, refetch } = useQuery(QUERY_MY_PROFILE);
   const [blurbIdForEdit, setBlurbIdForEdit] = useState(null);
   // console.log(liked);
   
@@ -154,10 +155,12 @@ function BlurbStream({
     if (isLiked) {
       unlikeBlurb({
         variables: { blurbId },
+        refetchQueries: [{ query: ALL_BLURBS }],
       });
     } else {
       likeBlurb({
         variables: { blurbId },
+        refetchQueries: [{ query: ALL_BLURBS }],
       });
     }
     setIsLiked(!isLiked);

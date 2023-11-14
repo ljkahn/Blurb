@@ -71,7 +71,7 @@ import {
 
 // export default BlurbCom;
 
-function BlurbCom({ blurbId, comments, commentId, username }) {
+function BlurbCom({ blurbId, comments, commentId, username, likes }) {
   const [isLiked, setIsLiked] = useState(false);
 
   const { loading, data, error } = useQuery(FIND_BLURB_BY_ID, {
@@ -133,12 +133,16 @@ function BlurbCom({ blurbId, comments, commentId, username }) {
               {isLiked ? (
                 <>
                 <FavoriteIcon 
-                style={{ color: "red", fontSize: "4rem" }}
-                label={likeList.length()}
+                style={{ color: "red", fontSize: "2rem" }}
                 />
+                <p className="likesCount">{likes}</p>
                 </>
               ) : (
-                <FavoriteBorderIcon />
+                <>
+                <FavoriteBorderIcon 
+                style={{ fontSize: "2rem" }}/>
+                <p className="likesCount">{likes}</p>
+                </>
               )}
             </IconButton>
           </div>

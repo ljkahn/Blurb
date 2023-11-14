@@ -19,6 +19,7 @@ import BlurbStream from "../components/Blurbs/BlurbCard.jsx";
 import BlurbCom from "../components/Blurbs/BlurbComCard.jsx";
 import { createTheme, ThemeProvider, useTheme } from "@mui/material/styles";
 import { outlinedInputClasses } from "@mui/material/OutlinedInput";
+// import { useLikedBlurbs } from "../utils/LikedBlurbContext.js";
 
 const customTheme = (outerTheme) =>
   createTheme({
@@ -129,6 +130,7 @@ function Profile({ registered }) {
     if (!loading) {
       // console.log(data.me);
       setUserData(data.me);
+      refetch();
     }
   }, [loading, registered]);
 
@@ -216,6 +218,8 @@ function Profile({ registered }) {
     }
   };
 
+  // refetch();
+
   return (
     <div>
       <ThemeProvider theme={customTheme(outerTheme)}>
@@ -251,12 +255,14 @@ function Profile({ registered }) {
                   <div key={blurb._id}>
                     <BlurbStream
                       // key={blurb._id}
+                      // propRefetch={refetch}
                       blurbId={blurb._id}
                       username={blurb.username}
                       profilePic={userData.profile.profilePic}
                       onDelete={() => handleBlurbDelete(blurb._id)}
                       showEdit={true}
-                      // isLiked={}
+                      liked={blurb.likeList.includes(auth.getProfile().data._id)}
+                      isLiked={refetch}
                     >
                       {blurb.blurbText}
                       <div>{blurb.tags}</div>
