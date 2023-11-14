@@ -60,5 +60,11 @@
   color: #212121;
 }
 
-.uploadButton {
+#requirements {
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 0.8rem;
+  text-align: center;
+  margin-top: 4px;
+  color: #BEBFC5 ;
 }
