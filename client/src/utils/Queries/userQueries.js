@@ -34,6 +34,29 @@ export const QUERY_MY_PROFILE = gql`
   }
 `;
 
+export const QUERY_GET_NOTIFICATIONS = gql`
+  query GetMyNotifications {
+    me {
+      _id
+      notifications {
+        _id
+        type
+        sender {
+          username
+        }
+        blurbId
+        createdAt
+      }
+    }
+  }
+`;
+
+export const MARK_NOTIFICATION_AS_READ = gql`
+  mutation MarkNotificationAsRead($notificationId: ID!) {
+    markNotificationAsRead(notificationId: $notificationId)
+  }
+`;
+
 export const QUERY_ONE_USER = gql`
   query User($username: String!) {
     user(username: $username) {
