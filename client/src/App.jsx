@@ -27,6 +27,7 @@ import CommentPage from "./pages/CommentPage";
 import SearchBar from "./components/SearchBar/SearchBar";
 import Auth from "./utils/auth";
 import ForgotPassword from "./pages/ForgotPassword";
+import Followers from "./pages/FollowerList";
 
 // Construct our main GraphQL API endpoint
 const httpLink = createHttpLink({
@@ -71,6 +72,7 @@ function App() {
             }
           />
           <Route path="/profile/:username" element={<UserProfile />} />
+          <Route path="/followers" element={<Followers />} />{" "}
           <Route path="*" element={<Error />} />
           <Route path="/likes" element={<Likes />} />
           <Route path="/comment" element={<CommentPage />} />
