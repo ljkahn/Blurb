@@ -10,7 +10,7 @@ import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import "../style/Profile.css";
 import "../index.css";
 import { REMOVE_Blurb } from "../utils/mutations/Blurb/BlurbMutations.js";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_MY_PROFILE } from "../utils/Queries/userQueries.js";
 import { ALL_BLURBS } from "../utils/Queries/queries.js";
@@ -19,6 +19,8 @@ import BlurbStream from "../components/Blurbs/BlurbCard.jsx";
 import BlurbCom from "../components/Blurbs/BlurbComCard.jsx";
 import { createTheme, ThemeProvider, useTheme } from "@mui/material/styles";
 import { outlinedInputClasses } from "@mui/material/OutlinedInput";
+import FollowersList from "../components/Follow/FollowersListCom.jsx";
+import FollowingListCom from "../components/Follow/FollowingListCom.jsx";
 
 const customTheme = (outerTheme) =>
   createTheme({
@@ -109,6 +111,8 @@ function Profile({ registered }) {
   const [userData, setUserData] = useState(null);
   const [isLoading, setLoading] = useState(true);
   const { loading, data, refetch } = useQuery(QUERY_MY_PROFILE);
+  const [followers, setFollowers] = useState([]);
+  // const [following, setFollowing] = useState([]);
 
   // useEffect (() => {
   //   const { loading, data } = useQuery(QUERY_MY_PROFILE);
@@ -219,6 +223,21 @@ function Profile({ registered }) {
     }
   };
 
+  const showFollowers = () => {
+    // Instead of using async/await here, you can directly set the state
+    fetchFollowersData().then((followersData) => {
+      setFollowers(followersData);
+      setCurrentComponent("followers");
+    });
+  };
+
+  const showFollowing = async () => {
+    // Fetch following data (you may need to implement this)
+    const followingData = await fetchFollowingData();
+    setFollowing(followingData);
+    setCurrentComponent("following");
+  };
+
   return (
     <div>
       <ThemeProvider theme={customTheme(outerTheme)}>
@@ -234,7 +253,13 @@ function Profile({ registered }) {
               <p id="info">{userData.profile.bio}</p>
               <p id="info">📍{userData.profile.location}</p>
               <Grid>
-                <Button id="btn" style={buttonStyle} variant="contained">
+                <Button
+                  id="btn"
+                  style={buttonStyle}
+                  variant="contained"
+                  component={Link}
+                  to="/followers"
+                >
                   {userData.followerNumber} Followers
                 </Button>
                 <Button id="btn" style={buttonStyle} variant="contained">
@@ -260,7 +285,9 @@ function Profile({ registered }) {
                       profilePic={userData.profile.profilePic}
                       onDelete={() => handleBlurbDelete(blurb._id)}
                       showEdit={true}
-                      liked={blurb.likeList.includes(auth.getProfile().data._id)}
+                      liked={blurb.likeList.includes(
+                        auth.getProfile().data._id
+                      )}
                       likes={blurb.likes}
                       // isLiked={refetch}
                     >
@@ -275,7 +302,9 @@ function Profile({ registered }) {
                         blurbId={blurb._id}
                         username={comment?.commentAuthor?.username}
                         comments={comment.commentText}
-                        liked={comment.likeList.includes(auth.getProfile().data._id)}
+                        liked={comment.likeList.includes(
+                          auth.getProfile().data._id
+                        )}
                         likes={comment.likes}
                       />
                     ))}
