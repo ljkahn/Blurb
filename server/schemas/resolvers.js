@@ -1,7 +1,25 @@
 const { User, Blurbs } = require("../models");
 const { signToken, AuthenticationError } = require("../utils/auth");
+const { PubSub } = require("@apollo/client");
+
+const pubsub = new PubSub();
 
 const resolvers = {
+  Subscription: {
+    blurbLiked: {
+      subscribe: (_, { blurbId }) =>
+        pubsub.asyncIterator(`blurbLiked_${blurbId}`),
+    },
+    blurbCommented: {
+      subscribe: (_, { blurbId }) =>
+        pubsub.asyncIterator(`blurbCommented_${blurbId}`),
+    },
+    userFollowed: {
+      subscribe: (_, { userId }) =>
+        pubsub.asyncIterator(`userFollowed_${userId}`),
+    },
+  },
+
   Query: {
     //get all users
     users: async () => {
@@ -82,18 +100,17 @@ const resolvers = {
     },
     // ✅
 
-findBlurbById: async (parent, { blurbId }) => {
-  return Blurbs.findById(blurbId)
-    .populate("blurbAuthor")
-    .populate({
-      path: "comments",
-      populate: {
-        path: "commentAuthor",
-        model: "User",
-      },
-    });
-},
-
+    findBlurbById: async (parent, { blurbId }) => {
+      return Blurbs.findById(blurbId)
+        .populate("blurbAuthor")
+        .populate({
+          path: "comments",
+          populate: {
+            path: "commentAuthor",
+            model: "User",
+          },
+        });
+    },
 
     //get all users with blurbs greater than zero
     randomBlurb: async () => {
@@ -109,16 +126,18 @@ findBlurbById: async (parent, { blurbId }) => {
       // for (const user of loginRandomBlurbs) {
       //   blurbs.push(...user.blurbs);
       // }
-      const blurbs = await Blurbs.find().populate("blurbAuthor")
+      const blurbs = await Blurbs.find().populate("blurbAuthor");
       const randomIndex = Math.floor(Math.random() * blurbs.length);
-      console.log(blurbs[randomIndex])
+      console.log(blurbs[randomIndex]);
       return blurbs[randomIndex];
     },
 
     // find my user account
     me: async (parent, args, context) => {
       if (context.user) {
-        const currentUser = await User.findOne({ _id: context.user._id }).populate("blurbs");
+        const currentUser = await User.findOne({
+          _id: context.user._id,
+        }).populate("blurbs");
         console.log(currentUser);
         return currentUser;
       }
@@ -163,7 +182,7 @@ findBlurbById: async (parent, { blurbId }) => {
         if (!user) {
           throw new Error("User not found");
         }
-        
+
         // Return the list of users who follow me
         return user.followers;
       } catch (error) {
@@ -252,7 +271,9 @@ findBlurbById: async (parent, { blurbId }) => {
               runValidators: true, // Run validation checks on the update.
             }
           );
-
+          pubsub.publish(`blurbCommented_${blurbId}`, {
+            blurbCommented: updatedBlurb,
+          });
           if (updatedBlurb) {
             // If the "updatedBlurb" document exists, find the newly added comment in the "comments" array.
             const newComment = updatedBlurb.comments.find(
@@ -356,12 +377,25 @@ findBlurbById: async (parent, { blurbId }) => {
         throw new Error("you must be logged in to like a blurb");
       }
 
+      // Create a notification for the blurb author
+      // const notification = await Notification.create({
+      //   userName: context.user.username,
+      //   recipientUserId: updatedBlurb.blurbAuthor,
+      //   senderUserId: context.user._id,
+      //   type: "like",
+      //   threadID: blurbId,
+      //   timestamp: new Date(),
+      //   isRead: false,
+      // });
+
       const updatedBlurb = await Blurbs.findByIdAndUpdate(
         blurbId,
         // { $inc: { likes: 1 } },
         { $push: { likeList: context.user._id } },
         { new: true }
       );
+      pubsub.publish(`blurbLiked_${blurbId}`, { blurbLiked: updatedBlurb });
+
       if (!updatedBlurb) {
         throw new Error("Blurb not found!");
       }
@@ -469,7 +503,7 @@ findBlurbById: async (parent, { blurbId }) => {
     },
     // ✅
 
-    editAccount: async (_, { email, password}, context) => {
+    editAccount: async (_, { email, password }, context) => {
       if (!context.user) {
         throw new Error("Not logged in");
       }
@@ -489,7 +523,7 @@ findBlurbById: async (parent, { blurbId }) => {
       // Update other profile fields
       if (email) user.profile.email = email;
       // Repeat for other fields...
-      
+
       console.log(user);
       await user.save();
       return user;
@@ -538,6 +572,19 @@ findBlurbById: async (parent, { blurbId }) => {
       if (!context.user) {
         throw new Error("You must be logged in to like a comment");
       }
+      pubsub.publish(`commentLiked_${commentId}`, {
+        commentLiked: updatedComment,
+      });
+      // Create a notification for the blurb author
+      // const notification = await Notification.create({
+      //   userName: context.user.username,
+      //   recipientUserId: blurb.blurbAuthor,
+      //   senderUserId: context.user._id,
+      //   type: "comment",
+      //   threadID: blurbId,
+      //   timestamp: new Date(),
+      //   isRead: false,
+      // });
 
       //find blurb if it exists
       const blurb = await Blurbs.findById(blurbId);
@@ -553,7 +600,7 @@ findBlurbById: async (parent, { blurbId }) => {
       // Increment the 'likes' field of the comment
       // comment.likes += 1;
       if (!comment.likeList.includes(context.user._id)) {
-        comment.likeList.push(context.user._id)
+        comment.likeList.push(context.user._id);
       }
 
       await blurb.save();
@@ -579,7 +626,9 @@ findBlurbById: async (parent, { blurbId }) => {
 
       // Increment the 'likes' field of the comment
       // comment.likes += -1;
-    comment.likeList = comment.likeList.filter(id => id !== context.user._id);
+      comment.likeList = comment.likeList.filter(
+        (id) => id !== context.user._id
+      );
 
       await blurb.save();
 
@@ -615,6 +664,18 @@ findBlurbById: async (parent, { blurbId }) => {
           { $addToSet: { followers: context.user._id } },
           { new: true }
         );
+        pubsub.publish(`userFollowed_${userIdToFollow}`, {
+          userFollowed: context.user,
+        });
+        // Create a notification for the user being followed
+        // const notification = await Notification.create({
+        //   userName: context.user.username,
+        //   recipientUserId: userIdToFollow,
+        //   senderUserId: context.user._id,
+        //   type: "follow",
+        //   timestamp: new Date(),
+        //   isRead: false,
+        // });
 
         return "User followed successfully!";
       } catch (error) {
@@ -657,6 +718,31 @@ findBlurbById: async (parent, { blurbId }) => {
         console.error(error);
         throw new Error("Failed to unfollow user");
       }
+    },
+    markNotificationAsRead: async (_, { notificationId }) => {
+      const notification = await Notification.findByIdAndUpdate(
+        notificationId,
+        { $set: { isRead: true } },
+        { new: true }
+      );
+      // Publish an update to the user
+      pubsub.publish("USER_UPDATED", {
+        userUpdated: notification.senderUserId,
+      });
+      return notification;
+    },
+
+    markNotificationAsRead: async (_, { notificationId }) => {
+      const notification = await Notification.findByIdAndUpdate(
+        notificationId,
+        { $set: { isRead: true } },
+        { new: true }
+      );
+      // Publish an update to the user
+      pubsub.publish("USER_UPDATED", {
+        userUpdated: notification.senderUserId,
+      });
+      return notification;
     },
   },
 };
