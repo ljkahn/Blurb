@@ -31,6 +31,8 @@ export const RANDOM_BLURB = gql`
   query randomBlurb {
     randomBlurb {
       blurbText
+      likes
+      likeList
       blurbAuthor {
         username
         profile {
@@ -116,6 +118,7 @@ export const FIND_BLURB_BY_ID = gql`
         commentText
         updatedAt
         likes
+        likeList
         createdAt
       }
     }

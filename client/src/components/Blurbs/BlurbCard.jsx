@@ -25,6 +25,7 @@ import {
 import { QUERY_MY_PROFILE } from "../../utils/Queries/userQueries";
 import { createTheme, ThemeProvider, useTheme } from "@mui/material/styles";
 import { outlinedInputClasses } from "@mui/material/OutlinedInput";
+import { ALL_BLURBS } from "../../utils/Queries/queries";
 
 
 
@@ -118,13 +119,14 @@ function BlurbStream({
   showEdit,
   profilePic,
   propRefetch,
-  liked
+  liked,
+  likes
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [commentText, setCommentText] = useState("");
   const [isDeleted, setIsDeleted] = useState(false);
   const [isLiked, setIsLiked] = useState(liked ? liked : false);
-  // const { loading, data } = useQuery(QUERY_MY_PROFILE);
+  const { loading, data, refetch } = useQuery(QUERY_MY_PROFILE);
   const [blurbIdForEdit, setBlurbIdForEdit] = useState(null);
   // console.log(liked);
   
@@ -153,10 +155,12 @@ function BlurbStream({
     if (isLiked) {
       unlikeBlurb({
         variables: { blurbId },
+        refetchQueries: [{ query: ALL_BLURBS }],
       });
     } else {
       likeBlurb({
         variables: { blurbId },
+        refetchQueries: [{ query: ALL_BLURBS }],
       });
     }
     setIsLiked(!isLiked);
@@ -282,12 +286,23 @@ function BlurbStream({
             <div style={{ display: "flex", flexDirection: "row" }}>
               <IconButton onClick={handleLike} className="likeComment">
                 {isLiked ? (
-                  <FavoriteIcon style={{ color: "red" }} />
+                  <>
+                  <FavoriteIcon
+                  style={{ color: "red", fontSize: "2.1rem", position: "absolute", top: "-10px"}} 
+                  />
+                  <p className="likesCount">{likes}</p>
+                  </>
                 ) : (
-                  <FavoriteBorderIcon />
+                  <>
+                  <FavoriteBorderIcon 
+                  style={{ fontSize: "2.1rem", position: "absolute", top: "-10px",  }}/>
+                  <p className="likesCount">{likes}</p>
+                  </>
                 )}
               </IconButton>
-              <IconButton onClick={openModal} className="likeComment">
+              <IconButton onClick={openModal} className="likeComment"
+              style={{ position: ""}}
+              >
                 <ChatBubbleOutlineIcon />
               </IconButton>
             </div>

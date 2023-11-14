@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import "../../style/Blurbs.css";
 import { useMutation } from "@apollo/client";
 import WhatshotIcon from "@mui/icons-material/Whatshot";
+import WhatshotOutlinedIcon from "@mui/icons-material/WhatshotOutlined";
+import WhatshotTwoToneIcon from "@mui/icons-material/WhatshotTwoTone";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
@@ -10,7 +12,7 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { LIKE_Blurb } from "../../utils/mutations/Blurb/BlurbMutations";
 
-function FireCard({ children, username, blurbId, profilePic }) {
+function FireCard({ children, username, blurbId, profilePic, likes }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => {
     setIsModalOpen(true);
@@ -22,10 +24,12 @@ function FireCard({ children, username, blurbId, profilePic }) {
 
   const [likeBlurb] = useMutation(LIKE_Blurb);
 
+
+
   const handleLike = () => {
     likeBlurb({
       variables: { blurbId },
-    });
+    })
   };
   // console.log(profilePic);
   // console.log(blurbId);
@@ -64,7 +68,13 @@ function FireCard({ children, username, blurbId, profilePic }) {
         </div>
         <div id="notifyIcons">
           <IconButton onClick={handleLike} className="likeComment">
+            {likes >= 20 ?(
+              <WhatshotIcon style = {{color: "blue"}}/>
+            ) : likes >= 10 ? (
+              <WhatshotIcon style={{color: "red"}}/>
+            ) : (
             <WhatshotIcon />
+            )}
           </IconButton>
           <IconButton onClick={openModal} className="likeComment">
             <ChatBubbleOutlineIcon />

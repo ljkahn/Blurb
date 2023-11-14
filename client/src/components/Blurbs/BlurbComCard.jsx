@@ -10,6 +10,8 @@ import {
   ADD_COMMENT_LIKE,
   REMOVE_COMMENT_LIKE,
 } from "../../utils/mutations/Likes/CommentMutations";
+import { ALL_BLURBS } from "../../utils/Queries/queries";
+import { QUERY_MY_PROFILE } from "../../utils/Queries/userQueries";
 
 // function BlurbCom({ blurbId, comments, commentId }) {
 //   const [isLiked, setIsLiked] = useState(false);
@@ -71,8 +73,15 @@ import {
 
 // export default BlurbCom;
 
-function BlurbCom({ blurbId, comments, commentId, username }) {
-  const [isLiked, setIsLiked] = useState(false);
+function BlurbCom({ 
+  blurbId, 
+  comments, 
+  commentId, 
+  username, 
+  likes,
+  liked
+}) {
+  const [isLiked, setIsLiked] = useState(liked ? liked : false);
 
   const { loading, data, error } = useQuery(FIND_BLURB_BY_ID, {
     variables: { blurbId },
@@ -100,6 +109,7 @@ function BlurbCom({ blurbId, comments, commentId, username }) {
       // If already liked, unlike the comment
       unlikeComment({
         variables: { commentId, blurbId },
+        refetchQueries: [{ query: ALL_BLURBS }],
       });
     } else {
       // If not liked, like the comment
@@ -107,6 +117,7 @@ function BlurbCom({ blurbId, comments, commentId, username }) {
       console.log("blurb id: ", blurbId);
       likeComment({
         variables: { commentId, blurbId },
+        refetchQueries: [{ query: ALL_BLURBS }]
       });
     }
     setIsLiked(!isLiked); // Toggle the liked state
@@ -131,9 +142,18 @@ function BlurbCom({ blurbId, comments, commentId, username }) {
           <div style={{ display: "flex", flexDirection: "row" }}>
             <IconButton onClick={handleCommentLike} className="likeComment">
               {isLiked ? (
-                <FavoriteIcon style={{ color: "red" }} />
+                <>
+                <FavoriteIcon 
+                style={{ color: "red", fontSize: "2.1rem", position: "absolute", top: "-10px" }}
+                />
+                <p className="likesCount">{likes}</p>
+                </>
               ) : (
-                <FavoriteBorderIcon />
+                <>
+                <FavoriteBorderIcon 
+                style={{ fontSize: "2.1rem", position: "absolute", top: "-10px" }}/>
+                <p className="likesCount">{likes}</p>
+                </>
               )}
             </IconButton>
           </div>

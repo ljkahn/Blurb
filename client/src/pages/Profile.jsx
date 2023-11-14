@@ -124,11 +124,12 @@ function Profile({ registered }) {
 
   useEffect(() => {
     if (registered) {
-      refetch();
+      // refetch();
     }
     if (!loading) {
       // console.log(data.me);
       setUserData(data.me);
+      // refetch();
     }
   }, [loading, registered]);
 
@@ -202,6 +203,8 @@ function Profile({ registered }) {
     }
   }, [data]);
 
+  console.log(userData);
+
   const handleBlurbDelete = async (deletedBlurbId) => {
     try {
       await removeBlurb({ variables: { blurbId: deletedBlurbId } });
@@ -250,24 +253,30 @@ function Profile({ registered }) {
                 userData.blurbs.map((blurb) => (
                   <div key={blurb._id}>
                     <BlurbStream
-                      // key={blurb._id}
+                      key={blurb._id}
+                      // propRefetch={refetch}
                       blurbId={blurb._id}
                       username={blurb.username}
                       profilePic={userData.profile.profilePic}
                       onDelete={() => handleBlurbDelete(blurb._id)}
                       showEdit={true}
-                      // isLiked={}
+                      liked={blurb.likeList.includes(auth.getProfile().data._id)}
+                      likes={blurb.likes}
+                      // isLiked={refetch}
                     >
                       {blurb.blurbText}
                       <div>{blurb.tags}</div>
                     </BlurbStream>
                     {blurb.comments.map((comment) => (
                       <BlurbCom
+                        key={comment._id}
                         commentId={comment._id}
                         commentTest={comment}
                         blurbId={blurb._id}
                         username={comment?.commentAuthor?.username}
                         comments={comment.commentText}
+                        liked={comment.likeList.includes(auth.getProfile().data._id)}
+                        likes={comment.likes}
                       />
                     ))}
                   </div>

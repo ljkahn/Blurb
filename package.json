@@ -24,6 +24,6 @@
     "@mui/icons-material": "^5.14.16",
     "@mui/material": "^5.14.16",
     "cloudinary": "^1.41.0",
-    "express": "^4.18.2"
+    "emailjs-com": "^3.2.0"
   }
 }
