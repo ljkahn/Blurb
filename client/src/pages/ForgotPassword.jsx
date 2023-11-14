@@ -97,9 +97,24 @@ function ForgotPassword() {
   const [snackbarSeverity, setSnackbarSeverity] = useState("success");
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [emailResult, setEmailResult] = useState(false);
+  const [resetToken, setResetToken] = useState(""); // New state to store the reset token
+  const [userEmail, setUserEmail] = useState("");
+
+  // Function to generate a random token
+  const generateToken = () => {
+    const length = 32;
+    const characters =
+      "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    let token = "";
+    for (let i = 0; i < length; i++) {
+      token += characters[Math.floor(Math.random() * characters.length)];
+    }
+    return token;
+  };
 
   const handleSnackbarClose = (event, reason) => {
     if (reason === "clickaway") {
+      setResetToken("");
       return;
     }
 
@@ -107,7 +122,9 @@ function ForgotPassword() {
 
     if (snackbarSeverity === "success") {
       setEmailResult(true);
-      setSnackbarMessage("Password reset email has been sent.");
+      setSnackbarMessage(
+        "If the provided email exists in our records, a password reset email will be sent"
+      );
     } else {
       setEmailResult(false);
       setSnackbarMessage("Failed to send reset email. Please try again.");
@@ -128,45 +145,58 @@ function ForgotPassword() {
       setOpenSnackbar(true);
       setEmailResult(false);
       return;
-    } else {
-      const templateParams = {
-        to_email: userEmail,
-      };
+    }
 
-      const serviceId = "service_cktbx3y";
-      const templateId = "template_sjuqpvd";
-      const userId = "8-dm5hdWgZjnQ7aaU";
+    // Generate and store a unique token for password reset
+    const token = generateToken();
+    setResetToken(token);
+    // console.log(token);
 
-      try {
-        const response = await emailjs.send(
-          serviceId,
-          templateId,
-          templateParams,
-          userId
+    // Store the user's email in the component state
+    setUserEmail(userEmail);
+    // console.log(userEmail);
+
+    const resetUrl = `http://localhost:3000/resetPassword?token=${token}`;
+    const templateParams = {
+      to_email: userEmail,
+      reset_url: resetUrl, // Pass the reset URL to the email template
+    };
+
+    const serviceId = "service_cktbx3y";
+    const templateId = "template_sjuqpvd";
+    const userId = "8-dm5hdWgZjnQ7aaU";
+
+    try {
+      const response = await emailjs.send(
+        serviceId,
+        templateId,
+        templateParams,
+        userId
+      );
+      console.log("EmailJS response:", response);
+
+      if (response && response.text === "OK") {
+        console.log("Email sent successfully");
+        setSnackbarSeverity("success");
+        setSnackbarMessage(
+          "If the provided email exists in our records, a password reset email will be sent"
         );
-        console.log("EmailJS response:", response);
-
-        if (response && response.text === "OK") {
-          console.log("Email sent successfully");
-          setSnackbarSeverity("success");
-          setSnackbarMessage("Password reset email has been sent.");
-          setOpenSnackbar(true);
-          setEmailResult(true);
-        } else {
-          console.error("Error sending email. Response:", response);
-          setSnackbarSeverity("error");
-          setSnackbarMessage("Failed to send reset email. Please try again.");
-          setOpenSnackbar(true);
-          setEmailResult(false);
-        }
-      } catch (error) {
-        console.error("Error sending email:", error);
-        console.error("EmailJS error details:", error?.response?.text);
+        setOpenSnackbar(true);
+        setEmailResult(true);
+      } else {
+        console.error("Error sending email. Response:", response);
         setSnackbarSeverity("error");
         setSnackbarMessage("Failed to send reset email. Please try again.");
         setOpenSnackbar(true);
         setEmailResult(false);
       }
+    } catch (error) {
+      console.error("Error sending email:", error);
+      console.error("EmailJS error details:", error?.response?.text);
+      setSnackbarSeverity("error");
+      setSnackbarMessage("Failed to send reset email. Please try again.");
+      setOpenSnackbar(true);
+      setEmailResult(false);
     }
   };
 
