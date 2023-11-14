@@ -10,10 +10,17 @@ import IconButton from "@mui/material/IconButton";
 import Modal from "@mui/material/Modal";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import { LIKE_Blurb } from "../../utils/mutations/Blurb/BlurbMutations";
+import auth from "../../utils/auth";
+import { ALL_BLURBS } from "../../utils/Queries/queries";
+import { 
+  LIKE_Blurb,
+  UNLIKE_Blurb,
+} from "../../utils/mutations/Blurb/BlurbMutations";
 
-function FireCard({ children, username, blurbId, profilePic, likes }) {
+
+function FireCard({ children, username, blurbId, propRefetch, profilePic, likes, liked }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLiked, setIsLiked] = useState(liked ? liked : false);
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -23,13 +30,21 @@ function FireCard({ children, username, blurbId, profilePic, likes }) {
   };
 
   const [likeBlurb] = useMutation(LIKE_Blurb);
-
-
+  const [unlikeBlurb] = useMutation(UNLIKE_Blurb);
 
   const handleLike = () => {
-    likeBlurb({
-      variables: { blurbId },
-    })
+    if (isLiked) {
+      unlikeBlurb({
+        variables: { blurbId },
+        refetchQueries: [{ query: ALL_BLURBS }],
+      });
+    } else {
+      likeBlurb({
+        variables: { blurbId },
+        refetchQueries: [{ query: ALL_BLURBS }],
+      });
+    }
+    setIsLiked(!isLiked);
   };
   // console.log(profilePic);
   // console.log(blurbId);
@@ -68,16 +83,28 @@ function FireCard({ children, username, blurbId, profilePic, likes }) {
         </div>
         <div id="notifyIcons">
           <IconButton onClick={handleLike} className="likeComment">
-            {likes >= 20 ?(
-              <WhatshotIcon style = {{color: "blue"}}/>
-            ) : likes >= 10 ? (
-              <WhatshotIcon style={{color: "red"}}/>
+            {likes >= 4 ?(
+              <>
+              <WhatshotIcon 
+              style = {{color: "blue", fontSize: "2.3rem", position: "absolute", top: "-13px"}}
+              />
+              <p className="likesCount" style={{ position: "absolute", top: "-2px"}}>{likes}</p>
+              </>
+            ) : likes >= 3 ? (
+              <>
+              <WhatshotIcon 
+              style = {{color: "red", fontSize: "2.3rem", position: "absolute", top: "-13px"}}
+              />
+              <p className="likesCount" style={{ position: "absolute", top: "-2px"}}>{likes}</p>
+              </>
             ) : (
-            <WhatshotIcon />
+            <WhatshotIcon 
+            />
             )}
           </IconButton>
           <IconButton onClick={openModal} className="likeComment">
-            <ChatBubbleOutlineIcon />
+            <ChatBubbleOutlineIcon
+            style={{ position: "absolute", top: "30px", left: "-5px" }} />
           </IconButton>
         </div>
       </div>
