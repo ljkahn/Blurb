@@ -31,18 +31,8 @@ const typeDefs = `
       profile: Profile!
       followerNumber: Int
       followingNumber: Int
-      notifications: [Notification]
     }
-
-   
     
- 
-  type Subscription {
-    blurbLiked(blurbId: ID!): Blurb!
-    blurbCommented(blurbId: ID!): Blurb!
-    userFollowed(userId: ID!): User!
-  }
-
     type Profile {
       _id: ID!
       fullName: String
@@ -125,20 +115,7 @@ const typeDefs = `
       removeCommentLike(blurbId: ID!, commentId: ID!): String
       followUser(userIdToFollow: ID!): String
       unfollowUser(userIdToUnfollow: ID!): String
-      markNotificationAsRead(notificationId: ID!): Notification
     }
     `;
 
 module.exports = typeDefs;
-
-// type Notification {
-//   _id: ID!
-//   userName: String!
-//   recipientUserId: String!
-//   senderUserId: String!
-//   type: String!
-//   threadID: String!
-//   threadData: JSON
-//   createdAt: String!
-//   isRead: Boolean!
-// }

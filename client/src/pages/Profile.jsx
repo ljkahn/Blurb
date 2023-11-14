@@ -122,6 +122,8 @@ function Profile({ registered }) {
   //   }
   // }, [isLoading]);
 
+ 
+
   useEffect(() => {
     if (registered) {
       // refetch();
@@ -197,13 +199,13 @@ function Profile({ registered }) {
     refetchQueries: [QUERY_MY_PROFILE],
   });
 
-  useEffect(() => {
-    if (data && data.me) {
-      setUserData(data.me);
-    }
-  }, [data]);
+  // useEffect(() => {
+  //   if (data && data.me) {
+  //     setUserData(data.me);
+  //   }
+  // }, [data]);
 
-  console.log(userData);
+  // console.log(data);
 
   const handleBlurbDelete = async (deletedBlurbId) => {
     try {
