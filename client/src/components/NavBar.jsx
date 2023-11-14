@@ -16,9 +16,10 @@ import { useQuery } from "@apollo/client";
 import { QUERY_MY_PROFILE } from "../utils/Queries/userQueries.js";
 import Photo from "../components/Profile/tinyPhoto.jsx";
 import AddBlurb from "./Blurbs/AddBlurb";
-import logo from "../public/assets/Untitled-1.png";
+import logo from "../public/assets/blurbLogo.png";
 import Box from "@mui/material/Box";
 import { QUERY_GET_NOTIFICATIONS } from '../utils/Queries/userQueries.js';
+
 
 function notificationsLabel(count) {
   if (count === 0) {
@@ -119,13 +120,7 @@ function NavBar() {
           />
         </button>
         <button onClick={openModal} id="addBlurb">
-          <Box
-            component="img"
-            id="logo"
-            sx={{ height: 35 }}
-            alt="Logo"
-            src={logo}
-          />
+          <Box component="img" id="logo" sx={{ height: 35 }} alt="Logo" src={logo} />
         </button>
       </Tooltip>
       <Tooltip

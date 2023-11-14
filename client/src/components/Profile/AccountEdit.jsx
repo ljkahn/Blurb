@@ -170,7 +170,7 @@ function AccountEdit({ userData }) {
           <DeleteIcon />
           Delete Account
         </Button>
-       
+      
       </div>
       {showConfirmationModal && (
         <div className="confirmationModal">

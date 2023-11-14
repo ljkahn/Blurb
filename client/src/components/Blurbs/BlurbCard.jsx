@@ -28,6 +28,9 @@ import { outlinedInputClasses } from "@mui/material/OutlinedInput";
 import { ALL_BLURBS } from "../../utils/Queries/queries";
 
 
+import { Link } from "react-router-dom";
+
+
 
 
 const customTheme = (outerTheme) =>
@@ -268,6 +271,7 @@ function BlurbStream({
       <ThemeProvider theme={customTheme(outerTheme)}>
         <div className="blurbContainer">
           <div id="blurbColOne">
+            <Link to={`/profile/${username}`}>
             <Avatar
               id="notifyPP"
               className="Blfriend"
@@ -275,6 +279,7 @@ function BlurbStream({
               src={staticImg}
               sx={{ width: 40, height: 40 }}
             />
+            </Link>
             <div className="blInfo">
               <div>
                 <div className="userName">{username}</div>
