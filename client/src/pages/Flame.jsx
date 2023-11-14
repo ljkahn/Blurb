@@ -5,7 +5,14 @@ import Fire from "../components/Blurbs/FireCard";
 // import { TypeAnimation } from "react-type-animation";
 import { useQuery } from "@apollo/client";
 import { ALL_BLURBS } from "../utils/Queries/queries.js";
+<<<<<<< HEAD
+import WhatshotIcon from "@mui/icons-material/Whatshot";
+import "../style/Flame.css"
+
+import Tooltip from "@mui/material/Tooltip";
+=======
 import auth from "../utils/auth.js";
+>>>>>>> main
 
 function Flame(liked, likes, registered) {
   const [blurbs, setBlurbs] = useState([]);
@@ -42,8 +49,26 @@ function Flame(liked, likes, registered) {
 
   console.log(blurbs);
 
+
+
+
   return (
     <div>
+      <div id="flameContain">
+        <Tooltip  title="A blurb with a orange flame has 10 or more likes. The flame icon can be clicked to like the Blurb."
+        enterTouchDelay={0}
+        leaveTouchDelay={2000}
+        >
+      <WhatshotIcon id="redFlame" />
+      </Tooltip>
+      <Tooltip title="A blurb with a blue flame has 20 or more likes. The flame icon can be clicked on to like the Blurb."
+      enterTouchDelay={0}
+      leaveTouchDelay={2000}
+      >
+      <WhatshotIcon id="blueFlame"/>
+      </Tooltip>
+      </div>
+
       {isLoading ? (
         <ThreeDots
           height="80"
