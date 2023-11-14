@@ -265,7 +265,9 @@ function Profile({ registered }) {
                       // isLiked={refetch}
                     >
                       {blurb.blurbText}
-                      <div>{blurb.tags}</div>
+                      {/* <div>{blurb.tags && blurb.tags.map((tag) => (
+                        
+                      ))}</div> */}
                     </BlurbStream>
                     {blurb.comments.map((comment) => (
                       <BlurbCom

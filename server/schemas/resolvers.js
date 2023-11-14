@@ -440,32 +440,32 @@ findBlurbById: async (parent, { blurbId }) => {
     },
     // ✅
 
-    editAccount: async (_, { password, email }, context) => {
-      if (!context.user) {
-        throw new Error("Not logged in");
-      }
+    // editAccount: async (_, { password, email }, context) => {
+    //   if (!context.user) {
+    //     throw new Error("Not logged in");
+    //   }
 
-      const user = await User.findById(context.user._id);
-      if (!user) {
-        throw new Error("User not found");
-      }
+    //   const user = await User.findById(context.user._id);
+    //   if (!user) {
+    //     throw new Error("User not found");
+    //   }
 
-      // Update user fields here
+    //   // Update user fields here
 
-      if (password) {
-        user.profile.password = password;
-        user.profile.isPasswordChanged = true;
-      }
+    //   if (password) {
+    //     user.profile.password = password;
+    //     user.profile.isPasswordChanged = true;
+    //   }
 
-      // Update other profile fields
-      if (email) user.profile.email = email;
-      // Repeat for other fields...
+    //   // Update other profile fields
+    //   if (email) user.profile.email = email;
+    //   // Repeat for other fields...
 
-      console.log(user);
-      await user.save();
-      return user;
-    },
-    // ✅
+    //   console.log(user);
+    //   await user.save();
+    //   return user;
+    // },
+    // // ✅
 
     editAccount: async (_, { email, password}, context) => {
       if (!context.user) {
