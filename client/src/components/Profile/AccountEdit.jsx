@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 
+
 const neon = "#F7E258";
 const black = "#212121";
 const red = "#CE2029";
@@ -31,6 +32,7 @@ function AccountEdit({ userData }) {
   const [deleteUser, { loading: deleteLoading, error: deleteError }] =
     useMutation(DELETE_USER);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+  const [isPasswordFocused, setIsPasswordFocused] = useState(false); // Track password field focus
 
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertSeverity, setAlertSeverity] = useState("success");
@@ -68,6 +70,14 @@ function AccountEdit({ userData }) {
 
   const handleDeleteAccount = () => {
     setShowConfirmationModal(true);
+  };
+
+  const handlePasswordBlur = () => {
+    setIsPasswordFocused(false);
+  };
+
+  const handlePasswordFocus = () => {
+    setIsPasswordFocused(true);
   };
 
   const handleConfirmDelete = () => {
@@ -112,7 +122,15 @@ function AccountEdit({ userData }) {
           variant="standard"
           value={formData.email}
           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+          onFocus={handlePasswordFocus}
+          onBlur={handlePasswordBlur}
         />
+        {isPasswordFocused && ( // Display the text only when password field is focused
+              <div style={{ fontSize: "0.8rem" }}>
+                Password must contain at least 8 characters, 1 lowercase, 1
+                uppercase, 1 special character, and 1 number.
+              </div>
+        )}
       </div>
       <div>
         <TextField

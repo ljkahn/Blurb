@@ -9,6 +9,7 @@ import MuiAlert from "@mui/material/Alert";
 import { createTheme, ThemeProvider, useTheme } from "@mui/material/styles";
 import Auth from "../../utils/auth";
 import { outlinedInputClasses } from "@mui/material/OutlinedInput";
+import { Link } from "react-router-dom";
 
 const customTheme = (outerTheme) =>
   createTheme({
@@ -163,7 +164,7 @@ function LoginTab({ isRegistered }) {
               onChange={handleChange}
             />
           </div>
-
+          <Link to="/forgotPassword"> Forgot password?</Link>
           <Button
             id="logCreateB"
             variant="contained"
