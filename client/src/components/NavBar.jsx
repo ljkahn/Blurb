@@ -103,20 +103,7 @@ function NavBar() {
           </IconButton>
         </Link>
       </Tooltip>
-      <Tooltip
-        title="Click this button to post a blurb! 💬 "
-        enterTouchDelay={0}
-        leaveTouchDelay={2000}
-      >
-        <button onClick={openModal} id="addBlurb">
-          <Box
-            component="img"
-            id="logo"
-            sx={{ height: 35 }}
-            alt="Logo"
-            src={logo}
-          />
-        </button>
+      <Tooltip title="Click this button to post a blurb! 💬">
         <button onClick={openModal} id="addBlurb">
           <Box
             component="img"
