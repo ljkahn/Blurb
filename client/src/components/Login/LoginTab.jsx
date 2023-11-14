@@ -144,7 +144,7 @@ function LoginTab({ isRegistered }) {
         <ThemeProvider theme={customTheme(outerTheme)}>
           <div>
             <TextField
-              id="standard-basic"
+              // id="standard-basic"
               label="Email"
               variant="standard"
               name="email"
@@ -155,7 +155,7 @@ function LoginTab({ isRegistered }) {
           </div>
           <div>
             <TextField
-              id="standard-basic"
+              // id="standard-basic"
               label="Password"
               variant="standard"
               name="password"
