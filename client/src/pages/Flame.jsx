@@ -66,7 +66,6 @@ function Flame(liked, likes, registered) {
           <WhatshotIcon id="blueFlame" />
         </Tooltip>
       </div>
-
       {isLoading ? (
         <ThreeDots
           height="80"
