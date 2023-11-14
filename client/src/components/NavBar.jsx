@@ -18,8 +18,7 @@ import Photo from "../components/Profile/tinyPhoto.jsx";
 import AddBlurb from "./Blurbs/AddBlurb";
 import logo from "../public/assets/blurbLogo.png";
 import Box from "@mui/material/Box";
-import { QUERY_GET_NOTIFICATIONS } from '../utils/Queries/userQueries.js';
-
+import { QUERY_GET_NOTIFICATIONS } from "../utils/Queries/userQueries.js";
 
 function notificationsLabel(count) {
   if (count === 0) {
@@ -118,9 +117,6 @@ function NavBar() {
             alt="Logo"
             src={logo}
           />
-        </button>
-        <button onClick={openModal} id="addBlurb">
-          <Box component="img" id="logo" sx={{ height: 35 }} alt="Logo" src={logo} />
         </button>
       </Tooltip>
       <Tooltip
