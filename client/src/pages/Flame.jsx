@@ -5,25 +5,42 @@ import Fire from "../components/Blurbs/FireCard";
 // import { TypeAnimation } from "react-type-animation";
 import { useQuery } from "@apollo/client";
 import { ALL_BLURBS } from "../utils/Queries/queries.js";
+import auth from "../utils/auth.js";
 
-function Flame() {
+function Flame(liked, likes, registered) {
   const [blurbs, setBlurbs] = useState([]);
   const [isLoading, setLoading] = useState(true);
-  const { loading, data } = useQuery(ALL_BLURBS);
+  const { loading, data, refetch } = useQuery(ALL_BLURBS);
+  const [userData, setUserData] = useState(null);
+  
   useEffect(() => {
     if (!loading) {
       const allBlurbs = [...data.blurbs];
       console.log(allBlurbs);
       // Filter Blurbs with more than 10 likes
-      const popularBlurbs = allBlurbs.filter((blurb) => blurb.likeList.length >= 10);
+      const popularBlurbs = allBlurbs.filter((blurb) => blurb.likeList.length >= 3);
 
       // Sort filtered Blurbs in descending order by the number of likes
       popularBlurbs.sort((a, b) => b.likeList.length - a.likeList.length);
 
       setBlurbs(popularBlurbs);
       setLoading(false);
+      refetch();
     }
-  }, [loading]);
+  }, [loading, data]);
+
+  useEffect(() => {
+    if (registered) {
+      // refetch();
+    }
+    if (!loading) {
+      // console.log(data.me);
+      setUserData(data.me);
+      // refetch();
+    }
+  }, [loading, registered]);
+
+  console.log(blurbs);
 
   return (
     <div>
@@ -39,13 +56,15 @@ function Flame() {
           visible={true}
         />
       ) : (
-        blurbs.map((blurb, i) => (
+        blurbs.map((blurb) => (
           <Fire
-            key={i}
+            propRefetch={refetch}
+            key={blurb._id}
             blurbId={blurb._id}
             username={blurb.blurbAuthor.username}
             profilePic={blurb.blurbAuthor.profile.profilePic}
-            likes={blurb.likeList.length}
+            liked={blurb.likeList.includes(auth.getProfile().data._id)}
+            likes={blurb.likes}
           >
             {blurb.blurbText}
           </Fire>
