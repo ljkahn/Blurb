@@ -1,22 +1,26 @@
 import React, { useState, useEffect } from "react";
-import FollowersList from "../components/Follow/FollowersList";
-import { fetchFollowersData } from "../utils/api"; // Update with your actual API file
+import FollowersListCom from "../components/Follow/FollowersListCom";
+import { useQuery } from "@apollo/client";
+import { GET_FOLLOWERS } from "../utils/Queries/queries";
 
 function Followers() {
+  const { loading, error, data } = useQuery(GET_FOLLOWERS);
   const [followers, setFollowers] = useState([]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetchFollowersData(); // Replace with your API call
-        setFollowers(response);
-      } catch (error) {
-        console.error("Error fetching followers data:", error);
-      }
-    };
+    if (data) {
+      setFollowers(data.followers);
+    }
+  }, [data]);
 
-    fetchData();
-  }, []);
+  if (loading) {
+    return <p>Loading followers...</p>;
+  }
+
+  if (error) {
+    console.error("Error fetching followers data:", error);
+    return <p>Error fetching followers data</p>;
+  }
 
   return (
     <div>

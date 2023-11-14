@@ -10,7 +10,7 @@ import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import "../style/Profile.css";
 import "../index.css";
 import { REMOVE_Blurb } from "../utils/mutations/Blurb/BlurbMutations.js";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_MY_PROFILE } from "../utils/Queries/userQueries.js";
 import auth from "../utils/auth.js";
@@ -31,7 +31,7 @@ const customTheme = (outerTheme) =>
     },
   });
 
-function UserProfile() {
+function UserProfile({ registered }) {
   const outerTheme = useTheme();
   const [isEditVisible, setIsEditVisible] = useState(false);
   const [showProfile, setShowProfile] = useState(true);
@@ -118,11 +118,12 @@ function UserProfile() {
     }
   };
 
-  const showFollowers = async () => {
-    // Fetch followers data (you may need to implement this)
-    const followersData = await fetchFollowersData();
-    setFollowers(followersData);
-    setCurrentComponent("followers");
+  const showFollowers = () => {
+    // Instead of using async/await here, you can directly set the state
+    fetchFollowersData().then((followersData) => {
+      setFollowers(followersData);
+      setCurrentComponent("followers");
+    });
   };
 
   const showFollowing = async () => {
@@ -151,7 +152,8 @@ function UserProfile() {
                   id="btn"
                   style={buttonStyle}
                   variant="contained"
-                  onClick={showFollowers}
+                  component={Link}
+                  to="/followers"
                 >
                   {userData.followerNumber} Followers
                 </Button>

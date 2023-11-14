@@ -65,3 +65,12 @@ export const FIND_BLURB_BY_ID = gql`
     }
   }
 `;
+
+export const GET_FOLLOWERS = gql`
+  query GetFollowers {
+    followers {
+      _id
+      username
+    }
+  }
+`;
