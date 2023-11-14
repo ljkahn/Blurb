@@ -358,7 +358,6 @@ findBlurbById: async (parent, { blurbId }) => {
 
       const updatedBlurb = await Blurbs.findByIdAndUpdate(
         blurbId,
-        // { $inc: { likes: 1 } },
         { $push: { likeList: context.user._id } },
         { new: true }
       );
@@ -376,7 +375,6 @@ findBlurbById: async (parent, { blurbId }) => {
 
       const updatedBlurb = await Blurbs.findByIdAndUpdate(
         blurbId,
-        // { $inc: { likes: -1 } },
         { $pull: { likeList: context.user._id } },
         { new: true }
       );
@@ -546,6 +544,7 @@ findBlurbById: async (parent, { blurbId }) => {
       }
 
       const comment = blurb.comments.id(commentId);
+      console.log(comment);
       if (!comment) {
         throw new Error("Comment not found");
       }
@@ -573,17 +572,23 @@ findBlurbById: async (parent, { blurbId }) => {
       }
 
       const comment = blurb.comments.id(commentId);
+      console.log(comment);
       if (!comment) {
         throw new Error("Comment not found");
       }
 
-      // Increment the 'likes' field of the comment
-      // comment.likes += -1;
-    comment.likeList = comment.likeList.filter(id => id !== context.user._id);
-
-      await blurb.save();
-
-      return "You have unliked the comment!";
+      if (comment.likeList.includes(context.user._id)) {
+        // Remove the user's ID from the likeList
+        // comment.likeList = comment.likeList.filter(id => id !== context.user._id);
+        comment.likeList.pull(context.user._id)
+    
+        // Save the updated blurb
+        await blurb.save();
+    
+        return "You have unliked the comment!";
+      } else {
+        throw new Error("You haven't liked this comment");
+      }
     },
 
     followUser: async (parent, { userIdToFollow }, context) => {

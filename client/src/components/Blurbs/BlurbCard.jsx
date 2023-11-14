@@ -288,7 +288,7 @@ function BlurbStream({
                 {isLiked ? (
                   <>
                   <FavoriteIcon
-                  style={{ color: "red", fontSize: "2rem", position: "absolute", top: "-10px"}} 
+                  style={{ color: "red", fontSize: "2.1rem", position: "absolute", top: "-10px"}} 
                   />
                   <p className="likesCount">{likes}</p>
                   </>

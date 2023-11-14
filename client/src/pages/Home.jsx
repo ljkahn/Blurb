@@ -15,20 +15,20 @@ function Home() {
   const { loading, data, refetch } = useQuery(ALL_BLURBS);
 
 
-  const handleLike = () => {
-    if (isLiked) {
-      unlikeBlurb({
-        variables: { blurbId },
-        refetchQueries: [{ query: QUERY_MY_PROFILE }],
-      });
-    } else {
-      likeBlurb({
-        variables: { blurbId },
-        refetchQueries: [{ query: QUERY_MY_PROFILE }],
-      });
-    }
-    setIsLiked(!isLiked);
-  };
+  // const handleLike = () => {
+  //   if (isLiked) {
+  //     unlikeBlurb({
+  //       variables: { blurbId },
+  //       refetchQueries: [{ query: QUERY_MY_PROFILE }],
+  //     });
+  //   } else {
+  //     likeBlurb({
+  //       variables: { blurbId },
+  //       refetchQueries: [{ query: QUERY_MY_PROFILE }],
+  //     });
+  //   }
+  //   setIsLiked(!isLiked);
+  // };
 
   useEffect(() => {
     if (!loading) {
@@ -86,6 +86,8 @@ function Home() {
                 commentId={comment._id}
                 username={comment?.commentAuthor?.username}
                 comments={comment.commentText}
+                liked={comment.likeList.includes(auth.getProfile().data._id)}
+                likes={comment.likes}
               />
             ))}
           </div>

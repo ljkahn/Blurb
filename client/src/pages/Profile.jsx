@@ -253,7 +253,7 @@ function Profile({ registered }) {
                 userData.blurbs.map((blurb) => (
                   <div key={blurb._id}>
                     <BlurbStream
-                      // key={blurb._id}
+                      key={blurb._id}
                       // propRefetch={refetch}
                       blurbId={blurb._id}
                       username={blurb.username}
@@ -261,6 +261,7 @@ function Profile({ registered }) {
                       onDelete={() => handleBlurbDelete(blurb._id)}
                       showEdit={true}
                       liked={blurb.likeList.includes(auth.getProfile().data._id)}
+                      likes={blurb.likes}
                       // isLiked={refetch}
                     >
                       {blurb.blurbText}
@@ -268,11 +269,14 @@ function Profile({ registered }) {
                     </BlurbStream>
                     {blurb.comments.map((comment) => (
                       <BlurbCom
+                        key={comment._id}
                         commentId={comment._id}
                         commentTest={comment}
                         blurbId={blurb._id}
                         username={comment?.commentAuthor?.username}
                         comments={comment.commentText}
+                        liked={comment.likeList.includes(auth.getProfile().data._id)}
+                        likes={comment.likes}
                       />
                     ))}
                   </div>
