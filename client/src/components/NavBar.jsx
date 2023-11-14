@@ -101,7 +101,7 @@ function NavBar() {
           </IconButton>
         </Link>
       </Tooltip>
-      <Tooltip title="Click this button to post a blurb! 💬 ">
+      <Tooltip title="Click this button to post a blurb! :speech_balloon: ">
         <button onClick={openModal} id="addBlurb">
           <Box
             component="img"
@@ -110,11 +110,6 @@ function NavBar() {
             alt="Logo"
             src={logo}
           />
-        <button onClick={openModal} id="addBlurb"
-        enterTouchDelay={0}
-        leaveTouchDelay={2000}
-        >
-          <Box component="img" id="logo" sx={{ height: 35 }} alt="Logo" src={logo} />
         </button>
       </Tooltip>
       <Tooltip title="Notifications page, this is under construction right now! 🚧"
