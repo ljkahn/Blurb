@@ -1,4 +1,4 @@
-import React from "react"; // , { useState }
+import { React, useState } from "react"; // , { useState }
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 // import { useMutation } from "@apollo/client";
@@ -15,7 +15,7 @@ import emailjs from "emailjs-com";
 
 const customTheme = createTheme({
   palette: {
-    mode: "light", // You can change this to "dark" or any other mode you prefer
+    mode: "light",
   },
   components: {
     MuiTextField: {
@@ -91,43 +91,82 @@ const customTheme = createTheme({
 });
 
 function ForgotPassword() {
-  const [openSnackbar, setOpenSnackbar] = React.useState(false);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarSeverity, setSnackbarSeverity] = useState("success");
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [emailResult, setEmailResult] = useState(false);
 
-  const handleSnackbarClose = () => {
-    setOpenSnackbar(false);
-  };
-
-  const handleSendEmail = () => {
-    const userEmail = document.getElementById("standard-basic").value;
-
-    // Check if the email is not empty
-    if (!userEmail) {
+  const handleSnackbarClose = (event, reason) => {
+    if (reason === "clickaway") {
       return;
     }
 
-    // Your EmailJS template ID and user ID
-    const templateParams = {
-      to_email: userEmail,
-      // Add other template variables as needed
-    };
+    setOpenSnackbar(false);
 
-    // Replace these with your EmailJS service ID, template ID, and user ID
-    const serviceId = "service_cktbx3y";
-    const templateId = "template_sjuqpvd";
-    const userId = "8-dm5hdWgZjnQ7aaU";
-
-    emailjs
-      .send(serviceId, templateId, templateParams, userId)
-      .then((response) => {
-        console.log("Email sent successfully:", response);
-        setOpenSnackbar(true);
-      })
-      .catch((error) => {
-        console.error("Error sending email:", error);
-        console.error("EmailJS error details:", error?.response?.text); // Log the detailed error message from EmailJS
-      });
+    if (snackbarSeverity === "success") {
+      setEmailResult(true);
+      setSnackbarMessage("Password reset email has been sent.");
+    } else {
+      setEmailResult(false);
+      setSnackbarMessage("Failed to send reset email. Please try again.");
+    }
   };
 
+  const handleSendEmail = async () => {
+    const userEmail = document.getElementById("standard-basic").value;
+    console.log(userEmail);
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    const isValidEmail = emailPattern.test(userEmail);
+
+    console.log(isValidEmail);
+
+    if (!isValidEmail) {
+      setSnackbarSeverity("error");
+      setSnackbarMessage("Please enter a valid email address.");
+      setOpenSnackbar(true);
+      setEmailResult(false);
+      return;
+    } else {
+      const templateParams = {
+        to_email: userEmail,
+      };
+
+      const serviceId = "service_cktbx3y";
+      const templateId = "template_sjuqpvd";
+      const userId = "8-dm5hdWgZjnQ7aaU";
+
+      try {
+        const response = await emailjs.send(
+          serviceId,
+          templateId,
+          templateParams,
+          userId
+        );
+        console.log("EmailJS response:", response);
+
+        if (response && response.text === "OK") {
+          console.log("Email sent successfully");
+          setSnackbarSeverity("success");
+          setSnackbarMessage("Password reset email has been sent.");
+          setOpenSnackbar(true);
+          setEmailResult(true);
+        } else {
+          console.error("Error sending email. Response:", response);
+          setSnackbarSeverity("error");
+          setSnackbarMessage("Failed to send reset email. Please try again.");
+          setOpenSnackbar(true);
+          setEmailResult(false);
+        }
+      } catch (error) {
+        console.error("Error sending email:", error);
+        console.error("EmailJS error details:", error?.response?.text);
+        setSnackbarSeverity("error");
+        setSnackbarMessage("Failed to send reset email. Please try again.");
+        setOpenSnackbar(true);
+        setEmailResult(false);
+      }
+    }
+  };
   return (
     <ThemeProvider theme={customTheme}>
       <div
@@ -142,14 +181,18 @@ function ForgotPassword() {
         <TextField id="standard-basic" label="User Email" variant="standard" />
         <Button
           variant="contained"
-          id="btn"
+          className="btn"
           style={{ marginTop: "16px" }}
           onClick={handleSendEmail}
         >
           <SaveIcon />
           Send Email
         </Button>
-        <Button variant="contained" id="btn" style={{ marginTop: "8px" }}>
+        <Button
+          variant="contained"
+          className="btn"
+          style={{ marginTop: "8px" }}
+        >
           <DeleteIcon />
           Cancel
         </Button>
@@ -160,9 +203,15 @@ function ForgotPassword() {
           onClose={handleSnackbarClose}
           anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
         >
-          <Alert onClose={handleSnackbarClose} severity="success">
-            Email has been sent!
-          </Alert>
+          {emailResult ? (
+            <Alert onClose={handleSnackbarClose} severity="success">
+              {snackbarMessage}
+            </Alert>
+          ) : (
+            <Alert onClose={handleSnackbarClose} severity="error">
+              {snackbarMessage}
+            </Alert>
+          )}
         </Snackbar>
       </div>
     </ThemeProvider>
