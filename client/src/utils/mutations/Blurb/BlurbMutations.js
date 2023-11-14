@@ -35,6 +35,8 @@ export const FIND_BLURB_BY_ID = gql`
     blurb(id: $blurbId) {
       _id
       blurbText
+      likes
+      likeList
       blurbAuthor {
         username
       }

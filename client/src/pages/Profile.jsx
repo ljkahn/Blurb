@@ -19,7 +19,6 @@ import BlurbStream from "../components/Blurbs/BlurbCard.jsx";
 import BlurbCom from "../components/Blurbs/BlurbComCard.jsx";
 import { createTheme, ThemeProvider, useTheme } from "@mui/material/styles";
 import { outlinedInputClasses } from "@mui/material/OutlinedInput";
-// import { useLikedBlurbs } from "../utils/LikedBlurbContext.js";
 
 const customTheme = (outerTheme) =>
   createTheme({
@@ -125,12 +124,12 @@ function Profile({ registered }) {
 
   useEffect(() => {
     if (registered) {
-      refetch();
+      // refetch();
     }
     if (!loading) {
       // console.log(data.me);
       setUserData(data.me);
-      refetch();
+      // refetch();
     }
   }, [loading, registered]);
 
@@ -204,6 +203,8 @@ function Profile({ registered }) {
     }
   }, [data]);
 
+  console.log(userData);
+
   const handleBlurbDelete = async (deletedBlurbId) => {
     try {
       await removeBlurb({ variables: { blurbId: deletedBlurbId } });
@@ -217,8 +218,6 @@ function Profile({ registered }) {
       console.log("blurb not found");
     }
   };
-
-  // refetch();
 
   return (
     <div>
@@ -262,7 +261,7 @@ function Profile({ registered }) {
                       onDelete={() => handleBlurbDelete(blurb._id)}
                       showEdit={true}
                       liked={blurb.likeList.includes(auth.getProfile().data._id)}
-                      isLiked={refetch}
+                      // isLiked={refetch}
                     >
                       {blurb.blurbText}
                       <div>{blurb.tags}</div>
