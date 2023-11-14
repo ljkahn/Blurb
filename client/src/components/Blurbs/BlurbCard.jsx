@@ -27,7 +27,7 @@ import { createTheme, ThemeProvider, useTheme } from "@mui/material/styles";
 import { outlinedInputClasses } from "@mui/material/OutlinedInput";
 import { ALL_BLURBS } from "../../utils/Queries/queries";
 
-import { QUERY_ONE_USER } from "../../utils/Queries/userQueries";
+
 import { Link } from "react-router-dom";
 
 
