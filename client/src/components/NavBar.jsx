@@ -18,7 +18,7 @@ import Photo from "../components/Profile/tinyPhoto.jsx";
 import AddBlurb from "./Blurbs/AddBlurb";
 import logo from "../public/assets/blurbLogo.png";
 import Box from "@mui/material/Box";
-
+import { QUERY_GET_NOTIFICATIONS } from "../utils/Queries/userQueries.js";
 
 function notificationsLabel(count) {
   if (count === 0) {
@@ -118,9 +118,6 @@ function NavBar() {
             src={logo}
           />
         </button>
-        <button onClick={openModal} id="addBlurb">
-          <Box component="img" id="logo" sx={{ height: 35 }} alt="Logo" src={logo} />
-        </button>
       </Tooltip>
       <Tooltip
         title="Notifications page, this is under construction right now! 🚧"
@@ -159,37 +156,6 @@ function NavBar() {
         <div>
           <AddBlurb setIsModalOpen={setIsModalOpen} />
         </div>
-
-        {/* <form id="blForm">
-          <TextField id="outlined-basic" label="Blurb" variant="outlined" />
-          <Dropdown>
-            <MenuButton id="addTag">Add Tag</MenuButton>
-            <Menu slots={{ listbox: Listbox }}>
-              <MenuItem onClick={createHandleMenuClick("Profile")}>
-                Funny
-              </MenuItem>
-              <MenuItem onClick={createHandleMenuClick("Language settings")}>
-                Tanks
-              </MenuItem>
-              <MenuItem onClick={createHandleMenuClick("Log out")}>
-                Rats
-              </MenuItem>
-              <MenuItem onClick={createHandleMenuClick("Log out")}>
-                Dogs
-              </MenuItem>
-              <MenuItem onClick={createHandleMenuClick("Log out")}>
-                Cats
-              </MenuItem>
-            </Menu>
-          </Dropdown>
-          <Button
-            style={{ margin: ".5rem" }}
-            variant="contained"
-            disableElevation
-          >
-            Post
-          </Button>
-        </form> */}
       </Modal>
     </div>
   );
