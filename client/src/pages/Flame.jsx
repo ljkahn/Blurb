@@ -5,15 +5,21 @@ import Fire from "../components/Blurbs/FireCard";
 // import { TypeAnimation } from "react-type-animation";
 import { useQuery } from "@apollo/client";
 import { ALL_BLURBS } from "../utils/Queries/queries.js";
+<<<<<<< HEAD
 import WhatshotIcon from "@mui/icons-material/Whatshot";
 import "../style/Flame.css"
 
 import Tooltip from "@mui/material/Tooltip";
+=======
+import auth from "../utils/auth.js";
+>>>>>>> main
 
-function Flame() {
+function Flame(liked, likes, registered) {
   const [blurbs, setBlurbs] = useState([]);
   const [isLoading, setLoading] = useState(true);
-  const { loading, data } = useQuery(ALL_BLURBS);
+  const { loading, data, refetch } = useQuery(ALL_BLURBS);
+  const [userData, setUserData] = useState(null);
+  
   useEffect(() => {
     if (!loading) {
       const allBlurbs = [...data.blurbs];
@@ -26,8 +32,22 @@ function Flame() {
 
       setBlurbs(popularBlurbs);
       setLoading(false);
+      refetch();
     }
-  }, [loading]);
+  }, [loading, data]);
+
+  useEffect(() => {
+    if (registered) {
+      // refetch();
+    }
+    if (!loading) {
+      // console.log(data.me);
+      setUserData(data.me);
+      // refetch();
+    }
+  }, [loading, registered]);
+
+  console.log(blurbs);
 
 
 
@@ -61,13 +81,15 @@ function Flame() {
           visible={true}
         />
       ) : (
-        blurbs.map((blurb, i) => (
+        blurbs.map((blurb) => (
           <Fire
-            key={i}
+            propRefetch={refetch}
+            key={blurb._id}
             blurbId={blurb._id}
             username={blurb.blurbAuthor.username}
             profilePic={blurb.blurbAuthor.profile.profilePic}
-            likes={blurb.likeList.length}
+            liked={blurb.likeList.includes(auth.getProfile().data._id)}
+            likes={blurb.likes}
           >
             {blurb.blurbText}
           </Fire>
