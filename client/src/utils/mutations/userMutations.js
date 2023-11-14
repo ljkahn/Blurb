@@ -37,7 +37,7 @@ export const EDIT_USER = gql`
   }
 `;
 
-export const EDIT_ACCOUNT = gql `
+export const EDIT_ACCOUNT = gql`
 mutation editAccount($password: String, $email: String) {
   editAccount(password: $password, email: $email) {
     profile {
