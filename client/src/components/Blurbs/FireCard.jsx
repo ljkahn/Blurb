@@ -17,6 +17,8 @@ import {
   UNLIKE_Blurb,
 } from "../../utils/mutations/Blurb/BlurbMutations";
 
+import { Link } from "react-router-dom";
+
 
 function FireCard({ children, username, blurbId, propRefetch, profilePic, likes, liked }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -66,6 +68,7 @@ function FireCard({ children, username, blurbId, propRefetch, profilePic, likes,
     <div id="bluMain">
       <div className="blurbContainer">
         <div id="blurbColOne">
+        <Link to={`/profile/${username}`}>
           <Avatar
             id="notifyPP"
             className="Blfriend"
@@ -73,6 +76,7 @@ function FireCard({ children, username, blurbId, propRefetch, profilePic, likes,
             src={staticImg}
             sx={{ width: 40, height: 40 }}
           />
+        </Link>
           {/* <div className="Blfriend" /> */}
           <div className="blInfo">
             <div>
