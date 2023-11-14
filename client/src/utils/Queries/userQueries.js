@@ -13,7 +13,6 @@ export const QUERY_MY_PROFILE = gql`
       }
       followingNumber
       followerNumber
-      notifications
       blurbs {
         _id
         blurbText

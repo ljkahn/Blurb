@@ -262,6 +262,18 @@ findBlurbById: async (parent, { blurbId }) => {
             );
 
             if (newComment) {
+              const blurb = await Blurbs.findById(blurbId);
+          if (blurb && blurb.blurbAuthor.toString() !== context.user._id.toString()) {
+            const blurbAuthor = await User.findById(blurb.blurbAuthor);
+            if (blurbAuthor) {
+              sendNotification({
+                recipient: blurbAuthor,
+                type: "comment",
+                blurbId: blurb._id,
+                commenter: context.user,
+              });
+            }
+          }
               // If the new comment is found, return a success message.
               return "Successfully created Comment!";
             }
@@ -363,6 +375,15 @@ findBlurbById: async (parent, { blurbId }) => {
       );
       if (!updatedBlurb) {
         throw new Error("Blurb not found!");
+      }
+      const blurbAuthor = await User.findById(updatedBlurb.blurbAuthor);
+      if (blurbAuthor) {
+        sendNotification({
+          recipient: blurbAuthor,
+          type: "like",
+          blurbId: updatedBlurb._id,
+          liker: context.user,
+        });
       }
       return "You have liked the blurb!";
     },
@@ -620,6 +641,15 @@ findBlurbById: async (parent, { blurbId }) => {
           { $addToSet: { followers: context.user._id } },
           { new: true }
         );
+
+        if (userToFollow) {
+          sendNotification({
+            recipient: userToFollow,
+            type: "follow",
+            follower: context.user,
+          });
+        }
+  
 
         return "User followed successfully!";
       } catch (error) {
