@@ -68,10 +68,10 @@ function FireCard({ children, username, blurbId, profilePic, likes }) {
         </div>
         <div id="notifyIcons">
           <IconButton onClick={handleLike} className="likeComment">
-            {likes >= 20 ?(
-              <WhatshotIcon style = {{color: "blue"}}/>
-            ) : likes >= 10 ? (
-              <WhatshotIcon style={{color: "red"}}/>
+            {likes >= 5 ?(
+              <WhatshotIcon style = {{color: "273Be2"}}/>
+            ) : likes >= 3 ? (
+              <WhatshotIcon style={{color: "orange"}}/>
             ) : (
             <WhatshotIcon />
             )}

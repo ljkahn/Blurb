@@ -76,7 +76,10 @@ function NavBar() {
 
   return (
     <div id="navContain">
-      <Tooltip title="Home page, this is where you can check out other user's blurbs! 👥">
+      <Tooltip title="Home page, this is where you can check out other user's blurbs! 👥"
+      enterTouchDelay={0}
+      leaveTouchDelay={2000}
+      >
         <Link to="/home">
           <IconButton>
             <HomeIcon
@@ -86,7 +89,10 @@ function NavBar() {
           </IconButton>
         </Link>
       </Tooltip>
-      <Tooltip title="Flame page, this is where Blurbs with more than 10 likes get promoted to! 🎉">
+      <Tooltip title="Flame page, this is where Blurbs with more than 10 likes get promoted to! 🎉"
+      enterTouchDelay={0}
+      leaveTouchDelay={2000}
+      >
         <Link to="/flame">
           <IconButton>
             <LocalFireDepartmentIcon
@@ -97,11 +103,17 @@ function NavBar() {
         </Link>
       </Tooltip>
       <Tooltip title="Click this button to post a blurb! 💬 ">
-        <button onClick={openModal} id="addBlurb">
+        <button onClick={openModal} id="addBlurb"
+        enterTouchDelay={0}
+        leaveTouchDelay={2000}
+        >
           <Box component="img" id="logo" sx={{ height: 35 }} alt="Logo" src={logo} />
         </button>
       </Tooltip>
-      <Tooltip title="Notifications page, this is under construction right now! 🚧">
+      <Tooltip title="Notifications page, this is under construction right now! 🚧"
+      enterTouchDelay={0}
+      leaveTouchDelay={2000}
+      >
         <Link to="/Likes">
           <IconButton aria-label={notificationsLabel(100)}>
             <Badge badgeContent={100} color="secondary">
@@ -113,7 +125,10 @@ function NavBar() {
           </IconButton>
         </Link>
       </Tooltip>
-      <Tooltip title="Profile page, this is where you can edit your profile information, and blurbs! ✏️">
+      <Tooltip title="Profile page, this is where you can edit your profile information, and blurbs! ✏️"
+      enterTouchDelay={0}
+      leaveTouchDelay={2000}
+      >
         <Link to="/profile">
           <IconButton>
             <Photo profileImg={userData.profilePic} />
