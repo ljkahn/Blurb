@@ -28,6 +28,7 @@ import SearchBar from "./components/SearchBar/SearchBar";
 import Auth from "./utils/auth";
 import ForgotPassword from "./pages/ForgotPassword";
 import Followers from "./pages/FollowerList";
+import ResetPassword from "./pages/ResetPassword";
 
 // Construct our main GraphQL API endpoint
 const httpLink = createHttpLink({
@@ -78,6 +79,7 @@ function App() {
           <Route path="/comment" element={<CommentPage />} />
           <Route path="/blurb" element={<BlurbStream />} />
           <Route path="/forgotPassword" element={<ForgotPassword />} />
+          <Route path="/resetPassword" element={<ResetPassword />} />
         </Routes>
         {registered && <NavBar />}{" "}
         {/* Conditionally render NavBar based on login status */}
