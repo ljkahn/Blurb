@@ -26,7 +26,7 @@ function Followers() {
     <div>
       <h1>Followers Page</h1>
       {followers.length > 0 && (
-        <FollowersList
+        <FollowersListCom
           followersList={followers}
           onClose={() => setFollowers([])}
         />
