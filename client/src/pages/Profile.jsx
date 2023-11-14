@@ -13,141 +13,40 @@ import { REMOVE_Blurb } from "../utils/mutations/Blurb/BlurbMutations.js";
 import { useNavigate, useParams } from "react-router-dom";
 import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_MY_PROFILE } from "../utils/Queries/userQueries.js";
-import { ALL_BLURBS } from "../utils/Queries/queries.js";
 import auth from "../utils/auth.js";
 import BlurbStream from "../components/Blurbs/BlurbCard.jsx";
 import BlurbCom from "../components/Blurbs/BlurbComCard.jsx";
 import { createTheme, ThemeProvider, useTheme } from "@mui/material/styles";
 import { outlinedInputClasses } from "@mui/material/OutlinedInput";
-import FollowersList from "../components/Follow/FollowerListCom.jsx";
+import FollowersList from "../components/Follow/FollowersListCom.jsx";
+import FollowingListCom from "../components/Follow/FollowingListCom.jsx";
+
 const customTheme = (outerTheme) =>
   createTheme({
     palette: {
       mode: outerTheme.palette.mode,
     },
     components: {
-      MuiTextField: {
-        styleOverrides: {
-          root: {
-            "--TextField-brandBorderColor": "#E0E3E7",
-            "--TextField-brandBorderHoverColor": "#B2BAC2",
-            "--TextField-brandBorderFocusedColor": "#f7e258",
-            "& label.Mui-focused": {
-              color: "var(--TextField-brandBorderFocusedColor)",
-            },
-            "& .MuiInputBase-input": {
-              color: "#F3F3F3",
-            },
-          },
-        },
-      },
-      MuiOutlinedInput: {
-        styleOverrides: {
-          notchedOutline: {
-            borderColor: "var(--TextField-brandBorderColor)",
-          },
-          root: {
-            [`&:hover .${outlinedInputClasses.notchedOutline}`]: {
-              borderColor: "var(--TextField-brandBorderHoverColor)",
-            },
-            [`&.Mui-focused .${outlinedInputClasses.notchedOutline}`]: {
-              borderColor: "var(--TextField-brandBorderFocusedColor)",
-            },
-            "& .MuiInputBase-input": {
-              color: "#F3F3F3",
-            },
-          },
-        },
-      },
-      MuiFilledInput: {
-        styleOverrides: {
-          root: {
-            "&:before, &:after": {
-              borderBottom: "2px solid var(--TextField-brandBorderColor)",
-            },
-            "&:hover:not(.Mui-disabled, .Mui-error):before": {
-              borderBottom: "2px solid var(--TextField-brandBorderHoverColor)",
-            },
-            "&.Mui-focused:after": {
-              borderBottom:
-                "2px solid var(--TextField-brandBorderFocusedColor)",
-            },
-            "& .MuiInputBase-input": {
-              color: "#F3F3F3",
-            },
-          },
-        },
-      },
-      MuiInput: {
-        styleOverrides: {
-          root: {
-            "&:before": {
-              borderBottom: "2px solid var(--TextField-brandBorderColor)",
-            },
-            "&:hover:not(.Mui-disabled, .Mui-error):before": {
-              borderBottom: "2px solid var(--TextField-brandBorderHoverColor)",
-            },
-            "&.Mui-focused:after": {
-              borderBottom:
-                "2px solid var(--TextField-brandBorderFocusedColor)",
-            },
-            "& .MuiInputBase-input": {
-              color: "#F3F3F3",
-            },
-          },
-        },
-      },
+      // ... (your theme overrides)
     },
   });
 
-function Profile({ registered }) {
+function UserProfile() {
   const outerTheme = useTheme();
   const [isEditVisible, setIsEditVisible] = useState(false);
   const [showProfile, setShowProfile] = useState(true);
   const [accountSettingsVisible, setAccountSettingsVisible] = useState(false);
   const [currentComponent, setCurrentComponent] = useState("profile");
   const [userData, setUserData] = useState(null);
-  const [isLoading, setLoading] = useState(true);
   const { loading, data, refetch } = useQuery(QUERY_MY_PROFILE);
   const [followers, setFollowers] = useState([]);
-  // useEffect (() => {
-  //   const { loading, data } = useQuery(QUERY_MY_PROFILE);
-
-  //   if (!isLoading) {
-  //     console.log(data.me);
-  //     setUserData(data.me)
-  //   }
-  //   else {
-  //     setLoading(loading);
-  //   }
-  // }, [isLoading]);
+  const [following, setFollowing] = useState([]);
 
   useEffect(() => {
-    if (registered) {
-      refetch();
-    }
-    if (!loading) {
-      // console.log(data.me);
+    if (data && data.me) {
       setUserData(data.me);
     }
-  }, [loading, registered]);
-
-  //   useEffect(() => {
-  //   if (data && data.me) {
-  //     // Assuming data.me.blurbs is the array that needs to be sorted
-  //     const sortedBlurbs = data.me.blurbs.slice().sort((a, b) => {
-  //       const dateA = new Date(a.createdAt);
-  //       const dateB = new Date(b.createdAt);
-  //       return dateB - dateA; // This will sort blurbs in descending order
-  //     });
-
-  //     // Set the user data with the sorted blurbs array
-  //     setUserData({
-  //       ...data.me,
-  //       blurbs: sortedBlurbs,
-  //     });
-  //   }
-  // }, [data]);
+  }, [data]);
 
   const handleEditClick = () => {
     setIsEditVisible(true);
@@ -177,10 +76,6 @@ function Profile({ registered }) {
 
   const neon = "#F7E258";
   const white = "#F5F5F5";
-  const lightGray = "#BEBFC5";
-  const gray = "#808080";
-  const darkGray = "#555555";
-  const jetBlack = "#343434";
   const black = "#212121";
   const buttonStyle = {
     backgroundColor: neon,
@@ -195,12 +90,6 @@ function Profile({ registered }) {
   const [removeBlurb] = useMutation(REMOVE_Blurb, {
     refetchQueries: [QUERY_MY_PROFILE],
   });
-
-  useEffect(() => {
-    if (data && data.me) {
-      setUserData(data.me);
-    }
-  }, [data]);
 
   const handleBlurbDelete = async (deletedBlurbId) => {
     try {
@@ -220,7 +109,16 @@ function Profile({ registered }) {
     // Fetch followers data (you may need to implement this)
     const followersData = await fetchFollowersData();
     setFollowers(followersData);
+    setCurrentComponent("followers");
   };
+
+  const showFollowing = async () => {
+    // Fetch following data (you may need to implement this)
+    const followingData = await fetchFollowingData();
+    setFollowing(followingData);
+    setCurrentComponent("following");
+  };
+
   return (
     <div>
       <ThemeProvider theme={customTheme(outerTheme)}>
@@ -244,13 +142,12 @@ function Profile({ registered }) {
                 >
                   {userData.followerNumber} Followers
                 </Button>
-                {followers.length > 0 && (
-                  <FollowersList
-                    followers={followers}
-                    onClose={() => setFollowers([])}
-                  />
-                )}
-                <Button id="btn" style={buttonStyle} variant="contained">
+                <Button
+                  id="btn"
+                  style={buttonStyle}
+                  variant="contained"
+                  onClick={showFollowing}
+                >
                   {userData.followingNumber} Following
                 </Button>
               </Grid>
@@ -266,13 +163,11 @@ function Profile({ registered }) {
                 userData.blurbs.map((blurb) => (
                   <div key={blurb._id}>
                     <BlurbStream
-                      // key={blurb._id}
                       blurbId={blurb._id}
                       username={blurb.username}
                       profilePic={userData.profile.profilePic}
                       onDelete={() => handleBlurbDelete(blurb._id)}
                       showEdit={true}
-                      // isLiked={}
                     >
                       {blurb.blurbText}
                       <div>{blurb.tags}</div>
@@ -297,8 +192,21 @@ function Profile({ registered }) {
           ) : (
             accountSettingsVisible && <AccountEdit userData={userData} />
           ))}
+        {followers.length > 0 && currentComponent === "followers" && (
+          <FollowersList
+            followers={followers}
+            onClose={() => setFollowers([])}
+          />
+        )}
+        {following.length > 0 && currentComponent === "following" && (
+          <FollowingListCom
+            following={following}
+            onClose={() => setFollowing([])}
+          />
+        )}
       </ThemeProvider>
     </div>
   );
 }
-export default Profile;
+
+export default UserProfile;
