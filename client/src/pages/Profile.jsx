@@ -10,16 +10,15 @@ import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import "../style/Profile.css";
 import "../index.css";
 import { REMOVE_Blurb } from "../utils/mutations/Blurb/BlurbMutations.js";
-import { useNavigate, useParams, Link } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_MY_PROFILE } from "../utils/Queries/userQueries.js";
+import { ALL_BLURBS } from "../utils/Queries/queries.js";
 import auth from "../utils/auth.js";
 import BlurbStream from "../components/Blurbs/BlurbCard.jsx";
 import BlurbCom from "../components/Blurbs/BlurbComCard.jsx";
 import { createTheme, ThemeProvider, useTheme } from "@mui/material/styles";
 import { outlinedInputClasses } from "@mui/material/OutlinedInput";
-import FollowersList from "../components/Follow/FollowersListCom.jsx";
-import FollowingListCom from "../components/Follow/FollowingListCom.jsx";
 
 const customTheme = (outerTheme) =>
   createTheme({
@@ -27,22 +26,101 @@ const customTheme = (outerTheme) =>
       mode: outerTheme.palette.mode,
     },
     components: {
-      // ... (your theme overrides)
+      MuiTextField: {
+        styleOverrides: {
+          root: {
+            "--TextField-brandBorderColor": "#E0E3E7",
+            "--TextField-brandBorderHoverColor": "#B2BAC2",
+            "--TextField-brandBorderFocusedColor": "#f7e258",
+            "& label.Mui-focused": {
+              color: "var(--TextField-brandBorderFocusedColor)",
+            },
+            "& .MuiInputBase-input": {
+              color: "#F3F3F3",
+            },
+          },
+        },
+      },
+      MuiOutlinedInput: {
+        styleOverrides: {
+          notchedOutline: {
+            borderColor: "var(--TextField-brandBorderColor)",
+          },
+          root: {
+            [`&:hover .${outlinedInputClasses.notchedOutline}`]: {
+              borderColor: "var(--TextField-brandBorderHoverColor)",
+            },
+            [`&.Mui-focused .${outlinedInputClasses.notchedOutline}`]: {
+              borderColor: "var(--TextField-brandBorderFocusedColor)",
+            },
+            "& .MuiInputBase-input": {
+              color: "#F3F3F3",
+            },
+          },
+        },
+      },
+      MuiFilledInput: {
+        styleOverrides: {
+          root: {
+            "&:before, &:after": {
+              borderBottom: "2px solid var(--TextField-brandBorderColor)",
+            },
+            "&:hover:not(.Mui-disabled, .Mui-error):before": {
+              borderBottom: "2px solid var(--TextField-brandBorderHoverColor)",
+            },
+            "&.Mui-focused:after": {
+              borderBottom:
+                "2px solid var(--TextField-brandBorderFocusedColor)",
+            },
+            "& .MuiInputBase-input": {
+              color: "#F3F3F3",
+            },
+          },
+        },
+      },
+      MuiInput: {
+        styleOverrides: {
+          root: {
+            "&:before": {
+              borderBottom: "2px solid var(--TextField-brandBorderColor)",
+            },
+            "&:hover:not(.Mui-disabled, .Mui-error):before": {
+              borderBottom: "2px solid var(--TextField-brandBorderHoverColor)",
+            },
+            "&.Mui-focused:after": {
+              borderBottom:
+                "2px solid var(--TextField-brandBorderFocusedColor)",
+            },
+            "& .MuiInputBase-input": {
+              color: "#F3F3F3",
+            },
+          },
+        },
+      },
     },
   });
 
-function UserProfile({ registered }) {
+function Profile({ registered }) {
   const outerTheme = useTheme();
   const [isEditVisible, setIsEditVisible] = useState(false);
   const [showProfile, setShowProfile] = useState(true);
   const [accountSettingsVisible, setAccountSettingsVisible] = useState(false);
   const [currentComponent, setCurrentComponent] = useState("profile");
   const [userData, setUserData] = useState(null);
+  const [isLoading, setLoading] = useState(true);
   const { loading, data, refetch } = useQuery(QUERY_MY_PROFILE);
-  const [followers, setFollowers] = useState([]);
-  const [following, setFollowing] = useState([]);
 
- 
+  // useEffect (() => {
+  //   const { loading, data } = useQuery(QUERY_MY_PROFILE);
+
+  //   if (!isLoading) {
+  //     console.log(data.me);
+  //     setUserData(data.me)
+  //   }
+  //   else {
+  //     setLoading(loading);
+  //   }
+  // }, [isLoading]);
 
   useEffect(() => {
     if (registered) {
@@ -53,7 +131,24 @@ function UserProfile({ registered }) {
       setUserData(data.me);
       // refetch();
     }
-  }, [data]);
+  }, [loading, registered]);
+
+  //   useEffect(() => {
+  //   if (data && data.me) {
+  //     // Assuming data.me.blurbs is the array that needs to be sorted
+  //     const sortedBlurbs = data.me.blurbs.slice().sort((a, b) => {
+  //       const dateA = new Date(a.createdAt);
+  //       const dateB = new Date(b.createdAt);
+  //       return dateB - dateA; // This will sort blurbs in descending order
+  //     });
+
+  //     // Set the user data with the sorted blurbs array
+  //     setUserData({
+  //       ...data.me,
+  //       blurbs: sortedBlurbs,
+  //     });
+  //   }
+  // }, [data]);
 
   const handleEditClick = () => {
     setIsEditVisible(true);
@@ -83,6 +178,10 @@ function UserProfile({ registered }) {
 
   const neon = "#F7E258";
   const white = "#F5F5F5";
+  const lightGray = "#BEBFC5";
+  const gray = "#808080";
+  const darkGray = "#555555";
+  const jetBlack = "#343434";
   const black = "#212121";
   const buttonStyle = {
     backgroundColor: neon,
@@ -98,13 +197,13 @@ function UserProfile({ registered }) {
     refetchQueries: [QUERY_MY_PROFILE],
   });
 
-  // useEffect(() => {
-  //   if (data && data.me) {
-  //     setUserData(data.me);
-  //   }
-  // }, [data]);
+  useEffect(() => {
+    if (data && data.me) {
+      setUserData(data.me);
+    }
+  }, [data]);
 
-  // console.log(data);
+  console.log(userData);
 
   const handleBlurbDelete = async (deletedBlurbId) => {
     try {
@@ -118,21 +217,6 @@ function UserProfile({ registered }) {
     } catch (err) {
       console.log("blurb not found");
     }
-  };
-
-  const showFollowers = () => {
-    // Instead of using async/await here, you can directly set the state
-    fetchFollowersData().then((followersData) => {
-      setFollowers(followersData);
-      setCurrentComponent("followers");
-    });
-  };
-
-  const showFollowing = async () => {
-    // Fetch following data (you may need to implement this)
-    const followingData = await fetchFollowingData();
-    setFollowing(followingData);
-    setCurrentComponent("following");
   };
 
   return (
@@ -150,21 +234,10 @@ function UserProfile({ registered }) {
               <p id="info">{userData.profile.bio}</p>
               <p id="info">📍{userData.profile.location}</p>
               <Grid>
-                <Button
-                  id="btn"
-                  style={buttonStyle}
-                  variant="contained"
-                  component={Link}
-                  to="/followers"
-                >
+                <Button id="btn" style={buttonStyle} variant="contained">
                   {userData.followerNumber} Followers
                 </Button>
-                <Button
-                  id="btn"
-                  style={buttonStyle}
-                  variant="contained"
-                  onClick={showFollowing}
-                >
+                <Button id="btn" style={buttonStyle} variant="contained">
                   {userData.followingNumber} Following
                 </Button>
               </Grid>
@@ -187,9 +260,7 @@ function UserProfile({ registered }) {
                       profilePic={userData.profile.profilePic}
                       onDelete={() => handleBlurbDelete(blurb._id)}
                       showEdit={true}
-                      liked={blurb.likeList.includes(
-                        auth.getProfile().data._id
-                      )}
+                      liked={blurb.likeList.includes(auth.getProfile().data._id)}
                       likes={blurb.likes}
                       // isLiked={refetch}
                     >
@@ -204,9 +275,7 @@ function UserProfile({ registered }) {
                         blurbId={blurb._id}
                         username={comment?.commentAuthor?.username}
                         comments={comment.commentText}
-                        liked={comment.likeList.includes(
-                          auth.getProfile().data._id
-                        )}
+                        liked={comment.likeList.includes(auth.getProfile().data._id)}
                         likes={comment.likes}
                       />
                     ))}
@@ -221,21 +290,8 @@ function UserProfile({ registered }) {
           ) : (
             accountSettingsVisible && <AccountEdit userData={userData} />
           ))}
-        {followers.length > 0 && currentComponent === "followers" && (
-          <FollowersList
-            followers={followers}
-            onClose={() => setFollowers([])}
-          />
-        )}
-        {following.length > 0 && currentComponent === "following" && (
-          <FollowingListCom
-            following={following}
-            onClose={() => setFollowing([])}
-          />
-        )}
       </ThemeProvider>
     </div>
   );
 }
-
-export default UserProfile;
+export default Profile;
