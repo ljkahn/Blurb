@@ -14,22 +14,6 @@ function Home() {
   const [isLoading, setLoading] = useState(true);
   const { loading, data, refetch } = useQuery(ALL_BLURBS);
 
-
-  // const handleLike = () => {
-  //   if (isLiked) {
-  //     unlikeBlurb({
-  //       variables: { blurbId },
-  //       refetchQueries: [{ query: QUERY_MY_PROFILE }],
-  //     });
-  //   } else {
-  //     likeBlurb({
-  //       variables: { blurbId },
-  //       refetchQueries: [{ query: QUERY_MY_PROFILE }],
-  //     });
-  //   }
-  //   setIsLiked(!isLiked);
-  // };
-
   useEffect(() => {
     if (!loading) {
       const allBlurbs = [...data.blurbs];
@@ -42,7 +26,6 @@ function Home() {
       setBlurbs([...data.blurbs]);
       setLoading(false);
       refetch();
-      // console.log(...data.blurbs);
     }
   }, [data]);
 
