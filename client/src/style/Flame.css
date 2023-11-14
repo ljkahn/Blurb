@@ -1,0 +1,20 @@
+#flameContain {
+text-align: center;
+
+}
+
+#redFlame {
+  color: orange;
+  width: 40px;
+  height: 40px;
+}
+
+#blueFlame {
+  color: #273Be2;
+  width: 40px;
+  height: 40px;
+}
+
+#popoverP {
+  background-color: #BEBFC5;
+}
