@@ -3,7 +3,7 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 // import { useMutation } from "@apollo/client";
 // import { LOGIN_USER } from "../../utils/mutations/userMutations";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 import SaveIcon from "@mui/icons-material/Save";
@@ -92,6 +92,7 @@ const customTheme = createTheme({
 });
 
 function ForgotPassword() {
+  const navigate = useNavigate();
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarSeverity, setSnackbarSeverity] = useState("success");
   const [snackbarMessage, setSnackbarMessage] = useState("");
@@ -168,6 +169,11 @@ function ForgotPassword() {
       }
     }
   };
+
+  const handleCancel = () => {
+    navigate(-1); // Go back one step in the history stack
+  };
+
   return (
     <ThemeProvider theme={customTheme}>
       <div
@@ -193,6 +199,7 @@ function ForgotPassword() {
           variant="contained"
           className="btn"
           style={{ marginTop: "8px" }}
+          onClick={handleCancel}
         >
           <DeleteIcon />
           Cancel
