@@ -16,9 +16,8 @@ import { useQuery } from "@apollo/client";
 import { QUERY_MY_PROFILE } from "../utils/Queries/userQueries.js";
 import Photo from "../components/Profile/tinyPhoto.jsx";
 import AddBlurb from "./Blurbs/AddBlurb";
-import logo from "../public/assets/blurbLogo.png";
+import logo from "../public/assets/Untitled-1.png";
 import Box from "@mui/material/Box";
-
 
 function notificationsLabel(count) {
   if (count === 0) {
@@ -103,6 +102,14 @@ function NavBar() {
         </Link>
       </Tooltip>
       <Tooltip title="Click this button to post a blurb! 💬 ">
+        <button onClick={openModal} id="addBlurb">
+          <Box
+            component="img"
+            id="logo"
+            sx={{ height: 35 }}
+            alt="Logo"
+            src={logo}
+          />
         <button onClick={openModal} id="addBlurb"
         enterTouchDelay={0}
         leaveTouchDelay={2000}

@@ -262,6 +262,18 @@ findBlurbById: async (parent, { blurbId }) => {
             );
 
             if (newComment) {
+              const blurb = await Blurbs.findById(blurbId);
+          if (blurb && blurb.blurbAuthor.toString() !== context.user._id.toString()) {
+            const blurbAuthor = await User.findById(blurb.blurbAuthor);
+            if (blurbAuthor) {
+              sendNotification({
+                recipient: blurbAuthor,
+                type: "comment",
+                blurbId: blurb._id,
+                commenter: context.user,
+              });
+            }
+          }
               // If the new comment is found, return a success message.
               return "Successfully created Comment!";
             }
@@ -364,6 +376,15 @@ findBlurbById: async (parent, { blurbId }) => {
       if (!updatedBlurb) {
         throw new Error("Blurb not found!");
       }
+      const blurbAuthor = await User.findById(updatedBlurb.blurbAuthor);
+      if (blurbAuthor) {
+        sendNotification({
+          recipient: blurbAuthor,
+          type: "like",
+          blurbId: updatedBlurb._id,
+          liker: context.user,
+        });
+      }
       return "You have liked the blurb!";
     },
     // ✅
@@ -440,31 +461,31 @@ findBlurbById: async (parent, { blurbId }) => {
     },
     // ✅
 
-    editAccount: async (_, { password, email }, context) => {
-      if (!context.user) {
-        throw new Error("Not logged in");
-      }
+    // editAccount: async (_, { password, email }, context) => {
+    //   if (!context.user) {
+    //     throw new Error("Not logged in");
+    //   }
 
-      const user = await User.findById(context.user._id);
-      if (!user) {
-        throw new Error("User not found");
-      }
+    //   const user = await User.findById(context.user._id);
+    //   if (!user) {
+    //     throw new Error("User not found");
+    //   }
 
-      // Update user fields here
+    //   // Update user fields here
 
-      if (password) {
-        user.profile.password = password;
-        user.profile.isPasswordChanged = true;
-      }
+    //   if (password) {
+    //     user.profile.password = password;
+    //     user.profile.isPasswordChanged = true;
+    //   }
 
-      // Update other profile fields
-      if (email) user.profile.email = email;
-      // Repeat for other fields...
+    //   // Update other profile fields
+    //   if (email) user.profile.email = email;
+    //   // Repeat for other fields...
 
-      console.log(user);
-      await user.save();
-      return user;
-    },
+    //   console.log(user);
+    //   await user.save();
+    //   return user;
+    // },
     // ✅
 
     editAccount: async (_, { email, password}, context) => {
@@ -621,6 +642,15 @@ findBlurbById: async (parent, { blurbId }) => {
           { new: true }
         );
 
+        if (userToFollow) {
+          sendNotification({
+            recipient: userToFollow,
+            type: "follow",
+            follower: context.user,
+          });
+        }
+  
+
         return "User followed successfully!";
       } catch (error) {
         console.error(error);
@@ -666,3 +696,4 @@ findBlurbById: async (parent, { blurbId }) => {
   },
 };
 module.exports = resolvers;
+
