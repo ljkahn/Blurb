@@ -86,14 +86,14 @@ function FireCard({ children, username, blurbId, propRefetch, profilePic, likes,
             {likes >= 4 ?(
               <>
               <WhatshotIcon 
-              style = {{color: "blue", fontSize: "2.3rem", position: "absolute", top: "-13px"}}
+              style = {{color: "#273Be2", fontSize: "2.3rem", position: "absolute", top: "-13px"}}
               />
               <p className="likesCount" style={{ position: "absolute", top: "-2px"}}>{likes}</p>
               </>
             ) : likes >= 3 ? (
               <>
               <WhatshotIcon 
-              style = {{color: "red", fontSize: "2.3rem", position: "absolute", top: "-13px"}}
+              style = {{color: "orange", fontSize: "2.3rem", position: "absolute", top: "-13px"}}
               />
               <p className="likesCount" style={{ position: "absolute", top: "-2px"}}>{likes}</p>
               </>
