@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useNavigate,
+} from "react-router-dom";
 import {
   ApolloClient,
   InMemoryCache,
@@ -21,6 +26,7 @@ import Likes from "./pages/Likes";
 import CommentPage from "./pages/CommentPage";
 import SearchBar from "./components/SearchBar/SearchBar";
 import Auth from "./utils/auth";
+import ForgotPassword from "./pages/ForgotPassword";
 
 // Construct our main GraphQL API endpoint
 const httpLink = createHttpLink({
@@ -43,15 +49,12 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-
 const isLoggedIn = () => {
   return !!localStorage.getItem("id_token");
 };
 
 function App() {
   const [registered, isRegistered] = useState(Auth.getToken() ? true : false);
-  
-
 
   return (
     <ApolloProvider client={client}>
@@ -61,14 +64,21 @@ function App() {
           <Route path="/" element={<Login isRegistered={isRegistered} />} />
           <Route path="/home" element={<Home />} />
           <Route path="/flame" element={<Flame />} />
-          <Route path="/profile" element={registered ? <Profile registered={registered} /> : <Login />} />
+          <Route
+            path="/profile"
+            element={
+              registered ? <Profile registered={registered} /> : <Login />
+            }
+          />
           <Route path="/profile/:username" element={<UserProfile />} />
           <Route path="*" element={<Error />} />
           <Route path="/likes" element={<Likes />} />
           <Route path="/comment" element={<CommentPage />} />
           <Route path="/blurb" element={<BlurbStream />} />
+          <Route path="/forgotPassword" element={<ForgotPassword />} />
         </Routes>
-        {registered && <NavBar />} {/* Conditionally render NavBar based on login status */}
+        {registered && <NavBar />}{" "}
+        {/* Conditionally render NavBar based on login status */}
       </Router>
     </ApolloProvider>
   );

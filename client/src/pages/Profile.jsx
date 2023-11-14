@@ -43,8 +43,13 @@ function UserProfile() {
   const [following, setFollowing] = useState([]);
 
   useEffect(() => {
-    if (data && data.me) {
+    if (registered) {
+      // refetch();
+    }
+    if (!loading) {
+      // console.log(data.me);
       setUserData(data.me);
+      // refetch();
     }
   }, [data]);
 
@@ -90,6 +95,14 @@ function UserProfile() {
   const [removeBlurb] = useMutation(REMOVE_Blurb, {
     refetchQueries: [QUERY_MY_PROFILE],
   });
+
+  useEffect(() => {
+    if (data && data.me) {
+      setUserData(data.me);
+    }
+  }, [data]);
+
+  console.log(userData);
 
   const handleBlurbDelete = async (deletedBlurbId) => {
     try {
@@ -163,22 +176,34 @@ function UserProfile() {
                 userData.blurbs.map((blurb) => (
                   <div key={blurb._id}>
                     <BlurbStream
+                      key={blurb._id}
+                      // propRefetch={refetch}
                       blurbId={blurb._id}
                       username={blurb.username}
                       profilePic={userData.profile.profilePic}
                       onDelete={() => handleBlurbDelete(blurb._id)}
                       showEdit={true}
+                      liked={blurb.likeList.includes(
+                        auth.getProfile().data._id
+                      )}
+                      likes={blurb.likes}
+                      // isLiked={refetch}
                     >
                       {blurb.blurbText}
                       <div>{blurb.tags}</div>
                     </BlurbStream>
                     {blurb.comments.map((comment) => (
                       <BlurbCom
+                        key={comment._id}
                         commentId={comment._id}
                         commentTest={comment}
                         blurbId={blurb._id}
                         username={comment?.commentAuthor?.username}
                         comments={comment.commentText}
+                        liked={comment.likeList.includes(
+                          auth.getProfile().data._id
+                        )}
+                        likes={comment.likes}
                       />
                     ))}
                   </div>
