@@ -82,17 +82,17 @@ const resolvers = {
     },
     // ✅
 
-findBlurbById: async (parent, { blurbId }) => {
-  return Blurbs.findById(blurbId)
-    .populate("blurbAuthor")
-    .populate({
-      path: "comments",
-      populate: {
-        path: "commentAuthor",
-        model: "User",
+    findBlurbById: async (parent, { blurbId }) => {
+    return Blurbs.findById(blurbId)
+      .populate("blurbAuthor")
+      .populate({
+        path: "comments",
+        populate: {
+          path: "commentAuthor",
+          model: "User",
       },
     });
-},
+  },
 
 
     //get all users with blurbs greater than zero
@@ -171,6 +171,33 @@ findBlurbById: async (parent, { blurbId }) => {
         throw new Error("Failed to find followers");
       }
     },
+
+    followedUsersBlurbs: async (parent, args, context) => {
+      if (!context.user) {
+        throw new Error("You must be logged in to view this content");
+      }
+
+      try {
+        // Fetch the list of users that the current user is following
+        const currentUser = await User.findById(context.user._id).populate("following");
+
+        // Extract the IDs of followed users
+        const followedUserIds = currentUser.following.map(user => user._id);
+
+        // Find blurbs where the author is in the list of followed users
+        const blurbs = await Blurbs.find({ 
+          blurbAuthor: { $in: followedUserIds }
+        })
+        .populate("blurbAuthor")
+        .sort({ createdAt: -1 });
+
+        return blurbs;
+      } catch (error) {
+        console.error(error);
+        throw new Error("An error occurred while retrieving blurbs");
+      }
+    },
+
     userFollowers: async (_, { userId }, context) => {
       // Check authentication and permissions as needed
 
@@ -645,6 +672,7 @@ findBlurbById: async (parent, { blurbId }) => {
         throw new Error("Failed to follow user");
       }
     },
+    
     unfollowUser: async (parent, { userIdToUnfollow }, context) => {
       console.log(context.user);
       // Verify user is logged in
