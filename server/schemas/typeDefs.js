@@ -85,11 +85,12 @@ const typeDefs = `
     }
 
     type Notification {
-      _id: ID!
-      type: String!
-      sender: User!
+      _id: ID
+      type: String
+      sender: User
+      recipient: User
       blurbId: ID
-      createdAt: String!
+      createdAt: String
     }
     
     type Query {

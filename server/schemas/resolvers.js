@@ -1,8 +1,19 @@
-const { User, Blurbs } = require("../models");
+const { User, Blurbs, Notification } = require("../models");
 const { signToken, AuthenticationError } = require("../utils/auth");
+const sendNotification = require("../utils/sendNotification");
 
 const resolvers = {
   Query: {
+    // notification: async (parent, args, context) => {
+    //   if (context.user) {
+    //     const currentUser = await User.findOne({
+    //       _id: context.user._id,
+    //     }).populate("notifications");
+    //     console.log(currentUser);
+    //     return currentUser;
+    //   }
+    //   throw AuthenticationError;
+    // },
     //get all users
     users: async () => {
       try {
@@ -83,17 +94,16 @@ const resolvers = {
     // ✅
 
     findBlurbById: async (parent, { blurbId }) => {
-    return Blurbs.findById(blurbId)
-      .populate("blurbAuthor")
-      .populate({
-        path: "comments",
-        populate: {
-          path: "commentAuthor",
-          model: "User",
-      },
-    });
-  },
-
+      return Blurbs.findById(blurbId)
+        .populate("blurbAuthor")
+        .populate({
+          path: "comments",
+          populate: {
+            path: "commentAuthor",
+            model: "User",
+          },
+        });
+    },
 
     //get all users with blurbs greater than zero
     randomBlurb: async () => {
@@ -109,16 +119,23 @@ const resolvers = {
       // for (const user of loginRandomBlurbs) {
       //   blurbs.push(...user.blurbs);
       // }
-      const blurbs = await Blurbs.find().populate("blurbAuthor")
+      const blurbs = await Blurbs.find().populate("blurbAuthor");
       const randomIndex = Math.floor(Math.random() * blurbs.length);
-      console.log(blurbs[randomIndex])
+      console.log(blurbs[randomIndex]);
       return blurbs[randomIndex];
     },
 
     // find my user account
     me: async (parent, args, context) => {
       if (context.user) {
-        const currentUser = await User.findOne({ _id: context.user._id }).populate("blurbs");
+        const currentUser = await User.findOne({
+          _id: context.user._id,
+        })
+          .populate("blurbs")
+          .populate({
+            path: "notifications",
+            options: { virtuals: true },
+          });
         console.log(currentUser);
         return currentUser;
       }
@@ -163,7 +180,7 @@ const resolvers = {
         if (!user) {
           throw new Error("User not found");
         }
-        
+
         // Return the list of users who follow me
         return user.followers;
       } catch (error) {
@@ -179,17 +196,19 @@ const resolvers = {
 
       try {
         // Fetch the list of users that the current user is following
-        const currentUser = await User.findById(context.user._id).populate("following");
+        const currentUser = await User.findById(context.user._id).populate(
+          "following"
+        );
 
         // Extract the IDs of followed users
-        const followedUserIds = currentUser.following.map(user => user._id);
+        const followedUserIds = currentUser.following.map((user) => user._id);
 
         // Find blurbs where the author is in the list of followed users
-        const blurbs = await Blurbs.find({ 
-          blurbAuthor: { $in: followedUserIds }
+        const blurbs = await Blurbs.find({
+          blurbAuthor: { $in: followedUserIds },
         })
-        .populate("blurbAuthor")
-        .sort({ createdAt: -1 });
+          .populate("blurbAuthor")
+          .sort({ createdAt: -1 });
 
         return blurbs;
       } catch (error) {
@@ -203,17 +222,17 @@ const resolvers = {
 
       try {
         // Fetch the user based on the provided userId
-        const user = await User.findById(userId).populate('followers');
+        const user = await User.findById(userId).populate("followers");
 
         if (!user) {
-          throw new Error('User not found');
+          throw new Error("User not found");
         }
 
         // Return the list of users that the user follows
         return user.followers;
       } catch (error) {
-        console.error('Error fetching user followers:', error);
-        throw new Error('Failed to fetch user followers');
+        console.error("Error fetching user followers:", error);
+        throw new Error("Failed to fetch user followers");
       }
     },
   },
@@ -307,6 +326,17 @@ const resolvers = {
             );
 
             if (newComment) {
+              const blurb = await Blurbs.findById(blurbId);
+              if (
+                blurb &&
+                blurb.blurbAuthor.toString() !== context.user._id.toString()
+              ) {
+                const blurbAuthor = await User.findById(blurb.blurbAuthor);
+                await context.user.sendNotification({
+                  recipient: blurbAuthor.username,
+                  type: "comment",
+                });
+              }
               // If the new comment is found, return a success message.
               return "Successfully created Comment!";
             }
@@ -396,19 +426,54 @@ const resolvers = {
     },
     // ✅
 
-    addLike: async (parent, { blurbId }, context) => {
+    addLike: async (parent, { blurbId, blurbAuthor }, context) => {
       if (!context.user) {
         throw new Error("you must be logged in to like a blurb");
       }
+      // const likerUser = await User.findById(context.user._id)
+      //   .populate({
+      //     path: "notifications",
+      //     options: { virtuals: true },
+      //   })
+      //   .populate({
+      //     path: "username",
+      //     model: "User",
+      //   });
+
+      // console.log(
+      //   "//////////////////////////////////////////////",
+      //   likerUser,
+      //   "-------------"
+      // );
 
       const updatedBlurb = await Blurbs.findByIdAndUpdate(
         blurbId,
         { $push: { likeList: context.user._id } },
         { new: true }
-      );
+      ).populate("blurbAuthor");
       if (!updatedBlurb) {
         throw new Error("Blurb not found!");
       }
+
+      const recipientUser = await User.findById(
+        updatedBlurb.blurbAuthor._id
+      ).populate({
+        path: "notifications",
+        options: { virtuals: true },
+      });
+
+      // const senderInfo = {
+      //   _id: likerUser._id,
+      //   username: likerUser.username, // Adjust this based on your User schema
+      //   // Add other relevant sender information
+      // };
+      console.log("66666666666666666666666666666666666666666", context.user);
+      await recipientUser.sendNotification({
+        sender: context.user,
+        recipient: updatedBlurb.blurbAuthor._id,
+        type: "like",
+      });
+      // console.log("7777777777777777777", updatedBlurb, "----------------");
       return "You have liked the blurb!";
     },
     // ✅
@@ -512,7 +577,7 @@ const resolvers = {
     // },
     // // ✅
 
-    editAccount: async (_, { email, password}, context) => {
+    editAccount: async (_, { email, password }, context) => {
       if (!context.user) {
         throw new Error("Not logged in");
       }
@@ -532,7 +597,7 @@ const resolvers = {
       // Update other profile fields
       if (email) user.profile.email = email;
       // Repeat for other fields...
-      
+
       console.log(user);
       await user.save();
       return user;
@@ -597,7 +662,7 @@ const resolvers = {
       // Increment the 'likes' field of the comment
       // comment.likes += 1;
       if (!comment.likeList.includes(context.user._id)) {
-        comment.likeList.push(context.user._id)
+        comment.likeList.push(context.user._id);
       }
 
       await blurb.save();
@@ -625,11 +690,11 @@ const resolvers = {
       if (comment.likeList.includes(context.user._id)) {
         // Remove the user's ID from the likeList
         // comment.likeList = comment.likeList.filter(id => id !== context.user._id);
-        comment.likeList.pull(context.user._id)
-    
+        comment.likeList.pull(context.user._id);
+
         // Save the updated blurb
         await blurb.save();
-    
+
         return "You have unliked the comment!";
       } else {
         throw new Error("You haven't liked this comment");
@@ -666,13 +731,18 @@ const resolvers = {
           { new: true }
         );
 
+        await userIdToFollow.sendNotification({
+          recipient: userToFollow,
+          type: "follow",
+        });
+
         return "User followed successfully!";
       } catch (error) {
         console.error(error);
         throw new Error("Failed to follow user");
       }
     },
-    
+
     unfollowUser: async (parent, { userIdToUnfollow }, context) => {
       console.log(context.user);
       // Verify user is logged in
