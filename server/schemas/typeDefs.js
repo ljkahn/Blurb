@@ -31,7 +31,7 @@ const typeDefs = `
       profile: Profile!
       followerNumber: Int
       followingNumber: Int
-      notifications: [Notification]!
+      notifications: [Notification]
     }
     
     type Profile {
