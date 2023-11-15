@@ -104,6 +104,7 @@ const typeDefs = `
       randomBlurb: Blurbs
       followers: [User]
       following: [User]
+      followedUsersBlurbs: [Blurbs]
     }
     
     type Mutation {
