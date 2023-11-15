@@ -197,7 +197,7 @@ function Create({ isRegistered }) {
         <ThemeProvider theme={customTheme(outerTheme)}>
           <div>
             <TextField
-              id="standard-basic"
+              // id="standard-basic"
               label="Full Name"
               variant="standard"
               name="fullName"
@@ -208,7 +208,7 @@ function Create({ isRegistered }) {
           </div>
           <div>
             <TextField
-              id="standard-basic"
+              // id="standard-basic"
               label="Email"
               variant="standard"
               name="email"
@@ -219,7 +219,7 @@ function Create({ isRegistered }) {
           </div>
           <div>
             <TextField
-              id="standard-basic"
+              // id="standard-basic"
               label="Password"
               variant="standard"
               name="password"
@@ -238,7 +238,7 @@ function Create({ isRegistered }) {
           </div>
           <div>
             <TextField
-              id="standard-basic"
+              // id="standard-basic"
               label="Username"
               variant="standard"
               name="username"
