@@ -28,7 +28,7 @@ const typeDefs = `
       followers: [User]
       following: [User]
       blurbs: [Blurbs]
-      profile: Profile!
+      profile: Profile
       followerNumber: Int
       followingNumber: Int
       notifications: [Notification]

@@ -189,7 +189,15 @@ const resolvers = {
           blurbAuthor: { $in: followedUserIds }
         })
         .populate("blurbAuthor")
-        .sort({ createdAt: -1 });
+        .sort({ createdAt: -1 })
+        .populate("tags")
+        .populate({
+          path: "comments",
+          populate: {
+            path: "commentAuthor",
+            model: "User",
+          }
+          });
 
         return blurbs;
       } catch (error) {
