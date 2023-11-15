@@ -653,6 +653,7 @@ const resolvers = {
         throw new Error("Failed to follow user");
       }
     },
+    
     unfollowUser: async (parent, { userIdToUnfollow }, context) => {
       console.log(context.user);
       // Verify user is logged in

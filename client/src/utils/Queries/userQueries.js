@@ -103,6 +103,6 @@ export const USER_LIST = gql`
   }
 `;
 
-export const FOLLOWED_USER_BLURBS = gql`
-  query followedUsersBlurbs
-`
+// export const FOLLOWED_USER_BLURBS = gql`
+//   query followedUsersBlurbs
+// `
