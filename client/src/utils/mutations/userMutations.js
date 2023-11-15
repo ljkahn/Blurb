@@ -82,3 +82,17 @@ mutation unfollowUser($userIdToUnfollow: ID!) {
   unfollowUser(userIdToUnfollow: $userIdToUnfollow)
 }
 `;
+export const RESET_PASSWORD = gql`
+  mutation resetPassword($email: String!, $token: String!, $newPassword: String!) {
+    resetPassword(email: $email, token: $token, newPassword: $newPassword) {
+      token
+      user {
+        _id
+        profile {
+          fullName
+          _id
+        }
+      }
+    }
+  }
+  `

@@ -201,7 +201,7 @@ function ForgotPassword() {
   };
 
   const handleCancel = () => {
-    navigate(-1); // Go back one step in the history stack
+    navigate(-1);
   };
 
   return (

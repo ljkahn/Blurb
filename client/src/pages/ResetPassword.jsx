@@ -84,6 +84,13 @@ const customTheme = createTheme({
 });
 
 function ResetPassword() {
+  const savePassword = () => {
+    console.log("saved");
+  };
+  const cancelPassword = () => {
+    console.log("canceled");
+  };
+
   return (
     <ThemeProvider theme={customTheme}>
       <div
@@ -109,7 +116,7 @@ function ResetPassword() {
           variant="contained"
           className="btn"
           style={{ marginTop: "16px" }}
-          // onClick={savePassword}
+          onClick={savePassword}
         >
           <SaveIcon />
           Save Password
@@ -118,7 +125,7 @@ function ResetPassword() {
           variant="contained"
           className="btn"
           style={{ marginTop: "8px" }}
-          // onClick={cancelPassword}
+          onClick={cancelPassword}
         >
           <DeleteIcon />
           Cancel

@@ -39,43 +39,52 @@ const profileSchema = new Schema({
   },
 });
 
+const userSchema = new Schema(
+  {
+    username: {
+      type: String,
+      required: true,
+      unique: true,
+      trim: true,
+    },
+    // Add the resetToken field
+    resetToken: {
+      type: String,
+    },
 
-const userSchema = new Schema({
-  username: {
-    type: String,
-    required: true,
-    unique: true,
-    trim: true,
+    // Optional: Add a field for token expiration (if you have token expiration logic)
+    // resetTokenExpires: {
+    //   type: Date,
+    // },
+    followers: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
+    following: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
+    blurbs: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Blurbs",
+      },
+    ],
+    profile: profileSchema,
   },
-  followers: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "User",
+  {
+    toJSON: {
+      virtuals: true,
     },
-  ],
-  following: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "User",
-    },
-  ],
-  blurbs: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "Blurbs",
-    },
-  ],
-  profile: profileSchema,
-}, 
-{
-  toJSON:{
-    virtuals: true,
   }
-}
 );
 
 profileSchema.pre("save", async function (next) {
-  if ((this.isNew || this.isModified("password"))) {
+  if (this.isNew || this.isModified("password")) {
     const saltRounds = 10;
     this.password = await bcrypt.hash(this.password, saltRounds);
   }
@@ -86,13 +95,13 @@ profileSchema.pre("save", async function (next) {
   next();
 });
 
-userSchema.virtual("followerNumber").get(function ()  {
-return this.followers.length
-})
+userSchema.virtual("followerNumber").get(function () {
+  return this.followers.length;
+});
 
-userSchema.virtual("followingNumber").get(function ()  {
-return this.following.length
-})
+userSchema.virtual("followingNumber").get(function () {
+  return this.following.length;
+});
 
 userSchema.methods.isCorrectPassword = async function (password) {
   return bcrypt.compare(password, this.profile.password);

@@ -83,17 +83,16 @@ const resolvers = {
     // ✅
 
     findBlurbById: async (parent, { blurbId }) => {
-    return Blurbs.findById(blurbId)
-      .populate("blurbAuthor")
-      .populate({
-        path: "comments",
-        populate: {
-          path: "commentAuthor",
-          model: "User",
-      },
-    });
-  },
-
+      return Blurbs.findById(blurbId)
+        .populate("blurbAuthor")
+        .populate({
+          path: "comments",
+          populate: {
+            path: "commentAuthor",
+            model: "User",
+          },
+        });
+    },
 
     //get all users with blurbs greater than zero
     randomBlurb: async () => {
@@ -109,16 +108,18 @@ const resolvers = {
       // for (const user of loginRandomBlurbs) {
       //   blurbs.push(...user.blurbs);
       // }
-      const blurbs = await Blurbs.find().populate("blurbAuthor")
+      const blurbs = await Blurbs.find().populate("blurbAuthor");
       const randomIndex = Math.floor(Math.random() * blurbs.length);
-      console.log(blurbs[randomIndex])
+      console.log(blurbs[randomIndex]);
       return blurbs[randomIndex];
     },
 
     // find my user account
     me: async (parent, args, context) => {
       if (context.user) {
-        const currentUser = await User.findOne({ _id: context.user._id }).populate("blurbs");
+        const currentUser = await User.findOne({
+          _id: context.user._id,
+        }).populate("blurbs");
         console.log(currentUser);
         return currentUser;
       }
@@ -163,7 +164,7 @@ const resolvers = {
         if (!user) {
           throw new Error("User not found");
         }
-        
+
         // Return the list of users who follow me
         return user.followers;
       } catch (error) {
@@ -179,17 +180,19 @@ const resolvers = {
 
       try {
         // Fetch the list of users that the current user is following
-        const currentUser = await User.findById(context.user._id).populate("following");
+        const currentUser = await User.findById(context.user._id).populate(
+          "following"
+        );
 
         // Extract the IDs of followed users
-        const followedUserIds = currentUser.following.map(user => user._id);
+        const followedUserIds = currentUser.following.map((user) => user._id);
 
         // Find blurbs where the author is in the list of followed users
-        const blurbs = await Blurbs.find({ 
-          blurbAuthor: { $in: followedUserIds }
+        const blurbs = await Blurbs.find({
+          blurbAuthor: { $in: followedUserIds },
         })
-        .populate("blurbAuthor")
-        .sort({ createdAt: -1 });
+          .populate("blurbAuthor")
+          .sort({ createdAt: -1 });
 
         return blurbs;
       } catch (error) {
@@ -203,17 +206,17 @@ const resolvers = {
 
       try {
         // Fetch the user based on the provided userId
-        const user = await User.findById(userId).populate('followers');
+        const user = await User.findById(userId).populate("followers");
 
         if (!user) {
-          throw new Error('User not found');
+          throw new Error("User not found");
         }
 
         // Return the list of users that the user follows
         return user.followers;
       } catch (error) {
-        console.error('Error fetching user followers:', error);
-        throw new Error('Failed to fetch user followers');
+        console.error("Error fetching user followers:", error);
+        throw new Error("Failed to fetch user followers");
       }
     },
   },
@@ -512,7 +515,7 @@ const resolvers = {
     // },
     // // ✅
 
-    editAccount: async (_, { email, password}, context) => {
+    editAccount: async (_, { email, password }, context) => {
       if (!context.user) {
         throw new Error("Not logged in");
       }
@@ -532,7 +535,7 @@ const resolvers = {
       // Update other profile fields
       if (email) user.profile.email = email;
       // Repeat for other fields...
-      
+
       console.log(user);
       await user.save();
       return user;
@@ -597,7 +600,7 @@ const resolvers = {
       // Increment the 'likes' field of the comment
       // comment.likes += 1;
       if (!comment.likeList.includes(context.user._id)) {
-        comment.likeList.push(context.user._id)
+        comment.likeList.push(context.user._id);
       }
 
       await blurb.save();
@@ -625,11 +628,11 @@ const resolvers = {
       if (comment.likeList.includes(context.user._id)) {
         // Remove the user's ID from the likeList
         // comment.likeList = comment.likeList.filter(id => id !== context.user._id);
-        comment.likeList.pull(context.user._id)
-    
+        comment.likeList.pull(context.user._id);
+
         // Save the updated blurb
         await blurb.save();
-    
+
         return "You have unliked the comment!";
       } else {
         throw new Error("You haven't liked this comment");
@@ -672,7 +675,7 @@ const resolvers = {
         throw new Error("Failed to follow user");
       }
     },
-    
+
     unfollowUser: async (parent, { userIdToUnfollow }, context) => {
       console.log(context.user);
       // Verify user is logged in
@@ -707,6 +710,32 @@ const resolvers = {
       } catch (error) {
         console.error(error);
         throw new Error("Failed to unfollow user");
+      }
+    },
+    resetPassword: async (_, { email, token, newPassword }) => {
+      try {
+        // Find the user by email and check if the reset token matches
+        const user = await User.findOne({
+          "profile.email": email,
+          resetToken: token,
+        });
+
+        if (!user) {
+          throw new Error("User not found or invalid token");
+        }
+
+        // Update the user's password and clear the reset token
+        user.profile.password = newPassword;
+        user.resetToken = undefined;
+        await user.save();
+
+        // Generate a new token for the authenticated user
+        const newToken = signToken(user);
+
+        return { token: newToken, user };
+      } catch (error) {
+        console.error("Error resetting password:", error);
+        throw new Error("Failed to reset password");
       }
     },
   },
