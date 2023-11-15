@@ -171,21 +171,20 @@ findBlurbById: async (parent, { blurbId }) => {
         throw new Error("Failed to find followers");
       }
     },
-    userFollowers: async (_, { userId }, context) => {
-      // Check authentication and permissions as needed
 
+    userFollowers: async (parent, { userId }, context) => {
       try {
-        // Fetch the user based on the provided userId
+        // Fetch the user based on the provided userId and populate the followers field
         const user = await User.findById(userId).populate('followers');
 
         if (!user) {
           throw new Error('User not found');
         }
 
-        // Return the list of users that the user follows
+        // Return the list of followers
         return user.followers;
       } catch (error) {
-        console.error('Error fetching user followers:', error);
+        console.error(error);
         throw new Error('Failed to fetch user followers');
       }
     },

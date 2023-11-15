@@ -72,7 +72,7 @@ function App() {
             }
           />
           <Route path="/profile/:username" element={<UserProfile />} />
-          <Route path="/followers" element={<Followers />} />{" "}
+          <Route path="/followers/:userId" element={<Followers />} />{" "}
           <Route path="*" element={<Error />} />
           <Route path="/likes" element={<Likes />} />
           <Route path="/comment" element={<CommentPage />} />

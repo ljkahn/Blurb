@@ -124,17 +124,3 @@ export const FIND_BLURB_BY_ID = gql`
     }
   }
 `;
-
-export const GET_FOLLOWERS = gql`
-query GetFollowers($userId: ID!) {
-  user(id: $userId) {
-    _id
-    username
-    followers {
-      _id
-      username
-      # Add any other fields you need for each follower
-    }
-  }
-}
-`;

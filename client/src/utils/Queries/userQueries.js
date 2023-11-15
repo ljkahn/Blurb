@@ -102,3 +102,13 @@ export const USER_LIST = gql`
     }
   }
 `;
+
+export const GET_FOLLOWERS = gql`
+query GetFollowers($userId: ID!) {
+  userFollowers(userId: $userId) {
+    _id
+    username
+
+  }
+}
+`;

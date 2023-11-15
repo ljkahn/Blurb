@@ -1,17 +1,17 @@
-import React from "react";
+// import React from "react";
 
-function FollowersList({ followersList, onClose }) {
+function FollowersListCom({ followersList, onClose }) {
   return (
     <div>
-      <h2>Followers</h2>
+      <h2>Followers List</h2>
       <ul>
         {followersList.map((follower) => (
           <li key={follower._id}>{follower.username}</li>
         ))}
       </ul>
-      <button onClick={onClose}>Close Followers</button>
+      <button onClick={onClose}>Close</button>
     </div>
   );
 }
 
-export default FollowersList;
+export default FollowersListCom;
