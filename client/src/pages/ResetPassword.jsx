@@ -5,6 +5,7 @@ import SaveIcon from "@mui/icons-material/Save";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { outlinedInputClasses } from "@mui/material/OutlinedInput";
+import '../style/Login.css';
 
 const customTheme = createTheme({
   palette: {
@@ -96,18 +97,18 @@ function ResetPassword() {
         }}
       >
         <TextField
-          id="standard-basic"
+          // id="standard-basic"
           label="New Password"
           variant="standard"
         />
         <TextField
-          id="standard-basic"
+          // id="standard-basic"
           label="Confirm New Password"
           variant="standard"
         />
         <Button
           variant="contained"
-          className="btn"
+          id="forgotBtn"
           style={{ marginTop: "16px" }}
           // onClick={savePassword}
         >
@@ -115,8 +116,8 @@ function ResetPassword() {
           Save Password
         </Button>
         <Button
+          id="forgotBtnCancel"
           variant="contained"
-          className="btn"
           style={{ marginTop: "8px" }}
           // onClick={cancelPassword}
         >

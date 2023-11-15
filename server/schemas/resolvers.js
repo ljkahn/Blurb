@@ -184,6 +184,7 @@ const resolvers = {
         // Extract the IDs of followed users
         const followedUserIds = currentUser.following.map(user => user._id);
 
+        
         // Find blurbs where the author is in the list of followed users
         const blurbs = await Blurbs.find({ 
           blurbAuthor: { $in: followedUserIds }

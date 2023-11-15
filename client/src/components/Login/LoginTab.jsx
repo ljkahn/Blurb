@@ -162,7 +162,7 @@ function LoginTab({ isRegistered }) {
               onChange={handleChange}
             />
           </div>
-          <Link to="/forgotPassword"> Forgot password?</Link>
+          <Link id="forgot" to="/forgotPassword"> Forgot password?</Link>
           <Button
             id="logCreateB"
             variant="contained"
