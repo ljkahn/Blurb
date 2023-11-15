@@ -31,7 +31,7 @@ const typeDefs = `
       profile: Profile!
       followerNumber: Int
       followingNumber: Int
-      notifications: [Notification]!
+      notifications: [Notification]
     }
     
     type Profile {
@@ -104,11 +104,8 @@ const typeDefs = `
       randomBlurb: Blurbs
       followers: [User]
       following: [User]
-<<<<<<< HEAD
       followedUsersBlurbs: [Blurbs]
-=======
       userFollowers(userId: ID!): [User]!
->>>>>>> main
     }
     
     type Mutation {
