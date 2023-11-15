@@ -28,10 +28,10 @@ const typeDefs = `
       followers: [User]
       following: [User]
       blurbs: [Blurbs]
-      profile: Profile!
+      profile: Profile
       followerNumber: Int
       followingNumber: Int
-      notifications: [Notification]!
+      notifications: [Notification]
     }
     
     type Profile {
@@ -85,11 +85,11 @@ const typeDefs = `
     }
 
     type Notification {
-      _id: ID!
-      type: String!
-      sender: User!
+      _id: ID
+      type: String
+      sender: User
       blurbId: ID
-      createdAt: String!
+      createdAt: String
     }
     
     type Query {
@@ -104,11 +104,8 @@ const typeDefs = `
       randomBlurb: Blurbs
       followers: [User]
       following: [User]
-<<<<<<< HEAD
       followedUsersBlurbs: [Blurbs]
-=======
       userFollowers(userId: ID!): [User]!
->>>>>>> main
     }
     
     type Mutation {

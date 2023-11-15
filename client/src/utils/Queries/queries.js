@@ -133,7 +133,6 @@ query GetFollowers($userId: ID!) {
     followers {
       _id
       username
-      # Add any other fields you need for each follower
     }
   }
 }
