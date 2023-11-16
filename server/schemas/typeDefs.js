@@ -101,6 +101,7 @@ const typeDefs = `
       blurbsByTag(tags: [Tag]!): [Blurbs]
       blurbsById(blurbId: ID!): Blurbs
       me: User
+      notify(username: String): User
       findBlurbById(blurbId: ID!): Blurbs
       randomBlurb: Blurbs
       followers: [User]

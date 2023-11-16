@@ -105,7 +105,7 @@ userSchema.methods.isCorrectPassword = async function (password) {
   return bcrypt.compare(password, this.profile.password);
 };
 
-userSchema.methods.sendNotification = async function ({ recipient, type }) {
+userSchema.methods.sendNotification = async function ({ recipient, sender,  type }) {
   const notification = new Notification({
     userName: this.username,
     recipientUserId: recipient._id,

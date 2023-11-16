@@ -2,8 +2,9 @@ const { Schema, model } = require("mongoose");
 const dateFormat = require("../utils/dateFormat");
 
 const notificationSchema = new Schema({
-  userName: {
-    type: String,
+  username: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
   },
   recipient: {
     type: Schema.Types.ObjectId,

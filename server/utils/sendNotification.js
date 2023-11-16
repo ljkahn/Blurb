@@ -2,14 +2,15 @@ const Notification = require("../models/notifications");
 
 async function sendNotification({ recipient, type, sender }) {
   const notification = new Notification({
-    sender: sender.username,
+    sender: this,
+    username: this._id,
     recipient: recipient._id,
     type,
-  });
+  } 
+);  await notification.save();
 
-  await notification.save();
-
-  await recipient.sendNotification(notification);
+  this.notifications.push(notification);
+  await this.save();
 }
 
 module.exports = sendNotification;
