@@ -88,6 +88,7 @@ const typeDefs = `
       _id: ID
       type: String
       sender: User
+      recipient: User
       blurbId: ID
       createdAt: String
     }
@@ -100,6 +101,7 @@ const typeDefs = `
       blurbsByTag(tags: [Tag]!): [Blurbs]
       blurbsById(blurbId: ID!): Blurbs
       me: User
+      notify(username: String): User
       findBlurbById(blurbId: ID!): Blurbs
       randomBlurb: Blurbs
       followers: [User]
