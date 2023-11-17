@@ -106,6 +106,7 @@ const typeDefs = `
       following: [User]
       followedUsersBlurbs: [Blurbs]
       userFollowers(userId: ID!): [User]!
+      
     }
     
     type Mutation {
@@ -127,7 +128,8 @@ const typeDefs = `
       followUser(userIdToFollow: ID!): String
       unfollowUser(userIdToUnfollow: ID!): String
       markNotificationAsRead(notificationId: ID!): String
-      resetPassword(email: String!, token: String!, newPassword: String!): Auth
+      resetPassword(token: String!, newPassword: String!): String
+      passwordReset(token: String!, email: String!): Boolean
     }
     `;
 
