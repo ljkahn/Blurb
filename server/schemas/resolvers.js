@@ -4,20 +4,9 @@ const { signToken, AuthenticationError } = require("../utils/auth");
 
 const resolvers = {
   Query: {
-    // notification: async (parent, args, context) => {
-    //   if (context.user) {
-    //     const currentUser = await User.findOne({
-    //       _id: context.user._id,
-    //     }).populate("notifications");
-    //     console.log(currentUser);
-    //     return currentUser;
-    //   }
-    //   throw AuthenticationError;
-    // },
     //get all users
     users: async () => {
       try {
-        // Removed populate blurbs because user search shouldn't return all users and all blurbs - get all blurbs will include the blurbAuthor so it's redundant
         return User.find()
           .populate("blurbs")
           .populate({
@@ -40,9 +29,12 @@ const resolvers = {
       try {
         return User.findOne({ username: username })
           .populate("blurbs")
+          .populate("notifications")
           .populate({
-            path: "notifications",
-            options: { virtuals: true },
+            path: 'notifications',
+            populate: {
+              path: 'sender recipient'
+            }
           });
       } catch (error) {
         console.error(error);
@@ -93,11 +85,13 @@ const resolvers = {
     },
     // ✅
 
+    // populate blurbs with a specific tag
     blurbsByTag: async (parent, { tags }) => {
       return Blurbs.find({ tags: tags });
     },
     // ✅
 
+    // Find a blurb by its ID
     findBlurbById: async (parent, { blurbId }) => {
       return Blurbs.findById(blurbId)
         .populate("blurbAuthor")
@@ -146,26 +140,35 @@ const resolvers = {
       throw AuthenticationError;
     },
     // ✅
-    // find notification
+    
     notify: async (parent, args, context) => {
-      if (context.user) {
-        const currentUser = await User.findOne({
-          _id: context.user._id,
-        })
-          .populate("blurbs")
-          .populate({
-            path: "notifications",
-            options: { virtuals: true },
-          })
-          .populate({
-            path: "username",
-            // model: "User",
-          });
-        return currentUser;
+      // Check if the user is authenticated
+      if (!context.user) {
+        throw new Error("Authentication required");
       }
-      throw AuthenticationError;
+
+      try {
+        // Fetch user data including notifications
+        const user = await User.findById(context.user._id)
+          .populate({
+            path: 'notifications',
+            populate: { 
+              path: 'sender recipient', 
+              model: 'User' 
+            }
+          });
+
+        if (!user) {
+          throw new Error("User not found");
+        }
+
+        // Return user data with populated notifications
+        return user;
+      } catch (error) {
+        console.error("Error in notify resolver:", error);
+        throw new Error("Failed to fetch notifications");
+      }
     },
-    // ✅
 
     // find my user account
     me: async (parent, args, context) => {
@@ -173,10 +176,6 @@ const resolvers = {
         const currentUser = await User.findOne({
           _id: context.user._id,
         }).populate("blurbs");
-        // .populate({
-        //   path: "notifications",
-        //   options: { virtuals: true },
-        // });
         console.log(currentUser);
         return currentUser;
       }
@@ -468,127 +467,45 @@ const resolvers = {
     // ✅
 
     addLike: async (parent, { blurbId }, context) => {
+      // Verify if the user is logged in
       if (!context.user) {
         throw new Error("You must be logged in to like a blurb");
       }
 
-      const updatedBlurb = await Blurbs.findByIdAndUpdate(
-        blurbId,
-        { $push: { likeList: context.user._id } },
-        { new: true }
-      ).populate("blurbAuthor");
+      try {
+        // Find the blurb and update its like list
+        const updatedBlurb = await Blurbs.findByIdAndUpdate(
+          blurbId,
+          { $addToSet: { likeList: context.user._id } },
+          { new: true }
+        ).populate("blurbAuthor");
 
-      if (!updatedBlurb) {
-        throw new Error("Blurb not found!");
-      }
-
-      const recipientUser = await User.findById(
-        updatedBlurb.blurbAuthor._id
-      ).populate({
-        path: "notifications",
-        options: { virtuals: true },
-      });
-
-      async function sendNotification({ recipient, type, sender }) {
-        const notification = new Notification({
-          sender,
-          username: sender._id,
-          recipient: recipient._id,
-          type,
-        });
-
- if (!sender.notifications) {
-          sender.notifications = [];
+        if (!updatedBlurb) {
+          throw new Error("Blurb not found");
         }
 
-        await notification.save();
+        // Prevent users from sending notifications to themselves
+        if (updatedBlurb.blurbAuthor._id.toString() !== context.user._id.toString()) {
+          // Find the author of the blurb
+          const blurbAuthor = await User.findOne({username: updatedBlurb.blurbAuthor.username});
 
-       
+          // Send a notification to the blurb author
+          if (blurbAuthor) {
+            await blurbAuthor.sendNotification({
+              recipient: blurbAuthor,
+              type: "like",
+              sender: context.user,
+              blurbId: blurbId,
+            });
+          }
+        }
 
-        console.log("SENDER:", sender.notifications, "/////////////////////////////////");
-
-        sender.notifications.push(notification);
-        await sender.save();
+        return "You have liked the blurb!";
+      } catch (error) {
+        console.error("Error in addLike mutation: ", error);
+        throw new Error("Error while liking the blurb");
       }
-
-      const sender = context.user; // Reference to the sender
-
-      await sendNotification({
-        sender,
-        recipient: recipientUser,
-        type: "like",
-      });
-
-      console.log("Sender:", sender);
-      // console.log("Updated Blurb:", updatedBlurb, "----------------");
-      return "You have liked the blurb!";
     },
-
-    // addLike: async (parent, { blurbId, sendNotification }, context) => {
-    //   if (!context.user) {
-    //     throw new Error("you must be logged in to like a blurb");
-    //   }
-    //   // const likerUser = await User.findById(context.user._id)
-    //   //   .populate({
-    //   //     path: "notifications",
-    //   //     options: { virtuals: true },
-    //   //   })
-    //   //   .populate({
-    //   //     path: "username",
-    //   //     model: "User",
-    //   //   });
-
-    //   // console.log(
-    //   //   "//////////////////////////////////////////////",
-    //   //   likerUser,
-    //   //   "-------------"
-    //   // );
-
-    //   const updatedBlurb = await Blurbs.findByIdAndUpdate(
-    //     blurbId,
-    //     { $push: { likeList: context.user._id } },
-    //     { new: true }
-    //   ).populate("blurbAuthor");
-    //   if (!updatedBlurb) {
-    //     throw new Error("Blurb not found!");
-    //   }
-
-    //   const recipientUser = await User.findById(
-    //     updatedBlurb.blurbAuthor._id
-    //   ).populate({
-    //     path: "notifications",
-    //     options: { virtuals: true },
-    //   });
-
-    //   // const senderInfo = {
-    //   //   _id: likerUser._id,
-    //   //   username: likerUser.username, // Adjust this based on your User schema
-    //   //   // Add other relevant sender information
-    //   // };
-    //   async function sendNotification({ recipient, type, sender }) {
-    //     const notification = new Notification({
-    //       sender: this,
-    //       username: this._id,
-    //       recipient: recipient._id,
-    //       type,
-    //     }
-    //   );
-    //    await notification.save();
-
-    //     this.notifications.push(notification);
-    //     await this.save();
-    //   }
-
-    //   await recipientUser.sendNotification({
-    //     sender: context.user.username,
-    //     recipient: updatedBlurb.blurbAuthor._id,
-    //     type: "like",
-    //   });
-    //   console.log("66666666666666666666666666666666666666666", sender);
-    //   // console.log("7777777777777777777", updatedBlurb, "----------------");
-    //   return "You have liked the blurb!";
-    // },
-    // ✅
 
     removeLike: async (parent, { blurbId }, context) => {
       if (!context.user) {
