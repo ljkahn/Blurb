@@ -2,13 +2,13 @@
 
 ## Description
 
-Blurb is a dynamic and interactive microblogging platform that empowers users to share their thoughts, ideas, and stories in bite-sized messages called 'Blurbs.' With a character limit tailored for brevity, Blurb enables users to express themselves concisely, engaging in real-time conversations with a global community of like-minded individuals.
+Blurb is a dynamic and interactive microblogging platform that empowers users to share their thoughts, ideas, and stories in bite-sized messages called 'Blurbs.' With a character limit tailored for brevity, Blurb enables users to express themselves concisely, engaging in real-time conversations with a global community of diverse individuals.
 
 Share your insights, interests, and updates. Stay up-to-date with trending topics, follow your favorite influencers, and engage in lively discussions. Whether you're into politics, technology, entertainment, or everyday life, Blurb provides a platform to connect, learn, and voice your opinions.
 
 Customize your profile, curate your feed, and interact with other users by liking, Blurbing, and commenting on their Blurbs. Explore relevant tags, create your own trends, and watch your following grow. Blurb offers a seamless, user-friendly experience, ensuring that your ideas are heard, one Blurb at a time.
 
-Stay connected with the world, stay informed, and become part of a vibrant online community. Join Blurb and start sharing your world in 280 characters or less!
+Stay connected with the world, stay informed, and become part of a vibrant online community. Join Blurb and start sharing your world in 255 characters or less!
 
 Click [here](https://blurb4-web-6d7dbae39646.herokuapp.com/) to start using Blurb!
 
