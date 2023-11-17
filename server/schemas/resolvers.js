@@ -476,7 +476,7 @@ const resolvers = {
         // Find the blurb and update its like list
         const updatedBlurb = await Blurbs.findByIdAndUpdate(
           blurbId,
-          { $addToSet: { likeList: context.user._id } },
+          { $push: { likeList: context.user._id } },
           { new: true }
         ).populate("blurbAuthor");
 
@@ -676,28 +676,81 @@ const resolvers = {
         throw new Error("You must be logged in to like a comment");
       }
 
-      //find blurb if it exists
-      const blurb = await Blurbs.findById(blurbId);
-      if (!blurb) {
-        throw new Error("Blurb not found");
+      try {
+        //find blurb if it exists
+        const blurb = await Blurbs.findById(blurbId);
+        if (!blurb) {
+          throw new Error("Blurb not found");
+        }
+  
+        const comment = blurb.comments.id(commentId);
+        console.log(comment);
+        if (!comment) {
+          throw new Error("Comment not found");
+        }
+  
+        // Increment the 'likes' field of the comment
+        // comment.likes += 1;
+        if (!comment.likeList.includes(context.user._id)) {
+          comment.likeList.push(context.user._id);
+
+          if (comment) {
+            await comment.commentAuthor.sendNotification({
+              recipient: comment.commentAuthor,
+              type: "like",
+              sender: context.user,
+              blurbId: commentId,
+            });
+          }
+        }
+  
+        await blurb.save();
+  
+        return "You have liked the comment!";
+      } catch (error) {
+        console.error("Error in addCommentLike mutation: ", error);
+        throw new Error("Error while liking the comment");
       }
 
-      const comment = blurb.comments.id(commentId);
-      console.log(comment);
-      if (!comment) {
-        throw new Error("Comment not found");
-      }
-
-      // Increment the 'likes' field of the comment
-      // comment.likes += 1;
-      if (!comment.likeList.includes(context.user._id)) {
-        comment.likeList.push(context.user._id);
-      }
-
-      await blurb.save();
-
-      return "You have liked the comment!";
     },
+
+    // if (!context.user) {
+    //   throw new Error("You must be logged in to like a blurb");
+    // }
+
+    // try {
+    //   // Find the blurb and update its like list
+    //   const updatedBlurb = await Blurbs.findByIdAndUpdate(
+    //     blurbId,
+    //     { $push: { likeList: context.user._id } },
+    //     { new: true }
+    //   ).populate("blurbAuthor");
+
+    //   if (!updatedBlurb) {
+    //     throw new Error("Blurb not found");
+    //   }
+
+    //   // Prevent users from sending notifications to themselves
+    //   if (updatedBlurb.blurbAuthor._id.toString() !== context.user._id.toString()) {
+    //     // Find the author of the blurb
+    //     const blurbAuthor = await User.findOne({username: updatedBlurb.blurbAuthor.username});
+
+    //     // Send a notification to the blurb author
+    //     if (blurbAuthor) {
+    //       await blurbAuthor.sendNotification({
+    //         recipient: blurbAuthor,
+    //         type: "like",
+    //         sender: context.user,
+    //         blurbId: blurbId,
+    //       });
+    //     }
+    //   }
+
+    //   return "You have liked the blurb!";
+    // } catch (error) {
+    //   console.error("Error in addLike mutation: ", error);
+    //   throw new Error("Error while liking the blurb");
+    // }
 
     removeCommentLike: async (parent, { blurbId, commentId }, context) => {
       if (!context.user) {
