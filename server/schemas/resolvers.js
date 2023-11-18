@@ -698,11 +698,14 @@ const resolvers = {
         const commentUser = await User.findById(comment.commentAuthor)
         console.log(commentUser);
   
-        // Increment the 'likes' field of the comment
-        // comment.likes += 1;
+        // If the id doesn't exist in like list, push id to like list
         if (!comment.likeList.includes(context.user._id)) {
           comment.likeList.push(context.user._id);
 
+          // Add comment notification but blurbId is going to have the value of commentId
+          // Haven't had a chance to look through this yet but I can fix typedef and model to 
+          // make sure that they are correctly labeled as commentId
+          // "liked comment" does show up with correct sender, receiver, and commentId though
           if (commentUser) {
             await commentUser.sendNotification({
               recipient: commentUser,
