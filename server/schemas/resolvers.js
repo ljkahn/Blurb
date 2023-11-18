@@ -676,7 +676,7 @@ const resolvers = {
       return "It worked!";
     },
 
-    addCommentLike: async (parent, { blurbId, commentId }, context) => {
+    addCommentLike: async (parent, { blurbId, commentId, commentAuthor }, context) => {
       if (!context.user) {
         throw new Error("You must be logged in to like a comment");
       }
@@ -688,28 +688,32 @@ const resolvers = {
           throw new Error("Blurb not found");
         }
   
+        console.log(blurb, "00000000000000000000000000000");
         const comment = blurb.comments.id(commentId);
-        console.log(comment);
+        console.log(comment, "----------------------");
         if (!comment) {
           throw new Error("Comment not found");
         }
+
+        const commentUser = await User.findById(comment.commentAuthor)
+        console.log(commentUser);
   
         // Increment the 'likes' field of the comment
         // comment.likes += 1;
         if (!comment.likeList.includes(context.user._id)) {
           comment.likeList.push(context.user._id);
 
-          if (comment) {
-            await comment.commentAuthor.sendNotification({
-              recipient: comment.commentAuthor,
-              type: "like",
+          if (commentUser) {
+            await commentUser.sendNotification({
+              recipient: commentUser,
+              type: "liked comment",
               sender: context.user,
               blurbId: commentId,
             });
-          }
         }
-  
+        
         await blurb.save();
+        }
   
         return "You have liked the comment!";
       } catch (error) {
