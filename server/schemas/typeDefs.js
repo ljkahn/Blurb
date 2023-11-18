@@ -31,7 +31,7 @@ const typeDefs = `
       profile: Profile!
       followerNumber: Int
       followingNumber: Int
-      notifications: [Notification]!
+      notifications: [Notification]
     }
     
     type Profile {
@@ -85,11 +85,12 @@ const typeDefs = `
     }
 
     type Notification {
-      _id: ID!
-      type: String!
-      sender: User!
+      _id: ID
+      type: String
+      sender: User
+      recipient: User
       blurbId: ID
-      createdAt: String!
+      createdAt: String
     }
     
     type Query {
@@ -100,11 +101,13 @@ const typeDefs = `
       blurbsByTag(tags: [Tag]!): [Blurbs]
       blurbsById(blurbId: ID!): Blurbs
       me: User
+      notify(username: String): User
       findBlurbById(blurbId: ID!): Blurbs
       randomBlurb: Blurbs
       followers: [User]
       following: [User]
-      userFollowers(userId: ID!): [User]
+      followedUsersBlurbs: [Blurbs]
+      userFollowers(userId: ID!): [User]!
     }
     
     type Mutation {
@@ -126,6 +129,8 @@ const typeDefs = `
       followUser(userIdToFollow: ID!): String
       unfollowUser(userIdToUnfollow: ID!): String
       markNotificationAsRead(notificationId: ID!): String
+      resetPassword(token: String!, newPassword: String!): String
+      passwordReset(token: String!, email: String!): Boolean
     }
     `;
 

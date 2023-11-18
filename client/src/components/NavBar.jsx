@@ -18,17 +18,8 @@ import Photo from "../components/Profile/tinyPhoto.jsx";
 import AddBlurb from "./Blurbs/AddBlurb";
 import logo from "../public/assets/blurbLogo.png";
 import Box from "@mui/material/Box";
-import { QUERY_GET_NOTIFICATIONS } from "../utils/Queries/userQueries.js";
+import NotificationButton from "./Notify/NotificationButton.jsx";
 
-function notificationsLabel(count) {
-  if (count === 0) {
-    return "no notifications";
-  }
-  if (count > 99) {
-    return "more than 99 notifications";
-  }
-  return `${count} notifications`;
-}
 
 function NavBar() {
   const [userData, setUserData] = useState({
@@ -104,11 +95,7 @@ function NavBar() {
           </IconButton>
         </Link>
       </Tooltip>
-      <Tooltip
-        title="Click this button to post a blurb! 💬 "
-        enterTouchDelay={0}
-        leaveTouchDelay={2000}
-      >
+      <Tooltip title="Click this button to post a blurb! :speech_balloon:">
         <button onClick={openModal} id="addBlurb">
           <Box
             component="img"
@@ -125,14 +112,15 @@ function NavBar() {
         leaveTouchDelay={2000}
       >
         <Link to="/Likes">
-          <IconButton aria-label={notificationsLabel(100)}>
+          <NotificationButton/>
+          {/* <IconButton aria-label={notificationsLabel(100)}>
             <Badge badgeContent={100} color="secondary">
               <FavoriteIcon
                 style={{ fill: isActive("/Likes") ? yellow : lightGray }}
                 sx={{ fontSize: 40 }}
               />
             </Badge>
-          </IconButton>
+          </IconButton> */}
         </Link>
       </Tooltip>
       <Tooltip

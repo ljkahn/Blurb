@@ -36,7 +36,7 @@ export const QUERY_MY_PROFILE = gql`
 
 export const QUERY_GET_NOTIFICATIONS = gql`
   query GetMyNotifications {
-    me {
+    notify {
       _id
       notifications {
         _id
@@ -112,3 +112,6 @@ query GetFollowers($userId: ID!) {
   }
 }
 `;
+// export const FOLLOWED_USER_BLURBS = gql`
+//   query followedUsersBlurbs
+// `
