@@ -48,6 +48,17 @@ const userSchema = new Schema(
       unique: true,
       trim: true,
     },
+
+    // Add the resetToken field
+    resetToken: {
+      type: String,
+    },
+
+    // Optional: Add a field for token expiration (if you have token expiration logic)
+    // resetTokenExpires: {
+    //   type: Date,
+    // },
+    
     followers: [
       {
         type: Schema.Types.ObjectId,
@@ -67,12 +78,14 @@ const userSchema = new Schema(
       },
     ],
     profile: profileSchema,
+
     notifications: [
       {
         type: Schema.Types.ObjectId,
         ref: "Notification",
       },
     ],
+
   },
   {
     toJSON: {

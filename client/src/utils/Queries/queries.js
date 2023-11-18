@@ -84,7 +84,6 @@ export const RANDOM_BLURB = gql`
 
 // // Usage in a React component
 
-
 // export const BLURB_COMMENTED_SUBSCRIPTION = gql`
 //   subscription OnBlurbCommented($blurbId: ID!) {
 //     blurbCommented(blurbId: $blurbId) {
@@ -100,7 +99,6 @@ export const RANDOM_BLURB = gql`
 //     }
 //   }
 // `;
-
 
 export const FIND_BLURB_BY_ID = gql`
   query Query($blurbId: ID!) {
@@ -126,14 +124,17 @@ export const FIND_BLURB_BY_ID = gql`
 `;
 
 export const GET_FOLLOWERS = gql`
-query GetFollowers($userId: ID!) {
-  user(id: $userId) {
-    _id
-    username
-    followers {
+  query GetFollowers($userId: ID!) {
+    user(id: $userId) {
       _id
       username
+      followers {
+        _id
+        username
+        
+      }
     }
   }
-}
 `;
+
+

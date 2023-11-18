@@ -1,5 +1,12 @@
+
 const { User, Blurbs, Notification } = require("../models");
-const { signToken, AuthenticationError } = require("../utils/auth");
+const {
+  signToken,
+  AuthenticationError,
+  resetPasswordToken,
+} = require("../utils/auth");
+
+
 // const sendNotification = require("../utils/sendNotification");
 
 const resolvers = {
@@ -130,10 +137,6 @@ const resolvers = {
         const currentUser = await User.findOne({
           _id: context.user._id,
         }).populate("blurbs");
-        // .populate({
-        //   path: "notifications",
-        //   options: { virtuals: true },
-        // });
         console.log(currentUser);
         return currentUser;
       }
@@ -169,19 +172,6 @@ const resolvers = {
         throw new Error("Failed to fetch notifications");
       }
     },
-
-    // find my user account
-    me: async (parent, args, context) => {
-      if (context.user) {
-        const currentUser = await User.findOne({
-          _id: context.user._id,
-        }).populate("blurbs");
-        console.log(currentUser);
-        return currentUser;
-      }
-      throw AuthenticationError;
-    },
-    // ✅
 
     following: async (parent, args, context) => {
       // if (!context.user) {
@@ -275,6 +265,21 @@ const resolvers = {
         throw new Error("Failed to fetch user followers");
       }
     },
+
+    // passwordReset: async (_, { token, email }) => {
+    //   console.log(token);
+    //   try {
+    //     const currentProfile = Profile.findOne({ email: email });
+    //     if (currentProfile) {
+    //       resetPasswordToken({email, token})
+    //       return true
+    //     }
+    //     return false
+    //   } catch (error) {
+    //     console.error(error);
+    //     throw new Error("Failed to find email.");
+    //   }
+    // },
   },
 
   Mutation: {
@@ -859,6 +864,54 @@ const resolvers = {
       } catch (error) {
         console.error(error);
         throw new Error("Failed to unfollow user");
+      }
+    },
+
+    resetPassword: async (_, { token, newPassword }, { data }) => {
+      try {
+        // Find the user by email and check if the reset token matches
+        console.log(data);
+
+        // if (body.variables.token === token) {
+        //   //update the password to the new password
+        // }
+        return "Password has been reset!";
+
+        // const user = await User.findOne({
+        //   "profile.email": email,
+        //   resetToken: token,
+        // });
+        // if (!user) {
+        //   throw new Error("User not found or invalid token");
+        // }
+
+        // // Update the user's password and clear the reset token
+        // user.profile.password = newPassword;
+        // user.resetToken = undefined;
+        // await user.save();
+
+        // // Generate a new token for the authenticated user
+        // const newToken = signToken(user);
+
+        // return { token: newToken, user };
+      } catch (error) {
+        console.error("Error resetting password:", error);
+        throw new Error("Failed to reset password");
+      }
+    },
+
+    passwordReset: async (_, { token, email }) => {
+      console.log(token);
+      try {
+        const currentProfile = User.findOne({ "profile.email": email });
+        if (currentProfile) {
+          resetPasswordToken({ email, token });
+          return true;
+        }
+        return false;
+      } catch (error) {
+        console.error(error);
+        throw new Error("Failed to find email.");
       }
     },
   },
