@@ -688,15 +688,12 @@ const resolvers = {
           throw new Error("Blurb not found");
         }
   
-        console.log(blurb, "00000000000000000000000000000");
         const comment = blurb.comments.id(commentId);
-        console.log(comment, "----------------------");
         if (!comment) {
           throw new Error("Comment not found");
         }
 
         const commentUser = await User.findById(comment.commentAuthor)
-        console.log(commentUser);
   
         // If the id doesn't exist in like list, push id to like list
         if (!comment.likeList.includes(context.user._id)) {
