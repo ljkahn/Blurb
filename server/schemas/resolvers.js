@@ -676,7 +676,7 @@ const resolvers = {
       return "It worked!";
     },
 
-    addCommentLike: async (parent, { blurbId, commentId, commentAuthor }, context) => {
+    addCommentLike: async (parent, { blurbId, commentId }, context) => {
       if (!context.user) {
         throw new Error("You must be logged in to like a comment");
       }
