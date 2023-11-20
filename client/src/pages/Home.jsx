@@ -10,8 +10,7 @@ import { ALL_BLURBS } from "../utils/Queries/queries.js";
 import auth from "../utils/auth.js";
 
 function Home() {
-  const [blurbs, setBlurbs] = useState([]);
-  const [isLoading, setLoading] = useState(true);
+
   const { loading, data, refetch } = useQuery(ALL_BLURBS);
 
   useEffect(() => {
