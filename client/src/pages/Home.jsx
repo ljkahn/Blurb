@@ -12,10 +12,10 @@ import auth from "../utils/auth.js";
 function Home() {
   const [blurbs, setBlurbs] = useState([]);
   const [isLoading, setLoading] = useState(true);
-  const { loading, data, refetch } = useQuery(ALL_BLURBS);
+  const { loading, data, error, refetch } = useQuery(ALL_BLURBS);
 
   useEffect(() => {
-    if (!loading) {
+    if (!loading && data) {
       const allBlurbs = [...data.blurbs];
       const newBlurbs = allBlurbs.slice(); // Create a shallow copy to avoid mutating the original array
       newBlurbs.sort((a, b) => {
@@ -25,14 +25,18 @@ function Home() {
       });
       setBlurbs([...data.blurbs]);
       setLoading(false);
-      refetch();
+      // refetch();
     }
-  }, [data]);
+  }, [loading, data]);
 
-  useEffect(() => {
-    console.log(data); // Log the data to see its structure
-    refetch();
-  }, [data]);
+  if (error) {
+    return <div>Error loading data!</div>
+  }
+
+  // useEffect(() => {
+  //   // console.log(data); // Log the data to see its structure
+  //   refetch();
+  // }, [data]);
 
   return (
     <div>
