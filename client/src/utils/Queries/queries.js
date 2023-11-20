@@ -136,5 +136,3 @@ export const GET_FOLLOWERS = gql`
     }
   }
 `;
-
-

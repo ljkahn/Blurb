@@ -162,7 +162,6 @@ function LoginTab({ isRegistered }) {
               onChange={handleChange}
             />
           </div>
-          <Link to="/forgotPassword"> Forgot password?</Link>
           <Button
             id="logCreateB"
             variant="contained"
@@ -171,6 +170,11 @@ function LoginTab({ isRegistered }) {
           >
             Login
           </Button>
+          <br />
+          <Link 
+          to="/forgotPassword"
+          style={{color: "white", fontSize: ".8rem"}}
+          > Forgot password?</Link>
         </ThemeProvider>
       </form>
       <Snackbar
