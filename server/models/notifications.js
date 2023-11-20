@@ -21,6 +21,10 @@ const notificationSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "Blurbs",
   },
+  // commentId: {
+  //   type: Schema.Types.ObjectId,
+  //   ref: "Comments"
+  // },
   createdAt: {
     type: Date,
     default: Date.now,

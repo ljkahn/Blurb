@@ -1,6 +1,6 @@
 const { Schema, model } = require("mongoose");
 const bcrypt = require("bcrypt");
-const Notification = require("./notifications");
+const Notification = require("./Notifications");
 
 const profileSchema = new Schema({
   fullName: {
@@ -57,6 +57,7 @@ const userSchema = new Schema(
     // resetTokenExpires: {
     //   type: Date,
     // },
+    
     followers: [
       {
         type: Schema.Types.ObjectId,
@@ -76,6 +77,14 @@ const userSchema = new Schema(
       },
     ],
     profile: profileSchema,
+
+    notifications: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Notification",
+      },
+    ],
+
   },
   {
     toJSON: {
@@ -108,12 +117,18 @@ userSchema.methods.isCorrectPassword = async function (password) {
   return bcrypt.compare(password, this.profile.password);
 };
 
-userSchema.methods.sendNotification = async function ({ recipient, sender,  type }) {
+userSchema.methods.sendNotification = async function ({
+  recipient,
+  sender,
+  type,
+  blurbId
+}) {
   const notification = new Notification({
-    userName: this.username,
-    recipientUserId: recipient._id,
-    sender: this,
+    // userName: this.username,
+    recipient: recipient._id,
+    sender: sender._id,
     type,
+    blurbId,
   });
 
   await notification.save();
@@ -124,4 +139,4 @@ userSchema.methods.sendNotification = async function ({ recipient, sender,  type
 
 const User = model("User", userSchema);
 
-module.exports = User;
+module.exports = User; 
