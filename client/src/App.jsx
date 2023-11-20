@@ -74,7 +74,7 @@ function App() {
             }
           />
           <Route path="/profile/:username" element={<UserProfile />} />
-          <Route path="/followers/:userID" element={<Followers />} />{" "}
+          <Route path="/followers/:userID" element={<Followers />} />
           <Route path="*" element={<Error />} />
           <Route path="/likes" element={<Likes />} />
           <Route path="/comment" element={<CommentPage />} />
@@ -83,7 +83,6 @@ function App() {
           <Route path="/resetPassword" element={<ResetPassword />} />
         </Routes>
         {registered && <NavBar />}{" "}
-        {/* Conditionally render NavBar based on login status */}
       </Router>
     </ApolloProvider>
   );

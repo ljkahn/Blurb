@@ -219,22 +219,43 @@ const resolvers = {
       }
     },
 
-    userFollowers: async (parent, { userId }, context) => {
-      try {
-        // Fetch the user based on the provided userId and populate the followers field
-        const user = await User.findById(userId).populate('followers');
+    // userFollowers: async (parent, { userId }, context) => {
+    //   try {
+    //     // Fetch the user based on the provided userId and populate the followers field
+    //     const user = await User.findById(userId).populate('followers');
+    //     console.log('Populated User:', user);
 
-        if (!user) {
-          throw new Error("User not found");
-        }
+    //     if (!user) {
+    //       throw new Error("User not found");
+    //     }
 
-        // Return the list of followers
-        return user.followers;
-      } catch (error) {
-        console.error(error);
-        throw new Error('Failed to fetch user followers');
-      }
-    },
+    //     // Return the list of followers
+    //     return user.followers;
+    //   } catch (error) {
+    //     console.error(error);
+    //     throw new Error('Failed to fetch user followers');
+    //   }
+    // },
+
+userFollowers: async (parent, { userId }, context) => {
+  try {
+    // Fetch the user based on the provided userId and populate the followers field
+    const user = await User.findById(userId).populate('followers');
+    
+    console.log('Fetched User:', user);
+
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    // Return the list of followers
+    return user.followers;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to fetch user followers');
+  }
+},
+
 
     // passwordReset: async (_, { token, email }) => {
     //   console.log(token);
