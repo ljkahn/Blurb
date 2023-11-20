@@ -858,7 +858,7 @@ const resolvers = {
 
         await userIdToFollow.sendNotification({
           recipient: userToFollow,
-          type: "follow",
+          type: "followed you!",
         });
 
         return "User followed successfully!";
