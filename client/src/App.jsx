@@ -27,8 +27,10 @@ import CommentPage from "./pages/CommentPage";
 import SearchBar from "./components/SearchBar/SearchBar";
 import Auth from "./utils/auth";
 import ForgotPassword from "./pages/ForgotPassword";
-import Followers from "./pages/FollowerList";
+import FollowersListCom from "./components/Follow/FollowersListCom";
 import ResetPassword from "./pages/ResetPassword";
+import Followers from "./pages/FollowerList";
+import FollowingList from "./pages/FollowingList";
 
 // Construct our main GraphQL API endpoint
 const httpLink = createHttpLink({
@@ -73,7 +75,8 @@ function App() {
             }
           />
           <Route path="/profile/:username" element={<UserProfile />} />
-          <Route path="/followers" element={<Followers />} />{" "}
+          <Route path="/followers/:userID" element={<Followers />} />
+          <Route path="/following/:userID" element={<FollowingList />} />
           <Route path="*" element={<Error />} />
           <Route path="/likes" element={<Likes />} />
           <Route path="/comment" element={<CommentPage />} />
@@ -82,7 +85,6 @@ function App() {
           <Route path="/resetPassword" element={<ResetPassword />} />
         </Routes>
         {registered && <NavBar />}{" "}
-        {/* Conditionally render NavBar based on login status */}
       </Router>
     </ApolloProvider>
   );

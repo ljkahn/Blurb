@@ -218,8 +218,7 @@ const resolvers = {
         throw new Error("Failed to find followers");
       }
     },
-
-    followedUsersBlurbs: async (parent, args, context) => {
+     followedUsersBlurbs: async (parent, args, context) => {
       if (!context.user) {
         throw new Error("You must be logged in to view this content");
       }
@@ -259,24 +258,51 @@ const resolvers = {
       }
     },
 
-    userFollowers: async (_, { userId }, context) => {
-      // Check authentication and permissions as needed
+    // userFollowers: async (parent, { userId }, context) => {
+    //   try {
+    //     // Fetch the user based on the provided userId and populate the followers field
+    //     const user = await User.findById(userId).populate('followers');
+    //     console.log('Populated User:', user);
 
-      try {
-        // Fetch the user based on the provided userId
-        const user = await User.findById(userId).populate("followers");
 
-        if (!user) {
-          throw new Error("User not found");
-        }
 
-        // Return the list of users that the user follows
-        return user.followers;
-      } catch (error) {
-        console.error("Error fetching user followers:", error);
-        throw new Error("Failed to fetch user followers");
-      }
-    },
+userFollowers: async (parent, { userId }, context) => {
+  try {
+    // Fetch the user based on the provided userId and populate the followers field
+    const user = await User.findById(userId).populate('followers');
+    
+    console.log('Fetched User:', user);
+
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    // Return the list of followers
+    return user.followers;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to fetch user followers');
+  }
+},
+
+userFollowing: async (parent, { userId }, context) => {
+  try {
+    // Fetch the user based on the provided userId and populate the followers field
+    const user = await User.findById(userId).populate('following');
+    
+    console.log('Fetched User:', user);
+
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    // Return the list of followers
+    return user.following;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to fetch user following');
+  }
+},
 
     // passwordReset: async (_, { token, email }) => {
     //   console.log(token);
