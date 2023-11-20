@@ -249,7 +249,8 @@ const resolvers = {
           }
           });
 
-          const loggedInUserBlurbs = await Blurbs.find({blurbAuthor: context.user._id});
+          const loggedInUserBlurbs = await Blurbs.find({blurbAuthor: context.user._id})
+          .populate("blurbAuthor");
 
         return [...loggedInUserBlurbs, ...blurbs];
       } catch (error) {

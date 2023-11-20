@@ -11,20 +11,20 @@ import auth from "../utils/auth.js";
 import { FOLLOWED_USERS_BLURBS } from "../utils/Queries/userQueries.js";
 
 
-function Home(profilePic) {
+function Home() {
   const [followedUsersBlurbs, setBlurbs] = useState([]);
   const [isLoading, setLoading] = useState(true);
   // const { loading, data, refetch } = useQuery(ALL_BLURBS);
-  const {loading, data, refetch } = useQuery(FOLLOWED_USERS_BLURBS);
+  const {loading, data, error, refetch} = useQuery(FOLLOWED_USERS_BLURBS);
 
   
   
-  useEffect(() => {
-  console.log("profilePic:", blurb.blurbAuthor?.profile?.profilePic);
-}, [blurb]);
+//   useEffect(() => {
+//   console.log("profilePic:", blurb.blurbAuthor?.profile?.profilePic);
+// }, [blurb]);
   
   useEffect(() => {
-    if (!loading) {
+    if (!loading && data) {
       const allBlurbs = [...data.followedUsersBlurbs,];
       const newBlurbs = allBlurbs.slice(); // Create a shallow copy to avoid mutating the original array
       newBlurbs.sort((a, b) => {
