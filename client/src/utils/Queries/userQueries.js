@@ -43,6 +43,9 @@ export const QUERY_GET_NOTIFICATIONS = gql`
         type
         sender {
           username
+          profile {
+            profilePic
+          }
         }
         blurbId
         createdAt
