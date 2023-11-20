@@ -410,7 +410,7 @@ const resolvers = {
               if (blurbAuthor) {
                 await blurbAuthor.sendNotification({
                   recipient: blurbAuthor,
-                  type: "Comment",
+                  type: "commented on your Blurb!",
                   sender: context.user,
                   blurbId: blurbId,
                 });
@@ -532,7 +532,7 @@ const resolvers = {
           if (blurbAuthor) {
             await blurbAuthor.sendNotification({
               recipient: blurbAuthor,
-              type: "like",
+              type: "liked your blurb!",
               sender: context.user,
               blurbId: blurbId,
             });
@@ -740,7 +740,7 @@ const resolvers = {
           if (commentUser) {
             await commentUser.sendNotification({
               recipient: commentUser,
-              type: "liked comment",
+              type: "liked your comment!",
               sender: context.user,
               blurbId: commentId,
             });
