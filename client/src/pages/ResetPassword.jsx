@@ -6,6 +6,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { outlinedInputClasses } from "@mui/material/OutlinedInput";
 import '../style/Login.css';
+import { useMutation } from "@apollo/client";
+import { RESET_PASSWORD } from "../utils/mutations/userMutations";
 
 const customTheme = createTheme({
   palette: {
@@ -85,6 +87,32 @@ const customTheme = createTheme({
 });
 
 function ResetPassword() {
+  const [resetPassword, { error }] = useMutation(RESET_PASSWORD);
+  if (error) {
+    console.log(JSON.stringify(error));
+  }
+
+  const savePassword = async () => {
+    console.log("saved");
+    const newPassword = document.getElementById("newPassword").value;
+    const confirmPassword = document.getElementById("confirmPassword").value;
+    if (newPassword === confirmPassword) {
+      const token = window.location.href.split("=").at(-1);
+      const { data } = await resetPassword({
+        variables: {
+          newPassword,
+          token,
+        },
+      });
+      console.log(data);
+
+      console.log(token);
+    }
+  };
+  const cancelPassword = () => {
+    console.log("canceled");
+  };
+
   return (
     <ThemeProvider theme={customTheme}>
       <div
@@ -96,13 +124,9 @@ function ResetPassword() {
           height: "100vh",
         }}
       >
+        <TextField id="newPassword" label="New Password" variant="standard" />
         <TextField
-          // id="standard-basic"
-          label="New Password"
-          variant="standard"
-        />
-        <TextField
-          // id="standard-basic"
+          id="confirmPassword"
           label="Confirm New Password"
           variant="standard"
         />
@@ -110,7 +134,7 @@ function ResetPassword() {
           variant="contained"
           id="forgotBtn"
           style={{ marginTop: "16px" }}
-          // onClick={savePassword}
+          onClick={savePassword}
         >
           <SaveIcon />
           Save Password
@@ -119,7 +143,7 @@ function ResetPassword() {
           id="forgotBtnCancel"
           variant="contained"
           style={{ marginTop: "8px" }}
-          // onClick={cancelPassword}
+          onClick={cancelPassword}
         >
           <DeleteIcon />
           Cancel

@@ -1,7 +1,8 @@
 import { React, useState } from "react"; // , { useState }
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-// import { useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
+import { PASSWORD_RESET } from "../utils/mutations/userMutations";
 // import { LOGIN_USER } from "../../utils/mutations/userMutations";
 import { useNavigate } from "react-router-dom";
 import Snackbar from "@mui/material/Snackbar";
@@ -101,6 +102,11 @@ function ForgotPassword() {
   const [resetToken, setResetToken] = useState(""); // New state to store the reset token
   const [userEmail, setUserEmail] = useState("");
 
+  const [passwordReset, { error }] = useMutation(PASSWORD_RESET);
+  if (error) {
+    console.log(JSON.stringify(error));
+  }
+
   // Function to generate a random token
   const generateToken = () => {
     const length = 32;
@@ -134,11 +140,16 @@ function ForgotPassword() {
 
   const handleSendEmail = async () => {
     const userEmail = document.getElementById("standard-basic").value;
+
     console.log(userEmail);
+
     const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+
     const isValidEmail = emailPattern.test(userEmail);
 
     console.log(isValidEmail);
+
+    //before i send email do the query call to the backend if the email exists in the database based on the response either send the email or dont
 
     if (!isValidEmail) {
       setSnackbarSeverity("error");
@@ -157,52 +168,65 @@ function ForgotPassword() {
     setUserEmail(userEmail);
     // console.log(userEmail);
 
-    const resetUrl = `http://localhost:3000/resetPassword?token=${token}`;
-    const templateParams = {
-      to_email: userEmail,
-      reset_url: resetUrl, // Pass the reset URL to the email template
-    };
+    const { data } = await passwordReset({
+      variables: {
+        email: userEmail,
+        token,
+      },
+    });
+    console.log(data);
+    if (data.passwordReset) {
+      const resetUrl = `http://localhost:3000/resetPassword?token=${token}`;
+      const templateParams = {
+        to_email: userEmail,
+        reset_url: resetUrl, // Pass the reset URL to the email template
+      };
 
-    const serviceId = "service_cktbx3y";
-    const templateId = "template_sjuqpvd";
-    const userId = "8-dm5hdWgZjnQ7aaU";
+      const serviceId = "service_cktbx3y";
+      const templateId = "template_sjuqpvd";
+      const userId = "8-dm5hdWgZjnQ7aaU";
 
-    try {
-      const response = await emailjs.send(
-        serviceId,
-        templateId,
-        templateParams,
-        userId
-      );
-      console.log("EmailJS response:", response);
-
-      if (response && response.text === "OK") {
-        console.log("Email sent successfully");
-        setSnackbarSeverity("success");
-        setSnackbarMessage(
-          "If the provided email exists in our records, a password reset email will be sent"
+      try {
+        const response = await emailjs.send(
+          serviceId,
+          templateId,
+          templateParams,
+          userId
         );
-        setOpenSnackbar(true);
-        setEmailResult(true);
-      } else {
-        console.error("Error sending email. Response:", response);
+
+        console.log("EmailJS response:", response);
+
+        if (response && response.text === "OK") {
+          console.log("Email sent successfully");
+          setSnackbarSeverity("success");
+          setSnackbarMessage(
+            "If the provided email exists in our records, a password reset email will be sent"
+          );
+
+          setOpenSnackbar(true);
+          setEmailResult(true);
+        } else {
+          console.error("Error sending email. Response:", response);
+          setSnackbarSeverity("error");
+          setSnackbarMessage("Failed to send reset email. Please try again.");
+          setOpenSnackbar(true);
+          setEmailResult(false);
+        }
+      } catch (error) {
+        console.error("Error sending email:", error);
+        console.error("EmailJS error details:", error?.response?.text);
         setSnackbarSeverity("error");
         setSnackbarMessage("Failed to send reset email. Please try again.");
         setOpenSnackbar(true);
         setEmailResult(false);
       }
-    } catch (error) {
-      console.error("Error sending email:", error);
-      console.error("EmailJS error details:", error?.response?.text);
-      setSnackbarSeverity("error");
-      setSnackbarMessage("Failed to send reset email. Please try again.");
-      setOpenSnackbar(true);
-      setEmailResult(false);
+    } else {
+      console.log("Email not found.");
     }
   };
 
   const handleCancel = () => {
-    navigate(-1); // Go back one step in the history stack
+    navigate(-1);
   };
 
   return (
