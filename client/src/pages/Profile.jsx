@@ -21,6 +21,7 @@ import { createTheme, ThemeProvider, useTheme } from "@mui/material/styles";
 import { outlinedInputClasses } from "@mui/material/OutlinedInput";
 import FollowersList from "../components/Follow/FollowersListCom.jsx";
 import FollowingListCom from "../components/Follow/FollowingListCom.jsx";
+import { GET_FOLLOWERS, GET_FOLLOWING } from "../utils/Queries/userQueries";
 
 const customTheme = (outerTheme) =>
   createTheme({
@@ -112,7 +113,8 @@ function Profile({ registered }) {
   const [isLoading, setLoading] = useState(true);
   const { loading, data, refetch } = useQuery(QUERY_MY_PROFILE);
   const [followers, setFollowers] = useState([]);
-  // const [following, setFollowing] = useState([]);
+  const [followingList, setFollowingList] = useState([]);
+  const navigate = useNavigate();
 
   // useEffect (() => {
   //   const { loading, data } = useQuery(QUERY_MY_PROFILE);
@@ -125,6 +127,32 @@ function Profile({ registered }) {
   //     setLoading(loading);
   //   }
   // }, [isLoading]);
+
+  const fetchFollowersData = async (userId) => {
+    try {
+      const { data } = await client.query({
+        query: GET_FOLLOWERS,
+        variables: { userId },
+      });
+      return data.userFollowers;
+    } catch (error) {
+      console.error("Error fetching followers:", error);
+      return [];
+    }
+  };
+
+  const fetchFollowingData = async (userId) => {
+    try {
+      const { data } = await client.query({
+        query: GET_FOLLOWING,
+        variables: { userId },
+      });
+      return data.user.Following;
+    } catch (error) {
+      console.error("Error fetching following:", error);
+      return [];
+    }
+  };
 
   useEffect(() => {
     if (registered) {
@@ -234,7 +262,7 @@ function Profile({ registered }) {
   const showFollowing = async () => {
     // Fetch following data (you may need to implement this)
     const followingData = await fetchFollowingData();
-    setFollowing(followingData);
+    setFollowingList(followingData);
     setCurrentComponent("following");
   };
 
@@ -257,12 +285,16 @@ function Profile({ registered }) {
                   id="btn"
                   style={buttonStyle}
                   variant="contained"
-                  component={Link}
-                  to="/followers"
+                  onClick={() => navigate(`/followers/${userData._id}`)}
                 >
                   {userData.followerNumber} Followers
                 </Button>
-                <Button id="btn" style={buttonStyle} variant="contained">
+                <Button
+                  id="btn"
+                  style={buttonStyle}
+                  variant="contained"
+                  onClick={() => navigate(`/following/${userData._id}`)}
+                >
                   {userData.followingNumber} Following
                 </Button>
               </Grid>

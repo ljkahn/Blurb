@@ -9,7 +9,7 @@ import BlurbStream from "../components/Blurbs/BlurbCard.jsx";
 
 import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_ONE_USER } from "../utils/Queries/userQueries";
-import { GET_FOLLOWERS } from "../utils/Queries/userQueries";
+import { GET_FOLLOWERS, GET_FOLLOWING } from "../utils/Queries/userQueries";
 import { FOLLOW_USER, UNFOLLOW_USER } from "../utils/mutations/userMutations";
 import { useParams, Link, useNavigate } from "react-router-dom"; // Import useNavigate
 import Auth from "../utils/auth.js";
@@ -28,7 +28,7 @@ function UserProfile() {
   const [unfollowUser] = useMutation(UNFOLLOW_USER);
   const navigate = useNavigate();
   const [followers, setFollowers] = useState([]);
-  // const [following, setFollowing] = useState([]);
+  const [followingList, setFollowingList] = useState([]);
   const [currentComponent, setCurrentComponent] = useState(""); // Add state for current component
 
   const neon = "#F7E258";
@@ -58,6 +58,19 @@ function UserProfile() {
       return data.userFollowers;
     } catch (error) {
       console.error("Error fetching followers:", error);
+      return [];
+    }
+  };
+
+  const fetchFollowingData = async (userId) => {
+    try {
+      const { data } = await client.query({
+        query: GET_FOLLOWING,
+        variables: { userId },
+      });
+      return data.userFollowing;
+    } catch (error) {
+      console.error("Error fetching following:", error);
       return [];
     }
   };
@@ -108,14 +121,6 @@ function UserProfile() {
       });
   };
 
-  // const showFollowers = () => {
-  //   // Instead of using async/await here, you can directly set the state
-  //   fetchFollowersData().then((followersData) => {
-  //     setFollowers(followersData);
-  //     setCurrentComponent("followers");
-  //   });
-  // };
-
   const showFollowers = () => {
     // Instead of using async/await here, you can directly set the state
     fetchFollowersData(userData._id).then((followersData) => {
@@ -124,11 +129,12 @@ function UserProfile() {
     });
   };
 
-  const showFollowing = async () => {
-    // Fetch following data (you may need to implement this)
-    const followingData = await fetchFollowingData();
-    setFollowing(followingData);
-    setCurrentComponent("following");
+  const showFollowing = () => {
+    // Instead of using async/await here, you can directly set the state
+    fetchFollowingData(userData._id).then((followingData) => {
+      setFollowers(followingData);
+      setCurrentComponent("following");
+    });
   };
 
   return (
@@ -149,8 +155,12 @@ function UserProfile() {
             >
               {userData.followerNumber} Followers
             </Button>
-
-            <Button id="btn" style={infoStyle} variant="contained">
+            <Button
+              id="btn"
+              style={infoStyle}
+              variant="contained"
+              onClick={() => navigate(`/following/${userData._id}`)}
+            >
               {userData.followingNumber} Following
             </Button>
           </Grid>

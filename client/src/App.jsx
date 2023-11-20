@@ -30,6 +30,7 @@ import ForgotPassword from "./pages/ForgotPassword";
 import FollowersListCom from "./components/Follow/FollowersListCom";
 import ResetPassword from "./pages/ResetPassword";
 import Followers from "./pages/FollowerList";
+import FollowingList from "./pages/FollowingList";
 
 // Construct our main GraphQL API endpoint
 const httpLink = createHttpLink({
@@ -75,6 +76,7 @@ function App() {
           />
           <Route path="/profile/:username" element={<UserProfile />} />
           <Route path="/followers/:userID" element={<Followers />} />
+          <Route path="/following/:userID" element={<FollowingList />} />
           <Route path="*" element={<Error />} />
           <Route path="/likes" element={<Likes />} />
           <Route path="/comment" element={<CommentPage />} />
