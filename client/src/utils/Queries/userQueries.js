@@ -140,6 +140,16 @@ query GetFollowers($userId: ID!) {
   }
 }
 `;
+
+export const GET_FOLLOWING = gql`
+query GetFollowing($userId: ID!) {
+  userFollowing(userId: $userId) {
+    _id
+    username
+
+  }
+}
+`;
 // export const FOLLOWED_USER_BLURBS = gql`
 //   query followedUsersBlurbs
 // `

@@ -9,6 +9,7 @@ import BlurbStream from "../components/Blurbs/BlurbCard.jsx";
 
 import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_ONE_USER } from "../utils/Queries/userQueries";
+import { GET_FOLLOWERS } from "../utils/Queries/userQueries";
 import { FOLLOW_USER, UNFOLLOW_USER } from "../utils/mutations/userMutations";
 import { useParams, Link, useNavigate } from "react-router-dom"; // Import useNavigate
 import Auth from "../utils/auth.js";
@@ -25,10 +26,10 @@ function UserProfile() {
   const [followUser, { loading: followLoading, error: followError }] =
     useMutation(FOLLOW_USER);
   const [unfollowUser] = useMutation(UNFOLLOW_USER);
-  const navigation = useNavigate();
+  const navigate = useNavigate();
   const [followers, setFollowers] = useState([]);
   // const [following, setFollowing] = useState([]);
-  // const [currentComponent, setCurrentComponent] = useState(""); // Add state for current component
+  const [currentComponent, setCurrentComponent] = useState(""); // Add state for current component
 
   const neon = "#F7E258";
   const white = "#f5f5f5";
@@ -117,7 +118,7 @@ function UserProfile() {
 
   const showFollowers = () => {
     // Instead of using async/await here, you can directly set the state
-    fetchFollowersData().then((followersData) => {
+    fetchFollowersData(userData._id).then((followersData) => {
       setFollowers(followersData);
       setCurrentComponent("followers");
     });
