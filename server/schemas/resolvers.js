@@ -374,6 +374,8 @@ const resolvers = {
             }
           );
 
+          // console.log(updatedBlurb);
+
           if (updatedBlurb) {
             // If the "updatedBlurb" document exists, find the newly added comment in the "comments" array.
             const newComment = updatedBlurb.comments.find(
@@ -382,18 +384,37 @@ const resolvers = {
                 comment.commentAuthor.equals(context.user._id) // Match the comment author (user ID).
             );
 
+            // console.log(newComment);
+
             if (newComment) {
               const blurb = await Blurbs.findById(blurbId);
-              if (
-                blurb &&
-                blurb.blurbAuthor.toString() !== context.user._id.toString()
-              ) {
-                const blurbAuthor = await User.findById(blurb.blurbAuthor);
-                await context.user.sendNotification({
-                  recipient: blurbAuthor.username,
-                  type: "comment",
+              // if (
+              //   blurb &&
+              //   blurb.blurbAuthor.toString() !== context.user._id
+              //   ) {
+              //   console.log(blurb.blurbAuthor.toString());
+              //   console.log(context.user._id);
+              //   const blurbAuthor = await User.findById(blurb.blurbAuthor);
+              //   await context.user.sendNotification({
+              //     recipient: blurbAuthor.username,
+              //     type: "comment",
+              //   });
+              // }
+
+              // console.log(blurb);
+
+              const blurbAuthor = await User.findById(blurb.blurbAuthor);
+              // console.log(blurbAuthor);
+
+              if (blurbAuthor) {
+                await blurbAuthor.sendNotification({
+                  recipient: blurbAuthor,
+                  type: "Comment",
+                  sender: context.user,
+                  blurbId: blurbId,
                 });
               }
+
               // If the new comment is found, return a success message.
               return "Successfully created Comment!";
             }

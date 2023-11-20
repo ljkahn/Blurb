@@ -34,31 +34,18 @@ function Home(profilePic) {
       });
       setBlurbs([...data.followedUsersBlurbs]);
       setLoading(false);
-      refetch();
+      // refetch();
     }
-  }, [data]);
-  console.log(data);
+  }, [loading, data]);
+
+  if (error) {
+    return <div>Error loading data!</div>
+  }
 
   // useEffect(() => {
-  //   if (!loading) {
-  //     const allBlurbs = [...data.blurbs];
-  //     const newBlurbs = allBlurbs.slice(); // Create a shallow copy to avoid mutating the original array
-  //     newBlurbs.sort((a, b) => {
-  //       const dateA = new Date(a.createdAt);
-  //       const dateB = new Date(b.createdAt);
-  //       return dateA - dateB;
-  //     });
-  //     setBlurbs([...data.blurbs]);
-  //     setLoading(false);
-  //     refetch();
-  //   }
+  //   // console.log(data); // Log the data to see its structure
+  //   refetch();
   // }, [data]);
-
-
-  useEffect(() => {
-    console.log(data); // Log the data to see its structure
-    refetch();
-  }, [data]);
 
   // useEffect(() => {
   //   console.log(data); // Log the data to see its structure
