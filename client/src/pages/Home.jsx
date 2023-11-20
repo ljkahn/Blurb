@@ -6,24 +6,33 @@ import BlurbCard from "../components/Blurbs/BlurbCard.jsx";
 import BlurbCom from "../components/Blurbs/BlurbComCard.jsx";
 // import { TypeAnimation } from "react-type-animation";
 import { useQuery } from "@apollo/client";
-import { ALL_BLURBS } from "../utils/Queries/queries.js";
+// import { ALL_BLURBS } from "../utils/Queries/queries.js";
 import auth from "../utils/auth.js";
+import { FOLLOWED_USERS_BLURBS } from "../utils/Queries/userQueries.js";
+
 
 function Home() {
-  const [blurbs, setBlurbs] = useState([]);
+  const [followedUsersBlurbs, setBlurbs] = useState([]);
   const [isLoading, setLoading] = useState(true);
-  const { loading, data, error, refetch } = useQuery(ALL_BLURBS);
+  // const { loading, data, refetch } = useQuery(ALL_BLURBS);
+  const {loading, data, error, refetch} = useQuery(FOLLOWED_USERS_BLURBS);
 
+  
+  
+//   useEffect(() => {
+//   console.log("profilePic:", blurb.blurbAuthor?.profile?.profilePic);
+// }, [blurb]);
+  
   useEffect(() => {
     if (!loading && data) {
-      const allBlurbs = [...data.blurbs];
+      const allBlurbs = [...data.followedUsersBlurbs,];
       const newBlurbs = allBlurbs.slice(); // Create a shallow copy to avoid mutating the original array
       newBlurbs.sort((a, b) => {
         const dateA = new Date(a.createdAt);
         const dateB = new Date(b.createdAt);
         return dateA - dateB;
       });
-      setBlurbs([...data.blurbs]);
+      setBlurbs([...data.followedUsersBlurbs]);
       setLoading(false);
       // refetch();
     }
@@ -37,6 +46,13 @@ function Home() {
   //   // console.log(data); // Log the data to see its structure
   //   refetch();
   // }, [data]);
+
+  // useEffect(() => {
+  //   console.log(data); // Log the data to see its structure
+  //   refetch();
+  // }, [data]);
+
+
 
   return (
     <div>
@@ -52,14 +68,14 @@ function Home() {
           visible={true}
         />
       ) : (
-        blurbs.map((blurb) => (
+        followedUsersBlurbs.map((blurb) => (
           <div key={blurb._id}>
             <BlurbCard
               propRefetch={refetch}
               // key={i}
               blurbId={blurb._id}
               username={blurb.blurbAuthor.username}
-              profilePic={blurb.blurbAuthor.profile.profilePic}
+              profilePic={blurb.blurbAuthor?.profile?.profilePic || ''}
               liked={blurb.likeList.includes(auth.getProfile().data._id)}
               likes={blurb.likes}
             >
