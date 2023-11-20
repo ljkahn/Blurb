@@ -19,13 +19,13 @@
 
 .blurbContainer {
   display: flex;
-  height: 80px;
+  min-height: 80px;
   padding: 10px;
   margin: 5px;
   width: 350px;
   justify-content: space-between;
   background-color: #757575;
-  
+
   border-radius: 20px;
 }
 
@@ -59,7 +59,8 @@
 
 .comContainer {
   width: 320px;
-  background-color: #4b4b4b;}
+  background-color: #4b4b4b;
+}
 
 .css-8je8zh-MuiTouchRipple-root {
   color: #f7e258 !important;
@@ -70,9 +71,21 @@
 }
 
 .likesCount {
-  font-size: .5rem;
+  font-size: 0.5rem;
   position: absolute;
   top: -5px;
   font-weight: 600;
   color: white;
+}
+
+/* //////////////////////// media query ///////////////// */
+
+@media (min-width: 1200px) {
+  .blurbContainer {
+    width: 550px;
+  }
+
+  .comContainer {
+    width: 520px;
+  }
 }
