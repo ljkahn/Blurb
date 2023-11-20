@@ -249,7 +249,9 @@ const resolvers = {
           }
           });
 
-        return blurbs;
+          const loggedInUserBlurbs = await Blurbs.find({blurbAuthor: context.user._id});
+
+        return [...loggedInUserBlurbs, ...blurbs];
       } catch (error) {
         console.error(error);
         throw new Error("An error occurred while retrieving blurbs");
@@ -289,6 +291,7 @@ const resolvers = {
     //     throw new Error("Failed to find email.");
     //   }
     // },
+
   },
 
   Mutation: {
