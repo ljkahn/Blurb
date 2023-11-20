@@ -123,9 +123,9 @@ function BlurbCom({
     setIsLiked(!isLiked); // Toggle the liked state
   };
 
-  useEffect(() => {
-    console.log(data); // Log the data to see its structure
-  }, [data]);
+  // useEffect(() => {
+  //   console.log(data); // Log the data to see its structure
+  // }, [data]);
 
   return (
     <div id="bluMain">
