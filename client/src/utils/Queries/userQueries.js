@@ -102,6 +102,34 @@ export const USER_LIST = gql`
     }
   }
 `;
+export const FOLLOWED_USERS_BLURBS = gql`
+query followedUsersBlurbs {
+  followedUsersBlurbs {
+    _id
+    blurbAuthor {
+      username
+      _id
+      profile {
+        profilePic
+      }
+    }
+    blurbText
+    likes
+    likeList
+    comments {
+      _id
+      commentAuthor {
+        username
+      }
+      commentText
+      likeList
+      likes
+    }
+    tags
+    createdAt
+  }
+}
+`
 
 export const GET_FOLLOWERS = gql`
 query GetFollowers($userId: ID!) {

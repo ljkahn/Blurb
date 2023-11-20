@@ -218,6 +218,45 @@ const resolvers = {
         throw new Error("Failed to find followers");
       }
     },
+     followedUsersBlurbs: async (parent, args, context) => {
+      if (!context.user) {
+        throw new Error("You must be logged in to view this content");
+      }
+
+      try {
+        // Fetch the list of users that the current user is following
+        const currentUser = await User.findById(context.user._id).populate(
+          "following"
+        );
+
+        // Extract the IDs of followed users
+        const followedUserIds = currentUser.following.map((user) => user._id);
+
+        
+        // Find blurbs where the author is in the list of followed users
+        const blurbs = await Blurbs.find({
+          blurbAuthor: { $in: followedUserIds },
+        })
+        .populate("blurbAuthor")
+        .sort({ createdAt: -1 })
+        .populate("tags")
+        .populate({
+          path: "comments",
+          populate: {
+            path: "commentAuthor",
+            model: "User",
+          }
+          });
+
+          const loggedInUserBlurbs = await Blurbs.find({blurbAuthor: context.user._id})
+          .populate("blurbAuthor");
+
+        return [...loggedInUserBlurbs, ...blurbs];
+      } catch (error) {
+        console.error(error);
+        throw new Error("An error occurred while retrieving blurbs");
+      }
+    },
 
     // userFollowers: async (parent, { userId }, context) => {
     //   try {
@@ -225,17 +264,7 @@ const resolvers = {
     //     const user = await User.findById(userId).populate('followers');
     //     console.log('Populated User:', user);
 
-    //     if (!user) {
-    //       throw new Error("User not found");
-    //     }
 
-    //     // Return the list of followers
-    //     return user.followers;
-    //   } catch (error) {
-    //     console.error(error);
-    //     throw new Error('Failed to fetch user followers');
-    //   }
-    // },
 
 userFollowers: async (parent, { userId }, context) => {
   try {
@@ -271,6 +300,7 @@ userFollowers: async (parent, { userId }, context) => {
     //     throw new Error("Failed to find email.");
     //   }
     // },
+
   },
 
   Mutation: {

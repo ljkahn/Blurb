@@ -10,6 +10,7 @@ import Alert from "@mui/material/Alert";
 import SaveIcon from "@mui/icons-material/Save";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import '../style/Login.css';
 
 // import Auth from "../../utils/auth";
 import { outlinedInputClasses } from "@mui/material/OutlinedInput";
@@ -242,7 +243,7 @@ function ForgotPassword() {
         <TextField id="standard-basic" label="User Email" variant="standard" />
         <Button
           variant="contained"
-          className="btn"
+          id="forgotBtn"
           style={{ marginTop: "16px" }}
           onClick={handleSendEmail}
         >
@@ -251,9 +252,10 @@ function ForgotPassword() {
         </Button>
         <Button
           variant="contained"
-          className="btn"
+          id="forgotBtnCancel"
           style={{ marginTop: "8px" }}
           onClick={handleCancel}
+          
         >
           <DeleteIcon />
           Cancel
