@@ -1,43 +1,26 @@
-import Nav from "../components/NavBar.jsx";
 import React, { useState, useEffect } from "react";
 import { ThreeDots } from "react-loader-spinner";
-import Fire from "../components/Blurbs/FireCard";
-import BlurbCard from "../components/Blurbs/BlurbCard.jsx";
-import BlurbCom from "../components/Blurbs/BlurbComCard.jsx";
-// import { TypeAnimation } from "react-type-animation";
+import BlurbCard from "../Blurbs/BlurbCard.jsx";
+import BlurbCom from "../Blurbs/BlurbComCard.jsx"
 import { useQuery } from "@apollo/client";
-// import { ALL_BLURBS } from "../utils/Queries/queries.js";
-import auth from "../utils/auth.js";
-import { FOLLOWED_USERS_BLURBS } from "../utils/Queries/userQueries.js";
+import { ALL_BLURBS } from "../../utils/Queries/queries.js";
 
-import Global from "../components/Blurbs/Global.jsx";
-import { ToggleButton, ToggleButtonGroup } from '@mui/material';
-import PublicIcon from '@mui/icons-material/Public';
-import Diversity3Icon from '@mui/icons-material/Diversity3';
-
-
-function Home() {
-  const [followedUsersBlurbs, setBlurbs] = useState([]);
+function Global() {
+  const [blurbs, setBlurbs] = useState([]);
   const [isLoading, setLoading] = useState(true);
-  // const { loading, data, refetch } = useQuery(ALL_BLURBS);
-  const {loading, data, error, refetch} = useQuery(FOLLOWED_USERS_BLURBS);
+  const { loading, data, error, refetch } = useQuery(ALL_BLURBS);
+  // const {loading, data, error, refetch} = useQuery(FOLLOWED_USERS_BLURBS);
 
-  
-  
-//   useEffect(() => {
-//   console.log("profilePic:", blurb.blurbAuthor?.profile?.profilePic);
-// }, [blurb]);
-  
   useEffect(() => {
     if (!loading && data) {
-      const allBlurbs = [...data.followedUsersBlurbs,];
+      const allBlurbs = [...data.blurbs,];
       const newBlurbs = allBlurbs.slice(); // Create a shallow copy to avoid mutating the original array
       newBlurbs.sort((a, b) => {
         const dateA = new Date(a.createdAt);
         const dateB = new Date(b.createdAt);
         return dateA - dateB;
       });
-      setBlurbs([...data.followedUsersBlurbs]);
+      setBlurbs([...data.blurbs]);
       setLoading(false);
       // refetch();
     }
@@ -47,32 +30,9 @@ function Home() {
     return <div>Error loading data!</div>
   }
 
-  // useEffect(() => {
-  //   // console.log(data); // Log the data to see its structure
-  //   refetch();
-  // }, [data]);
-
-  // useEffect(() => {
-  //   console.log(data); // Log the data to see its structure
-  //   refetch();
-  // }, [data]);
-
-
-
   return (
     <div>
-      <ToggleButtonGroup>
-        <ToggleButton 
-        value={true}
-        color={"primary"}
-        >
-        <Diversity3Icon/>
-        </ToggleButton>
-        <ToggleButton value={false}>
-        <PublicIcon/>
-        </ToggleButton>
-      </ToggleButtonGroup>
-      {isLoading ? (
+{isLoading ? (
         <ThreeDots
           height="80"
           width="80"
@@ -84,7 +44,7 @@ function Home() {
           visible={true}
         />
       ) : (
-        followedUsersBlurbs.map((blurb) => (
+        blurbs.map((blurb) => (
           <div key={blurb._id}>
             <BlurbCard
               propRefetch={refetch}
@@ -113,7 +73,10 @@ function Home() {
         ))
       )}
     </div>
-  );
+
+
+    
+  )
 }
 
-export default Home;
+export default Global
