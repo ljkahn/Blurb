@@ -1,6 +1,6 @@
 const { Schema, model } = require("mongoose");
 const bcrypt = require("bcrypt");
-const Notification = require("./Notifications");
+const Notification = require("./Notification");
 
 const profileSchema = new Schema({
   fullName: {
