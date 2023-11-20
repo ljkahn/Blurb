@@ -233,14 +233,26 @@ const resolvers = {
         // Extract the IDs of followed users
         const followedUserIds = currentUser.following.map((user) => user._id);
 
+        
         // Find blurbs where the author is in the list of followed users
         const blurbs = await Blurbs.find({
           blurbAuthor: { $in: followedUserIds },
         })
-          .populate("blurbAuthor")
-          .sort({ createdAt: -1 });
+        .populate("blurbAuthor")
+        .sort({ createdAt: -1 })
+        .populate("tags")
+        .populate({
+          path: "comments",
+          populate: {
+            path: "commentAuthor",
+            model: "User",
+          }
+          });
 
-        return blurbs;
+          const loggedInUserBlurbs = await Blurbs.find({blurbAuthor: context.user._id})
+          .populate("blurbAuthor");
+
+        return [...loggedInUserBlurbs, ...blurbs];
       } catch (error) {
         console.error(error);
         throw new Error("An error occurred while retrieving blurbs");
@@ -280,6 +292,7 @@ const resolvers = {
     //     throw new Error("Failed to find email.");
     //   }
     // },
+
   },
 
   Mutation: {

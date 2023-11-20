@@ -5,6 +5,7 @@ import SaveIcon from "@mui/icons-material/Save";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { outlinedInputClasses } from "@mui/material/OutlinedInput";
+import '../style/Login.css';
 import { useMutation } from "@apollo/client";
 import { RESET_PASSWORD } from "../utils/mutations/userMutations";
 
@@ -131,7 +132,7 @@ function ResetPassword() {
         />
         <Button
           variant="contained"
-          className="btn"
+          id="forgotBtn"
           style={{ marginTop: "16px" }}
           onClick={savePassword}
         >
@@ -139,8 +140,8 @@ function ResetPassword() {
           Save Password
         </Button>
         <Button
+          id="forgotBtnCancel"
           variant="contained"
-          className="btn"
           style={{ marginTop: "8px" }}
           onClick={cancelPassword}
         >

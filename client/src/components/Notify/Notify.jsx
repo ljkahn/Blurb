@@ -6,6 +6,8 @@ import IconButton from "@mui/material/IconButton";
 import "../../style/Blurbs.css";
 import { REMOVE_Blurb } from "../../utils/mutations/Blurb/BlurbMutations";
 import { useMutation } from "@apollo/client";
+import { QUERY_GET_NOTIFICATIONS } from "../../utils/Queries/userQueries";
+
 
 function Notify({ blurbId }) {
   const [isDeleted, setIsDeleted] = useState(false);
@@ -39,10 +41,10 @@ function Notify({ blurbId }) {
           />
           <div>
             <div className="blInfo">
-              <div>
-                <div className="userName">Blurb Team</div>
+              {/* <div>
+                <div className="userName">{userName}</div>
               </div>
-              <div>This page is currently under construction, check back soon! ⚠️</div>
+              <div>{Type}</div> */}
             </div>
           </div>
         </div>
