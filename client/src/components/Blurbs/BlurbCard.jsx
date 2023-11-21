@@ -27,11 +27,7 @@ import { createTheme, ThemeProvider, useTheme } from "@mui/material/styles";
 import { outlinedInputClasses } from "@mui/material/OutlinedInput";
 import { ALL_BLURBS } from "../../utils/Queries/queries";
 
-
 import { Link } from "react-router-dom";
-
-
-
 
 const customTheme = (outerTheme) =>
   createTheme({
@@ -123,7 +119,7 @@ function BlurbStream({
   profilePic,
   propRefetch,
   liked,
-  likes
+  likes,
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [commentText, setCommentText] = useState("");
@@ -132,7 +128,7 @@ function BlurbStream({
   const { loading, data, refetch } = useQuery(QUERY_MY_PROFILE);
   const [blurbIdForEdit, setBlurbIdForEdit] = useState(null);
   // console.log(liked);
-  
+
   // useEffect(() => {
   //   if (!loading) {
   //     // console.log(auth.getToken());
@@ -200,7 +196,7 @@ function BlurbStream({
         variables: { blurbId, commentText: commentText },
       });
       setCommentText("");
-      propRefetch && propRefetch()
+      propRefetch && propRefetch();
       closeModal();
     } catch (error) {
       console.error("Error adding comment:", error);
@@ -272,13 +268,13 @@ function BlurbStream({
         <div className="blurbContainer">
           <div id="blurbColOne">
             <Link to={`/profile/${username}`}>
-            <Avatar
-              id="notifyPP"
-              className="Blfriend"
-              alt={username}
-              src={staticImg}
-              sx={{ width: 40, height: 40 }}
-            />
+              <Avatar
+                id="notifyPP"
+                className="Blfriend"
+                alt={username}
+                src={staticImg}
+                sx={{ width: 40, height: 40 }}
+              />
             </Link>
             <div className="blInfo">
               <div>
@@ -287,28 +283,38 @@ function BlurbStream({
               <div>{children}</div>
             </div>
           </div>
-          <div id="notifyIcons">
-            <div style={{ display: "flex", flexDirection: "row" }}>
+          <div id="profileIcons">
+            <div id="notifyIcons">
               <IconButton onClick={handleLike} className="likeComment">
                 {isLiked ? (
                   <>
-                  <FavoriteIcon
-                  style={{ color: "red", fontSize: "2.1rem", position: "absolute", top: "-10px"}} 
-                  />
-                  <p className="likesCount">{likes}</p>
+                    <FavoriteIcon
+                      style={{
+                        color: "red",
+                        fontSize: "2.1rem",
+                        position: "absolute",
+                        top: "-10px",
+                      }}
+                    />
+                    <p className="likesCount">{likes}</p>
                   </>
                 ) : (
                   <>
-                  <FavoriteBorderIcon 
-                  style={{ fontSize: "2.1rem", position: "absolute", top: "-10px",  }}/>
-                  <p className="likesCount">{likes}</p>
+                    <FavoriteBorderIcon
+                      style={{
+                        fontSize: "2.1rem",
+                        position: "absolute",
+                        top: "-10px",
+                      }}
+                    />
+                    <p className="likesCount">{likes}</p>
                   </>
                 )}
               </IconButton>
-              <IconButton onClick={openModal} className="likeComment"
-              style={{ position: ""}}
-              >
-                <ChatBubbleOutlineIcon />
+              <IconButton onClick={openModal} className="likeComment">
+                <ChatBubbleOutlineIcon
+                  style={{ fontSize: "2.1rem", top: "-10px" }}
+                />
               </IconButton>
             </div>
             <div>

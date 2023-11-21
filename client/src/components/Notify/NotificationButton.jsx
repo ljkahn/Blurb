@@ -39,7 +39,14 @@ const NotificationButton = () => {
   return (
     <div>
       <IconButton aria-label={notificationsLabel(notificationsCount)}>
-        <Badge badgeContent={notificationsCount} color="secondary">
+        <Badge
+          anchorOrigin={{
+            vertical: "top",
+            horizontal: "right",
+          }}
+          badgeContent={notificationsCount}
+          color="secondary"
+        >
           <FavoriteIcon
             style={{ fill: isActive("/Likes") ? yellow : lightGray }}
             sx={{ fontSize: 40 }}
