@@ -932,6 +932,7 @@ const resolvers = {
 
     resetPassword: async (_, { token, newPassword }, { data }) => {
       try {
+        console.log(newPassword);
         const user = await User.findOne({ resetToken: token });
 
         // Check if the user exists and the token is still valid
