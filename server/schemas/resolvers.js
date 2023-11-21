@@ -1,5 +1,5 @@
 
-const { User, Blurbs, Notification } = require("../models");
+const { User, Blurbs, Notification, Messages } = require("../models");
 const {
   signToken,
   AuthenticationError,
@@ -318,6 +318,40 @@ userFollowing: async (parent, { userId }, context) => {
     //     throw new Error("Failed to find email.");
     //   }
     // },
+
+getUserMessages: async (_, { userId }) => {
+  const conversations = await Message.find({ $or: [{ senderId: userId }, { recipientId: userId }] })
+    .distinct('senderId', 'recipientId');
+  const userIds = conversations.filter(id => id.toString() !== userId.toString());
+  const users = await User.find({ _id: { $in: userIds } });
+  return users;
+},
+
+//     getMessages: () => [
+//   { _id: '1', senderId: '655bc098b96721e1e89d538c', recipientId: '655bc098b96721e1e89d5370', text: 'Hello!', timestamp: '2023-11-01T12:00:00Z' },
+//   // Add more mock messages as needed
+// ],
+    getConversationMessages: async (_, { senderId, recipientId }, context) => {
+      // Check if the user is authenticated
+      if (!context.user) {
+        throw new AuthenticationError('User not authenticated');
+      }
+
+      // Check if the user is part of the conversation
+      if (senderId.toString() !== context.user._id.toString() && recipientId.toString() !== context.user._id.toString()) {
+        throw new AuthenticationError('User is not part of the conversation');
+      }
+
+      // Fetch messages from the database based on senderId, recipientId, and the authenticated user's ID
+      const messages = await Message.find({
+        $or: [
+          { sender: senderId, recipient: recipientId },
+          { sender: recipientId, recipient: senderId },
+        ],
+      }).sort({ timestamp: 1 });
+
+      return messages;
+    },
 
   },
 
@@ -977,6 +1011,26 @@ userFollowing: async (parent, { userId }, context) => {
         console.error(error);
         throw new Error("Failed to find email.");
       }
+    },
+
+ sendMessage: async (_, { senderId, recipientId, text }, context) => {
+      // Check if the user is authenticated
+      if (!context.user) {
+        throw new AuthenticationError('User not authenticated');
+      }
+
+      // Create and save the message
+      const message = new Message({
+        senderId,
+        recipientId,
+        text,
+        timestamp: new Date().toISOString(),
+      });
+
+      await message.save();
+
+      // Return the created message
+      return message;
     },
   },
 };

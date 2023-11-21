@@ -92,7 +92,14 @@ const typeDefs = `
       blurbId: ID
       createdAt: String
     }
-    
+    type Message {
+      _id: ID!
+      senderId: ID!
+      recipientId: ID!
+      text: String!
+      timestamp: String!
+}
+
     type Query {
       users: [User]
       user(username: String!): User
@@ -109,6 +116,8 @@ const typeDefs = `
       followedUsersBlurbs: [Blurbs]
       userFollowers(userId: ID!): [User]!
       userFollowing(userId: ID!): [User]!
+      getUserMessages(userId: ID!): [User]!
+      getConversationMessages(senderId: ID!, recipientId: ID!): [Message]!
     }
     
     type Mutation {
@@ -132,6 +141,7 @@ const typeDefs = `
       markNotificationAsRead(notificationId: ID!): String
       resetPassword(token: String!, newPassword: String!): String
       passwordReset(token: String!, email: String!): Boolean
+      sendMessage(senderId: ID!, recipientId: ID!, text: String!): Message
     }
     `;
 
