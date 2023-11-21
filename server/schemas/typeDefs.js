@@ -132,6 +132,7 @@ const typeDefs = `
       markNotificationAsRead(notificationId: ID!): String
       resetPassword(token: String!, newPassword: String!): String
       passwordReset(token: String!, email: String!): Boolean
+      deleteNotification(notificationId: ID!): String!
     }
     `;
 
