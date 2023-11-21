@@ -283,8 +283,8 @@ function BlurbStream({
               <div>{children}</div>
             </div>
           </div>
-          <div id="notifyIcons">
-            <div style={{ display: "flex", flexDirection: "row" }}>
+          <div id="profileIcons">
+            <div id="notifyIcons">
               <IconButton onClick={handleLike} className="likeComment">
                 {isLiked ? (
                   <>
@@ -311,12 +311,10 @@ function BlurbStream({
                   </>
                 )}
               </IconButton>
-              <IconButton
-                onClick={openModal}
-                className="likeComment"
-                style={{ position: "" }}
-              >
-                <ChatBubbleOutlineIcon />
+              <IconButton onClick={openModal} className="likeComment">
+                <ChatBubbleOutlineIcon
+                  style={{ fontSize: "2.1rem", top: "-10px" }}
+                />
               </IconButton>
             </div>
             <div>
