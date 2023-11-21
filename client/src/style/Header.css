@@ -119,3 +119,24 @@
   height: 40px;
   margin-right: 20px;
 }
+
+
+.toggleContain {
+  display: flex;
+  justify-content: center;
+  margin: 10px;
+  
+}
+#homeToggle {
+  background-color: #f7e258;
+  border-radius: 10px;
+  
+}
+/* #homeToggle:active {
+  background-color: #212121;
+} */
+
+
+/* .active {
+  background-color: #212121;
+} */

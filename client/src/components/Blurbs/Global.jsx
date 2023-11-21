@@ -4,6 +4,7 @@ import BlurbCard from "../Blurbs/BlurbCard.jsx";
 import BlurbCom from "../Blurbs/BlurbComCard.jsx"
 import { useQuery } from "@apollo/client";
 import { ALL_BLURBS } from "../../utils/Queries/queries.js";
+import auth from '../../utils/auth.js';
 
 function Global() {
   const [blurbs, setBlurbs] = useState([]);
