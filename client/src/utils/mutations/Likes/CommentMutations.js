@@ -68,3 +68,9 @@ export const REMOVE_COMMENT_LIKE = gql`
 //   "blurbId": null,
 //   "commentId": null
 // }
+
+export const DELETE_NOTIFICATION = gql`
+  mutation DeleteNotification($notificationId: ID!) {
+    deleteNotification(notificationId: $notificationId)
+  }
+`;

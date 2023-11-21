@@ -959,6 +959,35 @@ userFollowing: async (parent, { userId }, context) => {
         throw new Error("Failed to find email.");
       }
     },
+    deleteNotification: async (_, { notificationId }, context) => {
+      // Verify the user is logged in
+      if (!context.user) {
+        throw new Error("You must be logged in to delete a notification");
+      }
+  
+      try {
+        // Find the notification to verify the logged-in user is the recipient
+        const notification = await Notification.findById(notificationId);
+  
+        if (!notification) {
+          throw new Error("Notification not found");
+        }
+  
+        if (notification.recipient.toString() !== context.user._id.toString()) {
+          throw new Error("You are not authorized to delete this notification");
+        }
+  
+        // Delete the notification
+        await Notification.findByIdAndDelete(notificationId);
+  
+        return "Notification successfully deleted!";
+      } catch (error) {
+        console.error(error);
+        throw new Error("Failed to delete notification");
+      }
+    },
   },
 };
+
+
 module.exports = resolvers;
