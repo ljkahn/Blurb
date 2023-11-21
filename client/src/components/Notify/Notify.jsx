@@ -62,7 +62,7 @@ function Notify({ blurbId, username, type, profilePic }) {
             </div>
           </div>
         </div>
-        <div id="notifyIcons" style={{ alignItems: "center" }}>
+        <div id="notifyIcons">
           <RemoveRedEyeOutlinedIcon />
           <IconButton onClick={handleRemove} className="removeComment">
             <DeleteIcon />
