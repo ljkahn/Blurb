@@ -48,7 +48,6 @@ const userSchema = new Schema(
       unique: true,
       trim: true,
     },
-
     // Add the resetToken field
     resetToken: {
       type: String,

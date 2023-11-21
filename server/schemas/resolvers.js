@@ -1,4 +1,3 @@
-
 const { User, Blurbs, Notification } = require("../models");
 const {
   signToken,
@@ -936,28 +935,10 @@ userFollowing: async (parent, { userId }, context) => {
         // Find the user by email and check if the reset token matches
         console.log(data);
 
-        // if (body.variables.token === token) {
-        //   //update the password to the new password
-        // }
+        
+
         return "Password has been reset!";
 
-        // const user = await User.findOne({
-        //   "profile.email": email,
-        //   resetToken: token,
-        // });
-        // if (!user) {
-        //   throw new Error("User not found or invalid token");
-        // }
-
-        // // Update the user's password and clear the reset token
-        // user.profile.password = newPassword;
-        // user.resetToken = undefined;
-        // await user.save();
-
-        // // Generate a new token for the authenticated user
-        // const newToken = signToken(user);
-
-        // return { token: newToken, user };
       } catch (error) {
         console.error("Error resetting password:", error);
         throw new Error("Failed to reset password");

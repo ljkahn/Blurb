@@ -10,7 +10,7 @@ import Alert from "@mui/material/Alert";
 import SaveIcon from "@mui/icons-material/Save";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import '../style/Login.css';
+import "../style/Login.css";
 
 // import Auth from "../../utils/auth";
 import { outlinedInputClasses } from "@mui/material/OutlinedInput";
@@ -176,7 +176,7 @@ function ForgotPassword() {
     });
     console.log(data);
     if (data.passwordReset) {
-      const resetUrl = `http://localhost:3000/resetPassword?token=${token}`;
+      const resetUrl = `https://blurb4-web-6d7dbae39646.herokuapp.com/resetPassword?token=${token}`;
       const templateParams = {
         to_email: userEmail,
         reset_url: resetUrl, // Pass the reset URL to the email template
@@ -255,7 +255,6 @@ function ForgotPassword() {
           id="forgotBtnCancel"
           style={{ marginTop: "8px" }}
           onClick={handleCancel}
-          
         >
           <DeleteIcon />
           Cancel
