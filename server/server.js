@@ -5,6 +5,11 @@ const { expressMiddleware } = require("@apollo/server/express4");
 const path = require("path");
 const { authMiddleware } = require("./utils/auth");
 const { typeDefs, resolvers } = require("./schemas");
+const io = require('socket.io')(server);
+
+io.on('connection', socket => {
+  console.log('User connected');
+});
 
 
 const db = require("./config/connection");
