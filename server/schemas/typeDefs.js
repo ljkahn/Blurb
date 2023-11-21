@@ -142,6 +142,7 @@ const typeDefs = `
       resetPassword(token: String!, newPassword: String!): String
       passwordReset(token: String!, email: String!): Boolean
       sendMessage(senderId: ID!, recipientId: ID!, text: String!): Message
+      deleteNotification(notificationId: ID!): String!
     }
     `;
 

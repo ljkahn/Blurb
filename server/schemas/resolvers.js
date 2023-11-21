@@ -1,11 +1,10 @@
-
-const { User, Blurbs, Notification, Messages } = require("../models");
+const { User, Blurbs, Notification } = require("../models");
+const { findOneAndUpdate } = require("../models/Notification");
 const {
   signToken,
   AuthenticationError,
   resetPasswordToken,
 } = require("../utils/auth");
-
 
 // const sendNotification = require("../utils/sendNotification");
 
@@ -38,10 +37,10 @@ const resolvers = {
           .populate("blurbs")
           .populate("notifications")
           .populate({
-            path: 'notifications',
+            path: "notifications",
             populate: {
-              path: 'sender recipient'
-            }
+              path: "sender recipient",
+            },
           });
       } catch (error) {
         console.error(error);
@@ -143,7 +142,7 @@ const resolvers = {
       throw AuthenticationError;
     },
     // ✅
-    
+
     notify: async (parent, args, context) => {
       // Check if the user is authenticated
       if (!context.user) {
@@ -152,14 +151,13 @@ const resolvers = {
 
       try {
         // Fetch user data including notifications
-        const user = await User.findById(context.user._id)
-          .populate({
-            path: 'notifications',
-            populate: { 
-              path: 'sender recipient', 
-              model: 'User' 
-            }
-          });
+        const user = await User.findById(context.user._id).populate({
+          path: "notifications",
+          populate: {
+            path: "sender recipient",
+            model: "User",
+          },
+        });
 
         if (!user) {
           throw new Error("User not found");
@@ -218,7 +216,7 @@ const resolvers = {
         throw new Error("Failed to find followers");
       }
     },
-     followedUsersBlurbs: async (parent, args, context) => {
+    followedUsersBlurbs: async (parent, args, context) => {
       if (!context.user) {
         throw new Error("You must be logged in to view this content");
       }
@@ -232,24 +230,24 @@ const resolvers = {
         // Extract the IDs of followed users
         const followedUserIds = currentUser.following.map((user) => user._id);
 
-        
         // Find blurbs where the author is in the list of followed users
         const blurbs = await Blurbs.find({
           blurbAuthor: { $in: followedUserIds },
         })
-        .populate("blurbAuthor")
-        .sort({ createdAt: -1 })
-        .populate("tags")
-        .populate({
-          path: "comments",
-          populate: {
-            path: "commentAuthor",
-            model: "User",
-          }
+          .populate("blurbAuthor")
+          .sort({ createdAt: -1 })
+          .populate("tags")
+          .populate({
+            path: "comments",
+            populate: {
+              path: "commentAuthor",
+              model: "User",
+            },
           });
 
-          const loggedInUserBlurbs = await Blurbs.find({blurbAuthor: context.user._id})
-          .populate("blurbAuthor");
+        const loggedInUserBlurbs = await Blurbs.find({
+          blurbAuthor: context.user._id,
+        }).populate("blurbAuthor");
 
         return [...loggedInUserBlurbs, ...blurbs];
       } catch (error) {
@@ -264,45 +262,43 @@ const resolvers = {
     //     const user = await User.findById(userId).populate('followers');
     //     console.log('Populated User:', user);
 
+    userFollowers: async (parent, { userId }, context) => {
+      try {
+        // Fetch the user based on the provided userId and populate the followers field
+        const user = await User.findById(userId).populate("followers");
 
+        console.log("Fetched User:", user);
 
-userFollowers: async (parent, { userId }, context) => {
-  try {
-    // Fetch the user based on the provided userId and populate the followers field
-    const user = await User.findById(userId).populate('followers');
-    
-    console.log('Fetched User:', user);
+        if (!user) {
+          throw new Error("User not found");
+        }
 
-    if (!user) {
-      throw new Error("User not found");
-    }
+        // Return the list of followers
+        return user.followers;
+      } catch (error) {
+        console.error(error);
+        throw new Error("Failed to fetch user followers");
+      }
+    },
 
-    // Return the list of followers
-    return user.followers;
-  } catch (error) {
-    console.error(error);
-    throw new Error('Failed to fetch user followers');
-  }
-},
+    userFollowing: async (parent, { userId }, context) => {
+      try {
+        // Fetch the user based on the provided userId and populate the followers field
+        const user = await User.findById(userId).populate("following");
 
-userFollowing: async (parent, { userId }, context) => {
-  try {
-    // Fetch the user based on the provided userId and populate the followers field
-    const user = await User.findById(userId).populate('following');
-    
-    console.log('Fetched User:', user);
+        console.log("Fetched User:", user);
 
-    if (!user) {
-      throw new Error("User not found");
-    }
+        if (!user) {
+          throw new Error("User not found");
+        }
 
-    // Return the list of followers
-    return user.following;
-  } catch (error) {
-    console.error(error);
-    throw new Error('Failed to fetch user following');
-  }
-},
+        // Return the list of followers
+        return user.following;
+      } catch (error) {
+        console.error(error);
+        throw new Error("Failed to fetch user following");
+      }
+    },
 
     // passwordReset: async (_, { token, email }) => {
     //   console.log(token);
@@ -470,7 +466,7 @@ getUserMessages: async (_, { userId }) => {
               if (blurbAuthor) {
                 await blurbAuthor.sendNotification({
                   recipient: blurbAuthor,
-                  type: "Comment",
+                  type: "commented on your Blurb!",
                   sender: context.user,
                   blurbId: blurbId,
                 });
@@ -584,15 +580,20 @@ getUserMessages: async (_, { userId }) => {
         }
 
         // Prevent users from sending notifications to themselves
-        if (updatedBlurb.blurbAuthor._id.toString() !== context.user._id.toString()) {
+        if (
+          updatedBlurb.blurbAuthor._id.toString() !==
+          context.user._id.toString()
+        ) {
           // Find the author of the blurb
-          const blurbAuthor = await User.findOne({username: updatedBlurb.blurbAuthor.username});
+          const blurbAuthor = await User.findOne({
+            username: updatedBlurb.blurbAuthor.username,
+          });
 
           // Send a notification to the blurb author
           if (blurbAuthor) {
             await blurbAuthor.sendNotification({
               recipient: blurbAuthor,
-              type: "like",
+              type: "liked your blurb!",
               sender: context.user,
               blurbId: blurbId,
             });
@@ -781,40 +782,39 @@ getUserMessages: async (_, { userId }) => {
         if (!blurb) {
           throw new Error("Blurb not found");
         }
-  
+
         const comment = blurb.comments.id(commentId);
         if (!comment) {
           throw new Error("Comment not found");
         }
 
-        const commentUser = await User.findById(comment.commentAuthor)
-  
+        const commentUser = await User.findById(comment.commentAuthor);
+
         // If the id doesn't exist in like list, push id to like list
         if (!comment.likeList.includes(context.user._id)) {
           comment.likeList.push(context.user._id);
 
           // Add comment notification but blurbId is going to have the value of commentId
-          // Haven't had a chance to look through this yet but I can fix typedef and model to 
+          // Haven't had a chance to look through this yet but I can fix typedef and model to
           // make sure that they are correctly labeled as commentId
           // "liked comment" does show up with correct sender, receiver, and commentId though
           if (commentUser) {
             await commentUser.sendNotification({
               recipient: commentUser,
-              type: "liked comment",
+              type: "liked your comment!",
               sender: context.user,
               blurbId: commentId,
             });
+          }
+
+          await blurb.save();
         }
-        
-        await blurb.save();
-        }
-  
+
         return "You have liked the comment!";
       } catch (error) {
         console.error("Error in addCommentLike mutation: ", error);
         throw new Error("Error while liking the comment");
       }
-
     },
 
     // if (!context.user) {
@@ -967,31 +967,27 @@ getUserMessages: async (_, { userId }) => {
 
     resetPassword: async (_, { token, newPassword }, { data }) => {
       try {
-        // Find the user by email and check if the reset token matches
-        console.log(data);
+        console.log(newPassword);
+        const user = await User.findOne({ resetToken: token });
 
-        // if (body.variables.token === token) {
-        //   //update the password to the new password
-        // }
+        // Check if the user exists and the token is still valid
+        if (
+          !user ||
+          !user.resetToken ||
+          user.resetTokenExpiration < Date.now()
+        ) {
+          throw new Error("Invalid or expired reset token");
+        }
+
+        // Update the user's password
+        user.profile.password = newPassword;
+        user.resetToken = null; // Clear the reset token after a successful reset
+        user.resetTokenExpiration = null;
+
+        // Save the updated user to the database
+        await user.save();
+
         return "Password has been reset!";
-
-        // const user = await User.findOne({
-        //   "profile.email": email,
-        //   resetToken: token,
-        // });
-        // if (!user) {
-        //   throw new Error("User not found or invalid token");
-        // }
-
-        // // Update the user's password and clear the reset token
-        // user.profile.password = newPassword;
-        // user.resetToken = undefined;
-        // await user.save();
-
-        // // Generate a new token for the authenticated user
-        // const newToken = signToken(user);
-
-        // return { token: newToken, user };
       } catch (error) {
         console.error("Error resetting password:", error);
         throw new Error("Failed to reset password");
@@ -1013,7 +1009,7 @@ getUserMessages: async (_, { userId }) => {
       }
     },
 
- sendMessage: async (_, { senderId, recipientId, text }, context) => {
+    sendMessage: async (_, { senderId, recipientId, text }, context) => {
       // Check if the user is authenticated
       if (!context.user) {
         throw new AuthenticationError('User not authenticated');
@@ -1032,6 +1028,36 @@ getUserMessages: async (_, { userId }) => {
       // Return the created message
       return message;
     },
+    
+    deleteNotification: async (_, { notificationId }, context) => {
+      // Verify the user is logged in
+      if (!context.user) {
+        throw new Error("You must be logged in to delete a notification");
+      }
+  
+      try {
+        // Find the notification to verify the logged-in user is the recipient
+        const notification = await Notification.findById(notificationId);
+  
+        if (!notification) {
+          throw new Error("Notification not found");
+        }
+  
+        if (notification.recipient.toString() !== context.user._id.toString()) {
+          throw new Error("You are not authorized to delete this notification");
+        }
+  
+        // Delete the notification
+        await Notification.findByIdAndDelete(notificationId);
+  
+        return "Notification successfully deleted!";
+      } catch (error) {
+        console.error(error);
+        throw new Error("Failed to delete notification");
+      }
+    },
   },
 };
+
+
 module.exports = resolvers;
