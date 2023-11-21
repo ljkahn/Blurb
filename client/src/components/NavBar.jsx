@@ -113,14 +113,6 @@ function NavBar() {
       >
         <Link to="/Likes">
           <NotificationButton/>
-          {/* <IconButton aria-label={notificationsLabel(100)}>
-            <Badge badgeContent={100} color="secondary">
-              <FavoriteIcon
-                style={{ fill: isActive("/Likes") ? yellow : lightGray }}
-                sx={{ fontSize: 40 }}
-              />
-            </Badge>
-          </IconButton> */}
         </Link>
       </Tooltip>
       <Tooltip

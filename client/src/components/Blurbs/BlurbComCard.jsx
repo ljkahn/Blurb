@@ -138,7 +138,7 @@ function BlurbCom({
             {comments}
           </div>
         </div>
-        <div id="notifyIcons">
+        <div id="notifyIconsCom">
           <div style={{ display: "flex", flexDirection: "row" }}>
             <IconButton onClick={handleCommentLike} className="likeComment">
               {isLiked ? (

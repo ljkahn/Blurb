@@ -19,13 +19,13 @@
 
 .blurbContainer {
   display: flex;
-  height: 80px;
-  padding: 10px;
+  min-height: 80px;
+  padding: 5px 5px;
   margin: 5px;
   width: 350px;
   justify-content: space-between;
   background-color: #757575;
-  
+
   border-radius: 20px;
 }
 
@@ -40,17 +40,18 @@
 
 #blurbColOne {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
 }
 
 /* THIS IS APPLIED TO AL CARDS  */
 
 #notifyIcons {
   display: flex;
-  margin: 5px;
-  flex-direction: column;
-  align-items: end;
-  margin-bottom: 50px;
+  margin: 0px;
+  width: 70px;
+  flex-direction: row;
+  align-items: center !important;
+  justify-content: space-between;
 }
 
 #notifyPP {
@@ -59,7 +60,9 @@
 
 .comContainer {
   width: 320px;
-  background-color: #4b4b4b;}
+  margin: 4px;
+  background-color: #4b4b4b;
+}
 
 .css-8je8zh-MuiTouchRipple-root {
   color: #f7e258 !important;
@@ -70,9 +73,33 @@
 }
 
 .likesCount {
-  font-size: .5rem;
+  font-size: 0.5rem;
   position: absolute;
   top: -5px;
   font-weight: 600;
   color: white;
+}
+
+#profileIcons {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+/* //////////////////////// Com Card ????????????????? */
+
+#notifyIconsCom {
+  margin: 10px;
+}
+
+/* //////////////////////// media query ///////////////// */
+
+@media (min-width: 1200px) {
+  .blurbContainer {
+    width: 550px;
+  }
+
+  .comContainer {
+    width: 520px;
+  }
 }

@@ -1,4 +1,3 @@
-
 const { User, Blurbs, Notification } = require("../models");
 const {
   signToken,
@@ -218,8 +217,7 @@ const resolvers = {
         throw new Error("Failed to find followers");
       }
     },
-
-    followedUsersBlurbs: async (parent, args, context) => {
+     followedUsersBlurbs: async (parent, args, context) => {
       if (!context.user) {
         throw new Error("You must be logged in to view this content");
       }
@@ -259,24 +257,51 @@ const resolvers = {
       }
     },
 
-    userFollowers: async (_, { userId }, context) => {
-      // Check authentication and permissions as needed
+    // userFollowers: async (parent, { userId }, context) => {
+    //   try {
+    //     // Fetch the user based on the provided userId and populate the followers field
+    //     const user = await User.findById(userId).populate('followers');
+    //     console.log('Populated User:', user);
 
-      try {
-        // Fetch the user based on the provided userId
-        const user = await User.findById(userId).populate("followers");
 
-        if (!user) {
-          throw new Error("User not found");
-        }
 
-        // Return the list of users that the user follows
-        return user.followers;
-      } catch (error) {
-        console.error("Error fetching user followers:", error);
-        throw new Error("Failed to fetch user followers");
-      }
-    },
+userFollowers: async (parent, { userId }, context) => {
+  try {
+    // Fetch the user based on the provided userId and populate the followers field
+    const user = await User.findById(userId).populate('followers');
+    
+    console.log('Fetched User:', user);
+
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    // Return the list of followers
+    return user.followers;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to fetch user followers');
+  }
+},
+
+userFollowing: async (parent, { userId }, context) => {
+  try {
+    // Fetch the user based on the provided userId and populate the followers field
+    const user = await User.findById(userId).populate('following');
+    
+    console.log('Fetched User:', user);
+
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    // Return the list of followers
+    return user.following;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to fetch user following');
+  }
+},
 
     // passwordReset: async (_, { token, email }) => {
     //   console.log(token);
@@ -410,7 +435,7 @@ const resolvers = {
               if (blurbAuthor) {
                 await blurbAuthor.sendNotification({
                   recipient: blurbAuthor,
-                  type: "Comment",
+                  type: "commented on your Blurb!",
                   sender: context.user,
                   blurbId: blurbId,
                 });
@@ -532,7 +557,7 @@ const resolvers = {
           if (blurbAuthor) {
             await blurbAuthor.sendNotification({
               recipient: blurbAuthor,
-              type: "like",
+              type: "liked your blurb!",
               sender: context.user,
               blurbId: blurbId,
             });
@@ -740,7 +765,7 @@ const resolvers = {
           if (commentUser) {
             await commentUser.sendNotification({
               recipient: commentUser,
-              type: "liked comment",
+              type: "liked your comment!",
               sender: context.user,
               blurbId: commentId,
             });
@@ -910,28 +935,10 @@ const resolvers = {
         // Find the user by email and check if the reset token matches
         console.log(data);
 
-        // if (body.variables.token === token) {
-        //   //update the password to the new password
-        // }
+        
+
         return "Password has been reset!";
 
-        // const user = await User.findOne({
-        //   "profile.email": email,
-        //   resetToken: token,
-        // });
-        // if (!user) {
-        //   throw new Error("User not found or invalid token");
-        // }
-
-        // // Update the user's password and clear the reset token
-        // user.profile.password = newPassword;
-        // user.resetToken = undefined;
-        // await user.save();
-
-        // // Generate a new token for the authenticated user
-        // const newToken = signToken(user);
-
-        // return { token: newToken, user };
       } catch (error) {
         console.error("Error resetting password:", error);
         throw new Error("Failed to reset password");

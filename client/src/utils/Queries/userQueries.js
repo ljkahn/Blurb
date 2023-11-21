@@ -43,6 +43,9 @@ export const QUERY_GET_NOTIFICATIONS = gql`
         type
         sender {
           username
+          profile {
+            profilePic
+          }
         }
         blurbId
         createdAt
@@ -131,3 +134,25 @@ query followedUsersBlurbs {
 }
 `
 
+export const GET_FOLLOWERS = gql`
+query GetFollowers($userId: ID!) {
+  userFollowers(userId: $userId) {
+    _id
+    username
+
+  }
+}
+`;
+
+export const GET_FOLLOWING = gql`
+query GetFollowing($userId: ID!) {
+  userFollowing(userId: $userId) {
+    _id
+    username
+
+  }
+}
+`;
+// export const FOLLOWED_USER_BLURBS = gql`
+//   query followedUsersBlurbs
+// `
