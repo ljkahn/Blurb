@@ -217,8 +217,7 @@ const resolvers = {
         throw new Error("Failed to find followers");
       }
     },
-
-    followedUsersBlurbs: async (parent, args, context) => {
+     followedUsersBlurbs: async (parent, args, context) => {
       if (!context.user) {
         throw new Error("You must be logged in to view this content");
       }
@@ -232,38 +231,77 @@ const resolvers = {
         // Extract the IDs of followed users
         const followedUserIds = currentUser.following.map((user) => user._id);
 
+        
         // Find blurbs where the author is in the list of followed users
         const blurbs = await Blurbs.find({
           blurbAuthor: { $in: followedUserIds },
         })
-          .populate("blurbAuthor")
-          .sort({ createdAt: -1 });
+        .populate("blurbAuthor")
+        .sort({ createdAt: -1 })
+        .populate("tags")
+        .populate({
+          path: "comments",
+          populate: {
+            path: "commentAuthor",
+            model: "User",
+          }
+          });
 
-        return blurbs;
+          const loggedInUserBlurbs = await Blurbs.find({blurbAuthor: context.user._id})
+          .populate("blurbAuthor");
+
+        return [...loggedInUserBlurbs, ...blurbs];
       } catch (error) {
         console.error(error);
         throw new Error("An error occurred while retrieving blurbs");
       }
     },
 
-    userFollowers: async (_, { userId }, context) => {
-      // Check authentication and permissions as needed
+    // userFollowers: async (parent, { userId }, context) => {
+    //   try {
+    //     // Fetch the user based on the provided userId and populate the followers field
+    //     const user = await User.findById(userId).populate('followers');
+    //     console.log('Populated User:', user);
 
-      try {
-        // Fetch the user based on the provided userId
-        const user = await User.findById(userId).populate("followers");
 
-        if (!user) {
-          throw new Error("User not found");
-        }
 
-        // Return the list of users that the user follows
-        return user.followers;
-      } catch (error) {
-        console.error("Error fetching user followers:", error);
-        throw new Error("Failed to fetch user followers");
-      }
-    },
+userFollowers: async (parent, { userId }, context) => {
+  try {
+    // Fetch the user based on the provided userId and populate the followers field
+    const user = await User.findById(userId).populate('followers');
+    
+    console.log('Fetched User:', user);
+
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    // Return the list of followers
+    return user.followers;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to fetch user followers');
+  }
+},
+
+userFollowing: async (parent, { userId }, context) => {
+  try {
+    // Fetch the user based on the provided userId and populate the followers field
+    const user = await User.findById(userId).populate('following');
+    
+    console.log('Fetched User:', user);
+
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    // Return the list of followers
+    return user.following;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to fetch user following');
+  }
+},
 
     // passwordReset: async (_, { token, email }) => {
     //   console.log(token);
@@ -279,6 +317,7 @@ const resolvers = {
     //     throw new Error("Failed to find email.");
     //   }
     // },
+
   },
 
   Mutation: {
@@ -396,7 +435,7 @@ const resolvers = {
               if (blurbAuthor) {
                 await blurbAuthor.sendNotification({
                   recipient: blurbAuthor,
-                  type: "Comment",
+                  type: "commented on your Blurb!",
                   sender: context.user,
                   blurbId: blurbId,
                 });
@@ -518,7 +557,7 @@ const resolvers = {
           if (blurbAuthor) {
             await blurbAuthor.sendNotification({
               recipient: blurbAuthor,
-              type: "like",
+              type: "liked your blurb!",
               sender: context.user,
               blurbId: blurbId,
             });
@@ -726,7 +765,7 @@ const resolvers = {
           if (commentUser) {
             await commentUser.sendNotification({
               recipient: commentUser,
-              type: "liked comment",
+              type: "liked your comment!",
               sender: context.user,
               blurbId: commentId,
             });

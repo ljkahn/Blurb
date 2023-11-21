@@ -9,10 +9,10 @@ import BlurbStream from "../components/Blurbs/BlurbCard.jsx";
 
 import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_ONE_USER } from "../utils/Queries/userQueries";
+import { GET_FOLLOWERS, GET_FOLLOWING } from "../utils/Queries/userQueries";
 import { FOLLOW_USER, UNFOLLOW_USER } from "../utils/mutations/userMutations";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom"; // Import useNavigate
 import Auth from "../utils/auth.js";
-import { useNavigate } from "react-router-dom";
 import FollowersList from "../components/Follow/FollowersListCom.jsx";
 import FollowingListCom from "../components/Follow/FollowingListCom.jsx";
 
@@ -26,11 +26,11 @@ function UserProfile() {
   const [followUser, { loading: followLoading, error: followError }] =
     useMutation(FOLLOW_USER);
   const [unfollowUser] = useMutation(UNFOLLOW_USER);
-  const navigation = useNavigate();
+  const navigate = useNavigate();
   const [followers, setFollowers] = useState([]);
-  // const [following, setFollowing] = useState([]);
+  const [followingList, setFollowingList] = useState([]);
+  const [currentComponent, setCurrentComponent] = useState(""); // Add state for current component
 
-  // console.log(data);
   const neon = "#F7E258";
   const white = "#f5f5f5";
   const lightGray = "#BEBFC5";
@@ -47,6 +47,32 @@ function UserProfile() {
   const infoStyle = {
     backgroundColor: white,
     color: black,
+  };
+
+  const fetchFollowersData = async (userId) => {
+    try {
+      const { data } = await client.query({
+        query: GET_FOLLOWERS,
+        variables: { userId },
+      });
+      return data.userFollowers;
+    } catch (error) {
+      console.error("Error fetching followers:", error);
+      return [];
+    }
+  };
+
+  const fetchFollowingData = async (userId) => {
+    try {
+      const { data } = await client.query({
+        query: GET_FOLLOWING,
+        variables: { userId },
+      });
+      return data.userFollowing;
+    } catch (error) {
+      console.error("Error fetching following:", error);
+      return [];
+    }
   };
 
   useEffect(() => {
@@ -80,20 +106,6 @@ function UserProfile() {
       });
   };
 
-  // const handleUnfollowUser = (userIdToUnfollow) => {
-  //   unfollowUser({
-  //     variables: {
-  //       userIdToUnfollow: userIdToUnfollow,
-  //     }
-  //   })
-  //   .then((result) => {
-  //     console.log('User unfollowed successfully!');
-  //   })
-  //   .catch((error) => {
-  //     console.error('Failed to unfollow user:', error)
-  //   });
-  // };
-
   const handleUnfollowUser = (userIdToUnfollow) => {
     unfollowUser({
       variables: {
@@ -111,17 +123,18 @@ function UserProfile() {
 
   const showFollowers = () => {
     // Instead of using async/await here, you can directly set the state
-    fetchFollowersData().then((followersData) => {
+    fetchFollowersData(userData._id).then((followersData) => {
       setFollowers(followersData);
       setCurrentComponent("followers");
     });
   };
 
-  const showFollowing = async () => {
-    // Fetch following data (you may need to implement this)
-    const followingData = await fetchFollowingData();
-    setFollowing(followingData);
-    setCurrentComponent("following");
+  const showFollowing = () => {
+    // Instead of using async/await here, you can directly set the state
+    fetchFollowingData(userData._id).then((followingData) => {
+      setFollowers(followingData);
+      setCurrentComponent("following");
+    });
   };
 
   return (
@@ -138,13 +151,16 @@ function UserProfile() {
               id="btn"
               style={infoStyle}
               variant="contained"
-              component={Link}
-              to="/followers"
+              onClick={() => navigate(`/followers/${userData._id}`)}
             >
-              {" "}
               {userData.followerNumber} Followers
             </Button>
-            <Button id="btn" style={infoStyle} variant="contained">
+            <Button
+              id="btn"
+              style={infoStyle}
+              variant="contained"
+              onClick={() => navigate(`/following/${userData._id}`)}
+            >
               {userData.followingNumber} Following
             </Button>
           </Grid>

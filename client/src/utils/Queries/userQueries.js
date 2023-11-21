@@ -43,6 +43,9 @@ export const QUERY_GET_NOTIFICATIONS = gql`
         type
         sender {
           username
+          profile {
+            profilePic
+          }
         }
         blurbId
         createdAt
@@ -102,7 +105,54 @@ export const USER_LIST = gql`
     }
   }
 `;
+export const FOLLOWED_USERS_BLURBS = gql`
+query followedUsersBlurbs {
+  followedUsersBlurbs {
+    _id
+    blurbAuthor {
+      username
+      _id
+      profile {
+        profilePic
+      }
+    }
+    blurbText
+    likes
+    likeList
+    comments {
+      _id
+      commentAuthor {
+        username
+      }
+      commentText
+      likeList
+      likes
+    }
+    tags
+    createdAt
+  }
+}
+`
 
+export const GET_FOLLOWERS = gql`
+query GetFollowers($userId: ID!) {
+  userFollowers(userId: $userId) {
+    _id
+    username
+
+  }
+}
+`;
+
+export const GET_FOLLOWING = gql`
+query GetFollowing($userId: ID!) {
+  userFollowing(userId: $userId) {
+    _id
+    username
+
+  }
+}
+`;
 // export const FOLLOWED_USER_BLURBS = gql`
 //   query followedUsersBlurbs
 // `

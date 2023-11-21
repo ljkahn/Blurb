@@ -70,3 +70,26 @@
 .css-v4u5dn-MuiInputBase-root-MuiInput-root:after {
   border-bottom: 2px solid #f7e258 !important;
 } */
+
+#forgot {
+  text-decoration: none;
+  font-size: 0.6rem;
+  margin: 5px; 
+  color: black;
+}
+
+#forgot:hover {
+  text-decoration: underline;
+}
+
+#forgotBtn {
+  border-radius: 10px;
+  background-color: #f7e258;
+  color: black;
+}
+
+#forgotBtnCancel {
+  border-radius: 10px;
+  background-color: #f7e258;
+  color: black;
+}

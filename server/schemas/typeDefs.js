@@ -108,7 +108,7 @@ const typeDefs = `
       following: [User]
       followedUsersBlurbs: [Blurbs]
       userFollowers(userId: ID!): [User]!
-      
+      userFollowing(userId: ID!): [User]!
     }
     
     type Mutation {
