@@ -16,6 +16,11 @@ const messageSchema = new Schema(
       ref: "User",
       required: true,
     },
+    conversation: {
+      type: Schema.Types.ObjectId,
+      ref: "Conversation",
+      required: true,
+    },
     timestamp: {
       type: Date,
       default: Date.now,

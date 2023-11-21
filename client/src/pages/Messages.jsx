@@ -3,9 +3,10 @@ import { useQuery, useMutation } from "@apollo/client";
 import {
   GET_USER_MESSAGES,
   GET_CONVERSATION_MESSAGES,
-  SEND_MESSAGE,
 } from "../utils/Queries/userQueries";
+import { SEND_MESSAGE } from "../utils/mutations/userMutations";
 import io from "socket.io-client";
+import MessageSearch from "../components/MessageSearch";
 
 const socket = io();
 
@@ -14,11 +15,20 @@ const Messages = () => {
   const [selectedConversation, setSelectedConversation] = useState(null);
   const [inputValue, setInputValue] = useState("");
   const [messages, setMessages] = useState([]);
-
+  const [searchResults, setSearchResults] = useState([]);
+  const [searchInput, setSearchInput] = useState("");
   // Query to get user conversations
-  const { loading, error, data } = useQuery(GET_USER_CONVERSATIONS, {
+  const { loading, error, data } = useQuery(GET_USER_MESSAGES, {
     variables: { userId: "currentUserId" },
   });
+
+  //   // Query to search for users
+  //   const { loading: searchLoading, data: searchUserData } = useQuery(
+  //     SEARCH_USERS,
+  //     {
+  //       variables: { searchTerm: searchInput },
+  //     }
+  //   );
 
   // Function to handle conversation selection
   const handleConversationSelect = (conversationId) => {
@@ -48,7 +58,22 @@ const Messages = () => {
   return (
     <div>
       <h1>Real-Time Chat App</h1>
-
+      <MessageSearch>
+        <input
+          type="text"
+          placeholder="Search for users"
+          value={searchInput}
+          onChange={(e) => setSearchInput(e.target.value)}
+        />
+        <button onClick={handleSearch}>Search</button>
+        <ul>
+          {searchResults.map((user) => (
+            <li key={user.id} onClick={() => handleConversationSelect(user.id)}>
+              {user.name}
+            </li>
+          ))}
+        </ul>
+      </MessageSearch>
       {/* Display a list of user conversations */}
       <ul>
         {data &&
