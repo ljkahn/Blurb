@@ -12,7 +12,7 @@ function Likes() {
   const [isLoading, setLoading] = useState(true);
   const [notifyData, setNotifyData] = useState([]);
 
-  console.log("Yooo Yoo", data.notify.notifications);
+  // console.log("Yooo Yoo", data.notify.notifications);
 
   useEffect(() => {
     if (!loading && data) {
@@ -43,6 +43,7 @@ function Likes() {
         notifyData.map((data) => (
           <div key={data._id}>
             <Notify
+              notificationId={data._id}
               blurbId={data._id}
               username={data.sender.username}
               profilePic={data.sender.profile.profilePic}

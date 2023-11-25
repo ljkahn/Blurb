@@ -5,7 +5,7 @@ import SaveIcon from "@mui/icons-material/Save";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { outlinedInputClasses } from "@mui/material/OutlinedInput";
-import '../style/Login.css';
+import "../style/Login.css";
 import { useMutation } from "@apollo/client";
 import { RESET_PASSWORD } from "../utils/mutations/userMutations";
 
