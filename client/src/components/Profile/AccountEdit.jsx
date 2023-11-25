@@ -1,22 +1,41 @@
 import React, { useState, useContext } from "react";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-import IconButton from "@mui/material/IconButton";
-import SaveIcon from "@mui/icons-material/Save";
-import DeleteIcon from "@mui/icons-material/Delete";
-import Modal from "@mui/material/Modal";
 import { useMutation } from "@apollo/client";
 import { EDIT_ACCOUNT } from "../../utils/mutations/userMutations";
 import { DELETE_USER } from "../../utils/mutations/userMutations";
-import Auth from "../../utils/auth";
 import { useNavigate } from "react-router-dom";
+import Auth from "../../utils/auth";
+
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import SaveIcon from "@mui/icons-material/Save";
+import DeleteIcon from "@mui/icons-material/Delete";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 
+//Button Colors for Style Objects
 const neon = "#F7E258";
 const black = "#212121";
 const red = "#CE2029";
 const white = "#F5F5F5";
+
+const buttonStyle = {
+  backgroundColor: neon,
+  color: black,
+  margin: 10,
+};
+
+const deleteStyle = {
+  backgroundColor: red,
+  color: white,
+  margin: 10,
+};
+
+const confirmStyle = {
+  backgroundColor: black,
+  color: white,
+  margin: 10,
+};
+
 
 function AccountEdit({ userData }) {
   navigation = useNavigate();
@@ -25,24 +44,22 @@ function AccountEdit({ userData }) {
     email: "",
     password: "",
   });
-
   const [editAccount, { loading: editLoading, error: editError }] =
     useMutation(EDIT_ACCOUNT);
   const [deleteUser, { loading: deleteLoading, error: deleteError }] =
     useMutation(DELETE_USER);
-  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
-  const [isPasswordFocused, setIsPasswordFocused] = useState(false); // Track password field focus
 
+    //Confirmation modal for deleting account
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+   //determine whether or not to show the password requirement reminders
+  const [isPasswordFocused, setIsPasswordFocused] = useState(false); 
+  //Success/failure alert 
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertSeverity, setAlertSeverity] = useState("success");
   const [alertMessage, setAlertMessage] = useState("");
 
-  const handleOpenAlert = (severity, message) => {
-    setAlertSeverity(severity);
-    setAlertMessage(message);
-    setAlertOpen(true);
-  };
-
+  
+  //Accepting new email and/or password values and updating via the account_edit mutation
   const handleSaveChanges = () => {
     const { email, password } = formData;
     console.log(email, password);
@@ -53,32 +70,30 @@ function AccountEdit({ userData }) {
         password: password,
       },
     })
-      .then((result) => {
-        // console.log("Account updated!");
-        handleOpenAlert("success", "Account updated successfully");
-      })
-      .catch((e) => {
-        console.error("Error updating account:", e);
-        handleOpenAlert("error", "Failed to update account");
-      });
+    .then((result) => {
+      // console.log("Account updated!");
+      handleOpenAlert("success", "Account updated successfully");
+    })
+    .catch((e) => {
+      console.error("Error updating account:", e);
+      handleOpenAlert("error", "Failed to update account");
+    });
   };
-
+  
+  const handleOpenAlert = (severity, message) => {
+    setAlertSeverity(severity);
+    setAlertMessage(message);
+    setAlertOpen(true);
+  };
   const handleCloseAlert = () => {
     setAlertOpen(false);
   };
 
+
   const handleDeleteAccount = () => {
     setShowConfirmationModal(true);
   };
-
-  const handlePasswordBlur = () => {
-    setIsPasswordFocused(false);
-  };
-
-  const handlePasswordFocus = () => {
-    setIsPasswordFocused(true);
-  };
-
+  //opens upon click of "Delete account" and uses confirmation to carry out the delete_user mutation
   const handleConfirmDelete = () => {
     deleteUser({
       variables: {
@@ -94,24 +109,16 @@ function AccountEdit({ userData }) {
       });
     setShowConfirmationModal(false);
   };
-
-  const buttonStyle = {
-    backgroundColor: neon,
-    color: black,
-    margin: 10,
+  
+  const handlePasswordBlur = () => {
+    setIsPasswordFocused(false);
   };
 
-  const deleteStyle = {
-    backgroundColor: red,
-    color: white,
-    margin: 10,
+  const handlePasswordFocus = () => {
+    setIsPasswordFocused(true);
   };
 
-  const confirmStyle = {
-    backgroundColor: black,
-    color: white,
-    margin: 10,
-  };
+
   return (
     <div id="editAccount">
       
