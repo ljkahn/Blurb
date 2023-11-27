@@ -15,7 +15,7 @@ import { ALL_BLURBS } from "../../utils/Queries/queries";
 import { QUERY_MY_PROFILE } from "../../utils/Queries/userQueries";
 
 
-function BlurbCom({ blurbId, comments, commentId, username, likes, liked }) {
+function BlurbCom({ blurbId, comments, commentId, username, likes, liked, userId }) {
   const [isLiked, setIsLiked] = useState(liked ? liked : false);
   const { loading: userLoading, data: userData } = useQuery(QUERY_MY_PROFILE);
 
@@ -60,7 +60,7 @@ function BlurbCom({ blurbId, comments, commentId, username, likes, liked }) {
 
   const handleRemove = async () => {
     // Add logic to check if the comment belongs to the current user
-    const isCurrentUserComment = userData?.myProfile?.id === commentUserId;
+    const isCurrentUserComment = userData?.myProfile?.id === userId;
 
     if (isCurrentUserComment) {
       try {
