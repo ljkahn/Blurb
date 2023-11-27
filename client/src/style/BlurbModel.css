@@ -23,6 +23,16 @@
   margin: 1rem;
 }
 
+/* //////////////////////// TAG ///////////////////// */
+
+/* tag chip */
+.css-gavykb-MuiChip-root {
+  background-color: rgba(0, 0, 0, 0.519) !important;
+  color: azure !important;
+}
+
+/* //////////////////////// Ende Tag /////////////////? */
+
 .modalButton {
   background-color: #f7e258 !important;
   border-radius: 10px;
