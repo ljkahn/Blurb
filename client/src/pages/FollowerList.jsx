@@ -37,7 +37,7 @@ function Followers() {
   }
 
   return (
-    <div>
+    <div id="followerContain">
       <h1>Followers Page</h1>
       {followers.length > 0 ? (
         <ul>

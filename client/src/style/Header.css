@@ -128,15 +128,14 @@
   
 }
 #homeToggle {
-  background-color: #f7e258;
-  border-radius: 10px;
+  background-color: #757575;
+  /* border-radius: 10px; */
   
 }
-/* #homeToggle:active {
-  background-color: #212121;
-} */
 
 
-/* .active {
-  background-color: #212121;
-} */
+
+.active {
+  background-color: #f7e258 !important;
+  /* border-radius: 10px !important; */
+}

@@ -78,6 +78,7 @@
 .likesCount {
   font-size: 0.5rem;
   position: absolute;
+  margin-right: 6px;
   top: -5px;
   font-weight: 600;
   color: white;
