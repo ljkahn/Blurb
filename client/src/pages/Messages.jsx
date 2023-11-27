@@ -29,6 +29,10 @@ const Messages = () => {
   //       variables: { searchTerm: searchInput },
   //     }
   //   );
+  const handleSearch = () => {
+    // Update the searchResults state with the fetched search results
+    setSearchResults(searchUserData.searchResults);
+  };
 
   // Function to handle conversation selection
   const handleConversationSelect = (conversationId) => {
