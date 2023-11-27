@@ -33,6 +33,9 @@
   margin: 10px 0px;
 }
 
+.blInfoCom {
+  margin: 10px 10px;
+}
 .userName {
   border-bottom: 1px solid gray;
   margin-bottom: 5px;
@@ -89,7 +92,7 @@
 /* //////////////////////// Com Card ????????????????? */
 
 #notifyIconsCom {
-  margin: 10px;
+  margin: 4px;
 }
 
 /* //////////////////////// media query ///////////////// */
