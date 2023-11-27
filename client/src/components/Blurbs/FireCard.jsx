@@ -106,7 +106,7 @@ function FireCard({
                 />
                 <p
                   className="likesCount"
-                  style={{ position: "absolute", top: "-3px" }}
+                  style={{ position: "absolute", top: "-3px", left: "4px"}}
                 >
                   {likes}
                 </p>
