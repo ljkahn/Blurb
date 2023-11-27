@@ -233,7 +233,7 @@ function Profile({ registered }) {
     if (data && data.me) {
       setUserData(data.me);
     }
-  }, [data]);
+  }, [loading, data]);
 
   console.log(userData);
 

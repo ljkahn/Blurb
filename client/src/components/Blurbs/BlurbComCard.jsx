@@ -16,7 +16,7 @@ import { ALL_BLURBS } from "../../utils/Queries/queries";
 import { QUERY_MY_PROFILE } from "../../utils/Queries/userQueries";
 
 
-function BlurbCom({ blurbId, comments, commentId, username, likes, liked, userId }) {
+function BlurbCom({ blurbId, comments, commentId, username, likes, liked }) {
   const [isLiked, setIsLiked] = useState(liked ? liked : false);
   const { loading: userLoading, data: userData } = useQuery(QUERY_MY_PROFILE);
   const currentUserUsername = userData?.me?.username;
