@@ -69,7 +69,7 @@ function Home() {
   //   refetch();
   // }, [data]);
 
-
+// console.log(followedUsersBlurbs);
 
   return (
     <div>
