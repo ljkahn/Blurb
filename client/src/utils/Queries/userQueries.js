@@ -105,6 +105,7 @@ export const USER_LIST = gql`
     }
   }
 `;
+
 export const FOLLOWED_USERS_BLURBS = gql`
 query followedUsersBlurbs {
   followedUsersBlurbs {
@@ -132,7 +133,7 @@ query followedUsersBlurbs {
     createdAt
   }
 }
-`
+`;
 
 export const GET_FOLLOWERS = gql`
 query GetFollowers($userId: ID!) {
@@ -153,6 +154,4 @@ query GetFollowing($userId: ID!) {
   }
 }
 `;
-// export const FOLLOWED_USER_BLURBS = gql`
-//   query followedUsersBlurbs
-// `
+

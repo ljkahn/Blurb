@@ -13,7 +13,7 @@ import BlurbCard from "../components/Blurbs/BlurbCard.jsx";
 
 import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "@apollo/client";
-import { QUERY_MY_PROFILE } from "../utils/queries/userQueries.js";
+import { QUERY_MY_PROFILE } from "../utils/Queries/userQueries.js";
 import Auth from "../utils/auth.js";
 
 function Profile() {
