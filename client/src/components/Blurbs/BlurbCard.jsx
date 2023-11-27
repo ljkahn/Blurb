@@ -26,7 +26,6 @@ import { QUERY_MY_PROFILE } from "../../utils/Queries/userQueries";
 import { createTheme, ThemeProvider, useTheme } from "@mui/material/styles";
 import { outlinedInputClasses } from "@mui/material/OutlinedInput";
 import { ALL_BLURBS } from "../../utils/Queries/queries";
-
 import { Link } from "react-router-dom";
 
 const customTheme = (outerTheme) =>

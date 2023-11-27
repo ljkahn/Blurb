@@ -10,6 +10,7 @@ import { useQuery, useMutation } from "@apollo/client";
 import {
   ADD_COMMENT_LIKE,
   REMOVE_COMMENT_LIKE,
+  REMOVE_COMMENT,
 } from "../../utils/mutations/Likes/CommentMutations";
 import { ALL_BLURBS } from "../../utils/Queries/queries";
 import { QUERY_MY_PROFILE } from "../../utils/Queries/userQueries";
@@ -22,10 +23,11 @@ function BlurbCom({
   username,
   likes,
   liked,
-  onDeleteComment,
+  userId,
 }) {
   const [isLiked, setIsLiked] = useState(liked ? liked : false);
   const { loading: userLoading, data: userData } = useQuery(QUERY_MY_PROFILE);
+  const currentUserUsername = userData?.me?.username;
 
   const { loading, data, error } = useQuery(FIND_BLURB_BY_ID, {
     variables: { blurbId },
@@ -33,6 +35,9 @@ function BlurbCom({
 
   const [likeComment] = useMutation(ADD_COMMENT_LIKE);
   const [unlikeComment] = useMutation(REMOVE_COMMENT_LIKE);
+  const [removeComment] = useMutation(REMOVE_COMMENT, {
+    refetchQueries: [{ query: ALL_BLURBS }],
+  });
 
   useEffect(() => {
     if (error) {
@@ -68,15 +73,11 @@ function BlurbCom({
 
   const [removeComment] = useMutation(REMOVE_COMMENT);
   const handleRemove = async () => {
+    // Add logic to check if the comment belongs to the current user
     try {
-      await removeComment({
-        variables: { commentId, blurbId },
-        refetchQueries: [{ query: ALL_BLURBS }],
-      });
-
-      onDeleteComment && onDeleteComment(commentId);
+      await removeComment({ variables: { blurbId, commentId } });
     } catch (error) {
-      console.error("Error removing comment:", error);
+      console.error("Error deleting comment:", error.message);
     }
   };
 
@@ -119,9 +120,11 @@ function BlurbCom({
                 </>
               )}
             </IconButton>
-            <IconButton onClick={handleRemove} className="removeComment">
-              <DeleteIcon style={{ fontSize: "2.1rem", top: "-10px" }} />
-            </IconButton>
+            {currentUserUsername === username && (
+              <IconButton onClick={handleRemove} className="removeComment">
+                <DeleteIcon style={{ fontSize: "2.1rem", top: "-10px" }} />
+              </IconButton>
+            )}
           </div>
         </div>
       </div>

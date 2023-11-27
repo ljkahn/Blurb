@@ -7,7 +7,6 @@ const {
 } = require("../utils/auth");
 
 // const sendNotification = require("../utils/sendNotification");
-
 const resolvers = {
   Query: {
     //get all users
@@ -216,6 +215,7 @@ const resolvers = {
         throw new Error("Failed to find followers");
       }
     },
+
     followedUsersBlurbs: async (parent, args, context) => {
       if (!context.user) {
         throw new Error("You must be logged in to view this content");
@@ -918,7 +918,7 @@ getUserMessages: async (_, { userId }) => {
 
         await userIdToFollow.sendNotification({
           recipient: userToFollow,
-          type: "follow",
+          type: "followed you!",
         });
 
         return "User followed successfully!";

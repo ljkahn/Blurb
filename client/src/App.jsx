@@ -3,6 +3,7 @@ import {
   Routes,
   Route,
   useNavigate,
+  Navigate,
 } from "react-router-dom";
 import {
   ApolloClient,
@@ -66,7 +67,11 @@ function App() {
       <Router>
         <Header registered={registered} isRegistered={isRegistered} />
         <Routes>
-          <Route path="/" element={<Login isRegistered={isRegistered} />} />
+          {registered ? (
+            <Route path="/" element={<Navigate to="/home" />} />
+            ) : (
+            <Route path="/" element={<Login isRegistered={isRegistered} />} />
+          )}
           <Route path="/home" element={<Home />} />
           <Route path="/flame" element={<Flame />} />
           <Route
