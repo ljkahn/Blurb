@@ -88,6 +88,19 @@
   flex-direction: column;
   align-items: flex-end;
 }
+/* //////////////////////////// TAGS ///////////////////// */
+
+#tags {
+  display: flex;
+  margin-top: 10px;
+}
+
+#tag {
+  margin-top: 2px;
+  margin-right: 5px;
+  font-size: 12px;
+  color: rgb(59, 201, 248);
+}
 
 /* //////////////////////// Com Card ????????????????? */
 
