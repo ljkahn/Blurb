@@ -932,31 +932,64 @@ const resolvers = {
 
     resetPassword: async (_, { token, newPassword }, { data }) => {
       try {
-        console.log(newPassword);
+        // Find the user by the reset token
         const user = await User.findOne({ resetToken: token });
 
-        // Check if the user exists and the token is still valid
+        if (!user) {
+          throw new Error("Invalid reset token");
+        }
+
+        // Check if the reset token has expired
         if (
-          !user ||
-          !user.resetToken ||
-          user.resetTokenExpiration < Date.now()
+          user.resetTokenExpiration &&
+          new Date(user.resetTokenExpiration) < new Date()
         ) {
-          throw new Error("Invalid or expired reset token");
+          throw new Error("Reset token has expired");
         }
 
         // Update the user's password
-        user.profile.password = newPassword;
-        user.resetToken = null; // Clear the reset token after a successful reset
+        const saltRounds = 10;
+        user.profile.password = await bcrypt.hash(newPassword, saltRounds);
+
+        // Clear the reset token and expiration
+        user.resetToken = null;
         user.resetTokenExpiration = null;
 
-        // Save the updated user to the database
+        // Save the updated user
         await user.save();
 
-        return "Password has been reset!";
+        return {
+          success: true,
+          message: "Password has been reset successfully",
+        };
       } catch (error) {
-        console.error("Error resetting password:", error);
+        console.error("Error in resetPassword:", error);
         throw new Error("Failed to reset password");
       }
+      // try {
+      //   console.log(newPassword);
+      //   const user = await User.findOne({ resetToken: token });
+
+      //   console.log(user);
+
+      //   // Check if the user exists and the token is still valid
+      //   if (!resetTokenExpiration || resetTokenExpiration < currentTime) {
+      //     throw new Error("Invalid or expired reset token");
+      //   }
+
+      //   // Update the user's password
+      //   user.profile.password = newPassword;
+      //   user.resetToken = null; // Clear the reset token after a successful reset
+      //   user.resetTokenExpiration = null;
+
+      //   // Save the updated user to the database
+      //   await user.save();
+
+      //   return "Password has been reset!";
+      // } catch (error) {
+      //   console.error("Error resetting password:", error);
+      //   throw new Error("Failed to reset password");
+      // }
     },
 
     passwordReset: async (_, { token, email }) => {
@@ -978,22 +1011,22 @@ const resolvers = {
       if (!context.user) {
         throw new Error("You must be logged in to delete a notification");
       }
-  
+
       try {
         // Find the notification to verify the logged-in user is the recipient
         const notification = await Notification.findById(notificationId);
-  
+
         if (!notification) {
           throw new Error("Notification not found");
         }
-  
+
         if (notification.recipient.toString() !== context.user._id.toString()) {
           throw new Error("You are not authorized to delete this notification");
         }
-  
+
         // Delete the notification
         await Notification.findByIdAndDelete(notificationId);
-  
+
         return "Notification successfully deleted!";
       } catch (error) {
         console.error(error);
@@ -1002,6 +1035,5 @@ const resolvers = {
     },
   },
 };
-
 
 module.exports = resolvers;
