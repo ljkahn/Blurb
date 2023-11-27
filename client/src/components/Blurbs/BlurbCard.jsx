@@ -284,6 +284,11 @@ function BlurbStream({
           </div>
           <div id="profileIcons">
             <div id="notifyIcons">
+                        <IconButton onClick={openModal} className="likeComment">
+                          <ChatBubbleOutlineIcon
+                            style={{ fontSize: "2.1rem", top: "-10px", marginLeft: "-5px" }}
+                          />
+                        </IconButton>
               <IconButton onClick={handleLike} className="likeComment">
                 {isLiked ? (
                   <>
@@ -293,6 +298,7 @@ function BlurbStream({
                         fontSize: "2.1rem",
                         position: "absolute",
                         top: "-10px",
+                        marginRight: "10px",
                       }}
                     />
                     <p className="likesCount">{likes}</p>
@@ -304,16 +310,12 @@ function BlurbStream({
                         fontSize: "2.1rem",
                         position: "absolute",
                         top: "-10px",
+                        marginRight: '10px'
                       }}
                     />
                     <p className="likesCount">{likes}</p>
                   </>
                 )}
-              </IconButton>
-              <IconButton onClick={openModal} className="likeComment">
-                <ChatBubbleOutlineIcon
-                  style={{ fontSize: "2.1rem", top: "-10px" }}
-                />
               </IconButton>
             </div>
             <div>
