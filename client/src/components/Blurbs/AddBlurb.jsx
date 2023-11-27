@@ -17,6 +17,9 @@ import { outlinedInputClasses } from "@mui/material/OutlinedInput";
 import InputBase from "@mui/material/InputBase";
 import { styled } from "@mui/material/styles";
 
+
+
+
 const customTheme = (outerTheme) =>
   createTheme({
     palette: {
@@ -29,6 +32,18 @@ const customTheme = (outerTheme) =>
             "--TextField-brandBorderColor": "#E0E3E7",
             "--TextField-brandBorderHoverColor": "#B2BAC2",
             "--TextField-brandBorderFocusedColor": "#f7e258",
+            "& label.Mui-focused": {
+              color: "var(--TextField-brandBorderFocusedColor)",
+            },
+          },
+        },
+      },
+      MuiFormControl: {
+        styleOverrides: {
+          root: {
+            "--FormControl-brandBorderColor": "#E0E3E7",
+            "--FormControl-brandBorderHoverColor": "#B2BAC2",
+            "--FormControl-brandBorderFocusedColor": "#f7e258",
             "& label.Mui-focused": {
               color: "var(--TextField-brandBorderFocusedColor)",
             },
