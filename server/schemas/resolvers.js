@@ -366,6 +366,31 @@ getUserMessages: async (_, { userId }) => {
     },
     // ✅
 
+    //   addUser: async (parent, { username, profile }) => {
+    //   console.log("Attempting to add user");
+    //   const { email } = profile;
+    
+    //   try {
+    //     // Check if the email is already in use
+    //     const existingUser = await User.findOne({ "profile.email": email });
+    //     if (existingUser) {
+    //       return {duplicateEmail: true, token: null, user: null};
+    //     }
+    
+    //     // Create a new user if the email is not in use
+    //     const user = await User.create({ username, profile });
+    
+    //     // console.log("User created:", user);
+    //     const token = signToken(user);
+    //     return { token, user};
+    //   } catch (error) {
+    //     console.error("Error creating user:", error.message);
+    //     throw new Error("Failed to add user");
+    //   }
+    // },
+
+
+
     login: async (parent, { email, password, profile }) => {
       // Query the User model to find a user with the provided email within the profile subdocument
       const user = await User.findOne({ "profile.email": email });

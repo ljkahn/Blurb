@@ -1,18 +1,19 @@
 import React, { useState } from "react";
-import Button from "@mui/material/Button";
-import Modal from "@mui/material/Modal";
-import TextField from "@mui/material/TextField";
+import { useNavigate } from "react-router-dom";
+
+import { useMutation } from "@apollo/client";
+import { ADD_USER } from "../../utils/mutations/userMutations";
 import CloudinaryUploadWidget from "../Upload";
+import Auth from "../../utils/auth";
 import Photo from "../Profile/ProfilePhoto";
+
 import { outlinedInputClasses } from "@mui/material/OutlinedInput";
 import Box from "@mui/material/Box";
 import { createTheme, ThemeProvider, useTheme } from "@mui/material/styles";
-import { useMutation } from "@apollo/client";
-import Auth from "../../utils/auth";
-import { ADD_USER } from "../../utils/mutations/userMutations";
-import { useNavigate } from "react-router-dom";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
 
 const customTheme = (outerTheme) =>
   createTheme({
@@ -98,32 +99,25 @@ function Create({ isRegistered }) {
   const outerTheme = useTheme();
   const navigation = useNavigate();
   // State to control the visibility of the modal
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  // const [isModalOpen, setIsModalOpen] = useState(false);
   const [profileImg, setProfileImg] = useState("");
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [isPasswordFocused, setIsPasswordFocused] = useState(false); // Track password field focus
-
+ 
+//Set the form state to empty strings to await the values that will be used to create the user's account using the ADD_User mutation
   const [formState, setFormState] = useState({
     fullName: "",
     email: "",
     password: "",
     username: "",
   });
+  //Acount for possible errors that could happen during the process of adding a user
   const [addUser, { error }] = useMutation(ADD_USER);
   if (error) {
     console.log(JSON.stringify(error));
   }
 
-  // Function to open the modal
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  // Function to close the modal
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
+    //observe and register changes in the text fields 
   const handleChange = async (e) => {
     const { name, value } = e.target;
 
@@ -132,41 +126,7 @@ function Create({ isRegistered }) {
       [name]: value,
     });
   };
-
-  const handleCreateSubmit = async (e) => {
-    e.preventDefault();
-    if (
-      !isValidEmail(formState.email) ||
-      !isValidPassword(formState.password)
-    ) {
-      setIsAlertOpen(true); // Display the alert if validation fails
-      return;
-    }
-
-    try {
-      const { data } = await addUser({
-        variables: {
-          username: formState.username,
-          profile: {
-            password: formState.password,
-            email: formState.email,
-            fullName: formState.fullName,
-            profilePic: profileImg,
-          },
-        },
-      });
-
-      isRegistered(true);
-      Auth.login(data.addUser.token, navigation);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const handleCloseAlert = () => {
-    setIsAlertOpen(false);
-  };
-
+  
   const isValidEmail = (email) => {
     const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
     return emailPattern.test(email);
@@ -179,6 +139,39 @@ function Create({ isRegistered }) {
     return passwordPattern.test(password);
   };
 
+  //check first that the email and password inputted match up with the regex statements used in the user model, if they do not handle the error with a user alert. 
+  const handleCreateSubmit = async (e) => {
+    e.preventDefault();
+    if (
+      !isValidEmail(formState.email) ||
+      !isValidPassword(formState.password)
+    ) {
+      setIsAlertOpen(true); // Display the alert if validation fails
+      return;
+    }
+    //Add in the values in the forms the the corresponding variables on the userModel
+    try {
+      const { data } = await addUser({
+        variables: {
+          username: formState.username,
+          profile: {
+            password: formState.password,
+            email: formState.email,
+            fullName: formState.fullName,
+            profilePic: profileImg,
+          },
+        },
+      });
+      //Once the user's new information is intaken successfully, register them to conditionally render the nav bar and remainder of the application
+        isRegistered(true);
+        //use token to navigate the user to the home page. 
+        Auth.login(data.addUser.token, navigation);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+// used to display the reminder of password requirements when the user clicks into the password text field. 
   const handlePasswordFocus = () => {
     setIsPasswordFocused(true);
   };
@@ -186,6 +179,12 @@ function Create({ isRegistered }) {
   const handlePasswordBlur = () => {
     setIsPasswordFocused(false);
   };
+
+  //closes alert that reminds user of password requirements if their current password does not meet them.
+  const handleCloseAlert = () => {
+    setIsAlertOpen(false);
+  };
+
 
   return (
     <div>
