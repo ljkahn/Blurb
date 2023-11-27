@@ -14,7 +14,7 @@ import {
 } from "../../utils/mutations/Likes/CommentMutations";
 import { ALL_BLURBS } from "../../utils/Queries/queries";
 import { QUERY_MY_PROFILE } from "../../utils/Queries/userQueries";
-import { REMOVE_COMMENT } from "../../utils/mutations/Likes/CommentMutations";
+// import { REMOVE_COMMENT } from "../../utils/mutations/Likes/CommentMutations";
 
 function BlurbCom({
   blurbId,
@@ -71,7 +71,7 @@ function BlurbCom({
     setIsLiked(!isLiked); // Toggle the liked state
   };
 
-  const [removeComment] = useMutation(REMOVE_COMMENT);
+  // const [removeComment] = useMutation(REMOVE_COMMENT);
   const handleRemove = async () => {
     // Add logic to check if the comment belongs to the current user
     try {
