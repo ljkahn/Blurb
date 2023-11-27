@@ -20,7 +20,7 @@
 .blurbContainer {
   display: flex;
   min-height: 80px;
-  padding: 5px 5px;
+  padding: 10px 10px;
   margin: 5px;
   width: 350px;
   justify-content: space-between;
@@ -82,6 +82,7 @@
   top: -5px;
   font-weight: 600;
   color: white;
+  right: 5px;
 }
 
 #profileIcons {
