@@ -265,7 +265,14 @@ const resolvers = {
     userFollowers: async (parent, { userId }, context) => {
       try {
         // Fetch the user based on the provided userId and populate the followers field
-        const user = await User.findById(userId).populate("followers");
+        const user = await User.findById(userId).populate({
+          path: "followers",
+          populate: {
+            path: "profile"
+          }
+        
+        })
+        
 
         console.log("Fetched User:", user);
 

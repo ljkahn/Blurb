@@ -75,3 +75,45 @@
 
 /* FOLLOWERS/FOLLOWING PAGES */
 
+#followerContain {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+
+#followingContain {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.followCard {
+min-height: 20px;
+width: 350px;
+padding: 2px 2px;
+margin: 5px;
+background-color: #757575 !important;
+display: flex;
+justify-content: space-between;
+border-radius: 10px !important;
+} 
+
+
+
+.followUserInfo {
+display: flex;
+flex-direction: column;
+color: #f3f3f3;
+}
+
+.imgContain {
+  display: flex;
+  align-items: center;
+  margin-right: 40px;
+  margin-top: 30px;
+}
+#followImg {
+  border-radius: 100%;
+  height: 90px;
+  width: 90px;
+}
