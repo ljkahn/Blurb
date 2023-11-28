@@ -13,10 +13,6 @@
   justify-content: center;
 }
 
-.likeComment {
-  margin: 5px;
-}
-
 .blurbContainer {
   display: flex;
   min-height: 80px;
@@ -53,8 +49,7 @@
   margin: 0px;
   width: 70px;
   flex-direction: row;
-  align-items: center !important;
-  justify-content: space-between;
+  align-items: flex-start !important;
 }
 
 #notifyPP {
@@ -76,12 +71,11 @@
 }
 
 .likesCount {
-  font-size: 0.5rem;
-  position: absolute;
-  margin-right: 6px;
-  top: -5px;
-  font-weight: 600;
+  font-size: 0.7rem;
+  font-weight: 700;
   color: white;
+  position: absolute;
+  top: 22px;
   right: 5px;
 }
 
@@ -89,6 +83,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  position: relative;
 }
 /* //////////////////////////// TAGS ///////////////////// */
 
