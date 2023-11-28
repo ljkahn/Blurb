@@ -92,21 +92,28 @@ function FireCard({
             <div>{children}</div>
           </div>
         </div>
-        <div id="notifyIcons">
+        <div id="notifyIcons"> 
+        <IconButton onClick={openModal} className="likeComment">
+            <ChatBubbleOutlineIcon
+              style={{ position: "absolute",
+              top: "2px",
+              left: "10px",}}
+            />
+          </IconButton>
           <IconButton onClick={handleLike} className="likeComment">
             {likes >= 4 ? (
               <>
                 <WhatshotIcon
                   style={{
                     color: "#273Be2",
-                    fontSize: "2.1rem",
+                    left: "25px",
                     position: "absolute",
-                    top: "-13px",
+                    top: "0px",
                   }}
                 />
                 <p
                   className="likesCount"
-                  style={{ position: "absolute", top: "-3px" }}
+                  style={{ position: "absolute", bottom: "0px", left: "35px" }}
                 >
                   {likes}
                 </p>
@@ -116,14 +123,14 @@ function FireCard({
                 <WhatshotIcon
                   style={{
                     color: "orange",
-                    fontSize: "2.1rem",
+                    left: "25px",
                     position: "absolute",
                     top: "-13px",
                   }}
                 />
                 <p
                   className="likesCount"
-                  style={{ position: "absolute", top: "-3px" }}
+                  style={{ position: "absolute", top: "0px" }}
                 >
                   {likes}
                 </p>
@@ -132,11 +139,12 @@ function FireCard({
               <WhatshotIcon />
             )}
           </IconButton>
-          <IconButton onClick={openModal} className="likeComment">
-            <ChatBubbleOutlineIcon
-              style={{ fontSize: "2.1rem", top: "-13px" }}
-            />
-          </IconButton>
+         <p
+                  className="likesCount"
+                  style={{ position: "absolute", top: "0px" }}
+                >
+                  {likes}
+                </p>
         </div>
       </div>
       <Modal

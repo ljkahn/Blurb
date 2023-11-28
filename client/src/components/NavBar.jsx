@@ -20,7 +20,6 @@ import logo from "../public/assets/blurbLogo.png";
 import Box from "@mui/material/Box";
 import NotificationButton from "./Notify/NotificationButton.jsx";
 
-
 function NavBar() {
   const [userData, setUserData] = useState({
     username: "Guest", // Default username or any other default values
@@ -107,12 +106,12 @@ function NavBar() {
         </button>
       </Tooltip>
       <Tooltip
-        title="Notifications page, this is under construction right now! 🚧"
+        title="Notifications page, this is where you will find any news regarding your blurbs or account! 🚧"
         enterTouchDelay={0}
         leaveTouchDelay={2000}
       >
         <Link to="/Likes">
-          <NotificationButton/>
+          <NotificationButton />
         </Link>
       </Tooltip>
       <Tooltip

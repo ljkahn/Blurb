@@ -96,7 +96,7 @@ function BlurbCom({
           <div>
             {currentUserUsername === username && (
               <IconButton onClick={handleRemove} className="removeComment">
-                <DeleteIcon style={{ fontSize: "2.1rem", top: "-10px" }} />
+                <DeleteIcon style={{ position: "absolute", right: "10" }} />
               </IconButton>
             )}
             <IconButton onClick={handleCommentLike} className="likeComment">
@@ -105,25 +105,41 @@ function BlurbCom({
                   <FavoriteIcon
                     style={{
                       color: "red",
-                      fontSize: "2.1rem",
                       position: "absolute",
                       top: "-10px",
                       marginRight: "10px",
                     }}
                   />
-                  <p className="likesCount">{likes}</p>
+                  <p
+                    className="likesCount"
+                    style={{
+                      position: "absolute",
+                      left: "0px",
+                      top: "10px",
+                    }}
+                  >
+                    {likes}
+                  </p>
                 </>
               ) : (
                 <>
                   <FavoriteBorderIcon
                     style={{
-                      fontSize: "2.1rem",
                       position: "absolute",
-                      top: "-10px",
+                      right: "-10px",
                       marginRight: "10px",
                     }}
                   />
-                  <p className="likesCount">{likes}</p>
+                  <p
+                    className="likesCount"
+                    style={{
+                      position: "absolute",
+                      left: "0px",
+                      top: "10px",
+                    }}
+                  >
+                    {likes}
+                  </p>
                 </>
               )}
             </IconButton>
