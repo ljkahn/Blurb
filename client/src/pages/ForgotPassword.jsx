@@ -176,7 +176,7 @@ function ForgotPassword() {
     });
     console.log(data);
     if (data.passwordReset) {
-      const resetUrl = `http://localhost:3000/resetPassword?token=${token}`;
+      const resetUrl = `http://localhost:3000/resetPassword?email=${userEmail}`;
       const templateParams = {
         to_email: userEmail,
         reset_url: resetUrl, // Pass the reset URL to the email template
