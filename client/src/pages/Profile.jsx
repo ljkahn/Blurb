@@ -1,27 +1,30 @@
 import React, { useState, useEffect } from "react";
-import Photo from "../components/Profile/ProfilePhoto.jsx";
-import Edit from "../components/Profile/Edit.jsx";
-import AccountEdit from "../components/Profile/AccountEdit.jsx";
+import "../style/Profile.css";
+import "../index.css";
+import { useNavigate, useParams, Link } from "react-router-dom";
+
+import { useQuery, useMutation } from "@apollo/client";
+import { REMOVE_Blurb } from "../utils/mutations/Blurb/BlurbMutations.js";
+import { QUERY_MY_PROFILE } from "../utils/Queries/userQueries.js";
+import { GET_FOLLOWERS, GET_FOLLOWING } from "../utils/Queries/userQueries";
+import { ALL_BLURBS } from "../utils/Queries/queries.js";
+
+import { createTheme, ThemeProvider, useTheme } from "@mui/material/styles";
+import { outlinedInputClasses } from "@mui/material/OutlinedInput";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import IconButton from "@mui/material/IconButton";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-import "../style/Profile.css";
-import "../index.css";
-import { REMOVE_Blurb } from "../utils/mutations/Blurb/BlurbMutations.js";
-import { useNavigate, useParams, Link } from "react-router-dom";
-import { useQuery, useMutation } from "@apollo/client";
-import { QUERY_MY_PROFILE } from "../utils/Queries/userQueries.js";
-import { ALL_BLURBS } from "../utils/Queries/queries.js";
+
+import Photo from "../components/Profile/ProfilePhoto.jsx";
+import Edit from "../components/Profile/Edit.jsx";
+import AccountEdit from "../components/Profile/AccountEdit.jsx";
 import auth from "../utils/auth.js";
 import BlurbStream from "../components/Blurbs/BlurbCard.jsx";
 import BlurbCom from "../components/Blurbs/BlurbComCard.jsx";
-import { createTheme, ThemeProvider, useTheme } from "@mui/material/styles";
-import { outlinedInputClasses } from "@mui/material/OutlinedInput";
 import FollowersList from "../components/Follow/FollowersListCom.jsx";
 import FollowingListCom from "../components/Follow/FollowingListCom.jsx";
-import { GET_FOLLOWERS, GET_FOLLOWING } from "../utils/Queries/userQueries";
 
 const customTheme = (outerTheme) =>
   createTheme({
@@ -103,6 +106,18 @@ const customTheme = (outerTheme) =>
     },
   });
 
+const neon = "#F7E258";
+const white = "#F5F5F5";
+const black = "#212121";
+const buttonStyle = {
+  backgroundColor: neon,
+  color: black,
+};
+
+const editStyle = {
+  backgroundColor: white,
+  color: black,
+};
 function Profile({ registered }) {
   const outerTheme = useTheme();
   const [isEditVisible, setIsEditVisible] = useState(false);
@@ -128,6 +143,7 @@ function Profile({ registered }) {
   //   }
   // }, [isLoading]);
 
+  //Gain data for loggedIn user's following
   const fetchFollowersData = async (userId) => {
     try {
       const { data } = await client.query({
@@ -140,7 +156,7 @@ function Profile({ registered }) {
       return [];
     }
   };
-
+  //Gain data for loggedIn user's followers
   const fetchFollowingData = async (userId) => {
     try {
       const { data } = await client.query({
@@ -153,7 +169,22 @@ function Profile({ registered }) {
       return [];
     }
   };
-
+  //Show page of loggedIn user's followers
+  const showFollowers = () => {
+    // Instead of using async/await here, you can directly set the state
+    fetchFollowersData().then((followersData) => {
+      setFollowers(followersData);
+      setCurrentComponent("followers");
+    });
+  };
+  //Show page of loggedIn user's following
+  const showFollowing = async () => {
+    // Fetch following data (you may need to implement this)
+    const followingData = await fetchFollowingData();
+    setFollowingList(followingData);
+    setCurrentComponent("following");
+  };
+  //Validate that loggedIn user is registered to show valid user components and render logout and nav bar correctly
   useEffect(() => {
     if (registered) {
       // refetch();
@@ -182,6 +213,7 @@ function Profile({ registered }) {
   //   }
   // }, [data]);
 
+  //Hide the profile component and show Edit.jsx to user can update personal information
   const handleEditClick = () => {
     setIsEditVisible(true);
     setShowProfile(false);
@@ -190,6 +222,7 @@ function Profile({ registered }) {
     refetch();
   };
 
+  //Hide the profile componenet, keep Edit.jsx hidden and show AccountEdit.jsx so the user can edit their email, password, or delete their account
   const showAccountSettings = () => {
     setShowProfile(false);
     setIsEditVisible(false);
@@ -198,6 +231,7 @@ function Profile({ registered }) {
     refetch();
   };
 
+  //Use the back arrow to navigate back to the base Profile.jsx from Edit.jsx or AccountEdit.jsx if user chooses not to edit profile or account
   const handleGoBack = () => {
     if (currentComponent === "edit" || currentComponent === "accountSettings") {
       setIsEditVisible(false);
@@ -208,23 +242,7 @@ function Profile({ registered }) {
     }
   };
 
-  const neon = "#F7E258";
-  const white = "#F5F5F5";
-  const lightGray = "#BEBFC5";
-  const gray = "#808080";
-  const darkGray = "#555555";
-  const jetBlack = "#343434";
-  const black = "#212121";
-  const buttonStyle = {
-    backgroundColor: neon,
-    color: black,
-  };
-
-  const editStyle = {
-    backgroundColor: white,
-    color: black,
-  };
-
+  //LoggedIn user may delete prior blurbs they have created
   const [removeBlurb] = useMutation(REMOVE_Blurb, {
     refetchQueries: [QUERY_MY_PROFILE],
   });
@@ -235,8 +253,9 @@ function Profile({ registered }) {
     }
   }, [loading, data]);
 
-  console.log(userData);
+  // console.log(userData);
 
+  //LoggedIn user may delete prior blurb they have created using remove_blurb mutation by filtering through the user's blurbs, removing the selected blurb by ID and returning the new blurb array to be displayed on the profile and corresponding home page streams
   const handleBlurbDelete = async (deletedBlurbId) => {
     try {
       await removeBlurb({ variables: { blurbId: deletedBlurbId } });
@@ -251,26 +270,11 @@ function Profile({ registered }) {
     }
   };
 
-  const showFollowers = () => {
-    // Instead of using async/await here, you can directly set the state
-    fetchFollowersData().then((followersData) => {
-      setFollowers(followersData);
-      setCurrentComponent("followers");
-    });
-  };
-
-  const showFollowing = async () => {
-    // Fetch following data (you may need to implement this)
-    const followingData = await fetchFollowingData();
-    setFollowingList(followingData);
-    setCurrentComponent("following");
-  };
-
   return (
     <div>
       <ThemeProvider theme={customTheme(outerTheme)}>
         <IconButton onClick={handleGoBack}>
-          <ArrowBackIosIcon />
+          <ArrowBackIosIcon id="back" />
         </IconButton>
         {userData &&
           (showProfile ? (
@@ -324,7 +328,11 @@ function Profile({ registered }) {
                       // isLiked={refetch}
                     >
                       {blurb.blurbText}
-                      <div>{blurb.tags}</div>
+                      <div id="tags">
+                        {blurb.tags.map((tags) => (
+                          <div id="tag">#{tags}</div>
+                        ))}
+                      </div>
                     </BlurbStream>
                     {blurb.comments.map((comment) => (
                       <BlurbCom

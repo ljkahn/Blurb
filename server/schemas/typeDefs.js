@@ -131,7 +131,7 @@ const typeDefs = `
       unfollowUser(userIdToUnfollow: ID!): String
       markNotificationAsRead(notificationId: ID!): String
       resetPassword(token: String!, newPassword: String!): String
-      passwordReset(token: String!, email: String!): Boolean
+      passwordReset(token: String!, email: String!): String
       deleteNotification(notificationId: ID!): String!
     }
     `;

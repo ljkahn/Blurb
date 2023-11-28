@@ -20,7 +20,7 @@
 .blurbContainer {
   display: flex;
   min-height: 80px;
-  padding: 5px 5px;
+  padding: 10px 10px;
   margin: 5px;
   width: 350px;
   justify-content: space-between;
@@ -78,15 +78,30 @@
 .likesCount {
   font-size: 0.5rem;
   position: absolute;
+  margin-right: 6px;
   top: -5px;
   font-weight: 600;
   color: white;
+  right: 5px;
 }
 
 #profileIcons {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+}
+/* //////////////////////////// TAGS ///////////////////// */
+
+#tags {
+  display: flex;
+  margin-top: 10px;
+}
+
+#tag {
+  margin-top: 2px;
+  margin-right: 5px;
+  font-size: 12px;
+  color: rgb(59, 201, 248);
 }
 
 /* //////////////////////// Com Card ????????????????? */
