@@ -1,4 +1,4 @@
-const { User, Blurbs, Notification } = require("../models");
+const { User, Blurbs, Notification, Message } = require("../models");
 const { findOneAndUpdate } = require("../models/Notification");
 const {
   signToken,
@@ -321,6 +321,57 @@ const resolvers = {
     //     throw new Error("Failed to find email.");
     //   }
     // },
+
+getUserMessages: async (_, { userId }) => {
+  try {
+    const conversations = await Message.find({ $or: [{ senderId: userId }, { recipientId: userId }] })
+      .distinct('senderId', 'recipientId');
+
+    if (!conversations) {
+      console.log("Conversations not found");
+      return [];
+    }
+
+    console.log("Conversations:", conversations);
+
+    const userIds = conversations.filter(id => id.toString() !== userId.toString());
+    console.log("User IDs:", userIds);
+
+    const users = await User.find({ _id: { $in: userIds } });
+    console.log("Users:", users);
+
+    return users;
+  } catch (error) {
+    console.error("Error in getUserMessages:", error);
+    throw error; // Make sure to rethrow the error after logging it
+  }
+},
+//     getMessages: () => [
+//   { _id: '1', senderId: '655bc098b96721e1e89d538c', recipientId: '655bc098b96721e1e89d5370', text: 'Hello!', timestamp: '2023-11-01T12:00:00Z' },
+//   // Add more mock messages as needed
+// ],
+    getConversationMessages: async (_, { senderId, recipientId }, context) => {
+      // Check if the user is authenticated
+      if (!context.user) {
+        throw new AuthenticationError('User not authenticated');
+      }
+
+      // Check if the user is part of the conversation
+      if (senderId.toString() !== context.user._id.toString() && recipientId.toString() !== context.user._id.toString()) {
+        throw new AuthenticationError('User is not part of the conversation');
+      }
+
+      // Fetch messages from the database based on senderId, recipientId, and the authenticated user's ID
+      const messages = await Message.find({
+        $or: [
+          { sender: senderId, recipient: recipientId },
+          { sender: recipientId, recipient: senderId },
+        ],
+      }).sort({ timestamp: 1 });
+
+      return messages;
+    },
+
   },
 
   Mutation: {
@@ -1047,6 +1098,26 @@ const resolvers = {
       }
     },
 
+    sendMessage: async (_, { senderId, recipientId, text }, context) => {
+      // Check if the user is authenticated
+      if (!context.user) {
+        throw new AuthenticationError('User not authenticated');
+      }
+
+      // Create and save the message
+      const message = new Message({
+        senderId,
+        recipientId,
+        text,
+        timestamp: new Date().toISOString(),
+      });
+
+      await message.save();
+
+      // Return the created message
+      return message;
+    },
+    
     deleteNotification: async (_, { notificationId }, context) => {
       // Verify the user is logged in
       if (!context.user) {
@@ -1076,5 +1147,6 @@ const resolvers = {
     },
   },
 };
+
 
 module.exports = resolvers;

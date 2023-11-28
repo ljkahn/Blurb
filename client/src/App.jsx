@@ -32,6 +32,7 @@ import FollowersListCom from "./components/Follow/FollowersListCom";
 import ResetPassword from "./pages/ResetPassword";
 import Followers from "./pages/FollowerList";
 import FollowingList from "./pages/FollowingList";
+import Messages from "./pages/Messages";
 
 // Construct our main GraphQL API endpoint
 const httpLink = createHttpLink({
@@ -88,6 +89,7 @@ function App() {
           <Route path="/blurb" element={<BlurbStream />} />
           <Route path="/forgotPassword" element={<ForgotPassword />} />
           <Route path="/resetPassword" element={<ResetPassword />} />
+          <Route path="/messages" element={<Messages />} />
         </Routes>
         {registered && <NavBar />}{" "}
       </Router>

@@ -162,4 +162,37 @@ query GetFollowing($userId: ID!) {
   }
 }
 `;
+// export const FOLLOWED_USER_BLURBS = gql`
+//   query followedUsersBlurbs
+// `
+
+export const GET_USER_MESSAGES = gql`
+query GetUserMessages {
+  userMessages {
+    receiver {
+      id
+      username
+    }
+    timestamp
+  }
+}
+`;
+
+export const GET_CONVERSATION_MESSAGES = gql`
+query GetConversationMessages($conversationId: ID!) {
+  conversationMessages(conversationId: $conversationId) {
+    id
+    text
+    sender {
+      id
+      username
+    }
+    receiver {
+      id
+      username
+    }
+    timestamp
+  }
+}
+`;
 
