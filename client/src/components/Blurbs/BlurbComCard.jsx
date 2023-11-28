@@ -96,7 +96,7 @@ function BlurbCom({
           <div>
             {currentUserUsername === username && (
               <IconButton onClick={handleRemove} className="removeComment">
-                <DeleteIcon style={{ position: "absolute", right: "10" }} />
+                <DeleteIcon style={{ position: "absolute", right: "10", top: "-10px" }} />
               </IconButton>
             )}
             <IconButton onClick={handleCommentLike} className="likeComment">
@@ -143,11 +143,6 @@ function BlurbCom({
                 </>
               )}
             </IconButton>
-            {currentUserUsername === username && (
-              <IconButton onClick={handleRemove} className="removeComment">
-                <DeleteIcon style={{ fontSize: "2.1rem", top: "-10px" }} />
-              </IconButton>
-            )}
           </div>
         </div>
       </div>
