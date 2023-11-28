@@ -284,47 +284,32 @@ function BlurbStream({
           </div>
           <div id="profileIcons">
             <div id="notifyIcons">
-                        <IconButton onClick={openModal} className="likeComment">
-                          <ChatBubbleOutlineIcon
-                            style={{ fontSize: "2.1rem", top: "-10px", marginLeft: "-5px" }}
-                          />
-                        </IconButton>
+              <IconButton onClick={openModal} className="likeComment">
+                <ChatBubbleOutlineIcon />
+              </IconButton>
               <IconButton onClick={handleLike} className="likeComment">
                 {isLiked ? (
                   <>
                     <FavoriteIcon
-                      style={{
-                        color: "red",
-                        fontSize: "2.1rem",
-                        position: "absolute",
-                        top: "-10px",
-                        marginRight: "10px",
-                      }}
+                      style={{color: "red",}}
                     />
-                    <p className="likesCount">{likes}</p>
                   </>
                 ) : (
                   <>
-                    <FavoriteBorderIcon
-                      style={{
-                        fontSize: "2.1rem",
-                        position: "absolute",
-                        top: "-10px",
-                        marginRight: '10px'
-                      }}
-                    />
-                    <p className="likesCount">{likes}</p>
+                    <FavoriteBorderIcon />
+                    
                   </>
                 )}
               </IconButton>
             </div>
+            <p className="likesCount">{likes}</p>
             <div>
               {showEdit && (
                 <IconButton
                   onClick={() => openEditBlurbModal(initialBlurbText)}
                   className="editBlurb"
                 >
-                  <EditIcon />
+                  <EditIcon style={{position: "absolute", top: "10px",}} />
                 </IconButton>
               )}
             </div>
@@ -382,7 +367,7 @@ function BlurbStream({
               Save Changes
             </Button>
             <Button
-              onClick={handleRemove}
+              onClick={handleDeleteComment}
               className="removeComment, deleteButton"
             >
               Delete Blurb

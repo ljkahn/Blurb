@@ -93,21 +93,32 @@ function ResetPassword() {
   }
 
   const savePassword = async () => {
-    console.log("saved");
     const newPassword = document.getElementById("newPassword").value;
     const confirmPassword = document.getElementById("confirmPassword").value;
+    // const token = window.location.href.split("token=").at(-1);
+    const email = window.location.href.split("=").at(-1);
+    console.log(email);
     if (newPassword === confirmPassword) {
-      const token = window.location.href.split("=").at(-1);
       const { data } = await resetPassword({
         variables: {
+          email,
           newPassword,
-          token,
         },
       });
       console.log(data);
-
-      console.log(token);
     }
+
+    // if (newPassword === confirmPassword) {
+    //   const { data } = await resetPassword({
+    //     variables: {
+    //       newPassword,
+    //       token,
+    //     },
+    //   });
+    //   console.log(data);
+
+    //   console.log(token);
+    // }
   };
   const cancelPassword = () => {
     console.log("canceled");

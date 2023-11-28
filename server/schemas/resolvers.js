@@ -1,4 +1,4 @@
-const { User, Blurbs, Notification } = require("../models");
+const { User, Blurbs, Notification, Message } = require("../models");
 const { findOneAndUpdate } = require("../models/Notification");
 const {
   signToken,
@@ -265,7 +265,14 @@ const resolvers = {
     userFollowers: async (parent, { userId }, context) => {
       try {
         // Fetch the user based on the provided userId and populate the followers field
-        const user = await User.findById(userId).populate("followers");
+        const user = await User.findById(userId).populate({
+          path: "followers",
+          populate: {
+            path: "profile"
+          }
+        
+        })
+        
 
         console.log("Fetched User:", user);
 
@@ -314,6 +321,57 @@ const resolvers = {
     //     throw new Error("Failed to find email.");
     //   }
     // },
+
+getUserMessages: async (_, { userId }) => {
+  try {
+    const conversations = await Message.find({ $or: [{ senderId: userId }, { recipientId: userId }] })
+      .distinct('senderId', 'recipientId');
+
+    if (!conversations) {
+      console.log("Conversations not found");
+      return [];
+    }
+
+    console.log("Conversations:", conversations);
+
+    const userIds = conversations.filter(id => id.toString() !== userId.toString());
+    console.log("User IDs:", userIds);
+
+    const users = await User.find({ _id: { $in: userIds } });
+    console.log("Users:", users);
+
+    return users;
+  } catch (error) {
+    console.error("Error in getUserMessages:", error);
+    throw error; // Make sure to rethrow the error after logging it
+  }
+},
+//     getMessages: () => [
+//   { _id: '1', senderId: '655bc098b96721e1e89d538c', recipientId: '655bc098b96721e1e89d5370', text: 'Hello!', timestamp: '2023-11-01T12:00:00Z' },
+//   // Add more mock messages as needed
+// ],
+    getConversationMessages: async (_, { senderId, recipientId }, context) => {
+      // Check if the user is authenticated
+      if (!context.user) {
+        throw new AuthenticationError('User not authenticated');
+      }
+
+      // Check if the user is part of the conversation
+      if (senderId.toString() !== context.user._id.toString() && recipientId.toString() !== context.user._id.toString()) {
+        throw new AuthenticationError('User is not part of the conversation');
+      }
+
+      // Fetch messages from the database based on senderId, recipientId, and the authenticated user's ID
+      const messages = await Message.find({
+        $or: [
+          { sender: senderId, recipient: recipientId },
+          { sender: recipientId, recipient: senderId },
+        ],
+      }).sort({ timestamp: 1 });
+
+      return messages;
+    },
+
   },
 
   Mutation: {
@@ -953,63 +1011,71 @@ const resolvers = {
       }
     },
 
-    resetPassword: async (_, { token, newPassword }, { data }) => {
+    // resetPassword: async (_, { token, newPassword, userInput }, { data }) => {
+    resetPassword: async (_, { email, newPassword }, { data }) => {
       try {
-        // Find the user by the reset token
-        const user = await User.findOne({ resetToken: token });
-
-        console.log(user); //coming back null rn need to figure this out!!!
-
+        const user = await User.findOne({ "profile.email": email });
         if (!user) {
-          throw new Error("Invalid reset token");
+          throw new Error("User not found");
         }
 
-        // Check if the reset token has expired
-        if (
-          user.resetTokenExpiration &&
-          new Date(user.resetTokenExpiration) < new Date()
-        ) {
-          throw new Error("Reset token has expired");
+        // Update user fields here
+
+        if (user.profile.password) {
+          user.profile.password = newPassword;
+          user.profile.isPasswordChanged = true;
         }
 
-        // Update the user's password
-        const saltRounds = 10;
-        user.profile.password = await bcrypt.hash(newPassword, saltRounds);
-
-        // Clear the reset token and expiration
-        user.resetToken = null;
-        user.resetTokenExpiration = null;
-
-        // Save the updated user
         await user.save();
-
-        return {
-          success: true,
-          message: "Password has been reset successfully",
-        };
+        return "It worked";
       } catch (error) {
-        console.error("Error in resetPassword:", error);
-        throw new Error("Failed to reset password");
+        console.log(error);
       }
+
+      // try {
+      //   // Find the user by the reset token
+      //   const user = await User.findOne({ resetToken: token });
+      //   console.log(user); //coming back null rn need to figure this out!!!
+      //   if (!user) {
+      //     throw new Error("Invalid reset token");
+      //   }
+      //   // Check if the reset token has expired
+      //   if (
+      //     user.resetTokenExpiration &&
+      //     new Date(user.resetTokenExpiration) < new Date()
+      //   ) {
+      //     throw new Error("Reset token has expired");
+      //   }
+      //   // Update the user's password
+      //   const saltRounds = 10;
+      //   user.profile.password = await bcrypt.hash(newPassword, saltRounds);
+      //   // Clear the reset token and expiration
+      //   user.resetToken = null;
+      //   user.resetTokenExpiration = null;
+      //   // Save the updated user
+      //   await user.save();
+      //   return {
+      //     success: true,
+      //     message: "Password has been reset successfully",
+      //   };
+      // } catch (error) {
+      //   console.error("Error in resetPassword:", error);
+      //   throw new Error("Failed to reset password");
+      // }
       // try {
       //   console.log(newPassword);
       //   const user = await User.findOne({ resetToken: token });
-
       //   console.log(user);
-
       //   // Check if the user exists and the token is still valid
       //   if (!resetTokenExpiration || resetTokenExpiration < currentTime) {
       //     throw new Error("Invalid or expired reset token");
       //   }
-
       //   // Update the user's password
       //   user.profile.password = newPassword;
       //   user.resetToken = null; // Clear the reset token after a successful reset
       //   user.resetTokenExpiration = null;
-
       //   // Save the updated user to the database
       //   await user.save();
-
       //   return "Password has been reset!";
       // } catch (error) {
       //   console.error("Error resetting password:", error);
@@ -1032,6 +1098,26 @@ const resolvers = {
       }
     },
 
+    sendMessage: async (_, { senderId, recipientId, text }, context) => {
+      // Check if the user is authenticated
+      if (!context.user) {
+        throw new AuthenticationError('User not authenticated');
+      }
+
+      // Create and save the message
+      const message = new Message({
+        senderId,
+        recipientId,
+        text,
+        timestamp: new Date().toISOString(),
+      });
+
+      await message.save();
+
+      // Return the created message
+      return message;
+    },
+    
     deleteNotification: async (_, { notificationId }, context) => {
       // Verify the user is logged in
       if (!context.user) {
@@ -1061,5 +1147,6 @@ const resolvers = {
     },
   },
 };
+
 
 module.exports = resolvers;
