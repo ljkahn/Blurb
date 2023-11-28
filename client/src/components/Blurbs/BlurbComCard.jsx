@@ -124,11 +124,20 @@ function BlurbCom({
                   <FavoriteBorderIcon
                     style={{
                       position: "absolute",
+                      right: "-10px",
+                      marginRight: "10px",
+                    }}
+                  />
+                  <p
+                    className="likesCount"
+                    style={{
+                      position: "absolute",
                       left: "0px",
                       top: "10px",
                     }}
-                  />
-                  <p className="likesCount">{likes}</p>
+                  >
+                    {likes}
+                  </p>
                 </>
               )}
             </IconButton>
