@@ -953,63 +953,71 @@ const resolvers = {
       }
     },
 
-    resetPassword: async (_, { token, newPassword }, { data }) => {
+    // resetPassword: async (_, { token, newPassword, userInput }, { data }) => {
+    resetPassword: async (_, { email, newPassword }, { data }) => {
       try {
-        // Find the user by the reset token
-        const user = await User.findOne({ resetToken: token });
-
-        console.log(user); //coming back null rn need to figure this out!!!
-
+        const user = await User.findOne({ "profile.email": email });
         if (!user) {
-          throw new Error("Invalid reset token");
+          throw new Error("User not found");
         }
 
-        // Check if the reset token has expired
-        if (
-          user.resetTokenExpiration &&
-          new Date(user.resetTokenExpiration) < new Date()
-        ) {
-          throw new Error("Reset token has expired");
+        // Update user fields here
+
+        if (user.profile.password) {
+          user.profile.password = newPassword;
+          user.profile.isPasswordChanged = true;
         }
 
-        // Update the user's password
-        const saltRounds = 10;
-        user.profile.password = await bcrypt.hash(newPassword, saltRounds);
-
-        // Clear the reset token and expiration
-        user.resetToken = null;
-        user.resetTokenExpiration = null;
-
-        // Save the updated user
         await user.save();
-
-        return {
-          success: true,
-          message: "Password has been reset successfully",
-        };
+        return "It worked";
       } catch (error) {
-        console.error("Error in resetPassword:", error);
-        throw new Error("Failed to reset password");
+        console.log(error);
       }
+
+      // try {
+      //   // Find the user by the reset token
+      //   const user = await User.findOne({ resetToken: token });
+      //   console.log(user); //coming back null rn need to figure this out!!!
+      //   if (!user) {
+      //     throw new Error("Invalid reset token");
+      //   }
+      //   // Check if the reset token has expired
+      //   if (
+      //     user.resetTokenExpiration &&
+      //     new Date(user.resetTokenExpiration) < new Date()
+      //   ) {
+      //     throw new Error("Reset token has expired");
+      //   }
+      //   // Update the user's password
+      //   const saltRounds = 10;
+      //   user.profile.password = await bcrypt.hash(newPassword, saltRounds);
+      //   // Clear the reset token and expiration
+      //   user.resetToken = null;
+      //   user.resetTokenExpiration = null;
+      //   // Save the updated user
+      //   await user.save();
+      //   return {
+      //     success: true,
+      //     message: "Password has been reset successfully",
+      //   };
+      // } catch (error) {
+      //   console.error("Error in resetPassword:", error);
+      //   throw new Error("Failed to reset password");
+      // }
       // try {
       //   console.log(newPassword);
       //   const user = await User.findOne({ resetToken: token });
-
       //   console.log(user);
-
       //   // Check if the user exists and the token is still valid
       //   if (!resetTokenExpiration || resetTokenExpiration < currentTime) {
       //     throw new Error("Invalid or expired reset token");
       //   }
-
       //   // Update the user's password
       //   user.profile.password = newPassword;
       //   user.resetToken = null; // Clear the reset token after a successful reset
       //   user.resetTokenExpiration = null;
-
       //   // Save the updated user to the database
       //   await user.save();
-
       //   return "Password has been reset!";
       // } catch (error) {
       //   console.error("Error resetting password:", error);
