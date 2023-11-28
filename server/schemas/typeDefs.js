@@ -130,8 +130,8 @@ const typeDefs = `
       followUser(userIdToFollow: ID!): String
       unfollowUser(userIdToUnfollow: ID!): String
       markNotificationAsRead(notificationId: ID!): String
-      resetPassword(token: String!, newPassword: String!): String
-      passwordReset(token: String!, email: String!): Boolean
+      resetPassword(email: String!, newPassword: String!): String
+      passwordReset(token: String!, email: String!): String
       deleteNotification(notificationId: ID!): String!
     }
     `;
