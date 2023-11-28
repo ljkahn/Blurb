@@ -86,9 +86,8 @@ function Notify({
           </div>
         </div>
         <div id="notifyIcons">
-          <RemoveRedEyeOutlinedIcon />
-          <IconButton onClick={handleRemove} className="removeComment">
-            <DeleteIcon />
+          <IconButton onClick={handleRemove} className="removeComment" >
+            <DeleteIcon style={{position: "absolute", left: "45px", top: "5px"}}/>
           </IconButton>
         </div>
       </div>

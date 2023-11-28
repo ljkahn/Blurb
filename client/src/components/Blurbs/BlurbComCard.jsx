@@ -10,13 +10,20 @@ import { useQuery, useMutation } from "@apollo/client";
 import {
   ADD_COMMENT_LIKE,
   REMOVE_COMMENT_LIKE,
-  REMOVE_COMMENT
+  REMOVE_COMMENT,
 } from "../../utils/mutations/Likes/CommentMutations";
 import { ALL_BLURBS } from "../../utils/Queries/queries";
 import { QUERY_MY_PROFILE } from "../../utils/Queries/userQueries";
 
-
-function BlurbCom({ blurbId, comments, commentId, username, likes, liked, userId }) {
+function BlurbCom({
+  blurbId,
+  comments,
+  commentId,
+  username,
+  likes,
+  liked,
+  userId,
+}) {
   const [isLiked, setIsLiked] = useState(liked ? liked : false);
   const { loading: userLoading, data: userData } = useQuery(QUERY_MY_PROFILE);
   const currentUserUsername = userData?.me?.username;
@@ -66,7 +73,7 @@ function BlurbCom({ blurbId, comments, commentId, username, likes, liked, userId
   const handleRemove = async () => {
     // Add logic to check if the comment belongs to the current user
     try {
-      await removeComment({ variables: { blurbId, commentId } })
+      await removeComment({ variables: { blurbId, commentId } });
     } catch (error) {
       console.error("Error deleting comment:", error.message);
     }
@@ -85,40 +92,46 @@ function BlurbCom({ blurbId, comments, commentId, username, likes, liked, userId
         </div>
         <div id="notifyIconsCom">
           <div>
-          {currentUserUsername === username && (
+            {currentUserUsername === username && (
               <IconButton onClick={handleRemove} className="removeComment">
-                <DeleteIcon style={{ fontSize: "2.1rem", top: "-10px" }} />
+                <DeleteIcon style={{ position: "absolute", right: "10" }} />
               </IconButton>
-              )}
-          <IconButton onClick={handleCommentLike} className="likeComment">
-        {isLiked ? (
+            )}
+            <IconButton onClick={handleCommentLike} className="likeComment">
+              {isLiked ? (
                 <>
                   <FavoriteIcon
                     style={{
                       color: "red",
-                      fontSize: "2.1rem",
                       position: "absolute",
-                      top: "-10px",
-                      marginRight: "10px"
+                      right: "-10px",
+                      marginRight: "10px",
                     }}
                   />
-                  <p className="likesCount">{likes}</p>
+                  <p
+                    className="likesCount"
+                    style={{
+                      position: "absolute",
+                      left: "0px",
+                      top: "10px",
+                    }}
+                  >
+                    {likes}
+                  </p>
                 </>
               ) : (
                 <>
                   <FavoriteBorderIcon
                     style={{
-                      fontSize: "2.1rem",
                       position: "absolute",
-                      top: "-10px",
-                      marginRight: "10px",
+                      left: "0px",
+                      top: "10px",
                     }}
                   />
                   <p className="likesCount">{likes}</p>
                 </>
               )}
             </IconButton>
-           
           </div>
         </div>
       </div>
