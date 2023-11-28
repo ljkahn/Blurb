@@ -1,4 +1,4 @@
-const { User, Blurbs, Notification } = require("../models");
+const { User, Blurbs, Notification, Message } = require("../models");
 const { findOneAndUpdate } = require("../models/Notification");
 const {
   signToken,
@@ -316,13 +316,29 @@ const resolvers = {
     // },
 
 getUserMessages: async (_, { userId }) => {
-  const conversations = await Message.find({ $or: [{ senderId: userId }, { recipientId: userId }] })
-    .distinct('senderId', 'recipientId');
-  const userIds = conversations.filter(id => id.toString() !== userId.toString());
-  const users = await User.find({ _id: { $in: userIds } });
-  return users;
-},
+  try {
+    const conversations = await Message.find({ $or: [{ senderId: userId }, { recipientId: userId }] })
+      .distinct('senderId', 'recipientId');
 
+    if (!conversations) {
+      console.log("Conversations not found");
+      return [];
+    }
+
+    console.log("Conversations:", conversations);
+
+    const userIds = conversations.filter(id => id.toString() !== userId.toString());
+    console.log("User IDs:", userIds);
+
+    const users = await User.find({ _id: { $in: userIds } });
+    console.log("Users:", users);
+
+    return users;
+  } catch (error) {
+    console.error("Error in getUserMessages:", error);
+    throw error; // Make sure to rethrow the error after logging it
+  }
+},
 //     getMessages: () => [
 //   { _id: '1', senderId: '655bc098b96721e1e89d538c', recipientId: '655bc098b96721e1e89d5370', text: 'Hello!', timestamp: '2023-11-01T12:00:00Z' },
 //   // Add more mock messages as needed

@@ -76,7 +76,7 @@ export default function MessageSearch() {
 
   return (
     <form>
-      {!loading ? (
+      {userList ? (
         <Select
           id="searchTxt"
           defaultValue={selectedOption}

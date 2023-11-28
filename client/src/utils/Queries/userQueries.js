@@ -161,12 +161,6 @@ query GetFollowing($userId: ID!) {
 export const GET_USER_MESSAGES = gql`
 query GetUserMessages {
   userMessages {
-    id
-    text
-    sender {
-      id
-      username
-    }
     receiver {
       id
       username

@@ -94,7 +94,6 @@ const typeDefs = `
     }
     type Message {
       _id: ID!
-      senderId: ID!
       recipientId: ID!
       text: String!
       timestamp: String!
