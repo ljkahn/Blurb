@@ -140,6 +140,10 @@ query GetFollowers($userId: ID!) {
   userFollowers(userId: $userId) {
     _id
     username
+    profile {
+      fullName
+      profilePic
+    }
 
   }
 }

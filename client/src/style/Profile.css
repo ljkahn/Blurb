@@ -75,3 +75,34 @@
 
 /* FOLLOWERS/FOLLOWING PAGES */
 
+#followerContain {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+.followCard {
+min-height: 80px;
+width: 350px;
+padding: 5px 5px;
+margin: 5px;
+background-color: #757575 !important;
+display: flex;
+justify-content: space-between;
+} 
+
+/* .followCardContent {
+display: flex;
+justify-content: space-between;
+} */
+
+.followUserInfo {
+display: flex;
+flex-direction: column;
+color: #f3f3f3;
+}
+
+#followImg {
+  height: 40px;
+  width: 40px;
+}
