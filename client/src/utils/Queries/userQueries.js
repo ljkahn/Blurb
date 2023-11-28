@@ -154,6 +154,10 @@ query GetFollowing($userId: ID!) {
   userFollowing(userId: $userId) {
     _id
     username
+    profile {
+      fullName
+      profilePic
+    }
 
   }
 }

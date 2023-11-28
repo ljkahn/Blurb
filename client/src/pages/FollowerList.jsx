@@ -6,17 +6,14 @@ import FollowersListCom from "../components/Follow/FollowersListCom";
 import Avatar from "@mui/material/Avatar";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-
 import "../style/Profile.css"
 
 
-function Followers() {
+function Followers(onClose) {
   const { userID } = useParams();
   console.log("User ID:", userID);
   const [followers, setFollowers] = useState([]);
-
- const [profilePic, setProfilePic] = useState("")
+  const [profilePic, setProfilePic] = useState("");
   const sample = "cld-sample-5";
   const cloudName = "dmnfg3ids";
   const [staticImg, setStaticPic] = useState(
@@ -48,7 +45,7 @@ function Followers() {
       setFollowers(data.userFollowers);
     }
   }, [data]);
-  console.log(data)
+
 
   if (loading) {
     return <p>Loading followers...</p>;
@@ -75,17 +72,32 @@ function Followers() {
             <p>{follower.profile.fullName}</p>
             </div>
             </CardContent>
-            <Avatar >
-            <CardMedia id="followImg" component="img" image={staticImg} alt={follower.profile.fullName} /></Avatar>
+            <div className="imgContain">
+            <Avatar
+            id="notifyPP"
+            className="Blfriend"
+            alt={follower.username}
+            src={
+              follower.profile.profilePic
+                ? `https://res.cloudinary.com/${cloudName}/image/upload/t_custom-resize/${follower.profile.profilePic}.png`
+                : staticImg
+            }
+            sx={{ width: 80, height: 80 }}
+            />
+            </div>
             </Card>
           ))
-        
-      ) : (
-        <p>No followers to display.</p>
-      )}
+          
+          ) : (
+            <p>No followers yet, you can change that! 😃</p>
+            )}
+            
       </div>
+      {/* <button onClick={onClose}>Close</button> */}
     </div>
   );
 }
 
 export default Followers;
+
+{/* <CardMedia id="followImg" component="img" image={staticImg} alt={follower.profile.fullName} /> */}
