@@ -52,7 +52,7 @@ function Header({ registered, isRegistered }) {
           {isSearchBarVisible && <SearchBar />}
         </div>
         <div id="messageLog">
-          <Link to="/messages">
+          <Link to="/messages/:username">
             <IconButton>
               <Badge
                 anchorOrigin={{
@@ -63,7 +63,9 @@ function Header({ registered, isRegistered }) {
               >
                 <QuestionAnswerRoundedIcon
                   sx={{ fontSize: 40 }}
-                  style={{ fill: isActive("/messages") ? yellow : lightGray }}
+                  style={{
+                    fill: isActive("/messages/:username") ? yellow : lightGray,
+                  }}
                 />
               </Badge>
             </IconButton>
