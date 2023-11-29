@@ -4,55 +4,37 @@ import { ThreeDots } from "react-loader-spinner";
 import { useQuery } from "@apollo/client";
 import { USER_LIST } from "../utils/Queries/userQueries";
 import { useParams, useNavigate } from "react-router-dom";
-import SearchIcon from "@mui/icons-material/Search";
-import IconButton from "@mui/material/IconButton";
-import Grid from "@mui/material/Grid";
 
 export default function MessageSearch() {
   const [selectedOption, setSelectedOption] = useState(null);
   const [userList, setUserList] = useState(null);
   const [menuIsOpen, setMenuIsOpen] = useState(false);
-  const [selectedUser, setSelectedUser] = useState("");
-  const { loading, data } = useQuery(USER_LIST);
+  const [loading, setLoading] = useState(true); // Initialize loading state
   const { username } = useParams();
   const navigation = useNavigate();
-  useEffect(() => {
-    //   if (!loading) {
-    //     const cleanList = data.users.map((obj) => {
-    //       return {
-    //         value: obj._id,
-    //         label: obj.username,
-    //       };
-    //     });
-    //     setUserList(cleanList);
-    //   }
-    // }, [loading]);
-    const fetchData = async () => {
-      try {
-        const response = await fetchUserList(); // Assume you have a function to fetch user list
-        const cleanList = response.data.users.map((obj) => ({
-          value: obj._id,
-          label: obj.username,
-        }));
-        setUserList(cleanList);
-      } catch (error) {
-        console.error("Error fetching user list:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
 
-    fetchData();
-  }, []);
+  const { data } = useQuery(USER_LIST);
+
+  useEffect(() => {
+    if (data) {
+      const cleanList = data.users.map((obj) => ({
+        value: obj._id,
+        label: obj.username,
+      }));
+      setUserList(cleanList);
+      setLoading(false); // Set loading to false once user list is available
+    }
+  }, [data]);
+
   const handleInputChange = (inputValue) => {
-    // Open the menu if the user starts typing
     setMenuIsOpen(!!inputValue);
   };
+
   const handleUserSelect = (selectedOption) => {
-    setSelectedUser(selectedOption.label);
+    console.log("Selected User:", selectedOption.label); // Log the selected user's label
+    setSelectedOption(selectedOption);
     navigation(`/messages/${selectedOption.label}`);
-    setSelectedOption(null); // Clear the selected option
-    setSelectedUser(""); // Clear the selected user
+    setSelectedOption(null);
   };
 
   const customStyles = {
@@ -69,14 +51,18 @@ export default function MessageSearch() {
     }),
     dropdownIndicator: () => ({ display: "none" }),
   };
-  // const handleFormSubmit = (e) => {
-  //   e.preventDefault();
-  //   navigation(`/messages/${selectedUser}`);
-  // };
 
   return (
     <form>
-      {userList ? (
+      {loading ? (
+        <ThreeDots
+          height="80"
+          width="80"
+          radius="9"
+          color="#F7E258"
+          ariaLabel="three-dots-loading"
+        />
+      ) : (
         <Select
           id="searchTxt"
           defaultValue={selectedOption}
@@ -89,17 +75,6 @@ export default function MessageSearch() {
           menuIsOpen={menuIsOpen}
           isSearchable={true}
           styles={customStyles}
-        />
-      ) : (
-        <ThreeDots
-          height="80"
-          width="80"
-          radius="9"
-          color="#F7E258"
-          ariaLabel="three-dots-loading"
-          wrapperStyle={{}}
-          wrapperClassName=""
-          visible={true}
         />
       )}
     </form>
