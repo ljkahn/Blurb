@@ -26,18 +26,6 @@ const customTheme = (outerTheme) =>
       mode: outerTheme.palette.mode,
     },
     components: {
-      MuiFormControl: {
-        styleOverrides: {
-          root: {
-            "--FormControl-brandBorderColor": "#E0E3E7",
-            "--FormControl-brandBorderHoverColor": "#B2BAC2",
-            "--FormControl-brandBorderFocusedColor": "#f7e258",
-            "& label.Mui-focused": {
-              color: "var(--TextField-brandBorderFocusedColor)",
-            },
-          },
-        },
-      },
       MuiTextField: {
         styleOverrides: {
           root: {
