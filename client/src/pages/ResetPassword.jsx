@@ -168,8 +168,13 @@
 
 import { React, useState } from "react";
 import TextField from "@mui/material/TextField";
+import { Link } from "react-router-dom";
+
 import Button from "@mui/material/Button";
 import SaveIcon from "@mui/icons-material/Save";
+import HomeIcon from "@mui/icons-material/Home";
+import IconButton from "@mui/material/IconButton";
+
 import DeleteIcon from "@mui/icons-material/Delete";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { outlinedInputClasses } from "@mui/material/OutlinedInput";
@@ -177,16 +182,38 @@ import "../style/Login.css";
 import { useMutation } from "@apollo/client";
 import { RESET_PASSWORD } from "../utils/mutations/userMutations";
 
-const customTheme = createTheme({
-  // ... (your existing theme)
-});
+const commonNotificationStyle = {
+  position: "fixed",
+  bottom: "16px",
+  left: "50%",
+  transform: "translateX(-50%)",
+  color: "#fff",
+  padding: "8px 16px",
+  borderRadius: "4px",
+  boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.1)",
+};
+
+const successNotificationStyle = {
+  ...commonNotificationStyle,
+  backgroundColor: "#43a047",
+};
+
+const errorNotificationStyle = {
+  ...commonNotificationStyle,
+  backgroundColor: "#ff9494",
+};
 
 function ResetPassword() {
   const [resetPassword, { error }] = useMutation(RESET_PASSWORD);
+  const [success, setSuccess] = useState(false);
   const [notification, setNotification] = useState({
     open: false,
     message: "",
   });
+
+  const closeNotification = () => {
+    setNotification({ ...notification, open: false });
+  };
 
   if (error) {
     console.log(JSON.stringify(error));
@@ -197,25 +224,52 @@ function ResetPassword() {
     const confirmPassword = document.getElementById("confirmPassword").value;
     const email = window.location.href.split("=").at(-1);
 
-    if (newPassword === confirmPassword) {
-      try {
-        const { data } = await resetPassword({
-          variables: {
-            email,
-            newPassword,
-          },
-        });
-        console.log(data);
+    const isValidPassword = (newPassword) => {
+      const passwordPattern =
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
-        // Show success notification
-        setNotification({ open: true, message: "Password has been reset." });
-      } catch (error) {
-        // Handle the error and show an error notification
-        setNotification({ open: true, message: "Failed to reset password." });
+      return passwordPattern.test(newPassword);
+    };
+    console.log(isValidPassword);
+
+    if (isValidPassword(newPassword)) {
+      if (newPassword === confirmPassword) {
+        try {
+          // console.log(data);
+          const { data } = await resetPassword({
+            variables: {
+              email,
+              newPassword,
+            },
+          });
+          console.log(data);
+          setSuccess(true);
+
+          // Show success notification
+          setNotification({ open: true, message: "Password has been reset." });
+          setTimeout(closeNotification, 2000);
+        } catch (error) {
+          // Handle the error and show an error notification
+          setNotification({
+            open: true,
+            message: "Failed to reset password.",
+          });
+          setTimeout(closeNotification, 2000);
+        }
+      } else {
+        // Show a notification for password mismatch
+        setNotification({ open: true, message: "Passwords do not match." });
+        setSuccess(false);
+        setTimeout(closeNotification, 2000);
       }
     } else {
-      // Show a notification for password mismatch
-      setNotification({ open: true, message: "Passwords do not match." });
+      setNotification({
+        open: true,
+        message:
+          "Passwords do not meet required criteria. Please use at least 8 characters, 1 upper case and lowercase, a special character, and a number.",
+      });
+      setTimeout(closeNotification, 3000);
+      setSuccess(false);
     }
   };
 
@@ -223,78 +277,64 @@ function ResetPassword() {
     console.log("canceled");
   };
 
-  const handleCloseNotification = () => {
-    // Close the notification
-    setNotification({ open: false, message: "" });
-  };
+  // const handleCloseNotification = () => {
+  //   // Close the notification
+  //   setNotification({ open: false, message: "" });
+  // };
 
   return (
-    <ThemeProvider theme={customTheme}>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "flex-start",
-          height: "100vh",
-        }}
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "flex-start",
+        height: "100vh",
+      }}
+    >
+      <TextField
+        type="password"
+        id="newPassword"
+        label="New Password"
+        variant="standard"
+      />
+      <TextField
+        id="confirmPassword"
+        label="Confirm New Password"
+        variant="standard"
+        type="password"
+      />
+      <Button
+        variant="contained"
+        id="forgotBtn"
+        style={{ marginTop: "16px" }}
+        onClick={savePassword}
       >
-        <TextField id="newPassword" label="New Password" variant="standard" />
-        <TextField
-          id="confirmPassword"
-          label="Confirm New Password"
-          variant="standard"
-        />
-        <Button
-          variant="contained"
-          id="forgotBtn"
-          style={{ marginTop: "16px" }}
-          onClick={savePassword}
+        <SaveIcon />
+        Save Password
+      </Button>
+      <Button
+        id="forgotBtnCancel"
+        variant="contained"
+        style={{ marginTop: "8px" }}
+        onClick={cancelPassword}
+      >
+        <DeleteIcon />
+        Cancel
+      </Button>
+      <Link to="/">
+        <IconButton>
+          <HomeIcon sx={{ fontSize: 40 }} />
+        </IconButton>
+      </Link>
+      {notification.open && (
+        <div
+          style={success ? successNotificationStyle : errorNotificationStyle}
         >
-          <SaveIcon />
-          Save Password
-        </Button>
-        <Button
-          id="forgotBtnCancel"
-          variant="contained"
-          style={{ marginTop: "8px" }}
-          onClick={cancelPassword}
-        >
-          <DeleteIcon />
-          Cancel
-        </Button>
-
-        {/* Notification */}
-        {notification.open && (
-          <div
-            style={{
-              position: "fixed",
-              bottom: "16px",
-              left: "50%",
-              transform: "translateX(-50%)",
-              backgroundColor: "#43a047",
-              color: "#fff",
-              padding: "8px 16px",
-              borderRadius: "4px",
-              boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.1)",
-            }}
-          >
-            <span>{notification.message}</span>
-            <span
-              style={{
-                position: "absolute",
-                top: "8px",
-                right: "8px",
-                cursor: "pointer",
-              }}
-              onClick={handleCloseNotification}
-            >
-              X
-            </span>
-          </div>
-        )}
-      </div>
-    </ThemeProvider>
+          <span>{notification.message}</span>
+        </div>
+      )}
+    </div>
   );
 }
 
