@@ -17,9 +17,6 @@ import { outlinedInputClasses } from "@mui/material/OutlinedInput";
 import InputBase from "@mui/material/InputBase";
 import { styled } from "@mui/material/styles";
 
-
-
-
 const customTheme = (outerTheme) =>
   createTheme({
     palette: {

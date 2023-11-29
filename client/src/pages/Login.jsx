@@ -96,7 +96,6 @@ function Login({ isRegistered }) {
           </BlurbCard>
         )}
       </div>
-
       <div id="login">
         <div id="logBack">
           {/* <h2>Login or Create</h2> */}
