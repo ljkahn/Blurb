@@ -45,6 +45,11 @@
   left: 15px;
 }
 
+#messageLog {
+  display: flex;
+  align-items: center;
+}
+
 #searchTxt {
   color: black;
 }
@@ -117,23 +122,18 @@
   color: #212121;
   border-radius: 10px;
   height: 40px;
-  margin-right: 20px;
+  margin: 0px 20px;
 }
-
 
 .toggleContain {
   display: flex;
   justify-content: center;
   margin: 10px;
-  
 }
 #homeToggle {
   background-color: #757575;
   /* border-radius: 10px; */
-  
 }
-
-
 
 .active {
   background-color: #f7e258 !important;
