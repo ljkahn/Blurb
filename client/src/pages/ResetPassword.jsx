@@ -169,18 +169,96 @@
 import { React, useState } from "react";
 import TextField from "@mui/material/TextField";
 import { Link } from "react-router-dom";
-
 import Button from "@mui/material/Button";
 import SaveIcon from "@mui/icons-material/Save";
 import HomeIcon from "@mui/icons-material/Home";
 import IconButton from "@mui/material/IconButton";
-
 import DeleteIcon from "@mui/icons-material/Delete";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { createTheme, ThemeProvider, useTheme } from "@mui/material/styles";
 import { outlinedInputClasses } from "@mui/material/OutlinedInput";
 import "../style/Login.css";
 import { useMutation } from "@apollo/client";
 import { RESET_PASSWORD } from "../utils/mutations/userMutations";
+
+const customTheme = (outerTheme) =>
+  createTheme({
+    palette: {
+      mode: outerTheme.palette.mode,
+    },
+    components: {
+      MuiTextField: {
+        styleOverrides: {
+          root: {
+            "--TextField-brandBorderColor": "#E0E3E7",
+            "--TextField-brandBorderHoverColor": "#B2BAC2",
+            "--TextField-brandBorderFocusedColor": "#f7e258",
+            "& label.Mui-focused": {
+              color: "var(--TextField-brandBorderFocusedColor)",
+            },
+            "& .MuiInputBase-input": {
+              color: "#F3F3F3",
+            },
+          },
+        },
+      },
+      MuiOutlinedInput: {
+        styleOverrides: {
+          notchedOutline: {
+            borderColor: "var(--TextField-brandBorderColor)",
+          },
+          root: {
+            [`&:hover .${outlinedInputClasses.notchedOutline}`]: {
+              borderColor: "var(--TextField-brandBorderHoverColor)",
+            },
+            [`&.Mui-focused .${outlinedInputClasses.notchedOutline}`]: {
+              borderColor: "var(--TextField-brandBorderFocusedColor)",
+            },
+            "& .MuiInputBase-input": {
+              color: "#F3F3F3",
+            },
+          },
+        },
+      },
+      MuiFilledInput: {
+        styleOverrides: {
+          root: {
+            "&:before, &:after": {
+              borderBottom: "2px solid var(--TextField-brandBorderColor)",
+            },
+            "&:hover:not(.Mui-disabled, .Mui-error):before": {
+              borderBottom: "2px solid var(--TextField-brandBorderHoverColor)",
+            },
+            "&.Mui-focused:after": {
+              borderBottom:
+                "2px solid var(--TextField-brandBorderFocusedColor)",
+            },
+            "& .MuiInputBase-input": {
+              color: "#F3F3F3",
+            },
+          },
+        },
+      },
+      MuiInput: {
+        styleOverrides: {
+          root: {
+            "&:before": {
+              borderBottom: "2px solid var(--TextField-brandBorderColor)",
+            },
+            "&:hover:not(.Mui-disabled, .Mui-error):before": {
+              borderBottom: "2px solid var(--TextField-brandBorderHoverColor)",
+            },
+            "&.Mui-focused:after": {
+              borderBottom:
+                "2px solid var(--TextField-brandBorderFocusedColor)",
+            },
+            "& .MuiInputBase-input": {
+              color: "#F3F3F3",
+            },
+          },
+        },
+      },
+    },
+  });
 
 const commonNotificationStyle = {
   position: "fixed",
@@ -204,6 +282,7 @@ const errorNotificationStyle = {
 };
 
 function ResetPassword() {
+  const outerTheme = useTheme();
   const [resetPassword, { error }] = useMutation(RESET_PASSWORD);
   const [success, setSuccess] = useState(false);
   const [notification, setNotification] = useState({
@@ -283,58 +362,58 @@ function ResetPassword() {
   // };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "flex-start",
-        height: "100vh",
-      }}
-    >
-      <TextField
-        type="password"
-        id="newPassword"
-        label="New Password"
-        variant="standard"
-      />
-      <TextField
-        id="confirmPassword"
-        label="Confirm New Password"
-        variant="standard"
-        type="password"
-      />
-      <Button
-        variant="contained"
-        id="forgotBtn"
-        style={{ marginTop: "16px" }}
-        onClick={savePassword}
+    <ThemeProvider theme={customTheme(outerTheme)}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "flex-start",
+          height: "100vh",
+        }}
       >
-        <SaveIcon />
-        Save Password
-      </Button>
-      <Button
-        id="forgotBtnCancel"
-        variant="contained"
-        style={{ marginTop: "8px" }}
-        onClick={cancelPassword}
-      >
-        <DeleteIcon />
-        Cancel
-      </Button>
-      <Link to="/">
-        <IconButton>
-          <HomeIcon sx={{ fontSize: 40 }} />
-        </IconButton>
-      </Link>
-      {notification.open && (
-        <div
-          style={success ? successNotificationStyle : errorNotificationStyle}
+        <TextField
+          type="password"
+          id="newPassword"
+          label="New Password"
+          variant="standard"
+        />
+        <TextField
+          id="confirmPassword"
+          label="Confirm New Password"
+          variant="standard"
+          type="password"
+        />
+        <Button
+          variant="contained"
+          id="forgotBtn"
+          style={{ marginTop: "16px" }}
+          onClick={savePassword}
         >
-          <span>{notification.message}</span>
-        </div>
-      )}
-    </div>
+          <SaveIcon />
+          Save Password
+        </Button>
+        <Link to="/">
+          <Button
+            id="forgotBtnCancel"
+            variant="contained"
+            style={{ marginTop: "8px" }}
+            onClick={cancelPassword}
+          >
+            <HomeIcon />
+            Home
+          </Button>
+        </Link>
+
+        {notification.open && (
+          <div
+            style={success ? successNotificationStyle : errorNotificationStyle}
+          >
+            <span>{notification.message}</span>
+          </div>
+        )}
+      </div>
+    </ThemeProvider>
   );
 }
 
