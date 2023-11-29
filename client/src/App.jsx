@@ -69,7 +69,7 @@ function App() {
         <Routes>
           {registered ? (
             <Route path="/" element={<Navigate to="/home" />} />
-            ) : (
+          ) : (
             <Route path="/" element={<Login isRegistered={isRegistered} />} />
           )}
           <Route path="/home" element={<Home />} />
@@ -89,7 +89,7 @@ function App() {
           <Route path="/blurb" element={<BlurbStream />} />
           <Route path="/forgotPassword" element={<ForgotPassword />} />
           <Route path="/resetPassword" element={<ResetPassword />} />
-          <Route path="/messages" element={<Messages />} />
+          <Route path="/messages/:username" element={<Messages />} />
         </Routes>
         {registered && <NavBar />}{" "}
       </Router>
