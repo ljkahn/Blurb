@@ -367,7 +367,7 @@ function BlurbStream({
               Save Changes
             </Button>
             <Button
-              onClick={handleDeleteComment}
+              onClick={handleRemove}
               className="removeComment, deleteButton"
             >
               Delete Blurb
