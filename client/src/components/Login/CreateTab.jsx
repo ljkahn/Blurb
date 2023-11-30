@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
 import { useMutation } from "@apollo/client";
 import { ADD_USER } from "../../utils/mutations/userMutations";
 import CloudinaryUploadWidget from "../Upload";
 import Auth from "../../utils/auth";
 import Photo from "../Profile/ProfilePhoto";
-
 import { outlinedInputClasses } from "@mui/material/OutlinedInput";
 import Box from "@mui/material/Box";
 import { createTheme, ThemeProvider, useTheme } from "@mui/material/styles";
@@ -103,7 +101,7 @@ function Create({ isRegistered }) {
   const [profileImg, setProfileImg] = useState("");
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [isPasswordFocused, setIsPasswordFocused] = useState(false); // Track password field focus
- 
+
 //Set the form state to empty strings to await the values that will be used to create the user's account using the ADD_User mutation
   const [formState, setFormState] = useState({
     fullName: "",

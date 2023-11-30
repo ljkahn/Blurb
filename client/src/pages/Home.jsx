@@ -9,7 +9,6 @@ import { useQuery } from "@apollo/client";
 // import { ALL_BLURBS } from "../utils/Queries/queries.js";
 import auth from "../utils/auth.js";
 import { FOLLOWED_USERS_BLURBS } from "../utils/Queries/userQueries.js";
-
 import Global from "../components/Blurbs/Global.jsx";
 import { ToggleButton, ToggleButtonGroup } from '@mui/material';
 import PublicIcon from '@mui/icons-material/Public';
@@ -38,7 +37,6 @@ function Home() {
     setCurrentComponent('followed');
     refetch();
   }
-
   
   useEffect(() => {
     if (!loading && data) {
@@ -131,13 +129,12 @@ function Home() {
             ))}
           </div>
         ))
-       ) : (
+      ) : (
           <Global/>
         )
       }
-
     </div>
     )
-    }
+  }
 
 export default Home;

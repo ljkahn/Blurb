@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useMutation } from "@apollo/client";
 import { EDIT_USER } from "../../utils/mutations/userMutations";
-
 import "../../style/Profile.css";
 import Photo from "../Profile/ProfilePhoto";
 import CloudinaryUploadWidget from "../Upload";
-
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import SaveIcon from "@mui/icons-material/Save";
