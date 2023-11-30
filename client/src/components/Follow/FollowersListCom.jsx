@@ -11,10 +11,8 @@ function FollowersListCom({ followersList, onClose }) {
       <h2>Followers List</h2>
       <div>
         {followersList?.map((follower) => (
-          <Card key={follower._id}>{follower.username}
-
-          
-          
+          <Card key={follower._id}>
+            {follower.username}
           </Card>
         ))}
       </div>

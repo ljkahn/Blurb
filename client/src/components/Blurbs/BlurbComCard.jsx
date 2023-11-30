@@ -22,8 +22,7 @@ function BlurbCom({
   commentId,
   username,
   likes,
-  liked,
-  userId,
+  liked
 }) {
   const [isLiked, setIsLiked] = useState(liked ? liked : false);
   const { loading: userLoading, data: userData } = useQuery(QUERY_MY_PROFILE);
