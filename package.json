@@ -19,8 +19,8 @@
     "concurrently": "^8.2.0"
   },
   "dependencies": {
-    "@mui/icons-material": "^5.14.16",
-    "@mui/material": "^5.14.16",
+    "@mui/icons-material": "^5.14.18",
+    "@mui/material": "^5.14.18",
     "cloudinary": "^1.41.0",
     "cors": "^2.8.5",
     "emailjs-com": "^3.2.0",
