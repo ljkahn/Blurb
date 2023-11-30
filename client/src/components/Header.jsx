@@ -1,3 +1,5 @@
+
+
 import React, { useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import "../style/Header.css";
@@ -8,12 +10,14 @@ import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import Auth from "../utils/auth";
 import Tooltip from "@mui/material/Tooltip";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import QuestionAnswerRoundedIcon from "@mui/icons-material/QuestionAnswerRounded";
 import Badge from "@mui/material/Badge";
 
 function Header({ registered, isRegistered }) {
   const [isSearchBarVisible, setIsSearchBarVisible] = useState(false);
+  const [searchIconClicked, setSearchIconClicked] = useState(false);
+  const location = useLocation();
   const navigation = useNavigate();
 
   const handleLogout = () => {
@@ -23,17 +27,11 @@ function Header({ registered, isRegistered }) {
 
   const toggleSearchBar = () => {
     setIsSearchBarVisible(!isSearchBarVisible);
+    setSearchIconClicked(!searchIconClicked);
   };
 
   const yellow = "#F7E258";
   const lightGray = "#BEBFC5";
-
-  const editStyle = {
-    isActive: yellow,
-    notActive: lightGray,
-  };
-
-  const isActive = (path) => location.pathname === path;
 
   return (
     <>
@@ -44,7 +42,9 @@ function Header({ registered, isRegistered }) {
               <IconButton onClick={toggleSearchBar}>
                 <SearchIcon
                   sx={{ fontSize: 40 }}
-                  style={{ fill: isActive("") ? yellow : lightGray }}
+                  style={{
+                    fill: searchIconClicked ? yellow : lightGray,
+                  }}
                 />
               </IconButton>
             </div>
@@ -64,7 +64,10 @@ function Header({ registered, isRegistered }) {
                 <QuestionAnswerRoundedIcon
                   sx={{ fontSize: 40 }}
                   style={{
-                    fill: isActive("/messages/:username") ? yellow : lightGray,
+                    fill:
+                      location.pathname === "/messages/:username"
+                        ? yellow
+                        : lightGray,
                   }}
                 />
               </Badge>
