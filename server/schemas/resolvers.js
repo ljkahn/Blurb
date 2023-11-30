@@ -324,20 +324,24 @@ const resolvers = {
 
 getUserMessages: async (_, { userId }) => {
   try {
-    const conversations = await Message.find({ $or: [{ senderId: userId }, { recipientId: userId }] })
-      .distinct('senderId', 'recipientId');
+    // Find conversations where the user is either the sender or recipient
+    const conversations = await Message.find({
+      $or: [{ senderId: userId }, { recipientId: userId }],
+    }).distinct(('senderId', 'recipientId'));
 
-    if (!conversations) {
-      console.log("Conversations not found");
+    if (!conversations || conversations.length === 0) {
+      console.log("No conversations found for the user");
       return [];
     }
 
+    // Extract user IDs from conversations, excluding the current user
+    const otherUserIds = conversations.filter(id => id.toString() !== userId.toString());
+
+    // Fetch user information for the found IDs
+    const users = await User.find({ _id: { $in: otherUserIds } });
+
     console.log("Conversations:", conversations);
-
-    const userIds = conversations.filter(id => id.toString() !== userId.toString());
-    console.log("User IDs:", userIds);
-
-    const users = await User.find({ _id: { $in: userIds } });
+    console.log("Other User IDs:", otherUserIds);
     console.log("Users:", users);
 
     return users;
@@ -346,10 +350,7 @@ getUserMessages: async (_, { userId }) => {
     throw error; // Make sure to rethrow the error after logging it
   }
 },
-//     getMessages: () => [
-//   { _id: '1', senderId: '655bc098b96721e1e89d538c', recipientId: '655bc098b96721e1e89d5370', text: 'Hello!', timestamp: '2023-11-01T12:00:00Z' },
-//   // Add more mock messages as needed
-// ],
+
     getConversationMessages: async (_, { senderId, recipientId }, context) => {
       // Check if the user is authenticated
       if (!context.user) {
