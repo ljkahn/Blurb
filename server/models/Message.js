@@ -6,17 +6,17 @@ const messageSchema = new Schema(
       type: String,
       required: true,
     },
-    sender: {
+    senderId: {
       type: Schema.Types.ObjectId,
       ref: "User",
       required: true,
     },
-    receiver: {
+    recipientId: {
       type: Schema.Types.ObjectId,
       ref: "User",
       required: true,
     },
-    conversation: {
+    conversationId: {
       type: Schema.Types.ObjectId,
       ref: "Conversation",
       required: true,

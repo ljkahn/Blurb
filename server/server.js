@@ -7,6 +7,10 @@ const { authMiddleware } = require("./utils/auth");
 const { typeDefs, resolvers } = require("./schemas");
 
 
+const socketIO = require('socket.io');
+
+
+
 const db = require("./config/connection");
 
 const PORT = process.env.PORT || 3001;
@@ -15,6 +19,26 @@ const server = new ApolloServer({
   typeDefs,
   resolvers,
 });
+
+
+const io = socketIO(server);
+io.on('connection', (socket) => {
+  console.log('User connected');
+
+  socket.on('message', (data) => {
+    // Handle the incoming message
+    console.log('Received message:', data);
+
+    // Broadcast the message to the intended recipient
+    io.to(data.conversationId).emit('message', data);
+  });
+
+  socket.on('disconnect', () => {
+    console.log('User disconnected');
+  });
+});
+
+
 
 const startApolloServer = async () => {
   await server.start();

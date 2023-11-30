@@ -104,25 +104,25 @@ export const PASSWORD_RESET = gql`
 `;
 
 export const RESET_PASSWORD = gql`
-  mutation Mutation($email: String!, $newPassword: String!) {
+  mutation resetPassword($email: String!, $newPassword: String!) {
     resetPassword(email: $email, newPassword: $newPassword)
   }
 `;
 
 export const SEND_MESSAGE = gql`
-mutation SendMessage($text: String!, $receiverId: ID!) {
-  sendMessage(text: $text, receiverId: $receiverId) {
-    id
-    text
-    sender {
+  mutation SendMessage($text: String!, $receiverId: ID!) {
+    sendMessage(text: $text, receiverId: $receiverId) {
       id
-      username
+      text
+      sender {
+        id
+        username
+      }
+      receiver {
+        id
+        username
+      }
+      timestamp
     }
-    receiver {
-      id
-      username
-    }
-    timestamp
   }
-}
 `;
