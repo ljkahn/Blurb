@@ -87,6 +87,7 @@ function Login({ isRegistered }) {
           <BlurbCard
             username={blurb.blurbAuthor.username}
             profilePic={blurb.blurbAuthor.profile.profilePic}
+            showButtons={false}
           >
             <TypeAnimation
               sequence={[blurb.blurbText, 500, " "]}

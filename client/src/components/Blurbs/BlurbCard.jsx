@@ -119,6 +119,7 @@ function BlurbStream({
   propRefetch,
   liked,
   likes,
+  showButtons = true,
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [commentText, setCommentText] = useState("");
@@ -283,25 +284,24 @@ function BlurbStream({
             </div>
           </div>
           <div id="profileIcons">
-            <div id="notifyIcons">
-              <IconButton onClick={openModal} className="likeComment">
-                <ChatBubbleOutlineIcon />
-              </IconButton>
-              <IconButton onClick={handleLike} className="likeComment">
-                {isLiked ? (
-                  <>
-                    <FavoriteIcon
-                      style={{color: "red",}}
-                    />
-                  </>
-                ) : (
-                  <>
-                    <FavoriteBorderIcon />
-                    
-                  </>
-                )}
-              </IconButton>
-            </div>
+            {showButtons && (
+              <div id="notifyIcons">
+                <IconButton onClick={openModal} className="likeComment">
+                  <ChatBubbleOutlineIcon />
+                </IconButton>
+                <IconButton onClick={handleLike} className="likeComment">
+                  {isLiked ? (
+                    <>
+                      <FavoriteIcon style={{ color: "red" }} />
+                    </>
+                  ) : (
+                    <>
+                      <FavoriteBorderIcon />
+                    </>
+                  )}
+                </IconButton>
+              </div>
+            )}
             <p className="likesCount">{likes}</p>
             <div>
               {showEdit && (
@@ -309,7 +309,7 @@ function BlurbStream({
                   onClick={() => openEditBlurbModal(initialBlurbText)}
                   className="editBlurb"
                 >
-                  <EditIcon style={{position: "absolute", top: "10px",}} />
+                  <EditIcon style={{ position: "absolute", top: "10px" }} />
                 </IconButton>
               )}
             </div>
