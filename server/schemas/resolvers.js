@@ -247,7 +247,9 @@ const resolvers = {
 
         const loggedInUserBlurbs = await Blurbs.find({
           blurbAuthor: context.user._id,
-        }).populate("blurbAuthor");
+        })
+          .populate("blurbAuthor")
+          .sort({ createdAt: -1 });
 
         return [...loggedInUserBlurbs, ...blurbs];
       } catch (error) {
@@ -268,11 +270,9 @@ const resolvers = {
         const user = await User.findById(userId).populate({
           path: "followers",
           populate: {
-            path: "profile"
-          }
-        
-        })
-        
+            path: "profile",
+          },
+        });
 
         console.log("Fetched User:", user);
 
@@ -322,44 +322,49 @@ const resolvers = {
     //   }
     // },
 
-getUserMessages: async (_, { userId }) => {
-  try {
-    // Find conversations where the user is either the sender or recipient
-    const conversations = await Message.find({
-      $or: [{ senderId: userId }, { recipientId: userId }],
-    }).distinct(('senderId', 'recipientId'));
+    getUserMessages: async (_, { userId }) => {
+      try {
+        // Find conversations where the user is either the sender or recipient
+        const conversations = await Message.find({
+          $or: [{ senderId: userId }, { recipientId: userId }],
+        }).distinct(("senderId", "recipientId"));
 
-    if (!conversations || conversations.length === 0) {
-      console.log("No conversations found for the user");
-      return [];
-    }
+        if (!conversations || conversations.length === 0) {
+          console.log("No conversations found for the user");
+          return [];
+        }
 
-    // Extract user IDs from conversations, excluding the current user
-    const otherUserIds = conversations.filter(id => id.toString() !== userId.toString());
+        // Extract user IDs from conversations, excluding the current user
+        const otherUserIds = conversations.filter(
+          (id) => id.toString() !== userId.toString()
+        );
 
-    // Fetch user information for the found IDs
-    const users = await User.find({ _id: { $in: otherUserIds } });
+        // Fetch user information for the found IDs
+        const users = await User.find({ _id: { $in: otherUserIds } });
 
-    console.log("Conversations:", conversations);
-    console.log("Other User IDs:", otherUserIds);
-    console.log("Users:", users);
+        console.log("Conversations:", conversations);
+        console.log("Other User IDs:", otherUserIds);
+        console.log("Users:", users);
 
-    return users;
-  } catch (error) {
-    console.error("Error in getUserMessages:", error);
-    throw error; // Make sure to rethrow the error after logging it
-  }
-},
+        return users;
+      } catch (error) {
+        console.error("Error in getUserMessages:", error);
+        throw error; // Make sure to rethrow the error after logging it
+      }
+    },
 
     getConversationMessages: async (_, { senderId, recipientId }, context) => {
       // Check if the user is authenticated
       if (!context.user) {
-        throw new AuthenticationError('User not authenticated');
+        throw new AuthenticationError("User not authenticated");
       }
 
       // Check if the user is part of the conversation
-      if (senderId.toString() !== context.user._id.toString() && recipientId.toString() !== context.user._id.toString()) {
-        throw new AuthenticationError('User is not part of the conversation');
+      if (
+        senderId.toString() !== context.user._id.toString() &&
+        recipientId.toString() !== context.user._id.toString()
+      ) {
+        throw new AuthenticationError("User is not part of the conversation");
       }
 
       // Fetch messages from the database based on senderId, recipientId, and the authenticated user's ID
@@ -372,7 +377,6 @@ getUserMessages: async (_, { userId }) => {
 
       return messages;
     },
-
   },
 
   Mutation: {
@@ -1102,7 +1106,7 @@ getUserMessages: async (_, { userId }) => {
     sendMessage: async (_, { senderId, recipientId, text }, context) => {
       // Check if the user is authenticated
       if (!context.user) {
-        throw new AuthenticationError('User not authenticated');
+        throw new AuthenticationError("User not authenticated");
       }
 
       // Create and save the message
@@ -1118,7 +1122,7 @@ getUserMessages: async (_, { userId }) => {
       // Return the created message
       return message;
     },
-    
+
     deleteNotification: async (_, { notificationId }, context) => {
       // Verify the user is logged in
       if (!context.user) {
@@ -1148,6 +1152,5 @@ getUserMessages: async (_, { userId }) => {
     },
   },
 };
-
 
 module.exports = resolvers;
