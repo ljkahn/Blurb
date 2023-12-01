@@ -119,6 +119,7 @@ function BlurbStream({
   propRefetch,
   liked,
   likes,
+  tags,
   showButtons = true,
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -260,8 +261,9 @@ function BlurbStream({
     }
   };
 
-  if (isDeleted) return null;
+  console.log(tags);
 
+  if (isDeleted) return null;
   return (
     <div id="bluMain">
       <ThemeProvider theme={customTheme(outerTheme)}>
@@ -281,6 +283,9 @@ function BlurbStream({
                 <div className="userName">{username}</div>
               </div>
               <div>{children}</div>
+              <div id="tags">
+              {tags}
+              </div>
             </div>
           </div>
           <div id="profileIcons">
@@ -367,7 +372,7 @@ function BlurbStream({
               Save Changes
             </Button>
             <Button
-              onClick={handleDeleteComment}
+              onClick={handleRemove}
               className="removeComment, deleteButton"
             >
               Delete Blurb

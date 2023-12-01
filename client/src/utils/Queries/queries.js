@@ -7,6 +7,7 @@ export const ALL_BLURBS = gql`
       blurbText
       likes
       likeList
+      tags
       blurbAuthor {
         username
         profile {
@@ -131,7 +132,6 @@ export const GET_FOLLOWERS = gql`
       followers {
         _id
         username
-        
       }
     }
   }

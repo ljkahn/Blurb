@@ -30,7 +30,7 @@ function Notify({
       console.error("Error removing blurb: ", err);
     },
   });
-  console.log(notificationId);
+
   const handleRemove = async () => {
     try {
       console.log("Deleting notification with ID:", notificationId);

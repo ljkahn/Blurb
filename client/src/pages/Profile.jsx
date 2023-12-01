@@ -2,13 +2,11 @@ import React, { useState, useEffect } from "react";
 import "../style/Profile.css";
 import "../index.css";
 import { useNavigate, useParams, Link } from "react-router-dom";
-
 import { useQuery, useMutation } from "@apollo/client";
 import { REMOVE_Blurb } from "../utils/mutations/Blurb/BlurbMutations.js";
 import { QUERY_MY_PROFILE } from "../utils/Queries/userQueries.js";
 import { GET_FOLLOWERS, GET_FOLLOWING } from "../utils/Queries/userQueries";
 import { ALL_BLURBS } from "../utils/Queries/queries.js";
-
 import { createTheme, ThemeProvider, useTheme } from "@mui/material/styles";
 import { outlinedInputClasses } from "@mui/material/OutlinedInput";
 import Button from "@mui/material/Button";
@@ -16,7 +14,6 @@ import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import IconButton from "@mui/material/IconButton";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-
 import Photo from "../components/Profile/ProfilePhoto.jsx";
 import Edit from "../components/Profile/Edit.jsx";
 import AccountEdit from "../components/Profile/AccountEdit.jsx";
@@ -251,7 +248,7 @@ function Profile({ registered }) {
     if (data && data.me) {
       setUserData(data.me);
     }
-  }, [data]);
+  }, [loading, data]);
 
   // console.log(userData);
 
@@ -363,4 +360,5 @@ function Profile({ registered }) {
     </div>
   );
 }
+
 export default Profile;

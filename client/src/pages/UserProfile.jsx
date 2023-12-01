@@ -6,7 +6,6 @@ import Grid from "@mui/material/Grid";
 import Photo from "../components/Profile/ProfilePhoto.jsx";
 import Button from "@mui/material/Button";
 import BlurbStream from "../components/Blurbs/BlurbCard.jsx";
-
 import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_ONE_USER } from "../utils/Queries/userQueries";
 import { GET_FOLLOWERS, GET_FOLLOWING } from "../utils/Queries/userQueries";
