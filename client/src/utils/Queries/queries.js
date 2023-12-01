@@ -7,6 +7,7 @@ export const ALL_BLURBS = gql`
       blurbText
       likes
       likeList
+      tags
       blurbAuthor {
         username
         profile {
@@ -131,8 +132,16 @@ export const GET_FOLLOWERS = gql`
       followers {
         _id
         username
-        
       }
     }
   }
 `;
+
+
+export const BLURBS_BY_TAG = gql`
+query BlurbsByTag($tags: [Tag]!) {
+  blurbsByTag(tags: $tags) {
+    tags
+  }
+}
+`
