@@ -53,8 +53,8 @@ function BlurbCom({ blurbId, comments, commentId, username, likes, liked }) {
       });
     } else {
       // If not liked, like the comment
-      console.log("comment id: ", commentId);
-      console.log("blurb id: ", blurbId);
+      // console.log("comment id: ", commentId);
+      // console.log("blurb id: ", blurbId);
       likeComment({
         variables: { commentId, blurbId },
         refetchQueries: [{ query: ALL_BLURBS }],
@@ -72,6 +72,8 @@ function BlurbCom({ blurbId, comments, commentId, username, likes, liked }) {
       console.error("Error deleting comment:", error.message);
     }
   };
+
+  console.log(data);
 
   return (
     <div id="bluMain">

@@ -26,7 +26,7 @@ function Likes() {
     return <div>Error loading data!</div>;
   }
 
-  console.log("likes page", notifyData);
+  // console.log("likes page", notifyData);
 
   return (
     <div>

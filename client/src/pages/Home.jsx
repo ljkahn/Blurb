@@ -67,7 +67,7 @@ function Home() {
   //   refetch();
   // }, [data]);
 
-  console.log(globalBlurbs);
+  // console.log(globalBlurbs);
 
   return (
     <div>

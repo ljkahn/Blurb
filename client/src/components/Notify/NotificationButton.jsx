@@ -21,7 +21,7 @@ const NotificationButton = () => {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
 
-  console.log("Notify Button", data.notify.notifications);
+  // console.log("Notify Button", data.notify.notifications);
 
   // const notificationsCount = data.me?.notifications?.length || 0;
   const notificationsCount = data.notify?.notifications?.length || 0;

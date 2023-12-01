@@ -135,7 +135,7 @@ const resolvers = {
         const currentUser = await User.findOne({
           _id: context.user._id,
         }).populate("blurbs");
-        console.log(currentUser);
+        // console.log(currentUser);
         return currentUser;
       }
       throw AuthenticationError;

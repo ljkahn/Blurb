@@ -30,7 +30,9 @@ function Global() {
   if (error) {
     return <div>Error loading data!</div>
   }
-console.log(blurbs);
+
+// console.log(blurbs);
+
   return (
     <div>
 {isLoading ? (

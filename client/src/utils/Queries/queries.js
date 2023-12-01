@@ -22,6 +22,9 @@ export const ALL_BLURBS = gql`
         commentText
         commentAuthor {
           username
+          profile {
+            profilePic
+          }
         }
       }
     }
