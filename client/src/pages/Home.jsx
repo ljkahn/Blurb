@@ -112,7 +112,7 @@ function Home() {
               liked={blurb.likeList.includes(auth.getProfile().data._id)}
               likes={blurb.likes}
               tags={blurb.tags.map((tag, tagIndex) => (
-                <div className="tag" id={tagIndex}>#{tag}</div>
+                <div key={tagIndex} className="tags">#{tag}</div>
               ))}
             >
               {blurb.blurbText}

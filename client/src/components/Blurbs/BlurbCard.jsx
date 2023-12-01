@@ -120,6 +120,7 @@ function BlurbStream({
   liked,
   likes,
   tags,
+  tagIndex,
   showButtons = true,
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -283,7 +284,7 @@ function BlurbStream({
                 <div className="userName">{username}</div>
               </div>
               <div>{children}</div>
-              <div className="tags">
+              <div className="tags" key={tagIndex}>
               {tags}
               </div>
             </div>

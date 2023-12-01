@@ -327,7 +327,7 @@ function Profile({ registered }) {
                       {blurb.blurbText}
                       <div id={blurbIndex} className="tags">
                         {blurb.tags.map((tags, tagIndex) => (
-                          <div id={tagIndex} className="tag">#{tags}</div>
+                          <div key={tagIndex} className="tag">#{tags}</div>
                         ))}
                       </div>
                     </BlurbStream>
