@@ -16,14 +16,7 @@ import { ALL_BLURBS } from "../../utils/Queries/queries";
 import { QUERY_MY_PROFILE } from "../../utils/Queries/userQueries";
 // import { REMOVE_COMMENT } from "../../utils/mutations/Likes/CommentMutations";
 
-function BlurbCom({
-  blurbId,
-  comments,
-  commentId,
-  username,
-  likes,
-  liked
-}) {
+function BlurbCom({ blurbId, comments, commentId, username, likes, liked }) {
   const [isLiked, setIsLiked] = useState(liked ? liked : false);
   const { loading: userLoading, data: userData } = useQuery(QUERY_MY_PROFILE);
   const currentUserUsername = userData?.me?.username;
@@ -95,7 +88,9 @@ function BlurbCom({
           <div>
             {currentUserUsername === username && (
               <IconButton onClick={handleRemove} className="removeComment">
-                <DeleteIcon style={{ position: "absolute", right: "10", top: "-10px" }} />
+                <DeleteIcon
+                  style={{ position: "absolute", right: "10", top: "-10px" }}
+                />
               </IconButton>
             )}
             <IconButton onClick={handleCommentLike} className="likeComment">
@@ -126,6 +121,7 @@ function BlurbCom({
                     style={{
                       position: "absolute",
                       right: "-10px",
+                      top: "-10px",
                       marginRight: "10px",
                     }}
                   />
