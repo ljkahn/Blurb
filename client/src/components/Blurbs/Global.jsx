@@ -55,8 +55,8 @@ console.log(blurbs);
               profilePic={blurb.blurbAuthor?.profile?.profilePic || ''}
               liked={blurb.likeList.includes(auth.getProfile().data._id)}
               likes={blurb.likes}
-              tags={blurb.tags.map((tags) => (
-                <div id="tag">#{tags}</div>
+              tags={blurb.tags.map((tag, tagIndex) => (
+                <div id={tagIndex}>#{tag}</div>
                 ))}
             >
               {blurb.blurbText}
@@ -77,8 +77,6 @@ console.log(blurbs);
         ))
       )}
     </div>
-
-
     
   )
 }

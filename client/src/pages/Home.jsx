@@ -101,18 +101,18 @@ function Home() {
           visible={true}
         />
       ) : currentComponent === "followed" ? (
-        followedUsersBlurbs.map((blurb) => (
+        followedUsersBlurbs.map((blurb, blurbIndex) => (
           <div key={blurb._id}>
             <BlurbCard
               propRefetch={refetch}
-              // key={i}
+              key={blurb._id}
               blurbId={blurb._id}
               username={blurb.blurbAuthor.username}
               profilePic={blurb.blurbAuthor?.profile?.profilePic || ""}
               liked={blurb.likeList.includes(auth.getProfile().data._id)}
               likes={blurb.likes}
-              tags={blurb.tags.map((tags) => (
-                <div id="tag">#{tags}</div>
+              tags={blurb.tags.map((tag, tagIndex) => (
+                <div className="tag" id={tagIndex}>#{tag}</div>
               ))}
             >
               {blurb.blurbText}

@@ -261,7 +261,7 @@ function BlurbStream({
   //   }
   // };
 
-  console.log(tags);
+  // console.log(tags);
 
   if (isDeleted) return null;
   return (
@@ -283,7 +283,7 @@ function BlurbStream({
                 <div className="userName">{username}</div>
               </div>
               <div>{children}</div>
-              <div id="tags">
+              <div className="tags">
               {tags}
               </div>
             </div>

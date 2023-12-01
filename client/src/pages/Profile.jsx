@@ -153,7 +153,6 @@ function Profile({ registered }) {
       return [];
     }
   };
-  
   //Gain data for loggedIn user's followers
   const fetchFollowingData = async (userId) => {
     try {
@@ -167,7 +166,6 @@ function Profile({ registered }) {
       return [];
     }
   };
-
   //Show page of loggedIn user's followers
   const showFollowers = () => {
     // Instead of using async/await here, you can directly set the state
@@ -310,8 +308,8 @@ function Profile({ registered }) {
                 Edit Profile{" "}
               </Button>
               {userData.blurbs &&
-                userData.blurbs.map((blurb) => (
-                  <div key={blurb._id}>
+                userData.blurbs.map((blurb, blurbIndex) => (
+                  <div key={blurbIndex}>
                     <BlurbStream
                       key={blurb._id}
                       // propRefetch={refetch}
@@ -327,9 +325,9 @@ function Profile({ registered }) {
                       // isLiked={refetch}
                     >
                       {blurb.blurbText}
-                      <div id="tags">
-                        {blurb.tags.map((tags) => (
-                          <div id="tag">#{tags}</div>
+                      <div id={blurbIndex} className="tags">
+                        {blurb.tags.map((tags, tagIndex) => (
+                          <div id={tagIndex} className="tag">#{tags}</div>
                         ))}
                       </div>
                     </BlurbStream>

@@ -508,17 +508,20 @@ getUserMessages: async (_, { userId }) => {
               // console.log(blurb);
 
               const blurbAuthor = await User.findById(blurb.blurbAuthor);
-              // console.log(blurbAuthor);
 
-              if (blurbAuthor) {
-                await blurbAuthor.sendNotification({
-                  recipient: blurbAuthor,
-                  type: "commented on your Blurb!",
-                  sender: context.user,
-                  blurbId: blurbId,
-                });
+              // Prevent notification when user comments on their own blurb
+              if (blurbAuthor._id.toString() !== context.user._id) {
+
+                if (blurbAuthor) {
+                  await blurbAuthor.sendNotification({
+                    recipient: blurbAuthor,
+                    type: "commented on your Blurb!",
+                    sender: context.user,
+                    blurbId: blurbId,
+                  });
+                }
               }
-
+                
               // If the new comment is found, return a success message.
               return "Successfully created Comment!";
             }
@@ -824,7 +827,7 @@ getUserMessages: async (_, { userId }) => {
       }
 
       try {
-        //find blurb if it exists
+        // Find blurb if it exists
         const blurb = await Blurbs.findById(blurbId);
         if (!blurb) {
           throw new Error("Blurb not found");
@@ -841,17 +844,18 @@ getUserMessages: async (_, { userId }) => {
         if (!comment.likeList.includes(context.user._id)) {
           comment.likeList.push(context.user._id);
 
-          // Add comment notification but blurbId is going to have the value of commentId
-          // Haven't had a chance to look through this yet but I can fix typedef and model to
-          // make sure that they are correctly labeled as commentId
-          // "liked comment" does show up with correct sender, receiver, and commentId though
-          if (commentUser) {
-            await commentUser.sendNotification({
-              recipient: commentUser,
-              type: "liked your comment!",
-              sender: context.user,
-              blurbId: commentId,
-            });
+          // Prevent users from sending notifications to themselves
+          if (comment.commentAuthor.toString() !== context.user._id) {
+
+            // Add comment notification but blurbId is going to have the value of commentId
+            if (commentUser) {
+              await commentUser.sendNotification({
+                recipient: commentUser,
+                type: "liked your comment!",
+                sender: context.user,
+                blurbId: commentId,
+              });
+            }
           }
 
           await blurb.save();
@@ -921,7 +925,7 @@ getUserMessages: async (_, { userId }) => {
 
       if (comment.likeList.includes(context.user._id)) {
         // Remove the user's ID from the likeList
-        // comment.likeList = comment.likeList.filter(id => id !== context.user._id);
+
         comment.likeList.pull(context.user._id);
 
         // Save the updated blurb
