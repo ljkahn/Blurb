@@ -251,7 +251,10 @@ const resolvers = {
           .populate("blurbAuthor")
           .sort({ createdAt: -1 });
 
-        return [...loggedInUserBlurbs, ...blurbs];
+        return [
+          // ...loggedInUserBlurbs,
+          ...blurbs,
+        ];
       } catch (error) {
         console.error(error);
         throw new Error("An error occurred while retrieving blurbs");

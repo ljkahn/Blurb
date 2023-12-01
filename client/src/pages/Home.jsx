@@ -45,7 +45,7 @@ function Home() {
       newBlurbs.sort((a, b) => {
         const dateA = new Date(a.createdAt);
         const dateB = new Date(b.createdAt);
-        return dateA - dateB;
+        return dateB - dateA;
       });
       setBlurbs([...data.followedUsersBlurbs]);
       setLoading(false);
