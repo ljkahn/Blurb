@@ -25,7 +25,9 @@ function Likes() {
   if (error) {
     return <div>Error loading data!</div>;
   }
+
   console.log("likes page", notifyData);
+
   return (
     <div>
       {isLoading ? (

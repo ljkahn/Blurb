@@ -125,7 +125,7 @@ function BlurbCom({
                   <FavoriteBorderIcon
                     style={{
                       position: "absolute",
-                      right: "-10px",
+                      top: "-10px",
                       marginRight: "10px",
                     }}
                   />

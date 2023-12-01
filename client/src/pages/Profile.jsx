@@ -153,6 +153,7 @@ function Profile({ registered }) {
       return [];
     }
   };
+  
   //Gain data for loggedIn user's followers
   const fetchFollowingData = async (userId) => {
     try {
@@ -166,6 +167,7 @@ function Profile({ registered }) {
       return [];
     }
   };
+
   //Show page of loggedIn user's followers
   const showFollowers = () => {
     // Instead of using async/await here, you can directly set the state

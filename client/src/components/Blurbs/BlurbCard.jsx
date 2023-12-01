@@ -248,17 +248,17 @@ function BlurbStream({
     }
   }, [profilePic]);
 
-  const [removeComment] = useMutation(REMOVE_COMMENT);
+  // const [removeComment] = useMutation(REMOVE_COMMENT);
 
-  const handleDeleteComment = async (commentId) => {
-    try {
-      await removeComment({
-        variables: { commentId },
-      });
-    } catch (error) {
-      console.error("Error removing comment:", error);
-    }
-  };
+  // const handleDeleteComment = async (commentId) => {
+  //   try {
+  //     await removeComment({
+  //       variables: { commentId },
+  //     });
+  //   } catch (error) {
+  //     console.error("Error removing comment:", error);
+  //   }
+  // };
 
   if (isDeleted) return null;
 

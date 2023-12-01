@@ -860,7 +860,7 @@ getUserMessages: async (_, { userId }) => {
         return "You have liked the comment!";
       } catch (error) {
         console.error("Error in addCommentLike mutation: ", error);
-        throw new Error("Error while liking the comment");
+        throw new Error("Error occurred while attempting to like the comment");
       }
     },
 
@@ -951,15 +951,17 @@ getUserMessages: async (_, { userId }) => {
           throw new Error("You cannot follow yourself");
         }
 
+        console.log(userIdToFollow);
+        
         await User.findByIdAndUpdate(
-          context.user._id,
-          { $addToSet: { following: userIdToFollow } },
+          userIdToFollow,
+          { $addToSet: { followers: context.user._id } },
           { new: true }
         );
 
         await User.findByIdAndUpdate(
-          userIdToFollow,
-          { $addToSet: { followers: context.user._id } },
+          context.user._id,
+          { $addToSet: { following: userIdToFollow } },
           { new: true }
         );
 

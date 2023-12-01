@@ -89,7 +89,7 @@ function Followers(onClose) {
           ))
           
           ) : (
-            <p>No followers yet, you can change that! 😃</p>
+            <p>No followers yet... You can change that! 😃</p>
             )}
             
       </div>
