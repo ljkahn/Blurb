@@ -136,3 +136,12 @@ export const GET_FOLLOWERS = gql`
     }
   }
 `;
+
+
+export const BLURBS_BY_TAG = gql`
+query BlurbsByTag($tags: [Tag]!) {
+  blurbsByTag(tags: $tags) {
+    tags
+  }
+}
+`
