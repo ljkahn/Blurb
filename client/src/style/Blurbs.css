@@ -21,7 +21,7 @@
   width: 350px;
   justify-content: space-between;
   background-color: #757575;
-  /* box-shadow: 2px 2px 8px black; */
+  box-shadow: 2px 2px 8px black;
   border-radius: 20px;
 }
 
