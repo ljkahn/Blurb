@@ -21,7 +21,7 @@ function Header({ registered, isRegistered }) {
   const navigation = useNavigate();
 
   const handleLogout = () => {
-    isRegistered(false);
+    // isRegistered(false);
     Auth.logout(navigation);
   };
 

@@ -1,6 +1,7 @@
 import Notify from "../components/Notify/Notify";
 import Nav from "../components/NavBar.jsx";
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { ThreeDots } from "react-loader-spinner";
 import { useQuery } from "@apollo/client";
 import { ALL_BLURBS } from "../utils/Queries/queries.js";
@@ -13,6 +14,15 @@ function Likes() {
   const [notifyData, setNotifyData] = useState([]);
 
   // console.log("Yooo Yoo", data.notify.notifications);
+
+  const navigate = useNavigate();
+
+  // Navigate to login page after token expires
+  useEffect(() => {
+    if (!auth.loggedIn(navigate)) {
+      navigate('/login');
+    }
+  }, [navigate]);
 
   useEffect(() => {
     if (!loading && data) {

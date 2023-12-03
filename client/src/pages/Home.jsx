@@ -1,5 +1,6 @@
 import Nav from "../components/NavBar.jsx";
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { ThreeDots } from "react-loader-spinner";
 import Fire from "../components/Blurbs/FireCard";
 import BlurbCard from "../components/Blurbs/BlurbCard.jsx";
@@ -23,6 +24,15 @@ function Home() {
   const [globalBlurbs, setGlobalBlurbs] = useState(false);
   const [followedBlurbs, setFollowedBlurbs] = useState(true);
   const [currentComponent, setCurrentComponent] = useState("global");
+
+  const navigate = useNavigate();
+
+  // Navigate to login page after token expires
+  useEffect(() => {
+    if (!auth.loggedIn(navigate)) {
+      navigate('/login');
+    }
+  }, [navigate]);
 
   const handleGlobalToggle = () => {
     setGlobalBlurbs(true);

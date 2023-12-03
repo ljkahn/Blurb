@@ -140,6 +140,13 @@ function Profile({ registered }) {
   //   }
   // }, [isLoading]);
 
+  // Navigate to login page after token expires
+  useEffect(() => {
+    if (!auth.loggedIn(navigate)) {
+      navigate('/login');
+    }
+  }, [navigate]);
+
   //Gain data for loggedIn user's following
   const fetchFollowersData = async (userId) => {
     try {
