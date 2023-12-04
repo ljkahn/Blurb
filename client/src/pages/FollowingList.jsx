@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import {Link } from 'react-router-dom';
 import FollowingListCom from "../components/Follow/FollowingListCom";
 import { useQuery } from "@apollo/client";
 import { GET_FOLLOWING } from "../utils/Queries/userQueries";
@@ -68,6 +69,7 @@ function FollowingList() {
             </div>
             </CardContent>
             <div className="imgContain">
+              <Link to= {`/profile/${following.username}`}>
             <Avatar
             id="notifyPP"
             className="Blfriend"
@@ -79,6 +81,7 @@ function FollowingList() {
             }
             sx={{ width: 80, height: 80 }}
             />
+            </Link>
             </div>
             </Card>
           ))
