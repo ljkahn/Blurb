@@ -139,12 +139,12 @@ function FireCard({
               <WhatshotIcon />
             )}
           </IconButton>
-        <p
+        {/* <p
                   className="likesCount"
-                  style={{ position: "absolute", top: "0px" }}
+                  style={{ position: "absolute", top: "0px", left: "35px"  }}
                 >
                   {likes}
-                </p>
+                </p> */}
         </div>
       </div>
       <Modal
