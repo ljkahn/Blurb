@@ -64,7 +64,7 @@ function Likes() {
           </div>
         ))
       ) : (
-        <p style={{textAlign: "center"}}>You don't have any notifications yet, but we think your blurbs are great!</p>
+        <p style={{textAlign: "center"}}>You don't have any notifications yet, but we think you're doing great!</p>
       )}
     </div>
   );

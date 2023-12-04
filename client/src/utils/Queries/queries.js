@@ -31,6 +31,37 @@ export const ALL_BLURBS = gql`
   }
 `;
 
+export const USER_BLURBS = gql`
+  query userBlurbs {
+    blurbs {
+      _id
+      blurbText
+      likes
+      likeList
+      tags
+      blurbAuthor {
+        username
+        profile {
+          profilePic
+        }
+      }
+      createdAt
+      comments {
+        _id
+        likes
+        likeList
+        commentText
+        commentAuthor {
+          username
+          profile {
+            profilePic
+          }
+        }
+      }
+    }
+  }
+`;
+
 export const RANDOM_BLURB = gql`
   query randomBlurb {
     randomBlurb {
