@@ -87,6 +87,7 @@ export const QUERY_ONE_USER = gql`
         likeList
         blurbText
         _id
+        tags
         blurbAuthor{
           username
         }

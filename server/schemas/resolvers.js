@@ -43,7 +43,8 @@ const resolvers = {
                 path: 'commentAuthor',
                 model: 'User'
               }
-            }
+            },
+            { path: 'tags' }
           ]
         })
         .populate('notifications')
@@ -52,7 +53,7 @@ const resolvers = {
           populate: {
             path: 'sender recipient',
           },
-        });
+        })
       } catch (error) {
         console.error(error);
         throw new Error("Failed to find user");

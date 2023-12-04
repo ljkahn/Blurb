@@ -26,7 +26,6 @@ function UserProfile() {
     variables: { username: username },
     fetchPolicy: "cache-and-network",
   });
-  const { isLoading, blurbData } = useQuery(USER_BLURBS);
 
   const [followUser] = useMutation(FOLLOW_USER, {
       refetchQueries: [QUERY_MY_PROFILE],
@@ -134,28 +133,6 @@ function UserProfile() {
         console.error("Failed to unfollow user:", error);
       });
   };
-
-  console.log(blurbData);
-
-  useEffect(() => {
-    if (!isLoading && blurbData) {
-      const allBlurbs = [...blurbData.blurbs,];
-      const newBlurbs = allBlurbs.slice(); // Create a shallow copy to avoid mutating the original array
-      newBlurbs.sort((a, b) => {
-        const dateA = new Date(a.createdAt);
-        const dateB = new Date(b.createdAt);
-        return dateA - dateB;
-      });
-      setBlurbs([...blurbData.blurbs]);
-      // setLoading(false);
-      // refetch();
-    }
-  }, [isLoading, blurbData]);
-
-  if (error) {
-    return <div>Error loading data!</div>
-  }
-
 
   // const showFollowers = () => {
   //   // Instead of using async/await here, you can directly set the state
