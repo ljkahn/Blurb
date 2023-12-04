@@ -55,24 +55,39 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-const isLoggedIn = () => {
-  return !!localStorage.getItem("id_token");
+const useAuthStatus = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(Auth.getToken() ? true : false);
+
+  useEffect(() => {
+    const checkAuthStatus = () => {
+      setIsAuthenticated(Auth.getToken() ? true : false);
+    };
+
+    // Set an interval to check the auth status regularly
+    const interval = setInterval(checkAuthStatus, 1000);
+
+    // Cleanup interval on component unmount
+    return () => clearInterval(interval);
+  }, []);
+
+  return isAuthenticated;
 };
 
 function App() {
-  const [registered, isRegistered] = useState(Auth.getToken() ? true : false);
+  const registered = useAuthStatus();
 
   return (
     <ApolloProvider client={client}>
       <Router>
-        <Header registered={registered} isRegistered={isRegistered} />
+        <Header registered={registered} />
         <Routes>
           {registered ? (
             <Route path="/" element={<Navigate to="/home" />} />
           ) : (
-            <Route path="/" element={<Login isRegistered={isRegistered} />} />
+            <Route path="*" element={<Login />} />
           )}
           <Route path="/home" element={<Home />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/flame" element={<Flame />} />
           <Route
             path="/profile"

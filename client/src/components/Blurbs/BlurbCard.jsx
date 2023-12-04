@@ -120,6 +120,7 @@ function BlurbStream({
   liked,
   likes,
   tags,
+  tagIndex,
   showButtons = true,
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -249,19 +250,19 @@ function BlurbStream({
     }
   }, [profilePic]);
 
-  const [removeComment] = useMutation(REMOVE_COMMENT);
+  // const [removeComment] = useMutation(REMOVE_COMMENT);
 
-  const handleDeleteComment = async (commentId) => {
-    try {
-      await removeComment({
-        variables: { commentId },
-      });
-    } catch (error) {
-      console.error("Error removing comment:", error);
-    }
-  };
+  // const handleDeleteComment = async (commentId) => {
+  //   try {
+  //     await removeComment({
+  //       variables: { commentId },
+  //     });
+  //   } catch (error) {
+  //     console.error("Error removing comment:", error);
+  //   }
+  // };
 
-  console.log(tags);
+  // console.log(tags);
 
   if (isDeleted) return null;
   return (
@@ -283,7 +284,7 @@ function BlurbStream({
                 <div className="userName">{username}</div>
               </div>
               <div>{children}</div>
-              <div id="tags">
+              <div className="tags" key={tagIndex}>
               {tags}
               </div>
             </div>

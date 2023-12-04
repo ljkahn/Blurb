@@ -1,6 +1,7 @@
 import Notify from "../components/Notify/Notify";
 import Nav from "../components/NavBar.jsx";
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { ThreeDots } from "react-loader-spinner";
 import { useQuery } from "@apollo/client";
 import { ALL_BLURBS } from "../utils/Queries/queries.js";
@@ -14,6 +15,15 @@ function Likes() {
 
   // console.log("Yooo Yoo", data.notify.notifications);
 
+  const navigate = useNavigate();
+
+  // Navigate to login page after token expires
+  useEffect(() => {
+    if (!auth.loggedIn(navigate)) {
+      navigate('/login');
+    }
+  }, [navigate]);
+
   useEffect(() => {
     if (!loading && data) {
       setNotifyData([...data.notify.notifications]);
@@ -25,7 +35,9 @@ function Likes() {
   if (error) {
     return <div>Error loading data!</div>;
   }
+
   console.log("likes page", notifyData);
+
   return (
     <div>
       {isLoading ? (
@@ -39,7 +51,7 @@ function Likes() {
           wrapperClassName=""
           visible={true}
         />
-      ) : (
+      ) : notifyData.length ? (
         notifyData.map((data) => (
           <div key={data._id}>
             <Notify
@@ -51,6 +63,8 @@ function Likes() {
             ></Notify>
           </div>
         ))
+      ) : (
+        <p style={{textAlign: "center"}}>You don't have any notifications yet, but we think your blurbs are great!</p>
       )}
     </div>
   );

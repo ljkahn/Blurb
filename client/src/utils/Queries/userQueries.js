@@ -144,7 +144,6 @@ query GetFollowers($userId: ID!) {
       fullName
       profilePic
     }
-
   }
 }
 `;

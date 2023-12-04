@@ -30,7 +30,9 @@ function Global() {
   if (error) {
     return <div>Error loading data!</div>
   }
-console.log(blurbs);
+
+// console.log(blurbs);
+
   return (
     <div>
 {isLoading ? (
@@ -55,8 +57,8 @@ console.log(blurbs);
               profilePic={blurb.blurbAuthor?.profile?.profilePic || ''}
               liked={blurb.likeList.includes(auth.getProfile().data._id)}
               likes={blurb.likes}
-              tags={blurb.tags.map((tags) => (
-                <div id="tag">#{tags}</div>
+              tags={blurb.tags.map((tag, tagIndex) => (
+                <div className="tag" key={tagIndex}>#{tag}</div>
                 ))}
             >
               {blurb.blurbText}
@@ -77,8 +79,6 @@ console.log(blurbs);
         ))
       )}
     </div>
-
-
     
   )
 }

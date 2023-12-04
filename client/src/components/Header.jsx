@@ -1,5 +1,3 @@
-
-
 import React, { useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import "../style/Header.css";
@@ -21,7 +19,6 @@ function Header({ registered, isRegistered }) {
   const navigation = useNavigate();
 
   const handleLogout = () => {
-    isRegistered(false);
     Auth.logout(navigation);
   };
 
@@ -52,6 +49,7 @@ function Header({ registered, isRegistered }) {
           {isSearchBarVisible && <SearchBar />}
         </div>
         <div id="messageLog">
+        <Tooltip title="Check out our direct messaging platform to have one-on-one conversations! 🛝">
           <Link to="/messages/:username">
             <IconButton>
               <Badge
@@ -73,6 +71,7 @@ function Header({ registered, isRegistered }) {
               </Badge>
             </IconButton>
           </Link>
+          </Tooltip>
           {registered && (
             <Button id="logout" onClick={handleLogout} variant="contained">
               Logout
