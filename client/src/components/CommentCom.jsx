@@ -26,13 +26,13 @@ function CommentCom() {
         blurbId={blurb._id}
         username={blurb.blurbAuthor.username}
         comments={blurb.comments}
-        isLiked={blurb.isLiked} // Pass isLiked if you have this information
+        isLiked={blurb.isLiked}
       />
       <BlurbCom
         blurbId={blurb._id}
         username={blurb.blurbAuthor.username}
         comments={blurb.comments}
-        isLiked={comment.isLiked} // Pass isLiked if you have this information
+        isLiked={comment.isLiked}
       />
     </div>
   );
