@@ -120,21 +120,21 @@ function UserProfile() {
       });
   };
 
-  const showFollowers = () => {
-    // Instead of using async/await here, you can directly set the state
-    fetchFollowersData(userData._id).then((followersData) => {
-      setFollowers(followersData);
-      setCurrentComponent("followers");
-    });
-  };
+  // const showFollowers = () => {
+  //   // Instead of using async/await here, you can directly set the state
+  //   fetchFollowersData(userData._id).then((followersData) => {
+  //     setFollowers(followersData);
+  //     setCurrentComponent("followers");
+  //   });
+  // };
 
-  const showFollowing = () => {
-    // Instead of using async/await here, you can directly set the state
-    fetchFollowingData(userData._id).then((followingData) => {
-      setFollowers(followingData);
-      setCurrentComponent("following");
-    });
-  };
+  // const showFollowing = () => {
+  //   // Instead of using async/await here, you can directly set the state
+  //   fetchFollowingData(userData._id).then((followingData) => {
+  //     setFollowers(followingData);
+  //     setCurrentComponent("following");
+  //   });
+  // };
 
   return (
     <div>
