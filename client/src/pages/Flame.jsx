@@ -30,7 +30,7 @@ function Flame(liked, likes, registered) {
   useEffect(() => {
     if (!loading) {
       const allBlurbs = [...data.blurbs];
-      console.log(allBlurbs);
+      // console.log(allBlurbs);
       // Filter Blurbs with more than 10 likes
       const popularBlurbs = allBlurbs.filter(
         (blurb) => blurb.likeList.length >= 3
@@ -56,7 +56,7 @@ function Flame(liked, likes, registered) {
     }
   }, [loading, registered]);
 
-  console.log(blurbs);
+  // console.log(blurbs);
 
   return (
     <div>

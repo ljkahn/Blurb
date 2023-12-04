@@ -12,7 +12,7 @@ import "../style/Profile.css"
 
 function Followers(onClose) {
   const { userID } = useParams();
-  console.log("User ID:", userID);
+  // console.log("User ID:", userID);
   const [followers, setFollowers] = useState([]);
   const [profilePic, setProfilePic] = useState("");
   const sample = "cld-sample-5";
@@ -42,7 +42,7 @@ function Followers(onClose) {
 
   useEffect(() => {
     if (data && data.userFollowers) {
-      console.log("Data:", data.userFollowers);
+      // console.log("Data:", data.userFollowers);
       setFollowers(data.userFollowers);
     }
   }, [data]);
@@ -56,7 +56,7 @@ function Followers(onClose) {
     console.error("Error fetching followers data:", error);
     return <p>Error fetching followers data</p>;
   }
-  console.log(followers);
+  // console.log(followers);
 
 
 
