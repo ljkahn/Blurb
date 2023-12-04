@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import {Link} from 'react-router-dom';
 import { useQuery } from "@apollo/client";
 import { useParams } from "react-router-dom";
 import { GET_FOLLOWERS } from "../utils/Queries/userQueries";
@@ -73,6 +74,7 @@ function Followers(onClose) {
             </div>
             </CardContent>
             <div className="imgContain">
+              <Link to={`/profile/${follower.username}`}>
             <Avatar
             id="notifyPP"
             className="Blfriend"
@@ -84,6 +86,7 @@ function Followers(onClose) {
             }
             sx={{ width: 80, height: 80 }}
             />
+            </Link>
             </div>
             </Card>
           ))

@@ -62,14 +62,14 @@ function Flame(liked, likes, registered) {
     <div>
       <div id="flameContain">
         <Tooltip
-          title="A blurb with a orange flame has 10 or more likes. The flame icon can be clicked to like the Blurb."
+          title="A blurb with a orange flame has 3 or more likes. The flame icon can be clicked to like the Blurb."
           enterTouchDelay={0}
           leaveTouchDelay={2000}
         >
           <WhatshotIcon id="redFlame" />
         </Tooltip>
         <Tooltip
-          title="A blurb with a blue flame has 20 or more likes. The flame icon can be clicked on to like the Blurb."
+          title="A blurb with a blue flame has 4 or more likes. The flame icon can be clicked on to like the Blurb."
           enterTouchDelay={0}
           leaveTouchDelay={2000}
         >
