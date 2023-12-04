@@ -87,10 +87,13 @@ export const QUERY_ONE_USER = gql`
         likeList
         blurbText
         comments {
-          _id
-          commentText
           likes
           likeList
+          _id
+          commentText
+          commentAuthor {
+            username
+          }
         }
       }
     }

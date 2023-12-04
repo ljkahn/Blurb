@@ -79,7 +79,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-
 }
 
 #followingContain {
@@ -92,6 +91,7 @@ min-height: 20px;
 width: 350px;
 padding: 2px 2px;
 margin: 5px;
+box-shadow: 3px 3px 8px black !important;
 background-color: #757575 !important;
 display: flex;
 justify-content: space-between;

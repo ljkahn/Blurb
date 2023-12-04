@@ -976,9 +976,11 @@ const resolvers = {
           { new: true }
         );
 
-        await userIdToFollow.sendNotification({
+        await userToFollow.sendNotification({
           recipient: userToFollow,
           type: "followed you!",
+          sender: context.user,
+          // blurbId: commentId,
         });
 
         return "User followed successfully!";
