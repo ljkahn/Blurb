@@ -73,7 +73,7 @@ function BlurbCom({ blurbId, comments, commentId, username, likes, liked }) {
     }
   };
 
-  console.log(data);
+  // console.log(data);
 
   return (
     <div id="bluMain">

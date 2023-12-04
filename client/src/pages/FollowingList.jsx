@@ -11,7 +11,7 @@ import "../style/Profile.css"
 
 function FollowingList() {
   const { userID } = useParams();
-  console.log("User ID:", userID);
+  // console.log("User ID:", userID);
   const [following, setFollowing] = useState([]);
   const [profilePic, setProfilePic] = useState("");
   const sample = "cld-sample-5";
@@ -40,7 +40,7 @@ function FollowingList() {
 
   useEffect(() => {
     if (data && data.userFollowing) {
-      console.log("Data:", data.userFollowing);
+      // console.log("Data:", data.userFollowing);
       setFollowing(data.userFollowing);
     }
   }, [data]);
