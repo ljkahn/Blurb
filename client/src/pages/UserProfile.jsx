@@ -7,7 +7,7 @@ import Photo from "../components/Profile/ProfilePhoto.jsx";
 import Button from "@mui/material/Button";
 import BlurbStream from "../components/Blurbs/BlurbCard.jsx";
 import { useQuery, useMutation } from "@apollo/client";
-import { QUERY_ONE_USER } from "../utils/Queries/userQueries";
+import { QUERY_MY_PROFILE, QUERY_ONE_USER } from "../utils/Queries/userQueries";
 import { GET_FOLLOWERS, GET_FOLLOWING } from "../utils/Queries/userQueries";
 import { FOLLOW_USER, UNFOLLOW_USER } from "../utils/mutations/userMutations";
 import { useParams, Link, useNavigate } from "react-router-dom"; // Import useNavigate
@@ -22,9 +22,12 @@ function UserProfile() {
   const { data, loading, error, refetch } = useQuery(QUERY_ONE_USER, {
     variables: { username: username },
   });
-  const [followUser, { loading: followLoading, error: followError }] =
-    useMutation(FOLLOW_USER);
-  const [unfollowUser] = useMutation(UNFOLLOW_USER);
+  const [followUser] = useMutation(FOLLOW_USER, {
+      refetchQueries: [QUERY_MY_PROFILE]
+    });
+  const [unfollowUser] = useMutation(UNFOLLOW_USER, {
+    refetchQueries: [QUERY_MY_PROFILE]
+  });
   const navigate = useNavigate();
   const [followers, setFollowers] = useState([]);
   const [followingList, setFollowingList] = useState([]);

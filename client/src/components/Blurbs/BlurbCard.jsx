@@ -119,6 +119,8 @@ function BlurbStream({
   propRefetch,
   liked,
   likes,
+  tags,
+  tagIndex,
   showButtons = true,
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -248,20 +250,21 @@ function BlurbStream({
     }
   }, [profilePic]);
 
-  const [removeComment] = useMutation(REMOVE_COMMENT);
+  // const [removeComment] = useMutation(REMOVE_COMMENT);
 
-  const handleDeleteComment = async (commentId) => {
-    try {
-      await removeComment({
-        variables: { commentId },
-      });
-    } catch (error) {
-      console.error("Error removing comment:", error);
-    }
-  };
+  // const handleDeleteComment = async (commentId) => {
+  //   try {
+  //     await removeComment({
+  //       variables: { commentId },
+  //     });
+  //   } catch (error) {
+  //     console.error("Error removing comment:", error);
+  //   }
+  // };
+
+  // console.log(tags);
 
   if (isDeleted) return null;
-
   return (
     <div id="bluMain">
       <ThemeProvider theme={customTheme(outerTheme)}>
@@ -281,6 +284,9 @@ function BlurbStream({
                 <div className="userName">{username}</div>
               </div>
               <div>{children}</div>
+              <div className="tags" key={tagIndex}>
+              {tags}
+              </div>
             </div>
           </div>
           <div id="profileIcons">

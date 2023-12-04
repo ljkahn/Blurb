@@ -140,6 +140,13 @@ function Profile({ registered }) {
   //   }
   // }, [isLoading]);
 
+  // Navigate to login page after token expires
+  useEffect(() => {
+    if (!auth.loggedIn(navigate)) {
+      navigate('/login');
+    }
+  }, [navigate]);
+
   //Gain data for loggedIn user's following
   const fetchFollowersData = async (userId) => {
     try {
@@ -308,8 +315,8 @@ function Profile({ registered }) {
                 Edit Profile{" "}
               </Button>
               {userData.blurbs &&
-                userData.blurbs.map((blurb) => (
-                  <div key={blurb._id}>
+                userData.blurbs.map((blurb, blurbIndex) => (
+                  <div key={blurbIndex}>
                     <BlurbStream
                       key={blurb._id}
                       // propRefetch={refetch}
@@ -325,9 +332,9 @@ function Profile({ registered }) {
                       // isLiked={refetch}
                     >
                       {blurb.blurbText}
-                      <div id="tags">
-                        {blurb.tags.map((tags) => (
-                          <div id="tag">#{tags}</div>
+                      <div id={blurbIndex} className="tags">
+                        {blurb.tags.map((tags, tagIndex) => (
+                          <div key={tagIndex} className="tag">#{tags}</div>
                         ))}
                       </div>
                     </BlurbStream>

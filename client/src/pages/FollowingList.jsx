@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import {Link } from 'react-router-dom';
 import FollowingListCom from "../components/Follow/FollowingListCom";
 import { useQuery } from "@apollo/client";
 import { GET_FOLLOWING } from "../utils/Queries/userQueries";
@@ -11,7 +12,7 @@ import "../style/Profile.css"
 
 function FollowingList() {
   const { userID } = useParams();
-  console.log("User ID:", userID);
+  // console.log("User ID:", userID);
   const [following, setFollowing] = useState([]);
   const [profilePic, setProfilePic] = useState("");
   const sample = "cld-sample-5";
@@ -40,7 +41,7 @@ function FollowingList() {
 
   useEffect(() => {
     if (data && data.userFollowing) {
-      console.log("Data:", data.userFollowing);
+      // console.log("Data:", data.userFollowing);
       setFollowing(data.userFollowing);
     }
   }, [data]);
@@ -68,6 +69,7 @@ function FollowingList() {
             </div>
             </CardContent>
             <div className="imgContain">
+              <Link to= {`/profile/${following.username}`}>
             <Avatar
             id="notifyPP"
             className="Blfriend"
@@ -79,12 +81,13 @@ function FollowingList() {
             }
             sx={{ width: 80, height: 80 }}
             />
+            </Link>
             </div>
             </Card>
           ))
           
           ) : (
-            <p>Following, no one! Check out the global stream or the flame page.</p>
+            <p>You aren't following anyone! Check out the global stream or the flame page to make new friends!</p>
             )}
             
       </div>

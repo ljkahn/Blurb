@@ -127,7 +127,7 @@ function LoginTab({ isRegistered }) {
         },
       });
 
-      isRegistered(true);
+      // isRegistered(true);
       Auth.login(data.login.token, navigation);
     } catch (error) {
       console.error(error);

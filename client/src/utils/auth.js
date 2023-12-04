@@ -7,20 +7,35 @@ class AuthService {
   // }
 
   getProfile() {
-    return decode(this.getToken());
+    try {
+      return decode(this.getToken());
+    } catch (error) {
+      console.error('Error decoding token:', error);
+      return null;
+    }
   }
   
   isTokenExpired(navigate) {
     const token = this.getToken();
 
     if (!token) {
+      this.logout(navigate)
       return true; //Token is expired if it doesn't exist
     }
-    const decoded = decode(token);
-    if (decoded.exp < Date.now() / 1000) {
+
+    try {
+      const decoded = decode(token);
+      if (decoded.exp < Date.now() / 1000) {
+        this.logout(navigate);
+        // localStorage.removeItem('id_token');
+        return true;
+      } 
+    } catch (error) {
+      console.error('Error decoding token:', error);
       this.logout(navigate);
       return true;
     }
+
     return false;
   }
 

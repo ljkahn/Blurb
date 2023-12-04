@@ -33,13 +33,13 @@ function Notify({
 
   const handleRemove = async () => {
     try {
-      console.log("Deleting notification with ID:", notificationId);
+      // console.log("Deleting notification with ID:", notificationId);
       const result = await deleteNotification({
         variables: {
           notificationId: notificationId,
         },
       });
-      console.log("Mutation result:", result);
+      // console.log("Mutation result:", result);
 
       // Optionally, you can update the local state or refetch queries if needed
     } catch (error) {
