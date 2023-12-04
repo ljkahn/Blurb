@@ -36,7 +36,7 @@ function Likes() {
     return <div>Error loading data!</div>;
   }
 
-  // console.log("likes page", notifyData);
+  console.log("likes page", notifyData);
 
   return (
     <div>
@@ -51,7 +51,7 @@ function Likes() {
           wrapperClassName=""
           visible={true}
         />
-      ) : (
+      ) : notifyData.length ? (
         notifyData.map((data) => (
           <div key={data._id}>
             <Notify
@@ -63,6 +63,8 @@ function Likes() {
             ></Notify>
           </div>
         ))
+      ) : (
+        <p style={{textAlign: "center"}}>You don't have any notifications yet, but we think your blurbs are great!</p>
       )}
     </div>
   );
