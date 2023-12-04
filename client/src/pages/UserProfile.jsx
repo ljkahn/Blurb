@@ -37,8 +37,6 @@ function UserProfile() {
     awaitRefetchQueries: true,
   });
 
-  console.log(userData);
-
   const navigate = useNavigate();
   const [followers, setFollowers] = useState([]);
   const [followingList, setFollowingList] = useState([]);
@@ -88,6 +86,12 @@ function UserProfile() {
   //     return [];
   //   }
   // };
+
+  useEffect(() => {
+    // Refetch data when the component mounts or when the profile pic URL changes
+    refetch();
+  }, [userData?.profile?.profilePic]);
+
 
   useEffect(() => {
     if (!loading && data && data.user) {
