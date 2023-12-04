@@ -22,12 +22,15 @@ function UserProfile() {
   const { data, loading, error, refetch } = useQuery(QUERY_ONE_USER, {
     variables: { username: username },
   });
+
   const [followUser] = useMutation(FOLLOW_USER, {
       refetchQueries: [QUERY_MY_PROFILE]
     });
+
   const [unfollowUser] = useMutation(UNFOLLOW_USER, {
     refetchQueries: [QUERY_MY_PROFILE]
   });
+
   const navigate = useNavigate();
   const [followers, setFollowers] = useState([]);
   const [followingList, setFollowingList] = useState([]);
@@ -76,6 +79,12 @@ function UserProfile() {
       return [];
     }
   };
+
+  useEffect(() => {
+    // Refetch data when the component mounts or when the profile pic URL changes
+    refetch();
+  }, [userData?.profile?.profilePic]);
+
 
   useEffect(() => {
     if (!loading && data && data.user) {
