@@ -135,7 +135,7 @@ const resolvers = {
         const currentUser = await User.findOne({
           _id: context.user._id,
         }).populate("blurbs");
-        console.log(currentUser);
+        // console.log(currentUser);
         return currentUser;
       }
       throw AuthenticationError;
@@ -247,9 +247,14 @@ const resolvers = {
 
         const loggedInUserBlurbs = await Blurbs.find({
           blurbAuthor: context.user._id,
-        }).populate("blurbAuthor");
+        })
+          .populate("blurbAuthor")
+          .sort({ createdAt: -1 });
 
-        return [...loggedInUserBlurbs, ...blurbs];
+        return [
+          // ...loggedInUserBlurbs,
+          ...blurbs,
+        ];
       } catch (error) {
         console.error(error);
         throw new Error("An error occurred while retrieving blurbs");
@@ -268,11 +273,9 @@ const resolvers = {
         const user = await User.findById(userId).populate({
           path: "followers",
           populate: {
-            path: "profile"
-          }
-        
-        })
-        
+            path: "profile",
+          },
+        });
 
         console.log("Fetched User:", user);
 
@@ -322,44 +325,49 @@ const resolvers = {
     //   }
     // },
 
-getUserMessages: async (_, { userId }) => {
-  try {
-    // Find conversations where the user is either the sender or recipient
-    const conversations = await Message.find({
-      $or: [{ senderId: userId }, { recipientId: userId }],
-    }).distinct(('senderId', 'recipientId'));
+    getUserMessages: async (_, { userId }) => {
+      try {
+        // Find conversations where the user is either the sender or recipient
+        const conversations = await Message.find({
+          $or: [{ senderId: userId }, { recipientId: userId }],
+        }).distinct(("senderId", "recipientId"));
 
-    if (!conversations || conversations.length === 0) {
-      console.log("No conversations found for the user");
-      return [];
-    }
+        if (!conversations || conversations.length === 0) {
+          console.log("No conversations found for the user");
+          return [];
+        }
 
-    // Extract user IDs from conversations, excluding the current user
-    const otherUserIds = conversations.filter(id => id.toString() !== userId.toString());
+        // Extract user IDs from conversations, excluding the current user
+        const otherUserIds = conversations.filter(
+          (id) => id.toString() !== userId.toString()
+        );
 
-    // Fetch user information for the found IDs
-    const users = await User.find({ _id: { $in: otherUserIds } });
+        // Fetch user information for the found IDs
+        const users = await User.find({ _id: { $in: otherUserIds } });
 
-    console.log("Conversations:", conversations);
-    console.log("Other User IDs:", otherUserIds);
-    console.log("Users:", users);
+        console.log("Conversations:", conversations);
+        console.log("Other User IDs:", otherUserIds);
+        console.log("Users:", users);
 
-    return users;
-  } catch (error) {
-    console.error("Error in getUserMessages:", error);
-    throw error; // Make sure to rethrow the error after logging it
-  }
-},
+        return users;
+      } catch (error) {
+        console.error("Error in getUserMessages:", error);
+        throw error; // Make sure to rethrow the error after logging it
+      }
+    },
 
     getConversationMessages: async (_, { senderId, recipientId }, context) => {
       // Check if the user is authenticated
       if (!context.user) {
-        throw new AuthenticationError('User not authenticated');
+        throw new AuthenticationError("User not authenticated");
       }
 
       // Check if the user is part of the conversation
-      if (senderId.toString() !== context.user._id.toString() && recipientId.toString() !== context.user._id.toString()) {
-        throw new AuthenticationError('User is not part of the conversation');
+      if (
+        senderId.toString() !== context.user._id.toString() &&
+        recipientId.toString() !== context.user._id.toString()
+      ) {
+        throw new AuthenticationError("User is not part of the conversation");
       }
 
       // Fetch messages from the database based on senderId, recipientId, and the authenticated user's ID
@@ -372,7 +380,6 @@ getUserMessages: async (_, { userId }) => {
 
       return messages;
     },
-
   },
 
   Mutation: {
@@ -508,17 +515,20 @@ getUserMessages: async (_, { userId }) => {
               // console.log(blurb);
 
               const blurbAuthor = await User.findById(blurb.blurbAuthor);
-              // console.log(blurbAuthor);
 
-              if (blurbAuthor) {
-                await blurbAuthor.sendNotification({
-                  recipient: blurbAuthor,
-                  type: "commented on your Blurb!",
-                  sender: context.user,
-                  blurbId: blurbId,
-                });
+              // Prevent notification when user comments on their own blurb
+              if (blurbAuthor._id.toString() !== context.user._id) {
+
+                if (blurbAuthor) {
+                  await blurbAuthor.sendNotification({
+                    recipient: blurbAuthor,
+                    type: "commented on your Blurb!",
+                    sender: context.user,
+                    blurbId: blurbId,
+                  });
+                }
               }
-
+                
               // If the new comment is found, return a success message.
               return "Successfully created Comment!";
             }
@@ -824,7 +834,7 @@ getUserMessages: async (_, { userId }) => {
       }
 
       try {
-        //find blurb if it exists
+        // Find blurb if it exists
         const blurb = await Blurbs.findById(blurbId);
         if (!blurb) {
           throw new Error("Blurb not found");
@@ -841,17 +851,18 @@ getUserMessages: async (_, { userId }) => {
         if (!comment.likeList.includes(context.user._id)) {
           comment.likeList.push(context.user._id);
 
-          // Add comment notification but blurbId is going to have the value of commentId
-          // Haven't had a chance to look through this yet but I can fix typedef and model to
-          // make sure that they are correctly labeled as commentId
-          // "liked comment" does show up with correct sender, receiver, and commentId though
-          if (commentUser) {
-            await commentUser.sendNotification({
-              recipient: commentUser,
-              type: "liked your comment!",
-              sender: context.user,
-              blurbId: commentId,
-            });
+          // Prevent users from sending notifications to themselves
+          if (comment.commentAuthor.toString() !== context.user._id) {
+
+            // Add comment notification but blurbId is going to have the value of commentId
+            if (commentUser) {
+              await commentUser.sendNotification({
+                recipient: commentUser,
+                type: "liked your comment!",
+                sender: context.user,
+                blurbId: commentId,
+              });
+            }
           }
 
           await blurb.save();
@@ -860,7 +871,7 @@ getUserMessages: async (_, { userId }) => {
         return "You have liked the comment!";
       } catch (error) {
         console.error("Error in addCommentLike mutation: ", error);
-        throw new Error("Error while liking the comment");
+        throw new Error("Error occurred while attempting to like the comment");
       }
     },
 
@@ -921,7 +932,7 @@ getUserMessages: async (_, { userId }) => {
 
       if (comment.likeList.includes(context.user._id)) {
         // Remove the user's ID from the likeList
-        // comment.likeList = comment.likeList.filter(id => id !== context.user._id);
+
         comment.likeList.pull(context.user._id);
 
         // Save the updated blurb
@@ -951,15 +962,17 @@ getUserMessages: async (_, { userId }) => {
           throw new Error("You cannot follow yourself");
         }
 
+        console.log(userIdToFollow);
+        
         await User.findByIdAndUpdate(
-          context.user._id,
-          { $addToSet: { following: userIdToFollow } },
+          userIdToFollow,
+          { $addToSet: { followers: context.user._id } },
           { new: true }
         );
 
         await User.findByIdAndUpdate(
-          userIdToFollow,
-          { $addToSet: { followers: context.user._id } },
+          context.user._id,
+          { $addToSet: { following: userIdToFollow } },
           { new: true }
         );
 
@@ -1102,7 +1115,7 @@ getUserMessages: async (_, { userId }) => {
     sendMessage: async (_, { senderId, recipientId, text }, context) => {
       // Check if the user is authenticated
       if (!context.user) {
-        throw new AuthenticationError('User not authenticated');
+        throw new AuthenticationError("User not authenticated");
       }
 
       // Create and save the message
@@ -1118,7 +1131,7 @@ getUserMessages: async (_, { userId }) => {
       // Return the created message
       return message;
     },
-    
+
     deleteNotification: async (_, { notificationId }, context) => {
       // Verify the user is logged in
       if (!context.user) {
@@ -1148,6 +1161,5 @@ getUserMessages: async (_, { userId }) => {
     },
   },
 };
-
 
 module.exports = resolvers;

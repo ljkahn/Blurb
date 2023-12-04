@@ -5,6 +5,7 @@ import Fire from "../components/Blurbs/FireCard";
 // import { TypeAnimation } from "react-type-animation";
 import { useQuery } from "@apollo/client";
 import { ALL_BLURBS } from "../utils/Queries/queries.js";
+import { useNavigate } from "react-router-dom";
 import WhatshotIcon from "@mui/icons-material/Whatshot";
 import "../style/Flame.css";
 
@@ -16,6 +17,15 @@ function Flame(liked, likes, registered) {
   const [isLoading, setLoading] = useState(true);
   const { loading, data, refetch } = useQuery(ALL_BLURBS);
   const [userData, setUserData] = useState(null);
+
+  const navigate = useNavigate();
+
+  // Navigate to login page after token expires
+  useEffect(() => {
+    if (!auth.loggedIn(navigate)) {
+      navigate('/login');
+    }
+  }, [navigate]);
 
   useEffect(() => {
     if (!loading) {

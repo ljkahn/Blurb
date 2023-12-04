@@ -94,7 +94,7 @@ function NavBar() {
           </IconButton>
         </Link>
       </Tooltip>
-      <Tooltip title="Click this button to post a blurb! :speech_balloon:">
+      <Tooltip title="Click this button to post a blurb! 💬">
         <button onClick={openModal} id="addBlurb">
           <Box
             component="img"
@@ -106,7 +106,7 @@ function NavBar() {
         </button>
       </Tooltip>
       <Tooltip
-        title="Notifications page, this is where you will find any news regarding your blurbs or account! 🚧"
+        title="Notifications page, this is where you will find any news regarding your blurbs or account! ❤️"
         enterTouchDelay={0}
         leaveTouchDelay={2000}
       >

@@ -84,7 +84,7 @@ function FollowingList() {
           ))
           
           ) : (
-            <p>Following, no one! Check out the global stream or the flame page.</p>
+            <p>You aren't following anyone! Check out the global stream or the flame page to make new friends!</p>
             )}
             
       </div>

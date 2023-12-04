@@ -6,10 +6,7 @@ const path = require("path");
 const { authMiddleware } = require("./utils/auth");
 const { typeDefs, resolvers } = require("./schemas");
 
-
 const socketIO = require('socket.io');
-
-
 
 const db = require("./config/connection");
 
@@ -19,7 +16,6 @@ const server = new ApolloServer({
   typeDefs,
   resolvers,
 });
-
 
 const io = socketIO(server);
 io.on('connection', (socket) => {
@@ -37,8 +33,6 @@ io.on('connection', (socket) => {
     console.log('User disconnected');
   });
 });
-
-
 
 const startApolloServer = async () => {
   await server.start();

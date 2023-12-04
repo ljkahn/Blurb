@@ -66,7 +66,7 @@ export const DELETE_USER = gql`
   }
 `;
 
-//example delte user variables
+//example delete user variables
 // {
 //   "userId": null
 // }
