@@ -8,6 +8,7 @@ import Button from "@mui/material/Button";
 import BlurbStream from "../components/Blurbs/BlurbCard.jsx";
 import BlurbCom from "../components/Blurbs/BlurbComCard.jsx";
 import { useQuery, useMutation } from "@apollo/client";
+import { USER_BLURBS } from "../utils/Queries/queries.js";
 import { QUERY_MY_PROFILE, QUERY_ONE_USER } from "../utils/Queries/userQueries";
 import { GET_FOLLOWERS, GET_FOLLOWING } from "../utils/Queries/userQueries";
 import { FOLLOW_USER, UNFOLLOW_USER } from "../utils/mutations/userMutations";
@@ -19,20 +20,25 @@ import FollowingListCom from "../components/Follow/FollowingListCom.jsx";
 function UserProfile() {
   const { username } = useParams();
   const [userData, setUserData] = useState(null);
+  const [blurbs, setBlurbs] = useState([]);
   const [following, setFollowing] = useState(true);
   const { data, loading, error, refetch } = useQuery(QUERY_ONE_USER, {
     variables: { username: username },
     fetchPolicy: "cache-and-network",
   });
+  const { isLoading, blurbData } = useQuery(USER_BLURBS);
 
   const [followUser] = useMutation(FOLLOW_USER, {
-      refetchQueries: [QUERY_ONE_USER],
+      refetchQueries: [QUERY_MY_PROFILE],
       awaitRefetchQueries: true,
     });
 
   const [unfollowUser] = useMutation(UNFOLLOW_USER, {
-    refetchQueries: [QUERY_MY_PROFILE]
+    refetchQueries: [QUERY_MY_PROFILE],
+    awaitRefetchQueries: true,
   });
+
+  console.log(userData);
 
   const navigate = useNavigate();
   const [followers, setFollowers] = useState([]);
@@ -129,6 +135,28 @@ function UserProfile() {
       });
   };
 
+  console.log(blurbData);
+
+  useEffect(() => {
+    if (!isLoading && blurbData) {
+      const allBlurbs = [...blurbData.blurbs,];
+      const newBlurbs = allBlurbs.slice(); // Create a shallow copy to avoid mutating the original array
+      newBlurbs.sort((a, b) => {
+        const dateA = new Date(a.createdAt);
+        const dateB = new Date(b.createdAt);
+        return dateA - dateB;
+      });
+      setBlurbs([...blurbData.blurbs]);
+      // setLoading(false);
+      // refetch();
+    }
+  }, [isLoading, blurbData]);
+
+  if (error) {
+    return <div>Error loading data!</div>
+  }
+
+
   // const showFollowers = () => {
   //   // Instead of using async/await here, you can directly set the state
   //   fetchFollowersData(userData._id).then((followersData) => {
@@ -193,45 +221,45 @@ function UserProfile() {
             </Button>
           )}
         {userData.blurbs &&
-                userData.blurbs.map((blurb, blurbIndex) => (
-                  <div key={blurbIndex}>
-                    <BlurbStream
-                      key={blurb._id}
-                      // propRefetch={refetch}
-                      blurbId={blurb._id}
-                      username={blurb.username}
-                      profilePic={userData.profile.profilePic}
-                      onDelete={() => handleBlurbDelete(blurb._id)}
-                      showEdit={true}
-                      liked={blurb.likeList.includes(
-                        Auth.getProfile().data._id
-                      )}
-                      likes={blurb.likes}
-                      // isLiked={refetch}
-                    >
-                      {blurb.blurbText}
-                      <div id={blurbIndex} className="tags">
-                        {blurb?.tags?.map((tags, tagIndex) => (
-                          <div key={tagIndex} className="tag">#{tags}</div>
-                        ))}
-                      </div>
-                    </BlurbStream>
-                    {blurb?.comments?.map((comment) => (
-                      <BlurbCom
-                        key={comment._id}
-                        commentId={comment._id}
-                        commentTest={comment}
-                        blurbId={blurb._id}
-                        username={comment?.commentAuthor?.username}
-                        comments={comment.commentText}
-                        liked={comment.likeList.includes(
-                          Auth.getProfile().data._id
-                        )}
-                        likes={comment.likes}
-                      />
-                    ))}
-                  </div>
-                ))}
+          userData.blurbs.map((blurb, blurbIndex) => (
+            <div key={blurbIndex}>
+              <BlurbStream
+                key={blurb._id}
+                // propRefetch={refetch}
+                blurbId={blurb._id}
+                username={username}
+                profilePic={userData.profile.profilePic}
+                onDelete={() => handleBlurbDelete(blurb._id)}
+                showEdit={false}
+                liked={blurb.likeList.includes(
+                  Auth.getProfile().data._id
+                )}
+                likes={blurb.likes}
+                // isLiked={refetch}
+              >
+                {blurb.blurbText}
+                <div id={blurbIndex} className="tags">
+                  {blurb?.tags?.map((tags, tagIndex) => (
+                    <div key={tagIndex} className="tag">#{tags}</div>
+                  ))}
+                </div>
+              </BlurbStream>
+              {blurb?.comments?.map((comment) => (
+                <BlurbCom
+                  key={comment._id}
+                  commentId={comment._id}
+                  commentTest={comment}
+                  blurbId={blurb._id}
+                  username={comment?.commentAuthor?.username}
+                  comments={comment.commentText}
+                  liked={comment.likeList.includes(
+                    Auth.getProfile().data._id
+                  )}
+                  likes={comment.likes}
+                />
+              ))}
+            </div>
+          ))}
         </Container>
       )}
     </div>

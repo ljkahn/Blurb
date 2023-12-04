@@ -33,14 +33,26 @@ const resolvers = {
     user: async (parent, { username }) => {
       try {
         return User.findOne({ username: username })
-          .populate("blurbs")
-          .populate("notifications")
-          .populate({
-            path: "notifications",
-            populate: {
-              path: "sender recipient",
-            },
-          });
+        .populate({
+          path: 'blurbs',
+          populate: [
+            { path: 'blurbAuthor' },
+            {
+              path: 'comments',
+              populate: {
+                path: 'commentAuthor',
+                model: 'User'
+              }
+            }
+          ]
+        })
+        .populate('notifications')
+        .populate({
+          path: 'notifications',
+          populate: {
+            path: 'sender recipient',
+          },
+        });
       } catch (error) {
         console.error(error);
         throw new Error("Failed to find user");

@@ -86,6 +86,10 @@ export const QUERY_ONE_USER = gql`
         likes
         likeList
         blurbText
+        _id
+        blurbAuthor{
+          username
+        }
         comments {
           likes
           likeList
@@ -93,6 +97,9 @@ export const QUERY_ONE_USER = gql`
           commentText
           commentAuthor {
             username
+            profile {
+              profilePic
+            }
           }
         }
       }
