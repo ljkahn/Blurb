@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import {Link} from 'react-router-dom';
 import { useQuery } from "@apollo/client";
 import { useParams } from "react-router-dom";
 import { GET_FOLLOWERS } from "../utils/Queries/userQueries";
@@ -11,7 +12,7 @@ import "../style/Profile.css"
 
 function Followers(onClose) {
   const { userID } = useParams();
-  console.log("User ID:", userID);
+  // console.log("User ID:", userID);
   const [followers, setFollowers] = useState([]);
   const [profilePic, setProfilePic] = useState("");
   const sample = "cld-sample-5";
@@ -41,7 +42,7 @@ function Followers(onClose) {
 
   useEffect(() => {
     if (data && data.userFollowers) {
-      console.log("Data:", data.userFollowers);
+      // console.log("Data:", data.userFollowers);
       setFollowers(data.userFollowers);
     }
   }, [data]);
@@ -55,7 +56,7 @@ function Followers(onClose) {
     console.error("Error fetching followers data:", error);
     return <p>Error fetching followers data</p>;
   }
-  console.log(followers);
+  // console.log(followers);
 
 
 
@@ -73,6 +74,7 @@ function Followers(onClose) {
             </div>
             </CardContent>
             <div className="imgContain">
+              <Link to={`/profile/${follower.username}`}>
             <Avatar
             id="notifyPP"
             className="Blfriend"
@@ -84,6 +86,7 @@ function Followers(onClose) {
             }
             sx={{ width: 80, height: 80 }}
             />
+            </Link>
             </div>
             </Card>
           ))
