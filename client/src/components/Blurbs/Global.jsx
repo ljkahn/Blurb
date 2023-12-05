@@ -53,7 +53,7 @@ function Global() {
               propRefetch={refetch}
               // key={i}
               blurbId={blurb._id}
-              username={blurb.blurbAuthor.username}
+              username={blurb.blurbAuthor?.username}
               profilePic={blurb.blurbAuthor?.profile?.profilePic || ''}
               liked={blurb.likeList.includes(auth.getProfile().data._id)}
               likes={blurb.likes}

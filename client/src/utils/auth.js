@@ -46,7 +46,9 @@ class AuthService {
   login(idToken, navigate) {
     localStorage.setItem('id_token', idToken);
     navigate('/home');
-    
+    location.reload(); 
+    // Refresh browser to bring in new userData on all components
+    // Not the cleanest method but we can look into centralized state management in the future
   }
 
   loggedIn(navigate) {

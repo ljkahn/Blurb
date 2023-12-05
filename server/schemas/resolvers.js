@@ -147,7 +147,10 @@ const resolvers = {
       if (context.user) {
         const currentUser = await User.findOne({
           _id: context.user._id,
-        }).populate("blurbs");
+        }).populate({
+          path: 'blurbs',
+          options: { sort: { 'createdAt': -1 } }
+        });
         // console.log(currentUser);
         return currentUser;
       }
@@ -618,7 +621,7 @@ const resolvers = {
       }
 
       if (comment.commentAuthor.toString() !== context.user._id.toString()) {
-        throw new Error("You are not authorized to delete this blurb");
+        throw new Error("You are not authorized to delete this comment");
       }
 
       // Remove the comment from the blurb

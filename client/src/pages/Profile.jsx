@@ -121,7 +121,7 @@ function Profile({ registered }) {
   const [showProfile, setShowProfile] = useState(true);
   const [accountSettingsVisible, setAccountSettingsVisible] = useState(false);
   const [currentComponent, setCurrentComponent] = useState("profile");
-  const [userData, setUserData] = useState(null);
+  const [userData, setUserData] = useState("");
   const [isLoading, setLoading] = useState(true);
   const { loading, data, refetch } = useQuery(QUERY_MY_PROFILE);
   const [followers, setFollowers] = useState([]);
@@ -198,7 +198,7 @@ function Profile({ registered }) {
       setUserData(data.me);
       // refetch();
     }
-  }, [loading, registered]);
+  }, [loading, data, registered]);
 
   //   useEffect(() => {
   //   if (data && data.me) {

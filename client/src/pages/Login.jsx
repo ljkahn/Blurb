@@ -46,7 +46,7 @@ const StyledTab = styled((props) => <Tab disableRipple {...props} />)(
 
 function Login({ isRegistered }) {
   const [tabValue, setTabValue] = useState("login");
-  const [blurb, setBlurb] = useState(null);
+  const [blurb, setBlurb] = useState("");
   const handleChange = (event, newValue) => {
     setTabValue(newValue);
   };

@@ -4,7 +4,7 @@ import { AdvancedImage, responsive, placeholder } from "@cloudinary/react";
 
 export default function CloudinaryUploadWidget({ setProfileImg }) {
   const [imageKey, setKey] = useState("");
-  const [myImage, setImage] = useState(null);
+  const [myImage, setImage] = useState("");
 
   const cloudinaryRef = useRef();
   const widgetRef = useRef();
