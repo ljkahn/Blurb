@@ -285,7 +285,7 @@ function BlurbStream({
               </div>
               <div>{children}</div>
               <div className="tags" key={tagIndex}>
-              {tags}
+                {tags}
               </div>
             </div>
           </div>

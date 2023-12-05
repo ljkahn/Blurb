@@ -30,7 +30,7 @@ function Home() {
   // Navigate to login page after token expires
   useEffect(() => {
     if (!auth.loggedIn(navigate)) {
-      navigate('/login');
+      navigate("/login");
     }
   }, [navigate]);
 
@@ -122,7 +122,9 @@ function Home() {
               liked={blurb.likeList.includes(auth.getProfile().data._id)}
               likes={blurb.likes}
               tags={blurb.tags.map((tag, tagIndex) => (
-                <div key={tagIndex} className="tags">#{tag}</div>
+                <div key={tagIndex} className="tags">
+                  #{tag}
+                </div>
               ))}
             >
               {blurb.blurbText}
