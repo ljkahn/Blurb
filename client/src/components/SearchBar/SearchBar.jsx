@@ -9,8 +9,8 @@ import IconButton from "@mui/material/IconButton";
 import Grid from "@mui/material/Grid";
 
 export default function SearchBar() {
-  const [selectedOption, setSelectedOption] = useState(null);
-  const [userList, setUserList] = useState(null);
+  const [selectedOption, setSelectedOption] = useState("");
+  const [userList, setUserList] = useState("");
   const [menuIsOpen, setMenuIsOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState("");
   const { loading, data } = useQuery(USER_LIST);

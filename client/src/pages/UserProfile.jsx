@@ -6,7 +6,9 @@ import Grid from "@mui/material/Grid";
 import Photo from "../components/Profile/ProfilePhoto.jsx";
 import Button from "@mui/material/Button";
 import BlurbStream from "../components/Blurbs/BlurbCard.jsx";
+import BlurbCom from "../components/Blurbs/BlurbComCard.jsx";
 import { useQuery, useMutation } from "@apollo/client";
+import { USER_BLURBS } from "../utils/Queries/queries.js";
 import { QUERY_MY_PROFILE, QUERY_ONE_USER } from "../utils/Queries/userQueries";
 import { GET_FOLLOWERS, GET_FOLLOWING } from "../utils/Queries/userQueries";
 import { FOLLOW_USER, UNFOLLOW_USER } from "../utils/mutations/userMutations";
@@ -17,17 +19,24 @@ import FollowingListCom from "../components/Follow/FollowingListCom.jsx";
 
 function UserProfile() {
   const { username } = useParams();
-  const [userData, setUserData] = useState(null);
-  const [following, setFollowing] = useState(false);
+  const [userData, setUserData] = useState("");
+  const [blurbs, setBlurbs] = useState([]);
+  const [following, setFollowing] = useState(true);
   const { data, loading, error, refetch } = useQuery(QUERY_ONE_USER, {
     variables: { username: username },
+    fetchPolicy: "cache-and-network",
   });
+
   const [followUser] = useMutation(FOLLOW_USER, {
-      refetchQueries: [QUERY_MY_PROFILE]
+      refetchQueries: [QUERY_MY_PROFILE],
+      awaitRefetchQueries: true,
     });
+
   const [unfollowUser] = useMutation(UNFOLLOW_USER, {
-    refetchQueries: [QUERY_MY_PROFILE]
+    refetchQueries: [QUERY_MY_PROFILE],
+    awaitRefetchQueries: true,
   });
+
   const navigate = useNavigate();
   const [followers, setFollowers] = useState([]);
   const [followingList, setFollowingList] = useState([]);
@@ -46,41 +55,47 @@ function UserProfile() {
     color: black,
     borderRadius: 10,
   };
+
   const infoStyle = {
     backgroundColor: white,
     color: black,
   };
 
-  const fetchFollowersData = async (userId) => {
-    try {
-      const { data } = await client.query({
-        query: GET_FOLLOWERS,
-        variables: { userId },
-      });
-      return data.userFollowers;
-    } catch (error) {
-      console.error("Error fetching followers:", error);
-      return [];
-    }
-  };
+  // const fetchFollowersData = async (userId) => {
+  //   try {
+  //     const { data } = await client.query({
+  //       query: GET_FOLLOWERS,
+  //       variables: { userId },
+  //     });
+  //     return data.userFollowers;
+  //   } catch (error) {
+  //     console.error("Error fetching followers:", error);
+  //     return [];
+  //   }
+  // };
 
-  const fetchFollowingData = async (userId) => {
-    try {
-      const { data } = await client.query({
-        query: GET_FOLLOWING,
-        variables: { userId },
-      });
-      return data.userFollowing;
-    } catch (error) {
-      console.error("Error fetching following:", error);
-      return [];
-    }
-  };
+  // const fetchFollowingData = async (userId) => {
+  //   try {
+  //     const { data } = await client.query({
+  //       query: GET_FOLLOWING,
+  //       variables: { userId },
+  //     });
+  //     return data.userFollowing;
+  //   } catch (error) {
+  //     console.error("Error fetching following:", error);
+  //     return [];
+  //   }
+  // };
+
+  useEffect(() => {
+    // Refetch data when the component mounts or when the profile pic URL changes
+    refetch();
+  }, [userData?.profile?.profilePic]);
+
 
   useEffect(() => {
     if (!loading && data && data.user) {
       const currentUser = Auth.getProfile();
-      console.log(data.user.followers);
       const idArray = data.user.followers.map((obj) => obj._id);
       //currentUser.data._id
       setFollowing(idArray.includes(currentUser.data._id) ? true : false);
@@ -100,7 +115,7 @@ function UserProfile() {
     })
       .then((result) => {
         refetch();
-        // console.log('User followed successfully!');
+        console.log('User followed successfully!');
         //Show a success message
       })
       .catch((error) => {
@@ -186,28 +201,46 @@ function UserProfile() {
               FOLLOW
             </Button>
           )}
-          {userData.blurbs.map((blurb, index) => (
-            <BlurbStream
-              key={index}
-              blurbId={blurb.blurbId}
-              username={blurb.username}
-              profilePic={userData.profile.profilePic}
-            >
-              {blurb.blurbText}
-            </BlurbStream>
+        {userData.blurbs &&
+          userData.blurbs.map((blurb, blurbIndex) => (
+            <div key={blurbIndex}>
+              <BlurbStream
+                key={blurb._id}
+                // propRefetch={refetch}
+                blurbId={blurb._id}
+                username={username}
+                profilePic={userData.profile.profilePic}
+                onDelete={() => handleBlurbDelete(blurb._id)}
+                showEdit={false}
+                liked={blurb.likeList.includes(
+                  Auth.getProfile().data._id
+                )}
+                likes={blurb.likes}
+                // isLiked={refetch}
+              >
+                {blurb.blurbText}
+                <div id={blurbIndex} className="tags">
+                  {blurb?.tags?.map((tags, tagIndex) => (
+                    <div key={tagIndex} className="tag">#{tags}</div>
+                  ))}
+                </div>
+              </BlurbStream>
+              {blurb?.comments?.map((comment) => (
+                <BlurbCom
+                  key={comment._id}
+                  commentId={comment._id}
+                  commentTest={comment}
+                  blurbId={blurb._id}
+                  username={comment?.commentAuthor?.username}
+                  comments={comment.commentText}
+                  liked={comment.likeList.includes(
+                    Auth.getProfile().data._id
+                  )}
+                  likes={comment.likes}
+                />
+              ))}
+            </div>
           ))}
-          {followers.length > 0 && currentComponent === "followers" && (
-            <FollowersList
-              followers={followers}
-              onClose={() => setFollowers([])}
-            />
-          )}
-          {following.length > 0 && currentComponent === "following" && (
-            <FollowingListCom
-              following={following}
-              onClose={() => setFollowing([])}
-            />
-          )}
         </Container>
       )}
     </div>

@@ -109,6 +109,7 @@ function Create({ isRegistered }) {
     password: "",
     username: "",
   });
+
   //Acount for possible errors that could happen during the process of adding a user
   const [addUser, { error }] = useMutation(ADD_USER);
   if (error) {
@@ -160,8 +161,8 @@ function Create({ isRegistered }) {
           },
         },
       });
-      //Once the user's new information is intaken successfully, register them to conditionally render the nav bar and remainder of the application
-        isRegistered(true);
+      //Once the user's new information is collected successfully, register them to conditionally render the nav bar and remainder of the application
+        // isRegistered(true);
         //use token to navigate the user to the home page. 
         Auth.login(data.addUser.token, navigation);
     } catch (error) {

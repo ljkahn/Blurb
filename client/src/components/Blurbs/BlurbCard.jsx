@@ -128,7 +128,7 @@ function BlurbStream({
   const [isDeleted, setIsDeleted] = useState(false);
   const [isLiked, setIsLiked] = useState(liked ? liked : false);
   const { loading, data, refetch } = useQuery(QUERY_MY_PROFILE);
-  const [blurbIdForEdit, setBlurbIdForEdit] = useState(null);
+  const [blurbIdForEdit, setBlurbIdForEdit] = useState("");
   // console.log(liked);
 
   // useEffect(() => {
@@ -148,6 +148,7 @@ function BlurbStream({
   const closeModal = () => {
     setIsModalOpen(false);
   };
+
   const outerTheme = useTheme();
   const [likeBlurb] = useMutation(LIKE_Blurb);
   const [unlikeBlurb] = useMutation(UNLIKE_Blurb);

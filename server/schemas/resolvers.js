@@ -33,14 +33,27 @@ const resolvers = {
     user: async (parent, { username }) => {
       try {
         return User.findOne({ username: username })
-          .populate("blurbs")
-          .populate("notifications")
-          .populate({
-            path: "notifications",
-            populate: {
-              path: "sender recipient",
+        .populate({
+          path: 'blurbs',
+          populate: [
+            { path: 'blurbAuthor' },
+            {
+              path: 'comments',
+              populate: {
+                path: 'commentAuthor',
+                model: 'User'
+              }
             },
-          });
+            { path: 'tags' }
+          ]
+        })
+        .populate('notifications')
+        .populate({
+          path: 'notifications',
+          populate: {
+            path: 'sender recipient',
+          },
+        })
       } catch (error) {
         console.error(error);
         throw new Error("Failed to find user");
@@ -134,7 +147,10 @@ const resolvers = {
       if (context.user) {
         const currentUser = await User.findOne({
           _id: context.user._id,
-        }).populate("blurbs");
+        }).populate({
+          path: 'blurbs',
+          options: { sort: { 'createdAt': -1 } }
+        });
         // console.log(currentUser);
         return currentUser;
       }
@@ -605,7 +621,7 @@ const resolvers = {
       }
 
       if (comment.commentAuthor.toString() !== context.user._id.toString()) {
-        throw new Error("You are not authorized to delete this blurb");
+        throw new Error("You are not authorized to delete this comment");
       }
 
       // Remove the comment from the blurb
@@ -976,9 +992,11 @@ const resolvers = {
           { new: true }
         );
 
-        await userIdToFollow.sendNotification({
+        await userToFollow.sendNotification({
           recipient: userToFollow,
           type: "followed you!",
+          sender: context.user,
+          // blurbId: commentId,
         });
 
         return "User followed successfully!";

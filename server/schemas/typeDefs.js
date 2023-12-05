@@ -92,12 +92,13 @@ const typeDefs = `
       blurbId: ID
       createdAt: String
     }
+
     type Message {
       _id: ID!
       recipientId: ID!
       text: String!
       timestamp: String!
-}
+    }
 
     type Query {
       users: [User]
