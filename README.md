@@ -27,19 +27,19 @@ What are the steps required to install your project? Provide a step-by-step desc
 
 To use our app, open our web app and you'll be directed to the initial webpage! Here are screen shots showing how Blurb functions and looks.
 
-![Alt text](./assets/images/login.png)
+![Image of Login Page](./assets/images/login.png)
 
-![Alt text](./assets/images/createAccount.png)
+![Image of Create Account Page](./assets/images/createAccount.png)
 
-![Alt text](./assets/images/createBlurb.png)
+![Image of a Blurb being Created](./assets/images/createBlurb.png)
 
-![Alt text](./assets/images/likedComment.png)
+![Image of a Liked Blurb](./assets/images/likedComment.png)
 
-![Alt text](./assets/images/profile.png)
+![Image of a Profile Page](./assets/images/profile.png)
 
-![Alt text](./assets/images/editProfile.png)
+![Image of the Edit Profile Page](./assets/images/editProfile.png)
 
-![Alt text](./assets/images/homePage.png)
+![Image of the Home Page](./assets/images/homePage.png)
 
 ## Credits
 
@@ -92,7 +92,7 @@ Once you're done hit the log out button on the top right corner.
 
 If you would like to contribute please contact the creators on linked in.
 
-![Alt text](./assets/images/squad.png)
+![Image of the Blurb Team](./assets/images/squad.png)
 
 [Lillian Edwards](https://www.linkedin.com/in/lillian-edwards63/)
 
