@@ -19,7 +19,7 @@ import FollowingListCom from "../components/Follow/FollowingListCom.jsx";
 
 function UserProfile() {
   const { username } = useParams();
-  const [userData, setUserData] = useState(null);
+  const [userData, setUserData] = useState("");
   const [blurbs, setBlurbs] = useState([]);
   const [following, setFollowing] = useState(true);
   const { data, loading, error, refetch } = useQuery(QUERY_ONE_USER, {

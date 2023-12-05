@@ -5,6 +5,7 @@ import WhatshotIcon from "@mui/icons-material/Whatshot";
 import WhatshotOutlinedIcon from "@mui/icons-material/WhatshotOutlined";
 import WhatshotTwoToneIcon from "@mui/icons-material/WhatshotTwoTone";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
+import { ADD_COMMENT } from "../../utils/mutations/Likes/CommentMutations";
 import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import Modal from "@mui/material/Modal";
@@ -29,7 +30,9 @@ function FireCard({
   liked,
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [commentText, setCommentText] = useState("");
   const [isLiked, setIsLiked] = useState(liked ? liked : false);
+
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -70,6 +73,21 @@ function FireCard({
       );
     }
   }, [profilePic]);
+
+  const [addComment] = useMutation(ADD_COMMENT);
+
+  const handleComment = async () => {
+    try {
+      await addComment({
+        variables: { blurbId, commentText: commentText },
+      });
+      setCommentText("");
+      propRefetch && propRefetch();
+      closeModal();
+    } catch (error) {
+      console.error("Error adding comment:", error);
+    }
+  };
 
   return (
     <div id="bluMain">
@@ -154,16 +172,24 @@ function FireCard({
         onClose={closeModal}
       >
         <form id="blForm">
-          <TextField id="outlined-basic" label="Comment" variant="outlined" />
+          <TextField 
+            id="outlined-basic" 
+            label="Comment" 
+            variant="outlined"
+            value={commentText}
+            onChange={(e) => setCommentText(e.target.value)}
+            />
           <Button
+            className="modalButton"
             style={{ margin: ".5rem" }}
             variant="contained"
             disableElevation
+            onClick={handleComment}
           >
             Comment
           </Button>
         </form>
-      </Modal>
+      </Modal>{" "}
     </div>
   );
 }

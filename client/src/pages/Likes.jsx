@@ -3,7 +3,7 @@ import Nav from "../components/NavBar.jsx";
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { ThreeDots } from "react-loader-spinner";
-import { useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { ALL_BLURBS } from "../utils/Queries/queries.js";
 import auth from "../utils/auth.js";
 import { QUERY_GET_NOTIFICATIONS } from "../utils/Queries/userQueries.js";

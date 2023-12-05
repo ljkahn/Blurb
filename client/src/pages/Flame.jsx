@@ -16,7 +16,7 @@ function Flame(liked, likes, registered) {
   const [blurbs, setBlurbs] = useState([]);
   const [isLoading, setLoading] = useState(true);
   const { loading, data, refetch } = useQuery(ALL_BLURBS);
-  const [userData, setUserData] = useState(null);
+  const [userData, setUserData] = useState("");
 
   const navigate = useNavigate();
 
