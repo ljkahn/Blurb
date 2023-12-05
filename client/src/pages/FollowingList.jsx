@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import FollowingListCom from "../components/Follow/FollowingListCom";
 import { useQuery } from "@apollo/client";
 import { GET_FOLLOWING } from "../utils/Queries/userQueries";
@@ -8,11 +8,11 @@ import { useParams } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import "../style/Profile.css"
+import "../style/Profile.css";
 
 function FollowingList() {
   const { userID } = useParams();
-  // console.log("User ID:", userID);
+
   const [following, setFollowing] = useState([]);
   const [profilePic, setProfilePic] = useState("");
   const sample = "cld-sample-5";
@@ -34,14 +34,9 @@ function FollowingList() {
       userId: userID,
     },
   });
-  // console.log("Query User ID:", userId);
-  // console.log("Loading:", loading);
-  // console.log("Error:", error);
-  // console.log("Data:", data);
 
   useEffect(() => {
     if (data && data.userFollowing) {
-      // console.log("Data:", data.userFollowing);
       setFollowing(data.userFollowing);
     }
   }, [data]);
@@ -56,40 +51,40 @@ function FollowingList() {
   }
 
   return (
-    <div id='followingContain'>
-      {/* <h1>Following Page</h1> */}
+    <div id="followingContain">
       <div>
-      {following.length > 0 ? (
+        {following.length > 0 ? (
           following.map((following) => (
             <Card className="followCard" key={following._id}>
-            <CardContent className="followCardContent">
-              <div className="followUserInfo">
-            <h3>{following.username}</h3>
-            <p>{following.profile.fullName}</p>
-            </div>
-            </CardContent>
-            <div className="imgContain">
-              <Link to= {`/profile/${following.username}`}>
-            <Avatar
-            id="notifyPP"
-            className="Blfriend"
-            alt={following.username}
-            src={
-              following.profile.profilePic
-                ? `https://res.cloudinary.com/${cloudName}/image/upload/t_custom-resize/${following.profile.profilePic}.png`
-                : staticImg
-            }
-            sx={{ width: 80, height: 80 }}
-            />
-            </Link>
-            </div>
+              <CardContent className="followCardContent">
+                <div className="followUserInfo">
+                  <h3>{following.username}</h3>
+                  <p>{following.profile.fullName}</p>
+                </div>
+              </CardContent>
+              <div className="imgContain">
+                <Link to={`/profile/${following.username}`}>
+                  <Avatar
+                    id="notifyPP"
+                    className="Blfriend"
+                    alt={following.username}
+                    src={
+                      following.profile.profilePic
+                        ? `https://res.cloudinary.com/${cloudName}/image/upload/t_custom-resize/${following.profile.profilePic}.png`
+                        : staticImg
+                    }
+                    sx={{ width: 80, height: 80 }}
+                  />
+                </Link>
+              </div>
             </Card>
           ))
-          
-          ) : (
-            <p>You aren't following anyone! Check out the global stream or the flame page to make new friends!</p>
-            )}
-            
+        ) : (
+          <p>
+            You aren't following anyone! Check out the global stream or the
+            flame page to make new friends!
+          </p>
+        )}
       </div>
     </div>
   );

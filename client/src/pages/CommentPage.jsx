@@ -5,13 +5,13 @@ import { FIND_BLURB_BY_ID } from "../utils/mutations/Blurb/BlurbMutations";
 import BlurbCom from "../components/Blurbs/BlurbComCard";
 function CommentPage() {
   const { loading, data } = useQuery(FIND_BLURB_BY_ID, {
-    variables: { blurbId: "6542aa306a9a59a5a9f640d1" }, // Replace with the actual blurb ID
+    variables: { blurbId: "6542aa306a9a59a5a9f640d1" },
   });
-  // console.log.apply(data);
+
   if (loading) {
     return <p>Loading...</p>;
   }
-  const blurb = data.blurbs._id; // Assuming that the query returns a single blurb
+  const blurb = data.blurbs._id;
   return (
     <div>
       <Blurb

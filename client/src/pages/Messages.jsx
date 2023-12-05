@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { useQuery } from "@apollo/client";
+import { useQuery, useApolloClient } from "@apollo/client";
 import {
   GET_USER_MESSAGES,
   GET_CONVERSATION_MESSAGES,
 } from "../utils/Queries/userQueries";
 import io from "socket.io-client";
 import MessageSearch from "../components/MessageSearch";
+import { v4 as uuidv4 } from "uuid";
 
-const socket = io();
+const socket = io("http://localhost:3000"); // Adjust the URL to your socket.io server
 
 const Messages = () => {
   const [selectedConversation, setSelectedConversation] = useState(null);
@@ -15,26 +16,22 @@ const Messages = () => {
   const [messages, setMessages] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
   const [searchInput, setSearchInput] = useState("");
-
+  const client = useApolloClient();
   const { loading, error, data } = useQuery(GET_USER_MESSAGES, {
     variables: { userId: "currentUserId" },
   });
 
   useEffect(() => {
-    if (selectedConversation) {
-      // Fetch messages for the selected conversation
-      client
-        .query({
-          query: GET_CONVERSATION_MESSAGES,
-          variables: { conversationId: selectedConversation },
-        })
-        .then((result) => {
-          setMessages(result.data.messages);
-        })
-        .catch((error) => {
-          console.error("Error fetching messages:", error);
-        });
-    }
+    // Listen for incoming messages
+    socket.on("message", (data) => {
+      // Handle incoming message, e.g., add it to the messages state
+      setMessages((prevMessages) => [...prevMessages, data]);
+    });
+
+    return () => {
+      // Clean up when component unmounts
+      socket.emit("leaveRoom", selectedConversation);
+    };
   }, [selectedConversation]);
 
   const handleSearch = () => {
@@ -51,6 +48,9 @@ const Messages = () => {
   };
 
   const handleConversationSelect = (conversationId) => {
+    // Join the room for the selected conversation
+    socket.emit("joinRoom", conversationId);
+
     setSelectedConversation(conversationId);
   };
 
@@ -59,14 +59,22 @@ const Messages = () => {
     console.log("inputValue:", inputValue);
     console.log("selectedConversation:", selectedConversation);
 
+    // Emit the message to the server, which will broadcast it to other users in the room
     socket.emit("message", {
       text: inputValue,
       conversationId: selectedConversation,
     });
 
+    client.writeQuery({
+      query: GET_CONVERSATION_MESSAGES,
+      variables: { conversationId: selectedConversation },
+      data: {
+        messages: [...messages, { id: uuidv4, text: inputValue }],
+      },
+    });
+
     setInputValue("");
   };
-
   return (
     <div>
       <h1>Messages</h1>

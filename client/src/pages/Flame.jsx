@@ -23,14 +23,13 @@ function Flame(liked, likes, registered) {
   // Navigate to login page after token expires
   useEffect(() => {
     if (!auth.loggedIn(navigate)) {
-      navigate('/login');
+      navigate("/login");
     }
   }, [navigate]);
 
   useEffect(() => {
     if (!loading) {
       const allBlurbs = [...data.blurbs];
-      // console.log(allBlurbs);
       // Filter Blurbs with more than 10 likes
       const popularBlurbs = allBlurbs.filter(
         (blurb) => blurb.likeList.length >= 3
@@ -50,7 +49,6 @@ function Flame(liked, likes, registered) {
       // refetch();
     }
     if (!loading) {
-      // console.log(data.me);
       setUserData(data.me);
       // refetch();
     }
