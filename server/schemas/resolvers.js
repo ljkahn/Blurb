@@ -147,7 +147,10 @@ const resolvers = {
       if (context.user) {
         const currentUser = await User.findOne({
           _id: context.user._id,
-        }).populate("blurbs");
+        }).populate({
+          path: 'blurbs',
+          options: { sort: { 'createdAt': -1 } }
+        });
         // console.log(currentUser);
         return currentUser;
       }
