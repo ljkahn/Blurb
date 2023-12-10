@@ -55,11 +55,11 @@ function Likes() {
         notifyData.map((data) => (
           <div key={data._id}>
             <Notify
-              notificationId={data._id}
-              blurbId={data._id}
-              username={data.sender.username}
-              profilePic={data.sender.profile.profilePic}
-              type={data.type}
+              notificationId={data?._id}
+              blurbId={data?._id}
+              username={data?.sender?.username || "[deleted]"}
+              profilePic={data?.sender?.profile?.profilePic}
+              type={data?.type}
             ></Notify>
           </div>
         ))
