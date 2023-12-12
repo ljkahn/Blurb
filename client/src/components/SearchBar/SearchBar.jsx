@@ -4,9 +4,6 @@ import { ThreeDots } from "react-loader-spinner";
 import { useQuery } from "@apollo/client";
 import { USER_LIST } from "../../utils/Queries/userQueries";
 import { useParams, useNavigate } from "react-router-dom";
-import SearchIcon from "@mui/icons-material/Search";
-import IconButton from "@mui/material/IconButton";
-import Grid from "@mui/material/Grid";
 
 export default function SearchBar() {
   const [selectedOption, setSelectedOption] = useState("");
@@ -16,12 +13,14 @@ export default function SearchBar() {
   const { loading, data } = useQuery(USER_LIST);
   const { username } = useParams();
   const navigation = useNavigate();
+
   useEffect(() => {
     if (!loading) {
       const cleanList = data.users.map((obj) => {
         return {
           value: obj._id,
           label: obj.username,
+          // tags: tags, Need to add tags to the list that can show
         };
       });
       setUserList(cleanList);

@@ -118,6 +118,7 @@ const typeDefs = `
       userFollowing(userId: ID!): [User]!
       getUserMessages(userId: ID!): [User]!
       getConversationMessages(senderId: ID!, recipientId: ID!): [Message]!
+      
     }
     
     type Mutation {
